@@ -8,24 +8,24 @@ import world
 
 def get_available_actions(room, player):
     actions = OrderedDict()
-    print("Choose an action: ")
+    print("Máš tyto možnosti:")
     if player.inventory:
-        action_adder(actions, 'i', player.print_inventory, "Inventář")
+        action_adder(actions, 'I', player.print_inventory, "Inventář")
     if isinstance(room, world.TraderTile):
-        action_adder(actions, 't', player.trade, "Trade")
+        action_adder(actions, 'O', player.trade, "Obchodovat")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
-        action_adder(actions, 'a', player.attack, "Attack")
+        action_adder(actions, 'B', player.attack, "Bojovat")
     else:
         if world.tile_at(room.x, room.y - 1):
-            action_adder(actions, 's', player.move_north, "Jít na sever")
+            action_adder(actions, 'S', player.move_north, "Jít na sever")
         if world.tile_at(room.x, room.y + 1):
-            action_adder(actions, 'j', player.move_south, "Jít na jih")
+            action_adder(actions, 'J', player.move_south, "Jít na jih")
         if world.tile_at(room.x + 1, room.y):
-            action_adder(actions, 'v', player.move_east, "Jít na východ")
+            action_adder(actions, 'V', player.move_east, "Jít na východ")
         if world.tile_at(room.x - 1, room.y):
-            action_adder(actions, 'z', player.move_west, "Jít na západ")
+            action_adder(actions, 'Z', player.move_west, "Jít na západ")
     if player.hp < 100:
-        action_adder(actions, 'h', player.heal, "Heal")
+        action_adder(actions, 'L', player.heal, "Léčit se")
 
     return actions
 
@@ -40,16 +40,16 @@ def choose_action(room, player):
     action = None
     while not action:
         available_actions = get_available_actions(room, player)
-        action_input = input("Action: ")
+        action_input = input("Co teď? ")
         action = available_actions.get(action_input)
         if action:
             action()
         else:
-            print("Invalid action!")
+            print("Nerozumím.")
 
 
 def main():
-    print("Escape from Cave Terror!")
+    print("~~~ S t r a c h   z e   t m y ~~~")
     world.parse_world_dsl()
     player = Player()
 
@@ -61,7 +61,7 @@ def main():
         if player.is_alive() and not player.victory:
             choose_action(room, player)
         elif not player.is_alive():
-            print("Your journey has come to an early end!")
+            print("Jsi mrtev.")
 
 
 if __name__ == '__main__':

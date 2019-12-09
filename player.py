@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import items
 import world
 
@@ -17,10 +19,10 @@ class Player:
         return self.hp > 0
 
     def print_inventory(self):
-        print("Inventory:")
+        print("Máš u sebe:")
         for item in self.inventory:
             print('* ' + str(item))
-        print("Gold: {}".format(self.gold))
+        print("Zlato: {}".format(self.gold))
 
     def most_powerful_weapon(self):
         max_damage = 0
