@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from collections import OrderedDict
 
 from player import Player
@@ -8,20 +10,20 @@ def get_available_actions(room, player):
     actions = OrderedDict()
     print("Choose an action: ")
     if player.inventory:
-        action_adder(actions, 'i', player.print_inventory, "Print inventory")
+        action_adder(actions, 'i', player.print_inventory, "Inventář")
     if isinstance(room, world.TraderTile):
         action_adder(actions, 't', player.trade, "Trade")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, 'a', player.attack, "Attack")
     else:
         if world.tile_at(room.x, room.y - 1):
-            action_adder(actions, 'n', player.move_north, "Go North")
+            action_adder(actions, 's', player.move_north, "Jít na sever")
         if world.tile_at(room.x, room.y + 1):
-            action_adder(actions, 's', player.move_south, "Go South")
+            action_adder(actions, 'j', player.move_south, "Jít na jih")
         if world.tile_at(room.x + 1, room.y):
-            action_adder(actions, 'e', player.move_east, "Go East")
+            action_adder(actions, 'v', player.move_east, "Jít na východ")
         if world.tile_at(room.x - 1, room.y):
-            action_adder(actions, 'w', player.move_west, "Go West")
+            action_adder(actions, 'z', player.move_west, "Jít na západ")
     if player.hp < 100:
         action_adder(actions, 'h', player.heal, "Heal")
 
