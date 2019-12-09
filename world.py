@@ -71,8 +71,8 @@ class EnemyTile(MapTile):
     def modify_player(self, player):
         if self.enemy.is_alive():
             player.hp = player.hp - self.enemy.damage
-            print("Enemy does {} damage. You have {} HP remaining.".
-                  format(self.enemy.damage, player.hp))
+            print(f"Enemy does {self.enemy.damage} damage."
+                  f" You have {player.hp} HP remaining.")
 
 
 class TraderTile(MapTile):
@@ -82,7 +82,7 @@ class TraderTile(MapTile):
 
     def trade(self, buyer, seller):
         for i, item in enumerate(seller.inventory, 1):
-            print("{}. {} - {} Gold".format(i, item.name, item.value))
+            print(f"{i}. {item.name} - {item.value} Gold")
         while True:
             user_input = input("Choose an item or press Q to exit: ")
             if user_input in ['Q', 'q']:
@@ -137,7 +137,7 @@ class FindGoldTile(MapTile):
         if not self.gold_claimed:
             self.gold_claimed = True
             player.gold = player.gold + self.gold
-            print("+{} gold added.".format(self.gold))
+            print(f"+{self.gold} gold added.")
 
     def intro_text(self):
         if self.gold_claimed:

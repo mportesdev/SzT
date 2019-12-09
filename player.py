@@ -22,7 +22,7 @@ class Player:
         print("Máš u sebe:")
         for item in self.inventory:
             print('* ' + str(item))
-        print("Zlato: {}".format(self.gold))
+        print(f"Zlato: {self.gold}")
 
     def most_powerful_weapon(self):
         max_damage = 0
@@ -57,12 +57,12 @@ class Player:
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        print("You use {} against {}!".format(best_weapon.name, enemy.name))
+        print(f"You use {best_weapon.name} against {enemy.name}!")
         enemy.hp -= best_weapon.damage
         if not enemy.is_alive():
-            print("You killed {}!".format(enemy.name))
+            print(f"You killed {enemy.name}!")
         else:
-            print("{} HP is {}.".format(enemy.name, enemy.hp))
+            print(f"{enemy.name} HP is {enemy.hp}.")
 
     def heal(self):
         consumables = [item for item in self.inventory
@@ -73,7 +73,7 @@ class Player:
 
         for i, item in enumerate(consumables, 1):
             print("Choose an item to use to heal:")
-            print("{}. {}".format(i, item))
+            print(f"{i}. {item}")
 
         valid = False
         while not valid:
@@ -82,7 +82,7 @@ class Player:
                 to_eat = consumables[int(choice) - 1]
                 self.hp = min(100, self.hp + to_eat.healing_value)
                 self.inventory.remove(to_eat)
-                print("Current HP: {}".format(self.hp))
+                print(f"Current HP: {self.hp}")
                 valid = True
             except (ValueError, IndexError):
                 print("Invalid choice, try again.")

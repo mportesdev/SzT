@@ -32,7 +32,7 @@ def get_available_actions(room, player):
 
 def action_adder(action_dict, hotkey, action, name):
     action_dict[hotkey] = action
-    print("{}: {}".format(hotkey, name))
+    print(f"{hotkey}: {name}")
 
 
 def choose_action(room, player):

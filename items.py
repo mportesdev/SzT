@@ -37,7 +37,7 @@ class Consumable:
         raise NotImplementedError("Do not create raw Consumable objects.")
 
     def __str__(self):
-        return "{} (+{} HP)".format(self.name, self.healing_value)
+        return f"{self.name} (+{self.healing_value} HP)"
 
 
 class CrustyBread(Consumable):
