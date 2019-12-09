@@ -31,8 +31,7 @@ def get_available_actions(room, player):
 
 
 def action_adder(action_dict, hotkey, action, name):
-    action_dict[hotkey.lower()] = action
-    action_dict[hotkey.upper()] = action
+    action_dict[hotkey] = action
     print("{}: {}".format(hotkey, name))
 
 
@@ -40,7 +39,7 @@ def choose_action(room, player):
     action = None
     while not action:
         available_actions = get_available_actions(room, player)
-        action_input = input("Co teď? ")
+        action_input = input("Co teď? ").upper()
         action = available_actions.get(action_input)
         if action:
             action()
