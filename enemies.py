@@ -10,28 +10,28 @@ class Enemy:
 
 
 class GiantSpider(Enemy):
-    def __init__(self):
-        self.name = "Giant Spider"
-        self.hp = 10
-        self.damage = 2
+    def __init__(self, name, hp, damage):
+        self.name = name
+        self.hp = hp
+        self.damage = damage
 
 
 class Ogre(Enemy):
-    def __init__(self):
-        self.name = "Ogre"
-        self.hp = 30
-        self.damage = 10
+    def __init__(self, name, hp, damage):
+        self.name = name
+        self.hp = hp
+        self.damage = damage
 
 
 class BatColony(Enemy):
-    def __init__(self):
-        self.name = "Colony of bats"
-        self.hp = 100
-        self.damage = 4
+    def __init__(self, name, hp, damage):
+        self.name = name
+        self.hp = hp
+        self.damage = damage
 
 
 class RockMonster(Enemy):
-    def __init__(self):
-        self.name = "Rock Monster"
-        self.hp = 80
-        self.damage = 15
+    def __init__(self, name, hp, damage):
+        self.name = name
+        self.hp = hp
+        self.damage = damage
