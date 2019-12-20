@@ -70,7 +70,7 @@ class EnemyTile(MapTile):
 
     def modify_player(self, player):
         if self.enemy.is_alive():
-            player.hp = player.hp - self.enemy.damage
+            player.hp = max(0, player.hp - self.enemy.damage)
             print(f"Enemy does {self.enemy.damage} damage."
                   f" You have {player.hp} HP remaining.")
 

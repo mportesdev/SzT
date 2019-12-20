@@ -59,7 +59,7 @@ class Player:
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
         print(f"You use {best_weapon.name} against {enemy.name}!")
-        enemy.hp -= best_weapon.damage
+        enemy.hp = max(0, enemy.hp - best_weapon.damage)
         if not enemy.is_alive():
             print(f"You killed {enemy.name}!")
         else:
