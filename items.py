@@ -8,7 +8,7 @@ class Weapon:
 
 class Rock(Weapon):
     def __init__(self):
-        self.name = "Rock"
+        self.name = "Kámen"
         self.description = "A fist-sized rock, suitable for bludgeoning."
         self.damage = 5
         self.value = 1
@@ -16,7 +16,7 @@ class Rock(Weapon):
 
 class Dagger(Weapon):
     def __init__(self):
-        self.name = "Dagger"
+        self.name = "Dýku"
         self.description = "A small dagger with some rust. " \
                            "Somewhat more dangerous than a rock."
         self.damage = 10
@@ -25,7 +25,7 @@ class Dagger(Weapon):
 
 class RustySword(Weapon):
     def __init__(self):
-        self.name = "Rusty sword"
+        self.name = "Rezavý meč"
         self.description = "This sword is showing its age, " \
                            "but still has some fight in it."
         self.damage = 20
@@ -42,13 +42,13 @@ class Consumable:
 
 class CrustyBread(Consumable):
     def __init__(self):
-        self.name = "Crusty Bread"
+        self.name = "Křupavý chléb"
         self.healing_value = 10
         self.value = 12
 
 
 class HealingPotion(Consumable):
     def __init__(self):
-        self.name = "Healing Potion"
+        self.name = "Léčivý lektvar"
         self.healing_value = 50
         self.value = 60
