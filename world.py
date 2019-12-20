@@ -28,7 +28,6 @@ class VictoryTile(MapTile):
         player.victory = True
 
     def intro_text(self):
-        # FIXME: textwrap.wrap displays newlines as spaces
         return ('You see a bright light in the distance...\n'
                 "... it grows as you get closer! It's sunlight!\n\n\n"
                 'Victory is yours!')

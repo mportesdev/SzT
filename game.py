@@ -1,9 +1,13 @@
 # coding: utf-8
+
 from collections import OrderedDict
 from textwrap import TextWrapper
 
 from player import Player
 import world
+
+WIDTH = 66
+INDENT = '  '
 
 
 def get_available_actions(room, player):
@@ -54,17 +58,19 @@ def quit_game():
 
 
 def main():
-    text_wrapper = TextWrapper(width=64, initial_indent='  ',
-                               subsequent_indent='  ')
-    print('\n', 'S t r a c h   z e   t m y'.center(68), '\n')
+    text_wrapper = TextWrapper(width=WIDTH - len(INDENT),
+                               initial_indent=INDENT,
+                               subsequent_indent=INDENT)
+    print('\n', 'S t r a c h   z e   t m y'.center(WIDTH), '\n')
     world.parse_world_dsl()
     player = Player()
 
     while player.is_alive() and not player.victory:
         room = world.tile_at(player.x, player.y)
-        print('-' * 68)
-        print(text_wrapper.fill(room.intro_text()))
-        print('-' * 68)
+        print('-' * WIDTH)
+        for line in room.intro_text().splitlines():
+            print(text_wrapper.fill(line))
+        print('-' * WIDTH)
         room.modify_player(player)
 
         if player.is_alive() and not player.victory:
