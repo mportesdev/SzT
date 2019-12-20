@@ -26,6 +26,7 @@ def get_available_actions(room, player):
             action_adder(actions, 'Z', player.move_west, "Jít na západ")
     if player.hp < 100:
         action_adder(actions, 'L', player.heal, "Léčit se")
+    action_adder(actions, 'K', quit_game, "Konec")
 
     return actions
 
@@ -47,6 +48,10 @@ def choose_action(room, player):
             print("Nerozumím.")
 
 
+def quit_game():
+    raise SystemExit('Hra končí.')
+
+
 def main():
     print("~~~ S t r a c h   z e   t m y ~~~")
     world.parse_world_dsl()
@@ -61,7 +66,13 @@ def main():
             choose_action(room, player)
         elif not player.is_alive():
             print("Jsi mrtev.")
+            quit_game()
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except SystemExit as err:
+        print(err)
+    else:
+        print('Blahopřeji.')
