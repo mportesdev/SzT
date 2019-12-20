@@ -64,12 +64,13 @@ class Player:
         else:
             print(f"{enemy.name} HP is {enemy.hp}.")
 
+    def has_consumables(self):
+        return any(isinstance(item, items.Consumable)
+                   for item in self.inventory)
+
     def heal(self):
         consumables = [item for item in self.inventory
                        if isinstance(item, items.Consumable)]
-        if not consumables:
-            print("You don't have any items to heal you!")
-            return
 
         for i, item in enumerate(consumables, 1):
             print("Choose an item to use to heal:")
