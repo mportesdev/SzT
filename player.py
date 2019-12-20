@@ -73,8 +73,8 @@ class Player:
         consumables = [item for item in self.inventory
                        if isinstance(item, items.Consumable)]
 
+        print("Choose an item to use to heal:")
         for i, item in enumerate(consumables, 1):
-            print("Choose an item to use to heal:")
             print(f"{i}. {item}")
 
         valid = False
