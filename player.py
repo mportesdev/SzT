@@ -21,9 +21,9 @@ class Player:
     def print_inventory(self):
         print("Máš u sebe:")
         for item in self.inventory:
-            print('* ' + str(item))
-        print(f"Zlato: {self.gold}")
-        print(f"Zdraví: {self.hp} %")
+            print(f'          {item}')
+        print(f"  Peníze: {self.gold} zlaťáků")
+        print(f"  Zdraví: {self.hp} %")
 
     def most_powerful_weapon(self):
         max_damage = 0
