@@ -23,6 +23,7 @@ class Player:
         for item in self.inventory:
             print('* ' + str(item))
         print(f"Zlato: {self.gold}")
+        print(f"Zdraví: {self.hp} %")
 
     def most_powerful_weapon(self):
         max_damage = 0
