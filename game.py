@@ -1,4 +1,5 @@
 # coding: utf-8
+import textwrap
 
 from collections import OrderedDict
 
@@ -59,9 +60,10 @@ def main():
 
     while player.is_alive() and not player.victory:
         room = world.tile_at(player.x, player.y)
-        # TODO: display intro texts in an indented or centered paragraph
-        #  using textwrap module
-        print(room.intro_text())
+        print('-' * 68)
+        print('\n'.join(f'    {line}'
+                        for line in textwrap.wrap(room.intro_text(), width=60)))
+        print('-' * 68)
         room.modify_player(player)
 
         if player.is_alive() and not player.victory:

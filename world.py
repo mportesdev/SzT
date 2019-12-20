@@ -18,10 +18,9 @@ class MapTile:
 
 class StartTile(MapTile):
     def intro_text(self):
-        return """
-        You find yourself in a cave with a flickering torch on the wall.
-        You can make out four paths, each equally as dark and foreboding.
-        """
+        return ('You find yourself in a cave with a flickering torch on the'
+                ' wall. You can make out four paths, each equally as dark and'
+                ' foreboding.')
 
 
 class VictoryTile(MapTile):
@@ -29,13 +28,9 @@ class VictoryTile(MapTile):
         player.victory = True
 
     def intro_text(self):
-        return """
-        You see a bright light in the distance...
-        ... it grows as you get closer! It's sunlight!
-        
-        
-        Victory is yours!
-        """
+        return ('You see a bright light in the distance...\n'
+                "... it grows as you get closer! It's sunlight!\n\n\n"
+                'Victory is yours!')
 
 
 class EnemyTile(MapTile):
@@ -122,10 +117,9 @@ class TraderTile(MapTile):
                 print("Invalid choice!")
 
     def intro_text(self):
-        return """
-        A frail not-quite-human, not-quite-creature squats in the corner
-        clinking his gold coins together. He looks willing to trade.
-        """
+        return ('A frail not-quite-human, not-quite-creature squats in the'
+                ' corner clinking his gold coins together. He looks willing'
+                ' to trade.')
 
 
 class FindGoldTile(MapTile):
@@ -142,13 +136,10 @@ class FindGoldTile(MapTile):
 
     def intro_text(self):
         if self.gold_claimed:
-            return """
-            Another unremarkable part of the cave. You must forge onwards.
-            """
+            return ('Another unremarkable part of the cave. You must forge'
+                    ' onwards.')
         else:
-            return """
-            Someone dropped some gold. You pick it up.
-            """
+            return 'Someone dropped some gold. You pick it up.'
 
 
 world_dsl = """
