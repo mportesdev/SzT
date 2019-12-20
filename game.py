@@ -59,6 +59,8 @@ def main():
 
     while player.is_alive() and not player.victory:
         room = world.tile_at(player.x, player.y)
+        # TODO: display intro texts in an indented or centered paragraph
+        #  using textwrap module
         print(room.intro_text())
         room.modify_player(player)
 

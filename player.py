@@ -81,6 +81,8 @@ class Player:
         while not valid:
             choice = input("")
             try:
+                # TODO: prevent illogical choices that produce
+                #  a legal list index, e.g. 0 -> -1
                 to_eat = consumables[int(choice) - 1]
                 self.hp = min(100, self.hp + to_eat.healing_value)
                 self.inventory.remove(to_eat)
