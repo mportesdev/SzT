@@ -34,6 +34,7 @@ def get_available_actions(room, player):
 
 def action_adder(action_dict, hotkey, action, name):
     action_dict[hotkey] = action
+    # TODO: display all options on 2 or 3 lines
     print(f"{hotkey}: {name}")
 
 
