@@ -92,6 +92,7 @@ class TraderTile(MapTile):
                     choice = int(user_input)
                     to_swap = seller.inventory[choice - 1]
                     self.swap(seller, buyer, to_swap)
+                    return
                 except ValueError:
                     print("Invalid choice!")
 
