@@ -54,7 +54,7 @@ def quit_game():
 
 
 def main():
-    print("~~~ S t r a c h   z e   t m y ~~~")
+    print('\n', 'S t r a c h   z e   t m y'.center(68), '\n')
     world.parse_world_dsl()
     player = Player()
 
