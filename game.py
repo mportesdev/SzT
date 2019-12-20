@@ -1,7 +1,6 @@
 # coding: utf-8
-import textwrap
-
 from collections import OrderedDict
+from textwrap import TextWrapper
 
 from player import Player
 import world
@@ -55,6 +54,8 @@ def quit_game():
 
 
 def main():
+    text_wrapper = TextWrapper(width=64, initial_indent='  ',
+                               subsequent_indent='  ')
     print('\n', 'S t r a c h   z e   t m y'.center(68), '\n')
     world.parse_world_dsl()
     player = Player()
@@ -62,8 +63,7 @@ def main():
     while player.is_alive() and not player.victory:
         room = world.tile_at(player.x, player.y)
         print('-' * 68)
-        print('\n'.join(f'    {line}'
-                        for line in textwrap.wrap(room.intro_text(), width=60)))
+        print(text_wrapper.fill(room.intro_text()))
         print('-' * 68)
         room.modify_player(player)
 
