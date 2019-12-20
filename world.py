@@ -41,22 +41,22 @@ class VictoryTile(MapTile):
 class EnemyTile(MapTile):
     def __init__(self, x, y):
         r = random.random()
-        if r < 0.50:
-            self.enemy = enemies.GiantSpider("Giant Spider", 10, 2)
+        if r < 0.40:
+            self.enemy = enemies.GiantSpider("Giant Spider", 12, 6)
             self.alive_text = "A giant spider jumps down from " \
                               "its web in front of you!"
             self.dead_text = "The corpse of a dead spider rots on the ground."
-        elif r < 0.80:
-            self.enemy = enemies.Ogre("Ogre", 30, 10)
+        elif r < 0.70:
+            self.enemy = enemies.Ogre("Ogre", 32, 12)
             self.alive_text = "An ogre is blocking your path!"
             self.dead_text = "A dead ogre reminds you of your triumph."
-        elif r < 0.95:
-            self.enemy = enemies.BatColony("Colony of bats", 100, 4)
+        elif r < 0.90:
+            self.enemy = enemies.BatColony("Colony of bats", 98, 4)
             self.alive_text = "You hear a squeaking noise growing louder" \
                               "...suddenly you are lost in a swarm of bats!"
             self.dead_text = "Dozens of dead bats are scattered on the ground."
         else:
-            self.enemy = enemies.RockMonster("Rock Monster", 80, 15)
+            self.enemy = enemies.RockMonster("Rock Monster", 82, 16)
             self.alive_text = "You've disturbed a rock monster " \
                               "from his slumber!"
             self.dead_text = "Defeated, the monster has reverted " \
