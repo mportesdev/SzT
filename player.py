@@ -79,11 +79,11 @@ class Player:
 
         valid = False
         while not valid:
-            choice = input('')
             try:
-                # TODO: prevent illogical choices that produce
-                #  a legal list index, e.g. 0 -> -1
-                to_eat = consumables[int(choice) - 1]
+                choice = int(input(''))
+                if choice < 1:
+                    raise IndexError
+                to_eat = consumables[choice - 1]
                 self.hp = min(100, self.hp + to_eat.healing_value)
                 self.inventory.remove(to_eat)
                 print(f'Máš teď {self.hp} % zdraví.')
