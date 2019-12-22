@@ -13,10 +13,6 @@ INDENT = '  '
 def get_available_actions(room, player):
     actions = OrderedDict()
     print("\nMožnosti:")
-    if player.inventory:
-        action_adder(actions, 'I', player.print_inventory, "Inventář")
-    if isinstance(room, world.TraderTile):
-        action_adder(actions, 'O', player.trade, "Obchodovat")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, 'B', player.attack, "Bojovat")
     else:
@@ -28,6 +24,10 @@ def get_available_actions(room, player):
             action_adder(actions, 'V', player.move_east, "Jít na východ")
         if world.tile_at(room.x - 1, room.y):
             action_adder(actions, 'Z', player.move_west, "Jít na západ")
+    if player.inventory:
+        action_adder(actions, 'I', player.print_inventory, "Inventář")
+    if isinstance(room, world.TraderTile):
+        action_adder(actions, 'O', player.trade, "Obchodovat")
     if player.hp < 100 and player.has_consumables():
         action_adder(actions, 'L', player.heal, "Léčit se")
     action_adder(actions, 'K', quit_game, "Konec")
