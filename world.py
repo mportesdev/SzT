@@ -148,8 +148,8 @@ world_dsl = """
 |EN|EN|VT|EN|EN|
 |EN|  |  |  |EN|
 |EN|FG|EN|  |TT|
-|TT|  |ST|FG|EN|
-|FG|  |EN|  |FG|
+|TT|FG|ST|FG|EN|
+|FG|FG|EN|  |FG|
 """
 
 world_map = []
