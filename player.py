@@ -19,11 +19,11 @@ class Player:
         return self.hp > 0
 
     def print_inventory(self):
-        print("Máš u sebe:")
+        print('Máš u sebe:')
         for item in self.inventory:
             print(f'          {item}')
-        print(f"  Peníze: {self.gold} zlaťáků")
-        print(f"  Zdraví: {self.hp} %")
+        print(f'  Peníze: {self.gold} zlaťáků')
+        print(f'  Zdraví: {self.hp} %')
 
     def most_powerful_weapon(self):
         max_damage = 0
@@ -58,12 +58,12 @@ class Player:
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        print(f"You use {best_weapon.name} against {enemy.name}!")
+        print(f'You use {best_weapon.name} against {enemy.name}!')
         enemy.hp = max(0, enemy.hp - best_weapon.damage)
         if not enemy.is_alive():
-            print(f"You killed {enemy.name}!")
+            print(f'You killed {enemy.name}!')
         else:
-            print(f"{enemy.name} HP is {enemy.hp}.")
+            print(f'{enemy.name} HP is {enemy.hp}.')
 
     def has_consumables(self):
         return any(isinstance(item, items.Consumable)
@@ -73,23 +73,23 @@ class Player:
         consumables = [item for item in self.inventory
                        if isinstance(item, items.Consumable)]
 
-        print("Choose an item to use to heal:")
+        print('Choose an item to use to heal:')
         for i, item in enumerate(consumables, 1):
-            print(f"{i}. {item}")
+            print(f'{i}. {item}')
 
         valid = False
         while not valid:
-            choice = input("")
+            choice = input('')
             try:
                 # TODO: prevent illogical choices that produce
                 #  a legal list index, e.g. 0 -> -1
                 to_eat = consumables[int(choice) - 1]
                 self.hp = min(100, self.hp + to_eat.healing_value)
                 self.inventory.remove(to_eat)
-                print(f"Current HP: {self.hp}")
+                print(f'Current HP: {self.hp}')
                 valid = True
             except (ValueError, IndexError):
-                print("Invalid choice, try again.")
+                print('Invalid choice, try again.')
 
     def trade(self):
         room = world.tile_at(self.x, self.y)
