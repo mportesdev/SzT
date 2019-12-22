@@ -29,8 +29,7 @@ def get_available_actions(room, player):
         action_adder(actions, 'O', player.trade, "Obchodovat\t")
     if player.hp < 100 and player.has_consumables():
         action_adder(actions, 'L', player.heal, "Léčit se\t")
-    if player.inventory:
-        action_adder(actions, 'I', player.print_inventory, "Inventář\t")
+    action_adder(actions, 'I', player.print_inventory, "Inventář\t")
     action_adder(actions, 'K', quit_game, "Konec\n")
 
     return actions
