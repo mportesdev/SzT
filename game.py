@@ -12,7 +12,7 @@ INDENT = '  '
 
 def get_available_actions(room, player):
     actions = OrderedDict()
-    print("Máš tyto možnosti:")
+    print("\nMožnosti:")
     if player.inventory:
         action_adder(actions, 'I', player.print_inventory, "Inventář")
     if isinstance(room, world.TraderTile):
@@ -48,9 +48,10 @@ def choose_action(room, player):
         action_input = input("Co teď? ").upper()
         action = available_actions.get(action_input)
         if action:
+            print('O.K.\n')
             action()
         else:
-            print("Nerozumím.")
+            print("Nerozumím.\n")
 
 
 def quit_game():
