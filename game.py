@@ -42,14 +42,14 @@ def action_adder(action_dict, hotkey, action, name):
 
 
 def choose_action(room, player):
-    action = None
     available_actions = get_available_actions(room, player)
-    while not action:
+    while True:
         action_input = input("\nCo teď? ").upper()
         action = available_actions.get(action_input)
         if action:
             print('###### O.K. ######\n')
             action()
+            return
         else:
             print("Nerozumím.")
 
