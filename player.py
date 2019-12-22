@@ -18,12 +18,13 @@ class Player:
     def is_alive(self):
         return self.hp > 0
 
-    def print_inventory(self):
+    def print_info(self):
+        print(f'Zdraví:     {self.hp} %')
         print('Máš u sebe:')
+        if self.gold > 0:
+            print(f'            {self.gold} zlaťáků')
         for item in self.inventory:
-            print(f'          {item}')
-        print(f'  Peníze: {self.gold} zlaťáků')
-        print(f'  Zdraví: {self.hp} %')
+            print(f'            {item}')
 
     def most_powerful_weapon(self):
         max_damage = 0
