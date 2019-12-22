@@ -1,5 +1,6 @@
 # coding: utf-8
 
+
 class Weapon:
     def __init__(self):
         raise NotImplementedError('Do not create raw Weapon objects.')

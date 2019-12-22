@@ -94,14 +94,15 @@ class TraderTile(MapTile):
                 except ValueError:
                     print('Invalid choice!')
 
-    def swap(self, seller, buyer, item):
+    @staticmethod
+    def swap(seller, buyer, item):
         if item.value > buyer.gold:
             print('That\'s too expensive')
             return
         seller.inventory.remove(item)
         buyer.inventory.append(item)
-        seller.gold = seller.gold + item.value
-        buyer.gold = buyer.gold - item.value
+        seller.gold += item.value
+        buyer.gold -= item.value
         print('Trade complete!')
 
     def check_if_trade(self, player):
@@ -174,7 +175,7 @@ def is_dsl_valid(dsl):
     if dsl.count('|VT|') == 0:
         return False
     lines = dsl.splitlines()
-    lines = [l for l in lines if l]
+    lines = [line for line in lines if line]
     pipe_counts = [line.count('|') for line in lines]
     for count in pipe_counts:
         if count != pipe_counts[0]:

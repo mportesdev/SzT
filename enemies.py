@@ -1,5 +1,6 @@
 # coding: utf-8
 
+
 class Enemy:
     def __init__(self):
         raise NotImplementedError('Do not create raw Enemy objects.')
