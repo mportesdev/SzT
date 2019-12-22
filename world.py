@@ -196,13 +196,11 @@ def parse_world_dsl():
     if not is_dsl_valid(world_dsl):
         raise SyntaxError('DSL is invalid!')
 
-    dsl_lines = world_dsl.splitlines()
-    dsl_lines = [x for x in dsl_lines if x]
+    dsl_lines = world_dsl.strip().splitlines()
 
     for y, dsl_row in enumerate(dsl_lines):
         row = []
-        dsl_cells = dsl_row.split('|')
-        dsl_cells = [c for c in dsl_cells if c]
+        dsl_cells = dsl_row.strip('|').split('|')
         for x, dsl_cell in enumerate(dsl_cells):
             tile_type = tile_type_dict[dsl_cell]
             if tile_type == StartTile:
