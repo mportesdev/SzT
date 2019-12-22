@@ -77,8 +77,7 @@ class Player:
         for i, item in enumerate(consumables, 1):
             print(f'{i}. {item}')
 
-        valid = False
-        while not valid:
+        while True:
             try:
                 choice = int(input(''))
                 if choice < 1:
@@ -87,7 +86,7 @@ class Player:
                 self.hp = min(100, self.hp + to_eat.healing_value)
                 self.inventory.remove(to_eat)
                 print(f'Máš teď {self.hp} % zdraví.')
-                valid = True
+                return
             except (ValueError, IndexError):
                 print('Neplatná volba.')
 
