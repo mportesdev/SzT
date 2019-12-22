@@ -20,9 +20,9 @@ class MapTile:
 
 class StartTile(MapTile):
     def intro_text(self):
-        return ('You find yourself in a cave with a flickering torch on the'
-                ' wall. You can make out four paths, each equally as dark and'
-                ' foreboding.')
+        return ('Nacházíš se v jeskyni s poblikávající pochodní na stěně.'
+                ' V šeru lze rozeznat tři cesty vedoucí ven, všechny stejně'
+                ' temné a hrozivé.')
 
 
 class VictoryTile(MapTile):
@@ -30,9 +30,10 @@ class VictoryTile(MapTile):
         player.victory = True
 
     def intro_text(self):
-        return ('You see a bright light in the distance...\n'
-                '... it grows as you get closer! It\'s sunlight!\n\n\n'
-                'Victory is yours!')
+        return ('V dáli vidíš jasné světlo...\n'
+                '... jak se přibližuješ, postupně sílí! Je to sluneční'
+                ' svit!\n\n\n'
+                'Dokázal jsi to!')
 
 
 class EnemyTile(MapTile):
@@ -134,7 +135,7 @@ class FindGoldTile(MapTile):
         if not self.gold_claimed:
             self.gold_claimed = True
             player.gold = player.gold + self.gold
-            print(f'+{self.gold} gold added.')
+            print(f'Získal jsi {self.gold} zlaťáků.')
 
     def intro_text(self):
         if self.gold_claimed:

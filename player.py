@@ -58,12 +58,12 @@ class Player:
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        print(f'You use {best_weapon.name} against {enemy.name}!')
+        print(f'Použil jsi {best_weapon.name} proti {enemy.name}!')
         enemy.hp = max(0, enemy.hp - best_weapon.damage)
         if not enemy.is_alive():
-            print(f'You killed {enemy.name}!')
+            print(f'Zabil jsi {enemy.name}!')
         else:
-            print(f'{enemy.name} HP is {enemy.hp}.')
+            print(f'{enemy.name} zbývá {enemy.hp} % zdraví.')
 
     def has_consumables(self):
         return any(isinstance(item, items.Consumable)
@@ -73,7 +73,7 @@ class Player:
         consumables = [item for item in self.inventory
                        if isinstance(item, items.Consumable)]
 
-        print('Choose an item to use to heal:')
+        print('Čím chceš doplnit síly?')
         for i, item in enumerate(consumables, 1):
             print(f'{i}. {item}')
 
@@ -86,10 +86,10 @@ class Player:
                 to_eat = consumables[int(choice) - 1]
                 self.hp = min(100, self.hp + to_eat.healing_value)
                 self.inventory.remove(to_eat)
-                print(f'Current HP: {self.hp}')
+                print(f'Máš teď {self.hp} % zdraví.')
                 valid = True
             except (ValueError, IndexError):
-                print('Invalid choice, try again.')
+                print('Neplatná volba.')
 
     def trade(self):
         room = world.tile_at(self.x, self.y)
