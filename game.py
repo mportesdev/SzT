@@ -6,7 +6,7 @@ from textwrap import TextWrapper
 from player import Player
 import world
 
-WIDTH = 66
+WIDTH = 72
 INDENT = '  '
 
 
@@ -17,28 +17,28 @@ def get_available_actions(room, player):
         action_adder(actions, 'B', player.attack, "Bojovat")
     else:
         if world.tile_at(room.x, room.y - 1):
-            action_adder(actions, 'S', player.move_north, "Jít na sever")
+            action_adder(actions, 'S', player.move_north, "Jít na sever\t")
         if world.tile_at(room.x, room.y + 1):
-            action_adder(actions, 'J', player.move_south, "Jít na jih")
+            action_adder(actions, 'J', player.move_south, "Jít na jih\t")
         if world.tile_at(room.x + 1, room.y):
-            action_adder(actions, 'V', player.move_east, "Jít na východ")
+            action_adder(actions, 'V', player.move_east, "Jít na východ\t")
         if world.tile_at(room.x - 1, room.y):
             action_adder(actions, 'Z', player.move_west, "Jít na západ")
-    if player.inventory:
-        action_adder(actions, 'I', player.print_inventory, "Inventář")
+    print()
     if isinstance(room, world.TraderTile):
-        action_adder(actions, 'O', player.trade, "Obchodovat")
+        action_adder(actions, 'O', player.trade, "Obchodovat\t")
     if player.hp < 100 and player.has_consumables():
-        action_adder(actions, 'L', player.heal, "Léčit se")
-    action_adder(actions, 'K', quit_game, "Konec")
+        action_adder(actions, 'L', player.heal, "Léčit se\t")
+    if player.inventory:
+        action_adder(actions, 'I', player.print_inventory, "Inventář\t")
+    action_adder(actions, 'K', quit_game, "Konec\n")
 
     return actions
 
 
 def action_adder(action_dict, hotkey, action, name):
     action_dict[hotkey] = action
-    # TODO: display all options on 2 or 3 lines
-    print(f"{hotkey}: {name}")
+    print(f"{hotkey}: {name.expandtabs(16)}", end='')
 
 
 def choose_action(room, player):
