@@ -80,10 +80,10 @@ class TraderTile(MapTile):
 
     def trade(self, buyer, seller):
         for i, item in enumerate(seller.inventory, 1):
-            print(f'{i}. {item.name} - {item.value} Gold')
+            print(f'{i}. {item.name} - {item.value} zlaťáků')
         while True:
-            user_input = input('Choose an item or press Q to exit: ')
-            if user_input in ['Q', 'q']:
+            user_input = input('Zadej č. položky nebo K jako konec: ')
+            if user_input in ['K', 'k']:
                 return
             else:
                 try:
@@ -92,38 +92,37 @@ class TraderTile(MapTile):
                     self.swap(seller, buyer, to_swap)
                     return
                 except ValueError:
-                    print('Invalid choice!')
+                    print('Neplatná volba.')
 
     @staticmethod
     def swap(seller, buyer, item):
         if item.value > buyer.gold:
-            print('That\'s too expensive')
+            print('Na to nemáš peníze!')
             return
         seller.inventory.remove(item)
         buyer.inventory.append(item)
         seller.gold += item.value
         buyer.gold -= item.value
-        print('Trade complete!')
+        print('Obchod uzavřen!')
 
     def check_if_trade(self, player):
         while True:
-            print('Would you like to (B)uy, (S)ell, or (Q)uit?')
+            print('Chceš (K)oupit, (P)rodat nebo (O)dejít?')
             user_input = input()
-            if user_input in ['Q', 'q']:
+            if user_input in ['O', 'o']:
                 return
-            elif user_input in ['B', 'b']:
-                print('Here\'s what\'s available to buy: ')
+            elif user_input in ['K', 'k']:
+                print('Tyto věci můžeš koupit:')
                 self.trade(buyer=player, seller=self.trader)
-            elif user_input in ['S', 's']:
-                print('Here\'s what\'s available to sell: ')
+            elif user_input in ['P', 'p']:
+                print('Tyto věci můžeš prodat:')
                 self.trade(buyer=self.trader, seller=player)
             else:
-                print('Invalid choice!')
+                print('Neplatná volba.')
 
     def intro_text(self):
-        return ('A frail not-quite-human, not-quite-creature squats in the'
-                ' corner clinking his gold coins together. He looks willing'
-                ' to trade.')
+        return ('Malý podivný tvor sedí v koutě a cinká zlatými mincemi. Zdá'
+                ' se, že by byl ochoten něco prodat nebo koupit.')
 
 
 class FindGoldTile(MapTile):
