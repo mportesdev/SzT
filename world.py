@@ -40,14 +40,14 @@ class EnemyTile(MapTile):
     def __init__(self, x, y):
         r = random.random()
         if r < 0.40:
-            self.enemy = enemies.GiantSpider('Giant Spider', 12, 6)
-            self.alive_text = 'A giant spider jumps down from ' \
-                              'its web in front of you!'
-            self.dead_text = 'The corpse of a dead spider rots on the ground.'
+            self.enemy = enemies.GiantSpider('Obří pavouk', 12, 6)
+            self.alive_text = ('Obří pavouk seskočil ze své sítě přímo před'
+                               ' tebe!')
+            self.dead_text = 'Na zemi leží tlející mrtvola pavouka.'
         elif r < 0.70:
-            self.enemy = enemies.Ogre('Ogre', 32, 12)
-            self.alive_text = 'An ogre is blocking your path!'
-            self.dead_text = 'A dead ogre reminds you of your triumph.'
+            self.enemy = enemies.Ogre('Zlobr', 32, 12)
+            self.alive_text = 'Cestu ti zastoupil zlobr!'
+            self.dead_text = 'Zde leží mrtvý zlobr, kterého jsi sám zdolal.'
         elif r < 0.90:
             self.enemy = enemies.BatColony('Colony of bats', 98, 4)
             self.alive_text = 'You hear a squeaking noise growing louder' \
@@ -69,8 +69,8 @@ class EnemyTile(MapTile):
     def modify_player(self, player):
         if self.enemy.is_alive():
             player.hp = max(0, player.hp - self.enemy.damage)
-            print(f'Enemy does {self.enemy.damage} damage.'
-                  f' You have {player.hp} HP remaining.')
+            print(f'Utrpěl jsi zranění za {self.enemy.damage}.'
+                  f' Zbývá ti {player.hp} % zdraví.')
 
 
 class TraderTile(MapTile):
