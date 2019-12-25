@@ -45,8 +45,9 @@ def choose_action(room, player):
     while True:
         action_input = input('\nCo teď? ').upper()
         action = available_actions.get(action_input)
+        print('-' * WIDTH)
         if action:
-            print('###### O.K. ######\n')
+            print('O.K.\n')
             action()
             return
         else:
@@ -67,10 +68,10 @@ def main():
 
     while player.is_alive() and not player.victory:
         room = world.tile_at(player.x, player.y)
-        print('-' * WIDTH)
+        print('*' * WIDTH)
         for line in room.intro_text().splitlines():
             print(text_wrapper.fill(line))
-        print('-' * WIDTH)
+        print('*' * WIDTH)
         room.modify_player(player)
 
         if player.is_alive() and not player.victory:
