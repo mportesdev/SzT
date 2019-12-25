@@ -79,8 +79,8 @@ class Player:
             print(f'{i}. {item}')
 
         while True:
-            user_input = input('Zadej č. položky nebo K jako konec: ')
-            if user_input in ['K', 'k']:
+            user_input = input('Zadej č. položky nebo K jako konec: ').upper()
+            if user_input == 'K':
                 return
             else:
                 try:
