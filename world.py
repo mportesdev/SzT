@@ -82,8 +82,8 @@ class TraderTile(MapTile):
         for i, item in enumerate(seller.inventory, 1):
             print(f'{i}. {item.name} - {item.value} zlaťáků')
         while True:
-            user_input = input('Zadej č. položky nebo K jako konec: ').upper()
-            if user_input == 'K':
+            user_input = input('Č. položky nebo (Z)pět: ').upper()
+            if user_input == 'Z':
                 return
             else:
                 try:
@@ -109,9 +109,8 @@ class TraderTile(MapTile):
 
     def check_if_trade(self, player):
         while True:
-            print('Chceš (K)oupit, (P)rodat nebo (O)dejít?')
-            user_input = input().upper()
-            if user_input == 'O':
+            user_input = input('(K)oupit, (P)rodat nebo (Z)pět? ').upper()
+            if user_input == 'Z':
                 return
             elif user_input in ['K', 'k']:
                 print('Tyto věci můžeš koupit:')
