@@ -141,10 +141,9 @@ class FindGoldTile(MapTile):
 
     def intro_text(self):
         if self.gold_claimed:
-            return ('Another unremarkable part of the cave. You must forge'
-                    ' onwards.')
+            return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'
         else:
-            return 'Someone dropped some gold. You pick it up.'
+            return 'Někdo tady vytrousil zlaťáky. Sebral jsi je.'
 
 
 world_dsl = """
