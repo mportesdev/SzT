@@ -79,17 +79,21 @@ class Player:
             print(f'{i}. {item}')
 
         while True:
-            try:
-                choice = int(input(''))
-                if choice < 1:
-                    raise IndexError
-                to_eat = consumables[choice - 1]
-                self.hp = min(100, self.hp + to_eat.healing_value)
-                self.inventory.remove(to_eat)
-                print(f'Máš teď {self.hp} % zdraví.')
+            user_input = input('Zadej č. položky nebo K jako konec: ')
+            if user_input in ['K', 'k']:
                 return
-            except (ValueError, IndexError):
-                print('Neplatná volba.')
+            else:
+                try:
+                    choice = int(user_input)
+                    if choice < 1:
+                        raise IndexError
+                    to_eat = consumables[choice - 1]
+                    self.hp = min(100, self.hp + to_eat.healing_value)
+                    self.inventory.remove(to_eat)
+                    print(f'Máš teď {self.hp} % zdraví.')
+                    return
+                except (ValueError, IndexError):
+                    print('Neplatná volba.')
 
     def trade(self):
         room = world.tile_at(self.x, self.y)
