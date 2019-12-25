@@ -88,10 +88,12 @@ class TraderTile(MapTile):
             else:
                 try:
                     choice = int(user_input)
+                    if choice < 1:
+                        raise IndexError
                     to_swap = seller.inventory[choice - 1]
                     self.swap(seller, buyer, to_swap)
                     return
-                except ValueError:
+                except (ValueError, IndexError):
                     print('Neplatná volba.')
 
     @staticmethod
