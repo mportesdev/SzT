@@ -6,8 +6,8 @@ import world
 
 class Player:
     def __init__(self):
-        self.inventory = [items.Rock(),
-                          items.Dagger(),
+        self.inventory = [items.ColdWeapon('Kámen', 5, 1),
+                          items.ColdWeapon('Dýku', 10, 20),
                           items.CrustyBread()]
         self.x, self.y = world.start_tile_location
         self.hp = 100

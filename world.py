@@ -147,9 +147,9 @@ class FindGoldTile(MapTile):
 
 class FindWeaponTile(MapTile):
     def __init__(self, x, y):
-        self.weapon = random.choice((items.Rock,
-                                     items.Dagger,
-                                     items.RustySword))()
+        self.weapon = random.choice((items.ColdWeapon('Kámen', 5, 1),
+                                     items.ColdWeapon('Dýku', 10, 20),
+                                     items.ColdWeapon('Rezavý meč', 20, 100)))
         self.weapon_claimed = False
         super().__init__(x, y)
 

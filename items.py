@@ -9,25 +9,11 @@ class Weapon:
         return self.name
 
 
-class Rock(Weapon):
-    def __init__(self):
-        self.name = 'Kámen'
-        self.damage = 5
-        self.value = 1
-
-
-class Dagger(Weapon):
-    def __init__(self):
-        self.name = 'Dýku'
-        self.damage = 10
-        self.value = 20
-
-
-class RustySword(Weapon):
-    def __init__(self):
-        self.name = 'Rezavý meč'
-        self.damage = 20
-        self.value = 100
+class ColdWeapon(Weapon):
+    def __init__(self, name, damage, value):
+        self.name = name
+        self.damage = damage
+        self.value = value
 
 
 class Consumable:
