@@ -72,8 +72,8 @@ class EnemyTile(MapTile):
     def modify_player(self, player):
         if self.enemy.is_alive():
             player.hp = max(0, player.hp - self.enemy.damage)
-            print(f'Utrpěl jsi zranění za {self.enemy.damage}.'
-                  f' Zbývá ti {player.hp} % zdraví.')
+            return (f'Utrpěl jsi {self.enemy.damage} zranění.'
+                    f' Zbývá ti {player.hp} % zdraví.')
 
 
 class TraderTile(MapTile):
@@ -139,7 +139,7 @@ class FindGoldTile(MapTile):
         if not self.gold_claimed:
             self.gold_claimed = True
             player.gold += self.gold
-            print(f'Našel jsi {self.gold} zlaťáků.')
+            return f'Našel jsi {self.gold} zlaťáků.'
 
     def intro_text(self):
         return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'
@@ -157,7 +157,7 @@ class FindWeaponTile(MapTile):
         if not self.weapon_claimed:
             self.weapon_claimed = True
             player.inventory.append(self.weapon)
-            print(f'Našel jsi {self.weapon.name_accusative.lower()}.')
+            return f'Našel jsi {self.weapon.name_accusative.lower()}.'
 
     def intro_text(self):
         return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'

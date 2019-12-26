@@ -7,7 +7,10 @@ from player import Player
 import world
 
 WIDTH = 72
-INDENT = '  '
+INDENT_EMPTY = '            '
+INDENT_INFO = '         🗨  '
+INDENT_FIGHT = '         ⚔  '
+INDENT_LUCK = '         ✰  '
 
 
 def get_available_actions(room, player):
@@ -60,20 +63,26 @@ def quit_game():
 
 
 def main():
-    text_wrapper = TextWrapper(width=WIDTH - len(INDENT),
-                               initial_indent=INDENT,
-                               subsequent_indent=INDENT)
-    print('\n', 'S t r a c h   z e   t m y'.center(WIDTH), '\n')
+    text_wrapper = TextWrapper(width=WIDTH - len(INDENT_EMPTY),
+                               initial_indent=INDENT_INFO,
+                               subsequent_indent=INDENT_EMPTY)
+    print('\n\n' + 'S t r a c h   z e   t m y'.center(WIDTH) + '\n\n')
     world.parse_world_dsl()
     player = Player()
 
     while player.is_alive() and not player.victory:
         room = world.tile_at(player.x, player.y)
-        print('*' * WIDTH)
         for line in room.intro_text().splitlines():
             print(text_wrapper.fill(line))
-        print('*' * WIDTH)
-        room.modify_player(player)
+        auto_message = room.modify_player(player)
+        if auto_message:
+            if isinstance(room, world.EnemyTile):
+                indent = INDENT_FIGHT
+            elif isinstance(room, (world.FindGoldTile, world.FindWeaponTile)):
+                indent = INDENT_LUCK
+            else:
+                indent = INDENT_EMPTY
+            print(f'\n{indent}{auto_message}')
 
         if player.is_alive() and not player.victory:
             choose_action(room, player)
