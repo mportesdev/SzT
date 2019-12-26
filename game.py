@@ -36,7 +36,7 @@ def get_available_actions(room, player):
 
 
 def action_adder(action_dict, hotkey, action, name):
-    action_dict[hotkey] = action
+    action_dict[hotkey] = action, name
     print(f'{hotkey}: {name.expandtabs(16)}', end='')
 
 
@@ -46,10 +46,9 @@ def choose_action(room, player):
 
     while True:
         action_input = input('Co teď? ').upper()
-        action = available_actions.get(action_input)
+        action, action_name = available_actions.get(action_input, (None, ''))
         if action:
-            print('-' * WIDTH)
-            print('O.K.\n')
+            print(f' {action_name.strip()} '.center(WIDTH, "-"), end='\n\n')
             action()
             return
         else:
