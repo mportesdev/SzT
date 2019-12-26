@@ -12,8 +12,6 @@ class Weapon:
 class Rock(Weapon):
     def __init__(self):
         self.name = 'Kámen'
-        self.description = 'Kámen velký jako pěst, vhodný jako primitivní' \
-                           ' zbraň.'
         self.damage = 5
         self.value = 1
 
@@ -21,8 +19,6 @@ class Rock(Weapon):
 class Dagger(Weapon):
     def __init__(self):
         self.name = 'Dýku'
-        self.description = 'Malá, trochu zrezivělá dýka. O něco nebezpečnější' \
-                           ' zbraň než kámen.'
         self.damage = 10
         self.value = 20
 
@@ -30,8 +26,6 @@ class Dagger(Weapon):
 class RustySword(Weapon):
     def __init__(self):
         self.name = 'Rezavý meč'
-        self.description = 'Meč má už nejlepší časy za sebou, ale v boji' \
-                           ' ještě dobře poslouží.'
         self.damage = 20
         self.value = 100
 
