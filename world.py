@@ -3,6 +3,7 @@
 import random
 
 import enemies
+import items
 import npc
 
 
@@ -145,9 +146,27 @@ class FindGoldTile(MapTile):
             return 'Někdo tady vytrousil zlaťáky. Sebral jsi je.'
 
 
+class FindWeaponTile(MapTile):
+    def __init__(self, x, y):
+        self.weapon = random.choice((items.Rock,
+                                     items.Dagger,
+                                     items.RustySword))()
+        self.weapon_claimed = False
+        super().__init__(x, y)
+
+    def modify_player(self, player):
+        if not self.weapon_claimed:
+            self.weapon_claimed = True
+            player.inventory.append(self.weapon)
+            print(f'Našel jsi {self.weapon.name.lower()}.')
+
+    def intro_text(self):
+        return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'
+
+
 world_dsl = """
 |EN|EN|VT|EN|EN|
-|EN|  |  |  |EN|
+|EN|  |  |  |FW|
 |EN|FG|EN|  |TT|
 |TT|  |ST|FG|EN|
 |FG|  |EN|  |FG|
@@ -186,6 +205,7 @@ tile_type_dict = {'VT': VictoryTile,
                   'EN': EnemyTile,
                   'ST': StartTile,
                   'FG': FindGoldTile,
+                  'FW': FindWeaponTile,
                   'TT': TraderTile,
                   '  ': None}
 
