@@ -129,7 +129,7 @@ class TraderTile(MapTile):
 
 class FindGoldTile(MapTile):
     def __init__(self, x, y):
-        self.gold = random.randint(1, 50)
+        self.gold = random.randint(5, 50)
         self.gold_claimed = False
         super().__init__(x, y)
 
@@ -137,13 +137,10 @@ class FindGoldTile(MapTile):
         if not self.gold_claimed:
             self.gold_claimed = True
             player.gold += self.gold
-            print(f'Získal jsi {self.gold} zlaťáků.')
+            print(f'Našel jsi {self.gold} zlaťáků.')
 
     def intro_text(self):
-        if self.gold_claimed:
-            return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'
-        else:
-            return 'Někdo tady vytrousil zlaťáky. Sebral jsi je.'
+        return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'
 
 
 class FindWeaponTile(MapTile):
