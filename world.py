@@ -148,7 +148,7 @@ class FindGoldTile(MapTile):
 class FindWeaponTile(MapTile):
     def __init__(self, x, y):
         self.weapon = random.choice((items.ColdWeapon('Kámen', 5, 1),
-                                     items.ColdWeapon('Dýku', 10, 20),
+                                     items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
                                      items.ColdWeapon('Rezavý meč', 20, 100)))
         self.weapon_claimed = False
         super().__init__(x, y)
@@ -157,7 +157,7 @@ class FindWeaponTile(MapTile):
         if not self.weapon_claimed:
             self.weapon_claimed = True
             player.inventory.append(self.weapon)
-            print(f'Našel jsi {self.weapon.name.lower()}.')
+            print(f'Našel jsi {self.weapon.name_accusative.lower()}.')
 
     def intro_text(self):
         return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'

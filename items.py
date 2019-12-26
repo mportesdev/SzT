@@ -10,10 +10,11 @@ class Weapon:
 
 
 class ColdWeapon(Weapon):
-    def __init__(self, name, damage, value):
+    def __init__(self, name, damage, value, name_accusative=None):
         self.name = name
         self.damage = damage
         self.value = value
+        self.name_accusative = name_accusative or self.name
 
 
 class Consumable:

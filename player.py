@@ -7,7 +7,7 @@ import world
 class Player:
     def __init__(self):
         self.inventory = [items.ColdWeapon('Kámen', 5, 1),
-                          items.ColdWeapon('Dýku', 10, 20),
+                          items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
                           items.CrustyBread()]
         self.x, self.y = world.start_tile_location
         self.hp = 100
@@ -23,7 +23,10 @@ class Player:
         if self.gold > 0:
             print(f'            {self.gold} zlaťáků')
         for item in self.inventory:
-            print(f'            {item}')
+            try:
+                print(f'            {item.name_accusative}')
+            except AttributeError:
+                print(f'            {item}')
 
     def most_powerful_weapon(self):
         max_damage = 0
@@ -58,7 +61,7 @@ class Player:
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        print(f'Použil jsi {best_weapon.name} proti'
+        print(f'Použil jsi {best_weapon.name_accusative.lower()} proti'
               f' {enemy.name_dative.lower()}!')
         enemy.hp = max(0, enemy.hp - best_weapon.damage)
         if not enemy.is_alive():
