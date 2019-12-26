@@ -9,8 +9,7 @@ class Player:
         self.inventory = [items.Rock(),
                           items.Dagger(),
                           items.CrustyBread()]
-        self.x = world.start_tile_location[0]
-        self.y = world.start_tile_location[1]
+        self.x, self.y = world.start_tile_location
         self.hp = 100
         self.gold = 5
         self.victory = False

@@ -135,7 +135,7 @@ class FindGoldTile(MapTile):
     def modify_player(self, player):
         if not self.gold_claimed:
             self.gold_claimed = True
-            player.gold = player.gold + self.gold
+            player.gold += self.gold
             print(f'Získal jsi {self.gold} zlaťáků.')
 
     def intro_text(self):
@@ -171,10 +171,9 @@ def tile_at(x, y):
 def is_dsl_valid(dsl):
     if dsl.count('|ST|') != 1:
         return False
-    if dsl.count('|VT|') == 0:
+    if '|VT|' not in dsl:
         return False
-    lines = dsl.splitlines()
-    lines = [line for line in lines if line]
+    lines = dsl.strip().splitlines()
     pipe_counts = [line.count('|') for line in lines]
     for count in pipe_counts:
         if count != pipe_counts[0]:
