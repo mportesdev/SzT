@@ -50,16 +50,15 @@ class EnemyTile(MapTile):
             self.alive_text = 'Cestu ti zastoupil zlobr!'
             self.dead_text = 'Zde leží mrtvý zlobr, kterého jsi sám zdolal.'
         elif r < 0.90:
-            self.enemy = enemies.BatColony('Colony of bats', 98, 4)
-            self.alive_text = 'You hear a squeaking noise growing louder' \
-                              '...suddenly you are lost in a swarm of bats!'
-            self.dead_text = 'Dozens of dead bats are scattered on the ground.'
+            self.enemy = enemies.BatColony('Kolonie netopýrů', 98, 4)
+            self.alive_text = ('Slyšíš postupně sílící pištivý zvuk'
+                               '... náhle jsi uprostřed hejna netopýrů!')
+            self.dead_text = 'Kolem se povalují desítky mrtvých netopýrů.'
         else:
-            self.enemy = enemies.RockMonster('Rock Monster', 82, 16)
-            self.alive_text = 'You\'ve disturbed a rock monster ' \
-                              'from his slumber!'
-            self.dead_text = 'Defeated, the monster has reverted ' \
-                             'into an ordinary rock.'
+            self.enemy = enemies.RockMonster('Kamenný obr', 82, 16)
+            self.alive_text = 'Vyrušil jsi dřímajícího kamenného obra!'
+            self.dead_text = ('Přemožený obr se proměnil nazpět v obyčejnou'
+                              ' skálu.')
 
         super().__init__(x, y)
 
