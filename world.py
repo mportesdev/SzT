@@ -41,21 +41,24 @@ class EnemyTile(MapTile):
     def __init__(self, x, y):
         r = random.random()
         if r < 0.40:
-            self.enemy = enemies.Animal('Obří pavouk', 12, 6)
+            self.enemy = enemies.Animal('Obří pavouk', 12, 6,
+                                        'Pavoukovi', 'Pavouka')
             self.alive_text = ('Obří pavouk seskočil ze své sítě přímo před'
                                ' tebe!')
             self.dead_text = 'Na zemi leží tlející mrtvola pavouka.'
         elif r < 0.70:
-            self.enemy = enemies.Monster('Zlobr', 32, 12)
+            self.enemy = enemies.Monster('Zlobr', 32, 12, 'Zlobrovi', 'Zlobra')
             self.alive_text = 'Cestu ti zastoupil zlobr!'
             self.dead_text = 'Zde leží mrtvý zlobr, kterého jsi sám zdolal.'
         elif r < 0.90:
-            self.enemy = enemies.Animal('Kolonie netopýrů', 98, 4)
+            self.enemy = enemies.Animal('Kolonie netopýrů', 98, 4,
+                                        'Netopýrům', 'Netopýry')
             self.alive_text = ('Slyšíš postupně sílící pištivý zvuk'
                                '... náhle jsi uprostřed hejna netopýrů!')
             self.dead_text = 'Kolem se povalují desítky mrtvých netopýrů.'
         else:
-            self.enemy = enemies.Monster('Kamenný obr', 82, 16)
+            self.enemy = enemies.Monster('Kamenný obr', 82, 16,
+                                         'Obrovi', 'Obra')
             self.alive_text = 'Vyrušil jsi dřímajícího kamenného obra!'
             self.dead_text = ('Přemožený obr se proměnil nazpět v obyčejnou'
                               ' skálu.')

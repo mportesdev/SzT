@@ -58,12 +58,13 @@ class Player:
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        print(f'Použil jsi {best_weapon.name} proti {enemy.name}!')
+        print(f'Použil jsi {best_weapon.name} proti'
+              f' {enemy.name_dative.lower()}!')
         enemy.hp = max(0, enemy.hp - best_weapon.damage)
         if not enemy.is_alive():
-            print(f'Zabil jsi {enemy.name}!')
+            print(f'Zabil jsi {enemy.name_accusative.lower()}!')
         else:
-            print(f'{enemy.name} zbývá {enemy.hp} % zdraví.')
+            print(f'{enemy.name_dative} zbývá {enemy.hp} % zdraví.')
 
     def has_consumables(self):
         return any(isinstance(item, items.Consumable)

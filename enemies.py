@@ -13,14 +13,22 @@ class Enemy:
 
 
 class Animal(Enemy):
-    def __init__(self, name, hp, damage):
+    def __init__(self, name, hp, damage,
+                 name_dative=None, name_accusative=None):
         self.name = name
         self.hp = hp
         self.damage = damage
+
+        self.name_dative = name_dative or self.name
+        self.name_accusative = name_accusative or self.name
 
 
 class Monster(Enemy):
-    def __init__(self, name, hp, damage):
+    def __init__(self, name, hp, damage,
+                 name_dative=None, name_accusative=None):
         self.name = name
         self.hp = hp
         self.damage = damage
+
+        self.name_dative = name_dative or self.name
+        self.name_accusative = name_accusative or self.name
