@@ -27,9 +27,6 @@ class StartTile(MapTile):
 
 
 class VictoryTile(MapTile):
-    def modify_player(self, player):
-        player.victory = True
-
     def intro_text(self):
         return ('V dáli vidíš jasné světlo...\n'
                 '... jak se přibližuješ, postupně sílí! Je to sluneční'

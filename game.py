@@ -70,10 +70,14 @@ def main():
     world.parse_world_dsl()
     player = Player()
 
-    while player.is_alive() and not player.victory:
+    while player.is_alive():
         room = world.tile_at(player.x, player.y)
         for line in room.intro_text().splitlines():
             print(text_wrapper.fill(line))
+
+        if isinstance(room, world.VictoryTile):
+            break
+
         auto_message = room.modify_player(player)
         if auto_message:
             if isinstance(room, world.EnemyTile):
@@ -84,7 +88,7 @@ def main():
                 indent = INDENT_EMPTY
             print(f'\n{indent}{auto_message}')
 
-        if player.is_alive() and not player.victory:
+        if player.is_alive():
             choose_action(room, player)
         elif not player.is_alive():
             print('Jsi mrtev.')

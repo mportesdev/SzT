@@ -12,7 +12,6 @@ class Player:
         self.x, self.y = world.start_tile_location
         self.hp = 100
         self.gold = 5
-        self.victory = False
 
     def is_alive(self):
         return self.hp > 0
