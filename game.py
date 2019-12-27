@@ -70,7 +70,7 @@ def main():
     world.parse_world_dsl()
     player = Player()
 
-    while player.is_alive():
+    while True:
         room = world.tile_at(player.x, player.y)
         for line in room.intro_text().splitlines():
             print(text_wrapper.fill(line))
@@ -88,11 +88,11 @@ def main():
                 indent = INDENT_EMPTY
             print(f'\n{indent}{auto_message}')
 
-        if player.is_alive():
-            choose_action(room, player)
-        elif not player.is_alive():
+        if not player.is_alive():
             print('Jsi mrtev.')
             quit_game()
+
+        choose_action(room, player)
 
 
 if __name__ == '__main__':
