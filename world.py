@@ -36,8 +36,9 @@ class VictoryTile(MapTile):
 
 class EnemyTile(MapTile):
     def __init__(self, x, y):
-        # TODO: apply cumulative weights 0.4, 0.7, 0.9, 1.0
-        enemy_class, kwargs, texts = random.choice(enemies.enemies_data)
+        enemy_class, kwargs, texts = random.choices(enemies.enemies_data,
+                                                    cum_weights=[4, 7, 9, 10],
+                                                    k=1)[0]
         self.enemy = enemy_class(**kwargs)
         self.alive_text, self.dead_text = texts
         super().__init__(x, y)
