@@ -36,16 +36,13 @@ class VictoryTile(MapTile):
 
 class EnemyTile(MapTile):
     def __init__(self, x, y):
-        enemy_class, kwargs, texts = random.choices(enemies.enemies_data,
-                                                    cum_weights=[4, 7, 9, 10],
-                                                    k=1)[0]
+        enemy_class, kwargs = random.choices(enemies.enemies_data,
+                                             cum_weights=[4, 7, 9, 10], k=1)[0]
         self.enemy = enemy_class(**kwargs)
-        self.alive_text, self.dead_text = texts
         super().__init__(x, y)
 
     def intro_text(self):
-        text = self.alive_text if self.enemy.is_alive() else self.dead_text
-        return text
+        return self.enemy.text
 
     def modify_player(self, player):
         if self.enemy.is_alive():
