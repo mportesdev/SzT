@@ -151,7 +151,7 @@ world_dsl = """
 
 world_map = []
 
-start_tile_location = None
+start_tile_location = []
 
 
 def tile_at(x, y):
@@ -199,8 +199,7 @@ def parse_world_dsl():
         for x, dsl_cell in enumerate(dsl_cells):
             tile_type = tile_type_dict[dsl_cell]
             if tile_type == StartTile:
-                global start_tile_location
-                start_tile_location = x, y
+                start_tile_location[:] = x, y
             row.append(tile_type(x, y) if tile_type else None)
 
         world_map.append(row)
