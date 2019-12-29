@@ -178,15 +178,6 @@ def is_dsl_valid(dsl):
     return True
 
 
-tile_type_dict = {'VT': VictoryTile,
-                  'EN': EnemyTile,
-                  'ST': StartTile,
-                  'FG': FindGoldTile,
-                  'FW': FindWeaponTile,
-                  'TT': TraderTile,
-                  '  ': None}
-
-
 def parse_world_dsl():
     if not is_dsl_valid(world_dsl):
         raise SyntaxError('DSL is invalid!')
@@ -197,7 +188,14 @@ def parse_world_dsl():
         row = []
         dsl_cells = dsl_row.strip('|').split('|')
         for x, dsl_cell in enumerate(dsl_cells):
-            tile_type = tile_type_dict[dsl_cell]
+            tile_type = {'VT': VictoryTile,
+                         'EN': EnemyTile,
+                         'ST': StartTile,
+                         'FG': FindGoldTile,
+                         'FW': FindWeaponTile,
+                         'TT': TraderTile,
+                         '  ': None}[dsl_cell]
+
             if tile_type == StartTile:
                 start_tile_location[:] = x, y
             row.append(tile_type(x, y) if tile_type else None)
