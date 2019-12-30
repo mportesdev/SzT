@@ -126,7 +126,7 @@ class TraderTile(MapTile):
                 ' se, že by byl ochoten něco prodat nebo koupit.')
 
 
-class FindGoldTile(MapTile):
+class FindGoldTile(PlainTile):
     def __init__(self, x, y):
         self.gold = random.randint(5, 50)
         self.gold_claimed = False
@@ -139,11 +139,8 @@ class FindGoldTile(MapTile):
             message = f'Našel jsi {self.gold} zlaťáků.'
             nice_print(message, 'luck')
 
-    def intro_text(self):
-        return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'
 
-
-class FindWeaponTile(MapTile):
+class FindWeaponTile(PlainTile):
     def __init__(self, x, y):
         self.weapon = random.choice((items.ColdWeapon('Kámen', 5, 1),
                                      items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
@@ -157,9 +154,6 @@ class FindWeaponTile(MapTile):
             player.inventory.append(self.weapon)
             message = f'Našel jsi {self.weapon.name_accusative.lower()}.'
             nice_print(message, 'luck')
-
-    def intro_text(self):
-        return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'
 
 
 world_dsl = """
