@@ -20,6 +20,11 @@ class MapTile:
         pass
 
 
+class PlainTile(MapTile):
+    def intro_text(self):
+        return 'Jdeš tmavou, vlhkou a studenou jeskyní.'
+
+
 class StartTile(MapTile):
     def intro_text(self):
         return ('Nacházíš se v jeskyni s poblikávající pochodní na stěně.'
@@ -154,11 +159,14 @@ class FindWeaponTile(MapTile):
 
 
 world_dsl = """
-|EN|EN|VT|EN|EN|
-|EN|  |  |  |FW|
-|EN|FG|EN|  |TT|
-|TT|  |ST|FG|EN|
-|FG|  |EN|  |FG|
+|  |  |  |  |VT|  |  |  |  |  |
+|  |  |FG|  |EN|  |  |  |  |  |
+|  |  |PT|  |FW|  |  |  |  |  |
+|  |  |EN|EN|PT|EN|EN|  |EN|  |
+|FW|EN|PT|  |  |  |FW|  |PT|  |
+|  |  |EN|FG|EN|  |PT|PT|TT|FG|
+|  |  |TT|  |ST|FG|EN|  |PT|  |
+|  |FG|PT|  |EN|  |FG|  |FW|  |
 """
 
 world_map = []
@@ -201,6 +209,7 @@ def parse_world_dsl():
         dsl_cells = dsl_row.strip('|').split('|')
         for x, dsl_cell in enumerate(dsl_cells):
             tile_type = {'VT': VictoryTile,
+                         'PT': PlainTile,
                          'EN': EnemyTile,
                          'ST': StartTile,
                          'FG': FindGoldTile,
