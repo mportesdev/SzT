@@ -1,1 +1,7 @@
-This game is based on a sample demo whose repository can be found `here <https://github.com/myrmica-habilis/cave-terror>`_. It is still work-in-progress, being continuously refactored, extended and translated into Czech. The working title is *Strach ze tmy* ("Fear of the Dark").
+This game is based on a sample demo whose repository can be found here:
+
+https://github.com/myrmica-habilis/cave-terror
+
+It is still work-in-progress, being continuously refactored, extended and translated into Czech.
+
+Working title is *Strach ze tmy* ("Fear of the Dark").
