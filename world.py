@@ -27,9 +27,9 @@ class PlainTile(MapTile):
 
 class StartTile(MapTile):
     def intro_text(self):
-        return ('Nacházíš se v jeskyni s poblikávající pochodní na stěně.'
-                ' V šeru lze rozeznat tři cesty vedoucí ven, všechny stejně'
-                ' temné a hrozivé.')
+        return ('Stojíš v tmavé jeskyni. Na stěně poblikává dohasínající'
+                ' pochodeň. V šeru lze rozeznat tři cesty vedoucí ven, všechny'
+                ' stejně temné a hrozivé.')
 
 
 class VictoryTile(MapTile):
@@ -163,14 +163,14 @@ class FindWeaponTile(MapTile):
 
 
 world_dsl = """
-|  |  |  |EN|  |  |VT|  |  |  |  |  |
-|  |  |  |PT|FG|  |EN|  |FG|  |  |PT|
-|  |  |  |  |PT|  |FW|  |EN|  |FG|EN|
-|  |TT|  |  |EN|EN|PT|EN|PT|  |EN|  |
-|EN|PT|PT|FW|PT|  |  |  |FW|  |PT|  |
-|  |PT|  |  |EN|PT|EN|  |PT|PT|PT|TT|
-|EN|PT|FG|  |TT|  |ST|FG|EN|  |PT|  |
-|  |  |PT|EN|PT|  |EN|  |FG|  |EN|EN|
+|VT|EN|FW|EN|  |  |EN|  |  |  |  |FG|
+|  |  |  |PT|FG|  |PT|  |FW|  |PT|EN|
+|  |  |  |  |PT|  |PT|  |EN|  |EN|  |
+|  |TT|  |  |EN|EN|PT|EN|PT|  |PT|EN|
+|EN|PT|EN|FW|PT|  |  |  |PT|  |PT|  |
+|  |PT|  |  |EN|PT|PT|  |PT|PT|TT|PT|
+|EN|PT|FG|  |PT|  |ST|PT|EN|  |PT|  |
+|  |  |PT|EN|PT|  |PT|  |FG|  |EN|EN|
 |  |  |  |  |  |  |FG|  |  |  |FW|  |
 """
 
