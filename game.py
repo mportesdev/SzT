@@ -106,4 +106,4 @@ if __name__ == '__main__':
     except SystemExit as err:
         print(err)
     else:
-        print('Blahopřeji.')
+        print('\n\nDokázal jsi to! Blahopřeji k vítězství.')

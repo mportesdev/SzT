@@ -28,10 +28,8 @@ class StartTile(MapTile):
 
 class VictoryTile(MapTile):
     def intro_text(self):
-        return ('V dáli vidíš jasné světlo...\n'
-                '... jak se přibližuješ, postupně sílí! Je to sluneční'
-                ' svit!\n\n\n'
-                'Dokázal jsi to!')
+        return ('V dáli vidíš jasné světlo... snažíš se k němu přiblížit...'
+                ' záře postupně sílí... je to slunce!')
 
 
 class EnemyTile(MapTile):
