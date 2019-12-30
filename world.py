@@ -41,7 +41,8 @@ class VictoryTile(MapTile):
 class EnemyTile(MapTile):
     def __init__(self, x, y):
         enemy_class, kwargs = random.choices(enemies.enemies_data,
-                                             cum_weights=[4, 7, 9, 10], k=1)[0]
+                                             cum_weights=[4, 7, 9, 10, 10.5],
+                                             k=1)[0]
         self.enemy = enemy_class(**kwargs)
         super().__init__(x, y)
 

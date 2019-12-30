@@ -2,6 +2,8 @@
 
 import random
 
+import items
+
 
 class Enemy:
     def __init__(self):
@@ -65,6 +67,35 @@ class Monster(Enemy):
         return self.alive_text if self.is_alive() else self.dead_text
 
 
+class Human(Enemy):
+    """Tough enemy class.
+
+    Objects of this class cause damage to the player, take damage from
+    the player's attacks, and drop their weapon after being killed,
+    along with an optional amount of gold.
+    """
+    def __init__(self, name, hp,
+                 name_dative=None, name_accusative=None,
+                 alive_text=None, dead_text=None):
+        self.name = name
+        self.hp = hp
+        self.weapon = items.ColdWeapon('Rezavý meč', 20, 100)
+        self.weapon_claimed = False
+        self.damage = self.weapon.damage
+        self.gold = random.randint(0, 10)
+        self.gold_claimed = False
+
+        self.name_dative = name_dative or self.name
+        self.name_accusative = name_accusative or self.name
+
+        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}.'
+        self.dead_text = dead_text or f'Leží tu mrtvý {self.name.lower()}.'
+
+    @property
+    def text(self):
+        return self.alive_text if self.is_alive() else self.dead_text
+
+
 enemies_data = (
     (
         Animal,
@@ -114,6 +145,19 @@ enemies_data = (
             'name_accusative': 'Obra',
             'alive_text': 'Vyrušil jsi dřímajícího kamenného obra!',
             'dead_text': 'Přemožený obr se proměnil nazpět v obyčejnou skálu.',
+        },
+    ),
+
+    (
+        Human,
+        {
+            'name': 'Cizí dobrodruh',
+            'hp': 100,
+            'name_dative': 'Dobrodruhovi',
+            'name_accusative': 'Dobrodruha',
+            'alive_text': 'Vrhl se na tebe pološílený dobrodruh - jiný hráč'
+                          ' této hry!',
+            'dead_text': 'Na zemi leží mrtvola muže s vytřeštěnýma očima.',
         },
     ),
 )
