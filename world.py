@@ -5,6 +5,7 @@ import random
 import enemies
 import items
 import npc
+from utils import nice_print
 
 
 class MapTile:
@@ -45,15 +46,17 @@ class EnemyTile(MapTile):
     def modify_player(self, player):
         if self.enemy.is_alive():
             player.hp = max(0, player.hp - self.enemy.damage)
-            return (f'Utrpěl jsi {self.enemy.damage} zranění.'
-                    f' Zbývá ti {player.hp} % zdraví.')
+            message = (f'Utrpěl jsi {self.enemy.damage} zranění.'
+                       f' Zbývá ti {player.hp} % zdraví.')
+            nice_print(message, 'fight')
         else:
             try:
                 if not self.enemy.gold_claimed:
                     self.enemy.gold_claimed = True
                     player.gold += self.enemy.gold
-                    return (f'Sebral jsi {self.enemy.name_dative.lower()}'
-                            f' {self.enemy.gold} zlaťáků.')
+                    message = (f'Sebral jsi {self.enemy.name_dative.lower()}'
+                               f' {self.enemy.gold} zlaťáků.')
+                    nice_print(message, 'luck')
             except AttributeError:
                 pass
 
@@ -125,7 +128,8 @@ class FindGoldTile(MapTile):
         if not self.gold_claimed:
             self.gold_claimed = True
             player.gold += self.gold
-            return f'Našel jsi {self.gold} zlaťáků.'
+            message = f'Našel jsi {self.gold} zlaťáků.'
+            nice_print(message, 'luck')
 
     def intro_text(self):
         return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'
@@ -143,7 +147,8 @@ class FindWeaponTile(MapTile):
         if not self.weapon_claimed:
             self.weapon_claimed = True
             player.inventory.append(self.weapon)
-            return f'Našel jsi {self.weapon.name_accusative.lower()}.'
+            message = f'Našel jsi {self.weapon.name_accusative.lower()}.'
+            nice_print(message, 'luck')
 
     def intro_text(self):
         return 'Další nezajímavá část jeskyně. Musíš postupovat dál.'

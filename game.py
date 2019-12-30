@@ -1,16 +1,10 @@
 # coding: utf-8
 
 from collections import OrderedDict
-from textwrap import TextWrapper
 
 from player import Player
+from utils import print_game_title, print_action_name, print_wrapped
 import world
-
-WIDTH = 72
-INDENT_EMPTY = '            '
-INDENT_INFO = '         🗨  '
-INDENT_FIGHT = '         ⚔  '
-INDENT_LUCK = '         ✰  '
 
 
 def get_available_actions(room, player):
@@ -51,7 +45,7 @@ def choose_action(room, player):
         action_input = input('Co teď? ').upper()
         action, action_name = available_actions.get(action_input, (None, ''))
         if action:
-            print(f' {action_name.strip()} '.center(WIDTH, "-"), end='\n\n')
+            print_action_name(action_name)
             action()
             return
         else:
@@ -68,30 +62,18 @@ def quit_game():
 
 
 def main():
-    text_wrapper = TextWrapper(width=WIDTH - len(INDENT_EMPTY),
-                               initial_indent=INDENT_INFO,
-                               subsequent_indent=INDENT_EMPTY)
-    print('\n\n' + 'S t r a c h   z e   t m y'.center(WIDTH) + '\n\n')
+    print_game_title()
     world.parse_world_dsl()
     player = Player()
 
     while True:
         room = world.tile_at(player.x, player.y)
-        for line in room.intro_text().splitlines():
-            print(text_wrapper.fill(line))
+        print_wrapped(room.intro_text())
 
         if isinstance(room, world.VictoryTile):
             break
 
-        auto_message = room.modify_player(player)
-        if auto_message:
-            if isinstance(room, world.EnemyTile):
-                indent = INDENT_FIGHT
-            elif isinstance(room, (world.FindGoldTile, world.FindWeaponTile)):
-                indent = INDENT_LUCK
-            else:
-                indent = INDENT_EMPTY
-            print(f'\n{indent}{auto_message}')
+        room.modify_player(player)
 
         if not player.is_alive():
             print('Jsi mrtev.')
