@@ -2,6 +2,7 @@
 
 import items
 import world
+from utils import nice_print
 
 
 class Player:
@@ -60,13 +61,12 @@ class Player:
         best_weapon = self.most_powerful_weapon()
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        print(f'Použil jsi {best_weapon.name_accusative.lower()} proti'
-              f' {enemy.name_dative.lower()}!')
         enemy.hp = max(0, enemy.hp - best_weapon.damage)
+        message = (f'Použil jsi {best_weapon.name_accusative.lower()} proti'
+                   f' {enemy.name_dative.lower()}.')
         if not enemy.is_alive():
-            print(f'Zabil jsi {enemy.name_accusative.lower()}!')
-        else:
-            print(f'{enemy.name_dative} zbývá {enemy.hp} % zdraví.')
+            message += f' Zabil jsi {enemy.name_accusative.lower()}!'
+        nice_print(message, 'fight')
 
     def has_consumables(self):
         return any(isinstance(item, items.Consumable)

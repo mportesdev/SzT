@@ -46,8 +46,7 @@ class EnemyTile(MapTile):
     def modify_player(self, player):
         if self.enemy.is_alive():
             player.hp = max(0, player.hp - self.enemy.damage)
-            message = (f'Utrpěl jsi {self.enemy.damage} zranění.'
-                       f' Zbývá ti {player.hp} % zdraví.')
+            message = f'{self.enemy} útočí. Zbývá ti {player.hp} % zdraví.'
             nice_print(message, 'fight')
         else:
             try:
