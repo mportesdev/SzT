@@ -76,7 +76,6 @@ def main():
             room.modify_player(player)
 
             if not player.is_alive():
-                print('Jsi mrtev.')
                 quit_game()
 
             action = choose_action(room, player)
