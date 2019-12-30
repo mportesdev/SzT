@@ -49,6 +49,15 @@ class EnemyTile(MapTile):
             player.hp = max(0, player.hp - self.enemy.damage)
             return (f'Utrpěl jsi {self.enemy.damage} zranění.'
                     f' Zbývá ti {player.hp} % zdraví.')
+        else:
+            try:
+                if not self.enemy.gold_claimed:
+                    self.enemy.gold_claimed = True
+                    player.gold += self.enemy.gold
+                    return (f'Sebral jsi {self.enemy.name_dative.lower()}'
+                            f' {self.enemy.gold} zlaťáků.')
+            except AttributeError:
+                pass
 
 
 class TraderTile(MapTile):

@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import random
+
 
 class Enemy:
     def __init__(self):
@@ -38,6 +40,8 @@ class Monster(Enemy):
         self.name = name
         self.hp = hp
         self.damage = damage
+        self.gold = random.randint(5, 20)
+        self.gold_claimed = False
 
         self.name_dative = name_dative or self.name
         self.name_accusative = name_accusative or self.name
