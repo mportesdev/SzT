@@ -11,7 +11,6 @@ INDENT_FIGHT = '         ⚔  '
 INDENT_LUCK = '         ✰  '
 
 text_wrapper = TextWrapper(width=WIDTH - len(INDENT_EMPTY),
-                           initial_indent=INDENT_INFO,
                            subsequent_indent=INDENT_EMPTY)
 
 
@@ -23,12 +22,10 @@ def print_action_name(action_name):
     print(f' {action_name.strip()} '.center(WIDTH, "-"), end='\n\n')
 
 
-def print_wrapped(text):
-    for line in text.splitlines():
-        print(text_wrapper.fill(line))
-
-
-def nice_print(message, msg_type):
-    indent = dict(fight=INDENT_FIGHT,
+def nice_print(message, msg_type='info'):
+    indent = dict(info=INDENT_INFO,
+                  fight=INDENT_FIGHT,
                   luck=INDENT_LUCK).get(msg_type, INDENT_EMPTY)
-    print(f'\n{indent}{message}')
+    text_wrapper.initial_indent = indent
+    for line in message.splitlines():
+        print(text_wrapper.fill(line))

@@ -3,7 +3,7 @@
 from collections import OrderedDict
 
 from player import Player
-from utils import print_game_title, print_action_name, print_wrapped
+from utils import print_game_title, print_action_name, nice_print
 import world
 
 
@@ -67,7 +67,7 @@ def main():
 
     while True:
         room = world.tile_at(player.x, player.y)
-        print_wrapped(room.intro_text())
+        nice_print(room.intro_text())
 
         if isinstance(room, world.VictoryTile):
             break
