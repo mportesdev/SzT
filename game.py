@@ -44,10 +44,9 @@ def choose_action(room, player):
     while True:
         action_input = input('Co teď? ').upper()
         action, action_name = available_actions.get(action_input, (None, ''))
-        if action:
+        if action is not None:
             print_action_name(action_name)
-            action()
-            return
+            return action
         else:
             print('?')
 
@@ -73,13 +72,21 @@ def main():
         if isinstance(room, world.VictoryTile):
             break
 
-        room.modify_player(player)
+        while True:
+            room.modify_player(player)
 
-        if not player.is_alive():
-            print('Jsi mrtev.')
-            quit_game()
+            if not player.is_alive():
+                print('Jsi mrtev.')
+                quit_game()
 
-        choose_action(room, player)
+            action = choose_action(room, player)
+            action()
+
+            # if the player moves, break to the outer loop to print
+            # the room description
+            if action in (player.move_north, player.move_south,
+                          player.move_east, player.move_west):
+                break
 
 
 if __name__ == '__main__':
