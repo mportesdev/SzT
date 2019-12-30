@@ -163,14 +163,15 @@ class FindWeaponTile(MapTile):
 
 
 world_dsl = """
-|  |  |  |  |VT|  |  |  |  |  |
-|  |  |FG|  |EN|  |  |  |  |  |
-|  |  |PT|  |FW|  |  |  |  |  |
-|  |  |EN|EN|PT|EN|EN|  |EN|  |
-|FW|EN|PT|  |  |  |FW|  |PT|  |
-|  |  |EN|FG|EN|  |PT|PT|TT|FG|
-|  |  |TT|  |ST|FG|EN|  |PT|  |
-|  |FG|PT|  |EN|  |FG|  |FW|  |
+|  |  |  |EN|  |  |VT|  |  |  |  |  |
+|  |  |  |PT|FG|  |EN|  |FG|  |  |PT|
+|  |  |  |  |PT|  |FW|  |EN|  |FG|EN|
+|  |TT|  |  |EN|EN|PT|EN|PT|  |EN|  |
+|EN|PT|PT|FW|PT|  |  |  |FW|  |PT|  |
+|  |PT|  |  |EN|PT|EN|  |PT|PT|PT|TT|
+|EN|PT|FG|  |TT|  |ST|FG|EN|  |PT|  |
+|  |  |PT|EN|PT|  |EN|  |FG|  |EN|EN|
+|  |  |  |  |  |  |FG|  |  |  |FW|  |
 """
 
 world_map = []
