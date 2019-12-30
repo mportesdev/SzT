@@ -33,7 +33,7 @@ def get_available_actions(room, player):
     if player.hp < 100 and player.has_consumables():
         action_adder(actions, 'L', player.heal, 'Léčit se\t')
     action_adder(actions, 'I', player.print_info, 'Informace\t')
-    action_adder(actions, 'K', quit_game, 'Konec\n')
+    action_adder(actions, 'K', confirm_quit, 'Konec\n')
 
     return actions
 
@@ -56,6 +56,11 @@ def choose_action(room, player):
             return
         else:
             print('?')
+
+
+def confirm_quit():
+    if input('Opravdu skončit? (A / cokoliv) ').upper() == 'A':
+        quit_game()
 
 
 def quit_game():
