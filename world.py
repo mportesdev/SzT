@@ -57,9 +57,15 @@ class TraderTile(MapTile):
         super().__init__(x, y)
 
     def trade(self, buyer, seller):
+        valid_choices = set()
         for i, item in enumerate(seller.inventory, 1):
-            item_number = f'{i:3}.' if item.value <= buyer.gold else '    '
+            if item.value <= buyer.gold:
+                valid_choices.add(i)
+                item_number = f'{i:3}.'
+            else:
+                item_number = '    '
             print(f'{item_number} {item.name} - {item.value} zlaťáků')
+
         while True:
             user_input = input('Č. položky nebo (Z)pět: ').upper()
             if user_input == 'Z':
@@ -67,14 +73,12 @@ class TraderTile(MapTile):
             else:
                 try:
                     choice = int(user_input)
-                    if choice < 1:
-                        raise IndexError
-                    to_swap = seller.inventory[choice - 1]
-                    if to_swap.value > buyer.gold:
+                    if choice not in valid_choices:
                         raise ValueError
+                    to_swap = seller.inventory[choice - 1]
                     self.swap(seller, buyer, to_swap)
                     return
-                except (ValueError, IndexError):
+                except ValueError:
                     print('Neplatná volba.')
 
     @staticmethod
