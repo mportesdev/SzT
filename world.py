@@ -66,6 +66,12 @@ class EnemyTile(MapTile):
                     message = (f'Sebral jsi {self.enemy.name_dative.lower()}'
                                f' {self.enemy.gold} zlaťáků.')
                     nice_print(message, 'luck')
+                if not self.enemy.weapon_claimed:
+                    self.enemy.weapon_claimed = True
+                    player.inventory.append(self.enemy.weapon)
+                    message = (f'Sebral jsi {self.enemy.name_dative.lower()}'
+                               f' {self.enemy.weapon.name_accusative.lower()}.')
+                    nice_print(message, 'luck')
             except AttributeError:
                 pass
 

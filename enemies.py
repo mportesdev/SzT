@@ -153,7 +153,7 @@ enemies_data = (
         {
             'name': 'Cizí dobrodruh',
             'hp': 100,
-            'weapon': items.ColdWeapon('Rezavý meč', 20, 100),
+            'weapon': items.ColdWeapon('Železné kopí', 18, 85),
             'name_dative': 'Dobrodruhovi',
             'name_accusative': 'Dobrodruha',
             'alive_text': 'Vrhl se na tebe pološílený dobrodruh - jiný hráč'
