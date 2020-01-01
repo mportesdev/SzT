@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import os
 from textwrap import TextWrapper
 
 GAME_TITLE = 'Strach ze tmy'
@@ -15,6 +16,7 @@ text_wrapper = TextWrapper(width=WIDTH - len(INDENT_EMPTY),
 
 
 def print_game_title():
+    os.system('cls' if os.name == 'nt' else 'clear')
     print('\n\n' + ' '.join(GAME_TITLE).center(WIDTH) + '\n\n')
 
 
