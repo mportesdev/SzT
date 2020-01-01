@@ -60,7 +60,7 @@ class EnemyTile(MapTile):
             nice_print(message, 'fight', color=1)
         else:
             try:
-                if not self.enemy.gold_claimed:
+                if not self.enemy.gold_claimed and self.enemy.gold > 0:
                     self.enemy.gold_claimed = True
                     player.gold += self.enemy.gold
                     message = (f'Sebral jsi {self.enemy.name_dative.lower()}'
