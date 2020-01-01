@@ -3,7 +3,7 @@
 from collections import OrderedDict
 
 from player import Player
-from utils import print_game_title, print_action_name, nice_print
+from utils import color_print, print_game_title, print_action_name, nice_print
 import world
 
 
@@ -34,7 +34,7 @@ def get_available_actions(room, player):
 
 def action_adder(action_dict, hotkey, action, name):
     action_dict[hotkey] = action, name
-    print(f'{hotkey}: {name.expandtabs(16)}', end='')
+    color_print(f'{hotkey}: {name.expandtabs(16)}', end='', color=4)
 
 
 def choose_action(room, player):
