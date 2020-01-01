@@ -39,5 +39,4 @@ def nice_print(message, msg_type='info'):
                   fight=INDENT_FIGHT,
                   luck=INDENT_LUCK).get(msg_type, INDENT_EMPTY)
     text_wrapper.initial_indent = indent
-    for line in message.splitlines():
-        print(text_wrapper.fill(line))
+    print(text_wrapper.fill(message))
