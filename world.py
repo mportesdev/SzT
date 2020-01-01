@@ -151,7 +151,9 @@ class FindWeaponTile(PlainTile):
     def __init__(self, x, y):
         self.weapon = random.choice((items.ColdWeapon('Kámen', 5, 1),
                                      items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
-                                     items.ColdWeapon('Rezavý meč', 20, 100)))
+                                     items.ColdWeapon('Rezavý meč', 20, 100),
+                                     items.ColdWeapon('Těžká sekera', 25, 110,
+                                                      'Těžkou sekeru')))
         self.weapon_claimed = False
         super().__init__(x, y)
 
