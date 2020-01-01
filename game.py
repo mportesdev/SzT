@@ -48,7 +48,7 @@ def choose_action(room, player):
             print_action_name(action_name)
             return action
         else:
-            print('?')
+            color_print('?', color=6)
 
 
 def confirm_quit():
