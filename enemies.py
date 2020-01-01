@@ -74,12 +74,12 @@ class Human(Enemy):
     the player's attacks, and drop their weapon after being killed,
     along with an optional amount of gold.
     """
-    def __init__(self, name, hp,
+    def __init__(self, name, hp, weapon,
                  name_dative=None, name_accusative=None,
                  alive_text=None, dead_text=None):
         self.name = name
         self.hp = hp
-        self.weapon = items.ColdWeapon('Rezavý meč', 20, 100)
+        self.weapon = weapon
         self.weapon_claimed = False
         self.damage = self.weapon.damage
         self.gold = random.randint(0, 10)
@@ -153,6 +153,7 @@ enemies_data = (
         {
             'name': 'Cizí dobrodruh',
             'hp': 100,
+            'weapon': items.ColdWeapon('Rezavý meč', 20, 100),
             'name_dative': 'Dobrodruhovi',
             'name_accusative': 'Dobrodruha',
             'alive_text': 'Vrhl se na tebe pološílený dobrodruh - jiný hráč'
