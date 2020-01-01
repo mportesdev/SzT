@@ -2,7 +2,7 @@
 
 import items
 import world
-from utils import nice_print
+from utils import color_print, nice_print
 
 
 class Player:
@@ -18,7 +18,7 @@ class Player:
         return self.hp > 0
 
     def print_info(self):
-        print(f'Zdraví:     {self.hp} %')
+        color_print(f'Zdraví:     {self.hp} %', color='1;96')
         print('Máš u sebe:')
         if self.gold > 0:
             print(f'            {self.gold} zlaťáků')

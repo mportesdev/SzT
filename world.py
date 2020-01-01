@@ -57,7 +57,7 @@ class EnemyTile(MapTile):
                 message += f'Zbývá ti {player.hp} % zdraví.'
             else:
                 message += 'Jsi mrtev!\n'
-            nice_print(message, 'fight', color=1)
+            nice_print(message, 'fight', color='91')
         else:
             try:
                 if not self.enemy.gold_claimed and self.enemy.gold > 0:

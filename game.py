@@ -34,7 +34,8 @@ def get_available_actions(room, player):
 
 def action_adder(action_dict, hotkey, action, name):
     action_dict[hotkey] = action, name
-    color_print(f'{hotkey}: {name.expandtabs(16)}', end='', color=4)
+    color_print(f'{hotkey}', end='', color='0')
+    color_print(f': {name.expandtabs(16)}', end='', color='94')
 
 
 def choose_action(room, player):
@@ -48,7 +49,7 @@ def choose_action(room, player):
             print_action_name(action_name)
             return action
         else:
-            color_print('?', color=6)
+            color_print('?', color='95')
 
 
 def confirm_quit():

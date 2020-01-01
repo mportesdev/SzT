@@ -17,8 +17,7 @@ text_wrapper = TextWrapper(width=WIDTH - len(INDENT_EMPTY),
 
 def color_print(*args, color=None, **kwargs):
     if color is not None:
-        # 1 red, 2 green, 3 yellow, 4 blue, 5 violet, 6 cyan
-        print(f'\033[9{color}m', end='')
+        print(f'\033[{color}m', end='')
 
     print(*args, **kwargs)
 
@@ -29,12 +28,12 @@ def color_print(*args, color=None, **kwargs):
 def print_game_title():
     os.system('cls' if os.name == 'nt' else 'clear')
     color_print('\n\n' + ' '.join(GAME_TITLE).center(WIDTH) + '\n\n',
-                color=5)
+                color='1;95')
 
 
 def print_action_name(action_name):
     color_print(f' {action_name.strip()} '.center(WIDTH, "-"), end='\n\n',
-                color=6)
+                color='95')
 
 
 def nice_print(message, msg_type='info', color=None):
