@@ -4,12 +4,12 @@ import os
 from textwrap import TextWrapper
 
 GAME_TITLE = 'Strach ze tmy'
-WIDTH = 72
+WIDTH = 70
 
-INDENT_EMPTY = '            '
-INDENT_INFO = '         🗨  '
-INDENT_FIGHT = '         ⚔  '
-INDENT_LUCK = '         ✰  '
+INDENT_EMPTY = '           '
+INDENT_INFO = '        🗨  '
+INDENT_FIGHT = '        ⚔  '
+INDENT_LUCK = '        ✰  '
 
 text_wrapper = TextWrapper(width=WIDTH - len(INDENT_EMPTY),
                            subsequent_indent=INDENT_EMPTY)

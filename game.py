@@ -17,10 +17,10 @@ def get_available_actions(room, player):
             action_adder(actions, 'S', player.move_north, 'Jít na sever\t')
         if world.tile_at(room.x, room.y + 1):
             action_adder(actions, 'J', player.move_south, 'Jít na jih\t')
-        if world.tile_at(room.x + 1, room.y):
-            action_adder(actions, 'V', player.move_east, 'Jít na východ\t')
         if world.tile_at(room.x - 1, room.y):
-            action_adder(actions, 'Z', player.move_west, 'Jít na západ')
+            action_adder(actions, 'Z', player.move_west, 'Jít na západ\t')
+        if world.tile_at(room.x + 1, room.y):
+            action_adder(actions, 'V', player.move_east, 'Jít na východ')
     print()
     if isinstance(room, world.TraderTile):
         action_adder(actions, 'O', player.trade, 'Obchodovat\t')
@@ -35,7 +35,7 @@ def get_available_actions(room, player):
 def action_adder(action_dict, hotkey, action, name):
     action_dict[hotkey] = action, name
     color_print(f'{hotkey}', end='', color='0')
-    color_print(f': {name.expandtabs(16)}', end='', color='94')
+    color_print(f': {name.expandtabs(15)}', end='', color='94')
 
 
 def choose_action(room, player):
