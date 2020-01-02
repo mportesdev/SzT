@@ -160,7 +160,7 @@ class FindWeaponTile(Cave):
                                      items.Weapon('Dýka', 10, 20, 'Dýku'),
                                      items.Weapon('Rezavý meč', 20, 100),
                                      items.Weapon('Těžká sekera', 25, 110,
-                                                      'Těžkou sekeru')))
+                                                  'Těžkou sekeru')))
         self.weapon_claimed = False
 
     def modify_player(self, player):
