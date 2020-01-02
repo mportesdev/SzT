@@ -7,8 +7,8 @@ import world
 
 class Player:
     def __init__(self):
-        self.inventory = [items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
-                          items.Bread()]
+        self.inventory = [items.Weapon('Dýka', 10, 20, 'Dýku'),
+                          items.Consumable('Bochník chleba', 3, 2)]
         self.x, self.y = world.start_tile_location
         self.hp = 100
         self.gold = 10

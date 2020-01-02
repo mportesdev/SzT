@@ -155,10 +155,10 @@ class FindGoldTile(Cave):
 class FindWeaponTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.weapon = random.choice((items.ColdWeapon('Kámen', 5, 1),
-                                     items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
-                                     items.ColdWeapon('Rezavý meč', 20, 100),
-                                     items.ColdWeapon('Těžká sekera', 25, 110,
+        self.weapon = random.choice((items.Weapon('Kámen', 5, 1),
+                                     items.Weapon('Dýka', 10, 20, 'Dýku'),
+                                     items.Weapon('Rezavý meč', 20, 100),
+                                     items.Weapon('Těžká sekera', 25, 110,
                                                       'Těžkou sekeru')))
         self.weapon_claimed = False
 

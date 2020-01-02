@@ -15,9 +15,9 @@ class Trader(NonPlayableCharacter):
     def __init__(self):
         self.name = 'Obchodník'
         self.gold = 200
-        self.inventory = [items.Bread(),
-                          items.Bread(),
-                          items.Salve(),
-                          items.Salve(),
-                          items.HealingPotion(),
-                          items.HealingPotion()]
+        self.inventory = [items.Consumable('Bochník chleba', 3, 2),
+                          items.Consumable('Bochník chleba', 3, 2),
+                          items.Consumable('Hojivá mast', 12, 12),
+                          items.Consumable('Hojivá mast', 12, 12),
+                          items.Consumable('Léčivý lektvar', 50, 60),
+                          items.Consumable('Léčivý lektvar', 50, 60)]
