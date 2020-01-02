@@ -40,11 +40,11 @@ class VictoryTile(MapTile):
 
 class EnemyTile(MapTile):
     def __init__(self, x, y):
+        super().__init__(x, y)
         enemy_class, kwargs = random.choices(enemies.enemies_data,
                                              cum_weights=[4, 7, 9, 10, 10.5],
                                              k=1)[0]
         self.enemy = enemy_class(**kwargs)
-        super().__init__(x, y)
 
     def intro_text(self):
         return self.enemy.text
@@ -78,8 +78,8 @@ class EnemyTile(MapTile):
 
 class TraderTile(MapTile):
     def __init__(self, x, y):
-        self.trader = npc.Trader()
         super().__init__(x, y)
+        self.trader = npc.Trader()
 
     def trade(self, buyer, seller):
         valid_choices = set()
@@ -135,9 +135,9 @@ class TraderTile(MapTile):
 
 class FindGoldTile(PlainTile):
     def __init__(self, x, y):
+        super().__init__(x, y)
         self.gold = random.randint(5, 50)
         self.gold_claimed = False
-        super().__init__(x, y)
 
     def modify_player(self, player):
         if not self.gold_claimed:
@@ -149,13 +149,13 @@ class FindGoldTile(PlainTile):
 
 class FindWeaponTile(PlainTile):
     def __init__(self, x, y):
+        super().__init__(x, y)
         self.weapon = random.choice((items.ColdWeapon('Kámen', 5, 1),
                                      items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
                                      items.ColdWeapon('Rezavý meč', 20, 100),
                                      items.ColdWeapon('Těžká sekera', 25, 110,
                                                       'Těžkou sekeru')))
         self.weapon_claimed = False
-        super().__init__(x, y)
 
     def modify_player(self, player):
         if not self.weapon_claimed:

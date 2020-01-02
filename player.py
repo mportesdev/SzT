@@ -1,8 +1,8 @@
 # coding: utf-8
 
 import items
-import world
 from utils import color_print, nice_print
+import world
 
 
 class Player:

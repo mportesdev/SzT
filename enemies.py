@@ -82,7 +82,7 @@ class Human(Enemy):
         self.weapon = weapon
         self.weapon_claimed = False
         self.damage = self.weapon.damage
-        self.gold = random.randint(0, 10)
+        self.gold = random.choice((0, random.randint(5, 15)))
         self.gold_claimed = False
 
         self.name_dative = name_dative or self.name
