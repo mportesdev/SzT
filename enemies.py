@@ -32,7 +32,7 @@ class Animal(Enemy):
         self.name_dative = name_dative or self.name
         self.name_accusative = name_accusative or self.name
 
-        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}.'
+        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
         self.dead_text = dead_text or f'Leží tu mrtvý {self.name.lower()}.'
 
     @property
@@ -59,7 +59,7 @@ class Monster(Enemy):
         self.name_dative = name_dative or self.name
         self.name_accusative = name_accusative or self.name
 
-        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}.'
+        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
         self.dead_text = dead_text or f'Leží tu mrtvý {self.name.lower()}.'
 
     @property
@@ -88,7 +88,7 @@ class Human(Enemy):
         self.name_dative = name_dative or self.name
         self.name_accusative = name_accusative or self.name
 
-        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}.'
+        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
         self.dead_text = dead_text or f'Leží tu mrtvý {self.name.lower()}.'
 
     @property
@@ -144,7 +144,7 @@ enemies_data = (
             'name_dative': 'Obrovi',
             'name_accusative': 'Obra',
             'alive_text': 'Vyrušil jsi dřímajícího kamenného obra!',
-            'dead_text': 'Přemožený obr se proměnil nazpět v obyčejnou skálu.',
+            'dead_text': 'Přemožený kamenný obr připomíná obyčejnou skálu.',
         },
     ),
 
