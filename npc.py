@@ -14,9 +14,10 @@ class NonPlayableCharacter:
 class Trader(NonPlayableCharacter):
     def __init__(self):
         self.name = 'Obchodník'
-        self.gold = 100
-        self.inventory = [items.CrustyBread(),
-                          items.CrustyBread(),
-                          items.CrustyBread(),
+        self.gold = 200
+        self.inventory = [items.Bread(),
+                          items.Bread(),
+                          items.Salve(),
+                          items.Salve(),
                           items.HealingPotion(),
                           items.HealingPotion()]

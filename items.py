@@ -25,10 +25,17 @@ class Consumable:
         return f'{self.name} (+{self.healing_value} % zdraví)'
 
 
-class CrustyBread(Consumable):
+class Bread(Consumable):
     def __init__(self):
-        self.name = 'Křupavý chléb'
-        self.healing_value = 10
+        self.name = 'Bochník chleba'
+        self.healing_value = 3
+        self.value = 2
+
+
+class Salve(Consumable):
+    def __init__(self):
+        self.name = 'Hojivá mast'
+        self.healing_value = 12
         self.value = 12
 
 

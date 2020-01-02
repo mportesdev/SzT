@@ -9,7 +9,7 @@ class Player:
     def __init__(self):
         self.inventory = [items.ColdWeapon('Kámen', 5, 1),
                           items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
-                          items.CrustyBread()]
+                          items.Bread()]
         self.x, self.y = world.start_tile_location
         self.hp = 100
         self.gold = 5
