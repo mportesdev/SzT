@@ -1,14 +1,18 @@
 # coding: utf-8
 
+from typing import List, Union
+
 import items
 from utils import color_print, nice_print
 import world
 
+InventoryList = List[Union[items.Weapon, items.Consumable]]
+
 
 class Player:
     def __init__(self):
-        self.inventory = [items.Weapon('Dýka', 10, 20, 'Dýku'),
-                          items.Consumable('Bochník chleba', 3, 2)]
+        self.inventory: InventoryList = [items.Weapon('Dýka', 10, 20, 'Dýku'),
+                                         items.Consumable('Bochník chleba', 3, 2)]
         self.x, self.y = world.start_tile_location
         self.hp = 100
         self.gold = 10
@@ -24,7 +28,7 @@ class Player:
         for item in self.inventory:
             print(f'            {item}')
 
-    def most_powerful_weapon(self):
+    def most_powerful_weapon(self) -> items.Weapon:
         max_damage = 0
         best_weapon = None
         for item in self.inventory:

@@ -1,13 +1,16 @@
 # coding: utf-8
 
 from collections import OrderedDict
+from typing import Dict, Tuple, Callable
 
 from player import Player
 from utils import color_print, print_game_title, print_action_name, nice_print
 import world
 
+ActionDict = Dict[str, Tuple[Callable, str]]
 
-def get_available_actions(room, player):
+
+def get_available_actions(room, player) -> ActionDict:
     actions = OrderedDict()
     print('\nMožnosti:')
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
@@ -32,13 +35,13 @@ def get_available_actions(room, player):
     return actions
 
 
-def action_adder(action_dict, hotkey, action, name):
+def action_adder(action_dict: ActionDict, hotkey, action: Callable, name):
     action_dict[hotkey] = action, name
     color_print(f'{hotkey}', end='', color='0')
     color_print(f': {name.expandtabs(15)}', end='', color='94')
 
 
-def choose_action(room, player):
+def choose_action(room, player) -> Callable:
     available_actions = get_available_actions(room, player)
     print()
 
