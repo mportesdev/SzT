@@ -7,12 +7,11 @@ import world
 
 class Player:
     def __init__(self):
-        self.inventory = [items.ColdWeapon('Kámen', 5, 1),
-                          items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
+        self.inventory = [items.ColdWeapon('Dýka', 10, 20, 'Dýku'),
                           items.Bread()]
         self.x, self.y = world.start_tile_location
         self.hp = 100
-        self.gold = 5
+        self.gold = 10
 
     def is_alive(self):
         return self.hp > 0
