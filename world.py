@@ -70,13 +70,13 @@ class EnemyTile(Cave):
                     player.gold += self.enemy.gold
                     message = (f'Sebral jsi {self.enemy.name_dative.lower()}'
                                f' {self.enemy.gold} zlaťáků.')
-                    nice_print(message, 'luck')
+                    nice_print(message, 'luck', color='96')
                 if not self.enemy.weapon_claimed:
                     self.enemy.weapon_claimed = True
                     player.inventory.append(self.enemy.weapon)
                     message = (f'Sebral jsi {self.enemy.name_dative.lower()}'
                                f' {self.enemy.weapon.name_accusative.lower()}.')
-                    nice_print(message, 'luck')
+                    nice_print(message, 'luck', color='96')
             except AttributeError:
                 pass
 
@@ -149,7 +149,7 @@ class FindGoldTile(Cave):
             self.gold_claimed = True
             player.gold += self.gold
             message = f'Našel jsi {self.gold} zlaťáků.'
-            nice_print(message, 'luck')
+            nice_print(message, 'luck', color='96')
 
 
 class FindWeaponTile(Cave):
@@ -167,7 +167,7 @@ class FindWeaponTile(Cave):
             self.weapon_claimed = True
             player.inventory.append(self.weapon)
             message = f'Našel jsi {self.weapon.name_accusative.lower()}.'
-            nice_print(message, 'luck')
+            nice_print(message, 'luck', color='96')
 
 
 world_dsl = """
