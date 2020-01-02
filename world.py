@@ -5,7 +5,7 @@ import random
 import enemies
 import items
 import npc
-from utils import nice_print
+from utils import WIDTH, nice_print
 
 
 class PlainTile:
@@ -94,7 +94,8 @@ class TraderTile(Cave):
                 item_number = f'{i:3}.'
             else:
                 item_number = '    '
-            print(f'{item_number} {item.name} - {item.value} zlaťáků')
+            print(f'{item_number} {item} '.ljust(WIDTH - 20, '.')
+                  + f' {item.value:3} zlaťáků')
 
         while True:
             user_input = input('Č. položky nebo (Z)pět: ').upper()

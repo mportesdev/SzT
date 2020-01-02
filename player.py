@@ -22,10 +22,7 @@ class Player:
         if self.gold > 0:
             print(f'            {self.gold} zlaťáků')
         for item in self.inventory:
-            try:
-                print(f'            {item.name_accusative}')
-            except AttributeError:
-                print(f'            {item}')
+            print(f'            {item}')
 
     def most_powerful_weapon(self):
         max_damage = 0
