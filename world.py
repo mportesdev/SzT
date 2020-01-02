@@ -8,37 +8,42 @@ import npc
 from utils import nice_print
 
 
-class MapTile:
+class PlainTile:
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
-    def intro_text(self):
-        raise NotImplementedError('Create a subclass instead!')
-
     def modify_player(self, player):
         pass
 
-
-class PlainTile(MapTile):
     def intro_text(self):
-        return 'Jdeš tmavou, vlhkou a studenou jeskyní.'
+        return self.text
 
 
-class StartTile(MapTile):
+class Cave(PlainTile):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.text = 'Jdeš tmavou, vlhkou a studenou jeskyní.'
+
+
+class Forest(PlainTile):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.text = 'Jdeš hustým tmavým lesem.'
+
+
+class StartTile(Forest):
     def intro_text(self):
-        return ('Stojíš v tmavé jeskyni. Na stěně poblikává dohasínající'
-                ' pochodeň. V šeru lze rozeznat tři cesty vedoucí ven, všechny'
-                ' stejně temné a hrozivé.')
+        return 'Stojíš na kraji hustého tmavého lesa.'
 
 
-class VictoryTile(MapTile):
+class VictoryTile(Cave):
     def intro_text(self):
         return ('V dáli vidíš jasné světlo... snažíš se k němu přiblížit...'
                 ' záře postupně sílí... je to slunce!')
 
 
-class EnemyTile(MapTile):
+class EnemyTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
         enemy_class, kwargs = random.choices(enemies.enemies_data,
@@ -47,7 +52,7 @@ class EnemyTile(MapTile):
         self.enemy = enemy_class(**kwargs)
 
     def intro_text(self):
-        return self.enemy.text
+        return self.text + ' ' + self.enemy.text
 
     def modify_player(self, player):
         if self.enemy.is_alive():
@@ -76,7 +81,7 @@ class EnemyTile(MapTile):
                 pass
 
 
-class TraderTile(MapTile):
+class TraderTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.trader = npc.Trader()
@@ -133,7 +138,7 @@ class TraderTile(MapTile):
                 ' se, že by byl ochoten něco prodat nebo koupit.')
 
 
-class FindGoldTile(PlainTile):
+class FindGoldTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.gold = random.randint(5, 50)
@@ -147,7 +152,7 @@ class FindGoldTile(PlainTile):
             nice_print(message, 'luck')
 
 
-class FindWeaponTile(PlainTile):
+class FindWeaponTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.weapon = random.choice((items.ColdWeapon('Kámen', 5, 1),
@@ -167,14 +172,15 @@ class FindWeaponTile(PlainTile):
 
 world_dsl = """
 |VT|EN|FW|EN|  |  |EN|  |  |  |  |FG|
-|  |  |  |PT|FG|  |PT|  |FW|  |PT|EN|
-|  |  |  |  |PT|  |PT|  |EN|  |EN|  |
-|  |TT|  |  |EN|EN|PT|EN|PT|  |PT|EN|
-|EN|PT|EN|FW|PT|  |  |  |PT|  |PT|  |
-|  |PT|  |  |EN|PT|PT|  |PT|PT|TT|PT|
-|EN|PT|FG|  |PT|  |ST|PT|EN|  |PT|  |
-|  |  |PT|EN|PT|  |PT|  |FG|  |EN|EN|
-|  |  |  |  |  |  |FG|  |  |  |FW|  |
+|  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
+|  |  |  |  |CV|  |CV|  |EN|  |EN|  |
+|  |TT|  |  |EN|EN|CV|EN|CV|  |CV|EN|
+|EN|CV|EN|FW|CV|  |  |  |CV|  |CV|  |
+|  |CV|  |  |EN|CV|FG|  |CV|CV|TT|CV|
+|EN|CV|FG|  |CV|  |CV|CV|EN|  |CV|  |
+|  |  |CV|EN|CV|  |FR|  |FG|  |EN|EN|
+|  |  |  |  |  |  |FR|  |  |  |FW|  |
+|  |  |  |  |  |  |ST|  |  |  |  |  |
 """
 
 world_map = []
@@ -217,7 +223,8 @@ def parse_world_dsl():
         dsl_cells = dsl_row.strip('|').split('|')
         for x, dsl_cell in enumerate(dsl_cells):
             tile_type = {'VT': VictoryTile,
-                         'PT': PlainTile,
+                         'CV': Cave,
+                         'FR': Forest,
                          'EN': EnemyTile,
                          'ST': StartTile,
                          'FG': FindGoldTile,
