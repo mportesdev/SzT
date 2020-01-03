@@ -61,10 +61,16 @@ class Player:
 
     def attack(self):
         best_weapon = self.most_powerful_weapon()
+        if best_weapon:
+            weapon_damage = best_weapon.damage
+            weapon_name = best_weapon.name_accusative.lower()
+        else:
+            weapon_damage = 1
+            weapon_name = 'pěsti'
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        enemy.hp = max(0, enemy.hp - best_weapon.damage)
-        message = (f'Použil jsi {best_weapon.name_accusative.lower()} proti'
+        enemy.hp = max(0, enemy.hp - weapon_damage)
+        message = (f'Použil jsi {weapon_name} proti'
                    f' {enemy.name_dative.lower()}.')
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_accusative.lower()}!'
