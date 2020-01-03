@@ -1,4 +1,4 @@
-This game is based on a sample demo whose repository can be found here:
+This game is a text adventure game in the Czech language. It is based on a sample demo whose repository can be found here:
 
 https://github.com/myrmica-habilis/cave-terror
 
