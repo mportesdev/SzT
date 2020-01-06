@@ -23,13 +23,15 @@ class PlainTile:
 class Cave(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.text = 'Jdeš tmavou, vlhkou a studenou jeskyní.'
+        self.text = random.choice(('Jsi v chladné tmavé jeskyni.',
+                                   'Stojíš v nízké, vlhké části jeskyně.',
+                                   'Procházíš úzkou podzemní chodbou.'))
 
 
 class Forest(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.text = 'Jdeš hustým tmavým lesem.'
+        self.text = 'Jsi v hustém tmavém lese.'
 
 
 class StartTile(Forest):
@@ -85,6 +87,7 @@ class EnemyTile(Cave):
 class TraderTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
+        self.text = 'Stojíš u vchodu do jeskyně.'
         self.trader = npc.Trader()
 
     def trade(self, buyer, seller):

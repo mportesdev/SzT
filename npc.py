@@ -14,7 +14,7 @@ class NonPlayableCharacter:
 class Trader(NonPlayableCharacter):
     def __init__(self):
         self.name = 'Obchodník'
-        self.text = ('U vchodu do jeskyně sedí vousatý hromotluk. V plátěném'
+        self.text = ('Na zemi sedí vousatý hromotluk. V plátěném'
                      ' pytli má nějaké věci na prodej.')
         self.gold = 200
         self.inventory = [
