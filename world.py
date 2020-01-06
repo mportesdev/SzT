@@ -39,8 +39,9 @@ class StartTile(Forest):
 
 class VictoryTile(Cave):
     def intro_text(self):
-        return ('V dáli vidíš jasné světlo... snažíš se k němu přiblížit...'
-                ' záře postupně sílí... je to slunce!')
+        return self.text + ('.. v šeru kolem tebe se třpytí nesmírné množství'
+                            ' blyštivých kamínků... objevil jsi podzemní'
+                            ' diamantový poklad obrovské ceny!')
 
 
 class EnemyTile(Cave):
@@ -135,8 +136,8 @@ class TraderTile(Cave):
                 print('Neplatná volba.')
 
     def intro_text(self):
-        return ('Malý podivný tvor sedí v koutě a cinká zlatými mincemi. Zdá'
-                ' se, že by byl ochoten něco prodat nebo koupit.')
+        return ('U vchodu do jeskyně sedí vousatý hromotluk a nabízí věci na'
+                ' prodej.')
 
 
 class FindGoldTile(Cave):
@@ -173,7 +174,7 @@ class FindWeaponTile(Cave):
 class FindConsumableTile(Forest):
     def __init__(self, x, y):
         super().__init__(x, y)
-        args = random.choice((('Kouzelné bylinky', 18, 20),
+        args = random.choice((('Léčivé bylinky', 18, 20),
                               ('Kouzelné houby', 22, 26),
                               ('Kouzelné bobule', 14, 14)))
         self.consumable = items.Consumable(*args)
