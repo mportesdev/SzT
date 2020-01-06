@@ -171,16 +171,33 @@ class FindWeaponTile(Cave):
             nice_print(message, 'luck', color='96')
 
 
+class FindConsumableTile(Forest):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        args = random.choice((('Kouzelné bylinky', 18, 20),
+                              ('Kouzelné houby', 22, 26),
+                              ('Kouzelné bobule', 14, 14)))
+        self.consumable = items.Consumable(*args)
+        self.consumable_claimed = False
+
+    def modify_player(self, player):
+        if not self.consumable_claimed:
+            self.consumable_claimed = True
+            player.inventory.append(self.consumable)
+            message = f'Našel jsi {self.consumable.name_accusative.lower()}.'
+            nice_print(message, 'luck', color='96')
+
+
 world_dsl = """
 |VT|EN|FW|EN|  |  |EN|  |  |  |  |FG|
 |  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
-|  |  |  |  |CV|  |CV|  |EN|  |EN|  |
-|  |TT|  |  |EN|EN|CV|EN|CV|  |CV|EN|
-|EN|CV|EN|FW|CV|  |  |  |CV|  |CV|  |
-|  |CV|  |  |EN|CV|FG|  |CV|CV|TT|CV|
-|EN|CV|FG|  |CV|  |CV|CV|EN|  |CV|  |
-|  |  |CV|EN|CV|  |FR|  |FG|  |EN|EN|
-|  |  |  |  |  |  |FR|  |  |  |FW|  |
+|FC|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
+|  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
+|  |TT|CV|EN|CV|  |  |  |  |  |CV|  |
+|EN|CV|  |  |CV|  |FC|  |FR|FR|TT|CV|
+|  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
+|EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
+|FW|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
 |  |  |  |  |  |  |ST|  |  |  |  |  |
 """
 
@@ -230,6 +247,7 @@ def parse_world_dsl():
                          'ST': StartTile,
                          'FG': FindGoldTile,
                          'FW': FindWeaponTile,
+                         'FC': FindConsumableTile,
                          'TT': TraderTile,
                          '  ': None}[dsl_cell]
 
