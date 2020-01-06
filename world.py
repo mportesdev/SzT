@@ -136,8 +136,7 @@ class TraderTile(Cave):
                 print('Neplatná volba.')
 
     def intro_text(self):
-        return ('U vchodu do jeskyně sedí vousatý hromotluk a nabízí věci na'
-                ' prodej.')
+        return self.text + ' ' + self.trader.text
 
 
 class FindGoldTile(Cave):
