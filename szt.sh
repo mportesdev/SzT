@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./venv/bin/python game.py
+./venv/bin/python game.py $1 $2
