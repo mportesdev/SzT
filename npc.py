@@ -16,10 +16,9 @@ class Trader(NonPlayableCharacter):
         self.name = 'Obchodník'
         self.gold = 200
         self.inventory = [
-            items.Consumable('Bochník chleba', 3, 2),
-            items.Consumable('Bochník chleba', 3, 2),
-            items.Consumable('Hojivá mast', 12, 12, 'Hojivou mast'),
-            items.Consumable('Hojivá mast', 12, 12, 'Hojivou mast'),
-            items.Consumable('Léčivý lektvar', 50, 60),
-            items.Consumable('Léčivý lektvar', 50, 60)
+            items.Consumable('Léčivý lektvar', 40, 48),
+            items.Consumable('Hojivá mast', 11, 12, 'Hojivou mast'),
+            items.Consumable('Hojivá mast', 14, 16, 'Hojivou mast'),
+            items.Consumable('Léčivý lektvar', 45, 54),
+            items.Consumable('Bylinkový chleba', 10, 7),
         ]

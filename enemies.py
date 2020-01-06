@@ -101,7 +101,7 @@ enemies_data = (
         Animal,
         {
             'name': 'Obří pavouk',
-            'hp': 12,
+            'hp': 18,
             'damage': 6,
             'name_dative': 'Pavoukovi',
             'name_accusative': 'Pavouka',
@@ -114,7 +114,7 @@ enemies_data = (
         Monster,
         {
             'name': 'Zlobr',
-            'hp': 32,
+            'hp': 42,
             'damage': 12,
             'name_dative': 'Zlobrovi',
             'name_accusative': 'Zlobra',
@@ -125,7 +125,7 @@ enemies_data = (
         Animal,
         {
             'name': 'Kolonie netopýrů',
-            'hp': 98,
+            'hp': 92,
             'damage': 4,
             'name_dative': 'Netopýrům',
             'name_accusative': 'Netopýry',
@@ -152,7 +152,7 @@ enemies_data = (
         Human,
         {
             'name': 'Cizí dobrodruh',
-            'hp': 100,
+            'hp': 76,
             'weapon': items.Weapon('Železné kopí', 18, 85),
             'name_dative': 'Dobrodruhovi',
             'name_accusative': 'Dobrodruha',
