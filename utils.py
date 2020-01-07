@@ -52,7 +52,7 @@ def nice_print(message, msg_type='info', color=None):
 for arg in sys.argv[1:]:
     if arg in ('--no-color', '-c'):
         color_print = color_print_dummy
-    elif arg in ('--no-unicode', '-u'):
+    elif arg in ('--no-symbols', '-s'):
         INDENT_INFO = INDENT_INFO.replace('🗨', '>')
         INDENT_FIGHT = INDENT_FIGHT.replace('⚔', '!')
         INDENT_LUCK = INDENT_LUCK.replace('★', '*')
