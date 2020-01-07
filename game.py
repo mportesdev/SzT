@@ -13,9 +13,14 @@ ActionDict = Dict[str, Tuple[Callable, str]]
 def get_available_actions(room, player) -> ActionDict:
     actions = OrderedDict()
     print('\nMožnosti:')
-    if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
-        action_adder(actions, 'B', player.attack, 'Bojovat')
-    else:
+    try:
+        enemy_near = room.enemy.is_alive()
+    except AttributeError:
+        enemy_near = False
+    if enemy_near:
+        action_adder(actions, 'B', player.attack, 'Bojovat\n')
+    if not enemy_near or player.good_hit:
+        player.good_hit = False
         if world.tile_at(room.x, room.y - 1):
             action_adder(actions, 'S', player.move_north, 'Jít na sever\t')
         if world.tile_at(room.x, room.y + 1):
@@ -24,7 +29,7 @@ def get_available_actions(room, player) -> ActionDict:
             action_adder(actions, 'Z', player.move_west, 'Jít na západ\t')
         if world.tile_at(room.x + 1, room.y):
             action_adder(actions, 'V', player.move_east, 'Jít na východ')
-    print()
+        print()
     if isinstance(room, world.TraderTile):
         action_adder(actions, 'O', player.trade, 'Obchodovat\t')
     if player.hp < 100 and player.has_consumables():

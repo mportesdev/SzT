@@ -61,13 +61,18 @@ class EnemyTile(Cave):
 
     def modify_player(self, player):
         if self.enemy.is_alive():
-            player.hp = max(0, player.hp - oscillate(self.enemy.damage))
-            message = f'{self.enemy} útočí. '
-            if player.hp > 0:
-                message += f'Zbývá ti {player.hp} % zdraví.'
+            if player.good_hit:
+                nice_print(f'Zasáhl jsi {self.enemy.name_accusative.lower()} do'
+                           f' hlavy! {self.enemy.name} zmateně vrávorá.',
+                           'fight', color='96')
             else:
-                message += 'Jsi mrtev!\n'
-            nice_print(message, 'fight', color='91')
+                player.hp = max(0, player.hp - oscillate(self.enemy.damage))
+                message = f'{self.enemy} útočí. '
+                if player.hp > 0:
+                    message += f'Zbývá ti {player.hp} % zdraví.'
+                else:
+                    message += 'Jsi mrtev!\n'
+                nice_print(message, 'fight', color='91')
         else:
             try:
                 if not self.enemy.gold_claimed and self.enemy.gold > 0:
