@@ -32,8 +32,16 @@ def color_print_dummy(*args, color=None, **kwargs):
 
 def print_game_title():
     os.system('cls' if os.name == 'nt' else 'clear')
-    color_print('\n\n' + ' '.join(GAME_TITLE).center(WIDTH) + '\n\n',
+    color_print('\n\n',
+                ' '.join(GAME_TITLE).center(WIDTH),
+                '\n',
+                'textová hra'.center(WIDTH),
+                '',
+                'verze 0.1, 7. ledna 2020'.center(WIDTH),
+                '\n\n',
+                sep='\n',
                 color='1;95')
+    color_print('-' * WIDTH, end='\n\n', color='95')
 
 
 def print_action_name(action_name):

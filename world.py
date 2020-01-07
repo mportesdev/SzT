@@ -36,7 +36,9 @@ class Forest(PlainTile):
 
 class StartTile(Forest):
     def intro_text(self):
-        return 'Stojíš na kraji hustého tmavého lesa.'
+        return ('Stojíš na úpatí kopce na okraji tajuplného lesa. Svou rodnou'
+                ' vesnici jsi nechal za sebou a vydal ses na nejistou dráhu'
+                ' dobrodruha.')
 
 
 class VictoryTile(Cave):
