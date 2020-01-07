@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import os
+import random
 import sys
 from textwrap import TextWrapper
 
@@ -55,6 +56,11 @@ def nice_print(message, msg_type='info', color=None):
                   luck=INDENT_LUCK).get(msg_type, INDENT_EMPTY)
     text_wrapper.initial_indent = indent
     color_print(text_wrapper.fill(message), color=color)
+
+
+def oscillate(number, relative_delta=0.2):
+    delta = int(number * relative_delta)
+    return random.randint(number - delta, number + delta)
 
 
 for arg in sys.argv[1:]:

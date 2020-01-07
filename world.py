@@ -5,7 +5,7 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, nice_print
+from utils import WIDTH, nice_print, oscillate
 
 
 class PlainTile:
@@ -61,7 +61,7 @@ class EnemyTile(Cave):
 
     def modify_player(self, player):
         if self.enemy.is_alive():
-            player.hp = max(0, player.hp - self.enemy.damage)
+            player.hp = max(0, player.hp - oscillate(self.enemy.damage))
             message = f'{self.enemy} útočí. '
             if player.hp > 0:
                 message += f'Zbývá ti {player.hp} % zdraví.'

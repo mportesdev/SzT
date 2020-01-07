@@ -3,7 +3,7 @@
 from typing import List, Union
 
 import items
-from utils import color_print, nice_print
+from utils import color_print, nice_print, oscillate
 import world
 
 InventoryList = List[Union[items.Weapon, items.Consumable]]
@@ -66,7 +66,7 @@ class Player:
             weapon_name = 'pěsti'
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
-        enemy.hp = max(0, enemy.hp - weapon_damage)
+        enemy.hp = max(0, enemy.hp - oscillate(weapon_damage))
         message = (f'Použil jsi {weapon_name} proti'
                    f' {enemy.name_dative.lower()}.')
         if not enemy.is_alive():
