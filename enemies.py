@@ -101,50 +101,77 @@ enemies_data = (
         Animal,
         {
             'name': 'Obří pavouk',
-            'hp': 18,
+            'hp': 20,
             'damage': 6,
             'name_dative': 'Pavoukovi',
             'name_accusative': 'Pavouka',
-            'alive_text': 'Obří pavouk seskočil ze své sítě přímo před tebe!',
-            'dead_text': 'Na zemi leží tlející mrtvola pavouka.',
-        },
-    ),
-
-    (
-        Monster,
-        {
-            'name': 'Zlobr',
-            'hp': 42,
-            'damage': 12,
-            'name_dative': 'Zlobrovi',
-            'name_accusative': 'Zlobra',
+            'alive_text': 'Z výšky se spustil obří pavouk a snaží se tě'
+                          ' pozřít!',
+            'dead_text': 'Na zemi se válí kusy gigantického pavouka.',
         },
     ),
 
     (
         Animal,
         {
-            'name': 'Kolonie netopýrů',
-            'hp': 92,
+            'name': 'Obří šváb',
+            'hp': 24,
             'damage': 4,
-            'name_dative': 'Netopýrům',
-            'name_accusative': 'Netopýry',
-            'alive_text': 'Slyšíš postupně sílící pištivý zvuk... náhle jsi'
-                          ' uprostřed hejna netopýrů!',
-            'dead_text': 'Kolem se povalují desítky mrtvých netopýrů.',
+            'name_dative': 'Švábovi',
+            'name_accusative': 'Švába',
+            'alive_text': 'Z díry vylezl odporný obří šváb a zavěsil se na tebe'
+                          ' kusadly!',
+            'dead_text': 'Na zemi leží tlející mrtvola švába.',
         },
     ),
 
     (
         Monster,
         {
-            'name': 'Kamenný obr',
+            'name': 'Skřet',
+            'hp': 40,
+            'damage': 10,
+            'name_dative': 'Skřetovi',
+            'name_accusative': 'Skřeta',
+        },
+    ),
+
+    (
+        Monster,
+        {
+            'name': 'Krysodlak',
+            'hp': 45,
+            'damage': 12,
+            'name_dative': 'Krysodlakovi',
+            'name_accusative': 'Krysodlaka',
+        },
+    ),
+
+    (
+        Animal,
+        {
+            'name': 'Jeskynní dráček',
+            'hp': 88,
+            'damage': 6,
+            'name_dative': 'Dráčkovi',
+            'name_accusative': 'Dráčka',
+            'alive_text': 'Ze tmy vyskočil malý jeskynní dráček a zasáhl tě'
+                          ' ohnivou koulí!',
+            'dead_text': 'Z mrtvoly jeskynního dráčka vytéká jasně oranžová'
+                         ' tekutina.',
+        },
+    ),
+
+    (
+        Monster,
+        {
+            'name': 'Kamenný troll',
             'hp': 82,
-            'damage': 16,
-            'name_dative': 'Obrovi',
-            'name_accusative': 'Obra',
-            'alive_text': 'Vyrušil jsi dřímajícího kamenného obra!',
-            'dead_text': 'Přemožený kamenný obr připomíná obyčejnou skálu.',
+            'damage': 14,
+            'name_dative': 'Trollovi',
+            'name_accusative': 'Trolla',
+            'alive_text': 'Vyrušil jsi dřímajícího kamenného trolla!',
+            'dead_text': 'Zabitý kamenný troll připomíná obyčejnou skálu.',
         },
     ),
 
@@ -152,7 +179,7 @@ enemies_data = (
         Human,
         {
             'name': 'Cizí dobrodruh',
-            'hp': 76,
+            'hp': 80,
             'weapon': items.Weapon('Železné kopí', 18, 85),
             'name_dative': 'Dobrodruhovi',
             'name_accusative': 'Dobrodruha',

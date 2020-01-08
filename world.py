@@ -52,7 +52,8 @@ class EnemyTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
         enemy_class, kwargs = random.choices(enemies.enemies_data,
-                                             cum_weights=[4, 7, 9, 10, 10.5],
+                                             cum_weights=[3, 6, 9, 12, 14, 16,
+                                                          17],
                                              k=1)[0]
         self.enemy = enemy_class(**kwargs)
 
