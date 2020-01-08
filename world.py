@@ -73,7 +73,7 @@ class EnemyTile(Cave):
                 player.hp = max(0, player.hp - oscillate(self.enemy.damage))
                 message = f'{self.enemy} útočí. '
                 if player.hp > 0:
-                    message += f'Zbývá ti {player.hp} % zdraví.'
+                    message += f'Utrpěl jsi zranění.'
                 else:
                     message += 'Jsi mrtev!\n'
                 nice_print(message, 'fight', color='91')
