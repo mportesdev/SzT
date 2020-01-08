@@ -136,12 +136,14 @@ class TraderTile(Cave):
             user_input = input('(K)oupit, (P)rodat nebo (Z)pět? ').upper()
             if user_input == 'Z':
                 return
-            elif user_input in ['K', 'k']:
-                print('Obchodník nabízí tyto věci:')
-                self.trade(buyer=player, seller=self.trader)
-            elif user_input in ['P', 'p']:
-                print('Tyto věci můžeš prodat:')
-                self.trade(buyer=self.trader, seller=player)
+            elif user_input in 'KP':
+                if user_input == 'K':
+                    print('Obchodník nabízí tyto věci:')
+                    buyer, seller = player, self.trader
+                else:
+                    print('Tyto věci můžeš prodat:')
+                    buyer, seller = self.trader, player
+                self.trade(buyer=buyer, seller=seller)
             else:
                 print('Neplatná volba.')
 
