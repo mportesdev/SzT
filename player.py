@@ -21,10 +21,7 @@ class Player:
         return self.hp > 0
 
     def print_info(self):
-        color_print(f'Zdraví:     {self.hp} %', color='1;96')
         print('Máš u sebe:')
-        if self.gold > 0:
-            print(f'            {self.gold} zlaťáků')
         for item in self.inventory:
             print(f'            {item}')
 
