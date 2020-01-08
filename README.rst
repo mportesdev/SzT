@@ -5,3 +5,5 @@ https://github.com/myrmica-habilis/cave-terror
 Working title is *Strach ze tmy* ("Fear of the Dark").
 
 It is still work-in-progress, being continuously refactored and extended.
+
+[![Run on Repl.it](https://repl.it/badge/github/myrmica-habilis/SzT)](https://repl.it/github/myrmica-habilis/SzT)
