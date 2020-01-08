@@ -9,7 +9,7 @@ GAME_TITLE = 'Strach ze tmy'
 WIDTH = 70
 
 INDENT_EMPTY = '           '
-INDENT_INFO = '        🗨  '
+INDENT_INFO = '        ☞  '
 INDENT_FIGHT = '        ⚔  '
 INDENT_LUCK = '        ★  '
 
