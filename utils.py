@@ -67,6 +67,6 @@ for arg in sys.argv[1:]:
     if arg == '--no-color':
         color_print = color_print_dummy
     elif arg == '--no-symbols':
-        INDENT_INFO = INDENT_INFO.replace('🗨', '>')
+        INDENT_INFO = INDENT_INFO.replace('☞', '>')
         INDENT_FIGHT = INDENT_FIGHT.replace('⚔', '!')
         INDENT_LUCK = INDENT_LUCK.replace('★', '*')
