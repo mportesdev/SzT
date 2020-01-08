@@ -31,7 +31,10 @@ class Cave(PlainTile):
 class Forest(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.text = 'Jsi v hustém tmavém lese.'
+        self.text = random.choice(('Stojíš v pološeru hustého prastarého lesa.',
+                                   'Jdeš po zarostlé lesní pěšině.',
+                                   'Ztěžka překračuješ kořeny a padlé kmeny'
+                                   ' stromů.'))
 
 
 class StartTile(Forest):
