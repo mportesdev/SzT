@@ -122,18 +122,14 @@ class TraderTile(Cave):
                     if choice not in valid_choices:
                         raise ValueError
                     to_swap = seller.inventory[choice - 1]
-                    self.swap(seller, buyer, to_swap)
+                    seller.inventory.remove(to_swap)
+                    buyer.inventory.append(to_swap)
+                    seller.gold += to_swap.value
+                    buyer.gold -= to_swap.value
+                    print('Obchod uzavřen!')
                     return
                 except ValueError:
                     print('Neplatná volba.')
-
-    @staticmethod
-    def swap(seller, buyer, item):
-        seller.inventory.remove(item)
-        buyer.inventory.append(item)
-        seller.gold += item.value
-        buyer.gold -= item.value
-        print('Obchod uzavřen!')
 
     def check_if_trade(self, player):
         while True:
