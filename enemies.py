@@ -89,7 +89,7 @@ class Human(Enemy):
         self.name_accusative = name_accusative or self.name
 
         self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
-        self.dead_text = dead_text or f'Leží tu mrtvý {self.name.lower()}.'
+        self.dead_text = dead_text or f'Na zemi leží mrtvý {self.name.lower()}.'
 
     @property
     def text(self):
