@@ -63,7 +63,7 @@ class Player:
             weapon_damage = 1
             weapon_name = 'pěsti'
         real_damage = oscillate(weapon_damage)
-        self.good_hit = real_damage > weapon_damage * 1.033
+        self.good_hit = real_damage > weapon_damage * 1.07
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
         enemy.hp = max(0, enemy.hp - real_damage)
