@@ -102,6 +102,14 @@ class TraderTile(Cave):
         self.trader = npc.Trader()
 
     def trade(self, buyer, seller):
+        if not seller.inventory:
+            print('Obchodník už nemá co nabídnout.' if seller is self.trader
+                  else 'Nemáš nic, co bys mohl prodat.')
+            return
+        else:
+            print('Obchodník nabízí tyto věci:' if seller is self.trader
+                  else 'Tyto věci můžeš prodat:')
+
         valid_choices = set()
         for i, item in enumerate(seller.inventory, 1):
             if item.value <= buyer.gold:
@@ -111,6 +119,12 @@ class TraderTile(Cave):
                 item_number = '    '
             print(f'{item_number} {item} '.ljust(WIDTH - 20, '.')
                   + f' {item.value:3} zlaťáků')
+
+        if not valid_choices:
+            print('"Došly mi peníze, vašnosto!" říká obchodník.'
+                  if buyer is self.trader
+                  else 'Nemáš peníze na nic z nabízených věcí.')
+            return
 
         while True:
             user_input = input('Č. položky nebo (Z)pět: ').upper()
@@ -138,10 +152,8 @@ class TraderTile(Cave):
                 return
             elif user_input in 'KP':
                 if user_input == 'K':
-                    print('Obchodník nabízí tyto věci:')
                     buyer, seller = player, self.trader
                 else:
-                    print('Tyto věci můžeš prodat:')
                     buyer, seller = self.trader, player
                 self.trade(buyer=buyer, seller=seller)
             else:
