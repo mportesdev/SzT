@@ -5,7 +5,7 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, nice_print, oscillate
+from utils import WIDTH, color_print, nice_print, oscillate
 
 
 class PlainTile:
@@ -132,8 +132,8 @@ class TraderTile(Cave):
             return
 
         while True:
-            user_input = input('Č. položky nebo (Z)pět: ').upper()
-            if user_input == 'Z':
+            user_input = input('Č. položky              (Enter = návrat) ').upper()
+            if user_input == '':
                 return
             else:
                 try:
@@ -148,21 +148,22 @@ class TraderTile(Cave):
                     print(f'"Bylo mi potěšením, {title}!" říká obchodník.')
                     return
                 except ValueError:
-                    print('Neplatná volba.')
+                    color_print('?', color='95')
 
     def check_if_trade(self, player):
         while True:
-            user_input = input('(K)oupit, (P)rodat nebo (Z)pět? ').upper()
-            if user_input == 'Z':
+            user_input = input('K: koupit   P: prodat'
+                               '   (Enter = návrat) ').upper()
+            if user_input == '':
                 return
-            elif user_input in 'KP':
+            elif user_input in ('K', 'P'):
                 if user_input == 'K':
                     buyer, seller = player, self.trader
                 else:
                     buyer, seller = self.trader, player
                 self.trade(buyer=buyer, seller=seller)
             else:
-                print('Neplatná volba.')
+                color_print('?', color='95')
 
     def intro_text(self):
         return self.text + ' ' + self.trader.text
