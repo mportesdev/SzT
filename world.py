@@ -215,16 +215,16 @@ class FindConsumableTile(Forest):
 
 
 world_dsl = """
-|VT|EN|FW|EN|  |  |EN|  |  |  |  |FG|
-|  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
-|FC|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
-|  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
-|  |TW|CV|EN|CV|  |  |  |  |  |CV|  |
-|EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
-|  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
-|EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
-|FW|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
-|  |  |  |  |  |  |ST|  |  |  |  |  |
+|  |VT|HU|TR|FW|EN|  |  |EN|  |  |  |  |FG|
+|  |  |  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
+|FC|FR|FR|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
+|  |FR|  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
+|  |FC|  |TW|CV|EN|CV|  |  |  |  |  |CV|  |
+|  |  |EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
+|  |  |  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
+|  |  |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
+|  |  |FW|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
+|  |  |  |  |  |  |  |  |ST|  |  |  |  |  |
 """
 
 world_map = []
@@ -270,14 +270,14 @@ def parse_world_dsl():
                          'CV': Cave,
                          'FR': Forest,
                          'EN': EnemyTile,
-                         'TR': EnemyTile,
-                         'HU': EnemyTile,
+                         'TR': EnemyTile,    # troll
+                         'HU': EnemyTile,    # human
                          'ST': StartTile,
                          'FG': FindGoldTile,
                          'FW': FindWeaponTile,
                          'FC': FindConsumableTile,
-                         'TM': TraderTile,
-                         'TW': TraderTile,
+                         'TM': TraderTile,    # trader - medicine
+                         'TW': TraderTile,    # trader - weapons
                          '  ': None}[dsl_cell]
 
             kwargs = {}
