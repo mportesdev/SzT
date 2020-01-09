@@ -96,10 +96,10 @@ class EnemyTile(Cave):
 
 
 class TraderTile(Cave):
-    def __init__(self, x, y):
+    def __init__(self, x, y, trader):
         super().__init__(x, y)
         self.text = 'Stojíš u vchodu do jeskyně.'
-        self.trader = npc.Trader()
+        self.trader = trader
 
     def trade(self, buyer, seller):
         if not seller.inventory:
@@ -221,8 +221,8 @@ world_dsl = """
 |  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
 |FC|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
 |  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
-|  |TT|CV|EN|CV|  |  |  |  |  |CV|  |
-|EN|CV|  |  |CV|  |FC|  |FR|FR|TT|CV|
+|  |TW|CV|EN|CV|  |  |  |  |  |CV|  |
+|EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
 |  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
 |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
 |FW|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
@@ -276,11 +276,18 @@ def parse_world_dsl():
                          'FG': FindGoldTile,
                          'FW': FindWeaponTile,
                          'FC': FindConsumableTile,
-                         'TT': TraderTile,
+                         'TM': TraderTile,
+                         'TW': TraderTile,
                          '  ': None}[dsl_cell]
+
+            kwargs = {}
+            if dsl_cell == 'TM':
+                kwargs.update(trader=npc.Trader.new_medicine_trader())
+            elif dsl_cell == 'TW':
+                kwargs.update(trader=npc.Trader.new_weapon_trader())
 
             if tile_type == StartTile:
                 start_tile_location[:] = x, y
-            row.append(tile_type(x, y) if tile_type else None)
+            row.append(tile_type(x, y, **kwargs) if tile_type else None)
 
         world_map.append(row)
