@@ -183,9 +183,9 @@ class FindGoldTile(Cave):
 class FindWeaponTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
-        args = random.choice((('Ostnatý palcát', 21, 90),
-                              ('Rezavý meč', 19, 100),
-                              ('Těžká sekera', 24, 110, 'Těžkou sekeru')))
+        args = random.choice((('Ostnatý palcát', 19, 90),
+                              ('Rezavý meč', 17, 82),
+                              ('Řemdih', 20, 94)))
         self.weapon = items.Weapon(*args)
         self.weapon_claimed = False
 

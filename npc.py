@@ -36,7 +36,7 @@ class Trader:
                          ' bronzové přilbici.'),
                    gold=300,
                    inventory=[
-                       items.Weapon('Obouruční meč', 23, 102),
-                       items.Weapon('Řemdih', 20, 108),
+                       items.Weapon('Obouruční meč', 24, 102),
+                       items.Weapon('Těžká sekera', 26, 110, 'Těžkou sekeru'),
                              ],
                    slang=('peníze', 'sire'))

@@ -23,4 +23,4 @@ class Consumable(Item):
         self.healing_value = healing_value
 
     def __str__(self):
-        return f'{self.name_accusative} (+{self.healing_value} % zdraví)'
+        return f'{self.name_accusative} (zdraví +{self.healing_value})'

@@ -100,7 +100,7 @@ enemies_data = (
         Animal,
         {
             'name': 'Obří pavouk',
-            'hp': 20,
+            'hp': 24,
             'damage': 6,
             'name_dative': 'Pavoukovi',
             'name_accusative': 'Pavouka',
@@ -114,7 +114,7 @@ enemies_data = (
         Animal,
         {
             'name': 'Obří šváb',
-            'hp': 24,
+            'hp': 28,
             'damage': 4,
             'name_dative': 'Švábovi',
             'name_accusative': 'Švába',
@@ -128,7 +128,7 @@ enemies_data = (
         Monster,
         {
             'name': 'Skřet',
-            'hp': 40,
+            'hp': 42,
             'damage': 10,
             'name_dative': 'Skřetovi',
             'name_accusative': 'Skřeta',
@@ -150,8 +150,8 @@ enemies_data = (
         Animal,
         {
             'name': 'Jeskynní dráček',
-            'hp': 88,
-            'damage': 6,
+            'hp': 55,
+            'damage': 8,
             'name_dative': 'Dráčkovi',
             'name_accusative': 'Dráčka',
             'alive_text': 'Ze tmy vyskočil malý jeskynní dráček a zasáhl tě'

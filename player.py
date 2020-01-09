@@ -65,7 +65,7 @@ class Player:
             weapon_damage = 1
             weapon_name = 'pěsti'
         real_damage = min(oscillate(weapon_damage), enemy.hp)
-        self.good_hit = real_damage > weapon_damage * 1.07
+        self.good_hit = real_damage > weapon_damage * 1.1
         enemy.hp -= real_damage
         self.experience += real_damage
         message = (f'Použil jsi {weapon_name} proti'
@@ -99,7 +99,7 @@ class Player:
                     to_eat = consumables[choice - 1]
                     self.hp = min(100, self.hp + to_eat.healing_value)
                     self.inventory.remove(to_eat)
-                    print(f'Máš teď {self.hp} % zdraví.')
+                    print(f'Hned se cítíš lépe!')
                     return
                 except (ValueError, IndexError):
                     color_print('?', color='95')

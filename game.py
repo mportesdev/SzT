@@ -36,7 +36,7 @@ def get_available_actions(room, player) -> ActionDict:
         action_adder(actions, 'L', player.heal, 'Léčit se\t')
     action_adder(actions, 'I', player.print_info, 'Inventář\t')
     action_adder(actions, 'K', confirm_quit, 'Konec\n')
-    color_print(f'[ Zdraví: {player.hp} %\tzkušenost: {player.experience}'
+    color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
                 f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
 
     return actions
