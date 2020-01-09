@@ -9,9 +9,9 @@ GAME_TITLE = 'Strach ze tmy'
 WIDTH = 70
 
 INDENT_EMPTY = '           '
-INDENT_INFO = '        ❝  '
-INDENT_FIGHT = '        ⚔  '
-INDENT_LUCK = '        ★  '
+INDENT_INFO = '        >  '
+INDENT_FIGHT = '        !  '
+INDENT_LUCK = '        *  '
 
 text_wrapper = TextWrapper(width=WIDTH - len(INDENT_EMPTY),
                            subsequent_indent=INDENT_EMPTY)
@@ -63,10 +63,5 @@ def oscillate(number, relative_delta=0.2):
     return random.randint(number - delta, number + delta)
 
 
-for arg in sys.argv[1:]:
-    if arg == '--no-color':
-        color_print = color_print_dummy
-    elif arg == '--no-symbols':
-        INDENT_INFO = INDENT_INFO.replace('❝', '>')
-        INDENT_FIGHT = INDENT_FIGHT.replace('⚔', '!')
-        INDENT_LUCK = INDENT_LUCK.replace('★', '*')
+if '--no-color' in sys.argv[1:]:
+    color_print = color_print_dummy
