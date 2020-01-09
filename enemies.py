@@ -167,3 +167,10 @@ enemies_data = (
         },
     ),
 )
+
+
+def random_enemy():
+    enemy_class, kwargs = random.choices(enemies_data,
+                                         cum_weights=[3, 6, 9, 12, 14, 16, 17],
+                                         k=1)[0]
+    return enemy_class(**kwargs)

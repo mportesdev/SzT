@@ -52,13 +52,9 @@ class VictoryTile(Cave):
 
 
 class EnemyTile(Cave):
-    def __init__(self, x, y):
+    def __init__(self, x, y, enemy):
         super().__init__(x, y)
-        enemy_class, kwargs = random.choices(enemies.enemies_data,
-                                             cum_weights=[3, 6, 9, 12, 14, 16,
-                                                          17],
-                                             k=1)[0]
-        self.enemy = enemy_class(**kwargs)
+        self.enemy = enemy
 
     def intro_text(self):
         return self.text + ' ' + self.enemy.text
@@ -287,6 +283,8 @@ def parse_world_dsl():
                 kwargs.update(trader=npc.Trader.new_medicine_trader())
             elif dsl_cell == 'TW':
                 kwargs.update(trader=npc.Trader.new_weapon_trader())
+            elif dsl_cell == 'EN':
+                kwargs.update(enemy=enemies.random_enemy())
 
             if tile_type == StartTile:
                 start_tile_location[:] = x, y
