@@ -24,3 +24,4 @@ class Trader(NonPlayableCharacter):
             items.Consumable('Léčivý lektvar', 45, 54),
             items.Consumable('Bylinkový chleba', 10, 7),
         ]
+        self.slang = ('prašule', 'vašnosto')

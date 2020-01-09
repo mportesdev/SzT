@@ -120,8 +120,13 @@ class TraderTile(Cave):
             print(f'{item_number} {item} '.ljust(WIDTH - 20, '.')
                   + f' {item.value:3} zlaťáků')
 
+        try:
+            money, title = buyer.slang
+        except AttributeError:
+            money, title = seller.slang
+
         if not valid_choices:
-            print('"Došly mi peníze, vašnosto!" říká obchodník.'
+            print(f'"Došly mi {money}, {title}!" říká obchodník.'
                   if buyer is self.trader
                   else 'Na žádnou z nich nemáš peníze.')
             return
@@ -140,7 +145,7 @@ class TraderTile(Cave):
                     buyer.inventory.append(to_swap)
                     seller.gold += to_swap.value
                     buyer.gold -= to_swap.value
-                    print(f'"Bylo mi potěšením, vašnosto!" říká obchodník.')
+                    print(f'"Bylo mi potěšením, {title}!" říká obchodník.')
                     return
                 except ValueError:
                     print('Neplatná volba.')
