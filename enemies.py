@@ -6,22 +6,6 @@ import items
 
 
 class Enemy:
-    def __init__(self):
-        raise NotImplementedError('Do not create raw Enemy objects.')
-
-    def __str__(self):
-        return self.name
-
-    def is_alive(self):
-        return self.hp > 0
-
-
-class Animal(Enemy):
-    """Simple and easy to defeat enemy class.
-
-    Objects of this class only cause damage to the player and take
-    damage from the player's attacks.
-    """
     def __init__(self, name, hp, damage,
                  name_dative=None, name_accusative=None,
                  alive_text=None, dead_text=None):
@@ -33,11 +17,26 @@ class Animal(Enemy):
         self.name_accusative = name_accusative or self.name
 
         self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
-        self.dead_text = dead_text or f'Leží tu mrtvý {self.name.lower()}.'
+        self.dead_text = dead_text or f'Na zemi leží mrtvý {self.name.lower()}.'
+
+    def __str__(self):
+        return self.name
+
+    def is_alive(self):
+        return self.hp > 0
 
     @property
     def text(self):
         return self.alive_text if self.is_alive() else self.dead_text
+
+
+class Animal(Enemy):
+    """Simple and easy to defeat enemy class.
+
+    Objects of this class only cause damage to the player and take
+    damage from the player's attacks.
+    """
+    pass
 
 
 class Monster(Enemy):
@@ -50,21 +49,10 @@ class Monster(Enemy):
     def __init__(self, name, hp, damage,
                  name_dative=None, name_accusative=None,
                  alive_text=None, dead_text=None):
-        self.name = name
-        self.hp = hp
-        self.damage = damage
+        super().__init__(name, hp, damage,
+                         name_dative, name_accusative, alive_text, dead_text)
         self.gold = random.randint(5, 20)
         self.gold_claimed = False
-
-        self.name_dative = name_dative or self.name
-        self.name_accusative = name_accusative or self.name
-
-        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
-        self.dead_text = dead_text or f'Leží tu mrtvý {self.name.lower()}.'
-
-    @property
-    def text(self):
-        return self.alive_text if self.is_alive() else self.dead_text
 
 
 class Human(Enemy):
@@ -77,23 +65,13 @@ class Human(Enemy):
     def __init__(self, name, hp, weapon,
                  name_dative=None, name_accusative=None,
                  alive_text=None, dead_text=None):
-        self.name = name
-        self.hp = hp
+        super().__init__(name, hp, None,
+                         name_dative, name_accusative, alive_text, dead_text)
         self.weapon = weapon
         self.weapon_claimed = False
         self.damage = self.weapon.damage
         self.gold = random.choice((0, random.randint(5, 15)))
         self.gold_claimed = False
-
-        self.name_dative = name_dative or self.name
-        self.name_accusative = name_accusative or self.name
-
-        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
-        self.dead_text = dead_text or f'Na zemi leží mrtvý {self.name.lower()}.'
-
-    @property
-    def text(self):
-        return self.alive_text if self.is_alive() else self.dead_text
 
 
 enemies_data = (
@@ -119,7 +97,7 @@ enemies_data = (
             'damage': 4,
             'name_dative': 'Švábovi',
             'name_accusative': 'Švába',
-            'alive_text': 'Z díry vylezl odporný obří šváb a zavěsil se na tebe'
+            'alive_text': 'Z díry vylezl odporný obří šváb a sevřel tě'
                           ' kusadly!',
             'dead_text': 'Na zemi leží tlející mrtvola švába.',
         },
