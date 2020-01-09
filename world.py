@@ -123,7 +123,7 @@ class TraderTile(Cave):
         if not valid_choices:
             print('"Došly mi peníze, vašnosto!" říká obchodník.'
                   if buyer is self.trader
-                  else 'Nemáš peníze na nic z nabízených věcí.')
+                  else 'Na žádnou z nich nemáš peníze.')
             return
 
         while True:
@@ -140,7 +140,7 @@ class TraderTile(Cave):
                     buyer.inventory.append(to_swap)
                     seller.gold += to_swap.value
                     buyer.gold -= to_swap.value
-                    print('Obchod uzavřen!')
+                    print(f'"Bylo mi potěšením, vašnosto!" říká obchodník.')
                     return
                 except ValueError:
                     print('Neplatná volba.')
