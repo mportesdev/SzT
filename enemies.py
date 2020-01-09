@@ -164,7 +164,5 @@ enemies_data = (
 
 
 def random_enemy():
-    enemy_class, kwargs = random.choices(enemies_data,
-                                         cum_weights=[3, 6, 9, 12, 14],
-                                         k=1)[0]
+    enemy_class, kwargs = random.choice(enemies_data)
     return enemy_class(**kwargs)
