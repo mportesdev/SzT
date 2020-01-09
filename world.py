@@ -270,6 +270,8 @@ def parse_world_dsl():
                          'CV': Cave,
                          'FR': Forest,
                          'EN': EnemyTile,
+                         'TR': EnemyTile,
+                         'HU': EnemyTile,
                          'ST': StartTile,
                          'FG': FindGoldTile,
                          'FW': FindWeaponTile,
@@ -285,6 +287,10 @@ def parse_world_dsl():
                 kwargs.update(trader=npc.Trader.new_weapon_trader())
             elif dsl_cell == 'EN':
                 kwargs.update(enemy=enemies.random_enemy())
+            elif dsl_cell == 'TR':
+                kwargs.update(enemy=enemies.Monster.new_troll())
+            elif dsl_cell == 'HU':
+                kwargs.update(enemy=enemies.Human.new_human())
 
             if tile_type == StartTile:
                 start_tile_location[:] = x, y

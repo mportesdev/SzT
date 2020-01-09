@@ -54,6 +54,16 @@ class Monster(Enemy):
         self.gold = random.randint(5, 20)
         self.gold_claimed = False
 
+    @classmethod
+    def new_troll(cls):
+        return cls(name='Kamenný troll',
+                   hp=82,
+                   damage=14,
+                   name_dative='Trollovi',
+                   name_accusative='Trolla',
+                   alive_text='Vyrušil jsi dřímajícího kamenného trolla!',
+                   dead_text='Zabitý kamenný troll připomíná obyčejnou skálu.')
+
 
 class Human(Enemy):
     """Tough enemy class.
@@ -72,6 +82,17 @@ class Human(Enemy):
         self.damage = self.weapon.damage
         self.gold = random.choice((0, random.randint(5, 15)))
         self.gold_claimed = False
+
+    @classmethod
+    def new_human(cls):
+        return cls(name='Cizí dobrodruh',
+                   hp=80,
+                   weapon=items.Weapon('Železné kopí', 18, 85),
+                   name_dative='Dobrodruhovi',
+                   name_accusative='Dobrodruha',
+                   alive_text='Vrhl se na tebe pološílený dobrodruh - jiný hráč'
+                              ' této hry!',
+                   dead_text='Na zemi leží mrtvola muže s vytřeštěnýma očima.')
 
 
 enemies_data = (
@@ -139,38 +160,11 @@ enemies_data = (
                          ' tekutina.',
         },
     ),
-
-    (
-        Monster,
-        {
-            'name': 'Kamenný troll',
-            'hp': 82,
-            'damage': 14,
-            'name_dative': 'Trollovi',
-            'name_accusative': 'Trolla',
-            'alive_text': 'Vyrušil jsi dřímajícího kamenného trolla!',
-            'dead_text': 'Zabitý kamenný troll připomíná obyčejnou skálu.',
-        },
-    ),
-
-    (
-        Human,
-        {
-            'name': 'Cizí dobrodruh',
-            'hp': 80,
-            'weapon': items.Weapon('Železné kopí', 18, 85),
-            'name_dative': 'Dobrodruhovi',
-            'name_accusative': 'Dobrodruha',
-            'alive_text': 'Vrhl se na tebe pološílený dobrodruh - jiný hráč'
-                          ' této hry!',
-            'dead_text': 'Na zemi leží mrtvola muže s vytřeštěnýma očima.',
-        },
-    ),
 )
 
 
 def random_enemy():
     enemy_class, kwargs = random.choices(enemies_data,
-                                         cum_weights=[3, 6, 9, 12, 14, 16, 17],
+                                         cum_weights=[3, 6, 9, 12, 14],
                                          k=1)[0]
     return enemy_class(**kwargs)
