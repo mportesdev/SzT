@@ -5,7 +5,7 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, nice_print, oscillate
+from utils import WIDTH, color_print, nice_print, oscillate
 
 
 class PlainTile:
@@ -96,12 +96,20 @@ class EnemyTile(Cave):
 
 
 class TraderTile(Cave):
-    def __init__(self, x, y):
+    def __init__(self, x, y, trader):
         super().__init__(x, y)
         self.text = 'Stojíš u vchodu do jeskyně.'
-        self.trader = npc.Trader()
+        self.trader = trader
 
     def trade(self, buyer, seller):
+        if not seller.inventory:
+            print('Obchodník už nemá co nabídnout.' if seller is self.trader
+                  else 'Nemáš nic, co bys mohl prodat.')
+            return
+        else:
+            print('Obchodník nabízí tyto věci:' if seller is self.trader
+                  else 'Tyto věci můžeš prodat:')
+
         valid_choices = set()
         for i, item in enumerate(seller.inventory, 1):
             if item.value <= buyer.gold:
@@ -112,9 +120,20 @@ class TraderTile(Cave):
             print(f'{item_number} {item} '.ljust(WIDTH - 20, '.')
                   + f' {item.value:3} zlaťáků')
 
+        try:
+            money, title = buyer.slang
+        except AttributeError:
+            money, title = seller.slang
+
+        if not valid_choices:
+            print(f'"Došly mi {money}, {title}!" říká obchodník.'
+                  if buyer is self.trader
+                  else 'Na žádnou z nich nemáš peníze.')
+            return
+
         while True:
-            user_input = input('Č. položky nebo (Z)pět: ').upper()
-            if user_input == 'Z':
+            user_input = input('Č. položky              (Enter = návrat) ').upper()
+            if user_input == '':
                 return
             else:
                 try:
@@ -126,26 +145,25 @@ class TraderTile(Cave):
                     buyer.inventory.append(to_swap)
                     seller.gold += to_swap.value
                     buyer.gold -= to_swap.value
-                    print('Obchod uzavřen!')
+                    print(f'"Bylo mi potěšením, {title}!" říká obchodník.')
                     return
                 except ValueError:
-                    print('Neplatná volba.')
+                    color_print('?', color='95')
 
     def check_if_trade(self, player):
         while True:
-            user_input = input('(K)oupit, (P)rodat nebo (Z)pět? ').upper()
-            if user_input == 'Z':
+            user_input = input('K: koupit   P: prodat'
+                               '   (Enter = návrat) ').upper()
+            if user_input == '':
                 return
-            elif user_input in 'KP':
+            elif user_input in ('K', 'P'):
                 if user_input == 'K':
-                    print('Obchodník nabízí tyto věci:')
                     buyer, seller = player, self.trader
                 else:
-                    print('Tyto věci můžeš prodat:')
                     buyer, seller = self.trader, player
                 self.trade(buyer=buyer, seller=seller)
             else:
-                print('Neplatná volba.')
+                color_print('?', color='95')
 
     def intro_text(self):
         return self.text + ' ' + self.trader.text
@@ -204,8 +222,8 @@ world_dsl = """
 |  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
 |FC|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
 |  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
-|  |TT|CV|EN|CV|  |  |  |  |  |CV|  |
-|EN|CV|  |  |CV|  |FC|  |FR|FR|TT|CV|
+|  |TW|CV|EN|CV|  |  |  |  |  |CV|  |
+|EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
 |  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
 |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
 |FW|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
@@ -259,11 +277,18 @@ def parse_world_dsl():
                          'FG': FindGoldTile,
                          'FW': FindWeaponTile,
                          'FC': FindConsumableTile,
-                         'TT': TraderTile,
+                         'TM': TraderTile,
+                         'TW': TraderTile,
                          '  ': None}[dsl_cell]
+
+            kwargs = {}
+            if dsl_cell == 'TM':
+                kwargs.update(trader=npc.Trader.new_medicine_trader())
+            elif dsl_cell == 'TW':
+                kwargs.update(trader=npc.Trader.new_weapon_trader())
 
             if tile_type == StartTile:
                 start_tile_location[:] = x, y
-            row.append(tile_type(x, y) if tile_type else None)
+            row.append(tile_type(x, y, **kwargs) if tile_type else None)
 
         world_map.append(row)
