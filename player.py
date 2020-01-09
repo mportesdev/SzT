@@ -86,8 +86,9 @@ class Player:
             print(f'{i}. {item}')
 
         while True:
-            user_input = input('Č. položky nebo (Z)pět: ').upper()
-            if user_input == 'Z':
+            user_input = input('Číslo položky           '
+                               '(Enter = návrat) ').upper()
+            if user_input == '':
                 return
             else:
                 try:
@@ -100,7 +101,7 @@ class Player:
                     print(f'Máš teď {self.hp} % zdraví.')
                     return
                 except (ValueError, IndexError):
-                    print('Neplatná volba.')
+                    color_print('?', color='95')
 
     def trade(self):
         room = world.tile_at(self.x, self.y)

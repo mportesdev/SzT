@@ -132,7 +132,8 @@ class TraderTile(Cave):
             return
 
         while True:
-            user_input = input('Č. položky              (Enter = návrat) ').upper()
+            user_input = input('Číslo položky           '
+                               '(Enter = návrat) ').upper()
             if user_input == '':
                 return
             else:
