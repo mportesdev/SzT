@@ -15,6 +15,7 @@ class Player:
         self.x, self.y = world.start_tile_location
         self.hp = 100
         self.gold = 10
+        self.experience = 0
         self.good_hit = False
 
     def is_alive(self):
@@ -55,6 +56,7 @@ class Player:
         self.move(dx=-1, dy=0)
 
     def attack(self):
+        enemy = world.tile_at(self.x, self.y).enemy
         best_weapon = self.most_powerful_weapon()
         if best_weapon:
             weapon_damage = best_weapon.damage
@@ -62,11 +64,10 @@ class Player:
         else:
             weapon_damage = 1
             weapon_name = 'pěsti'
-        real_damage = oscillate(weapon_damage)
+        real_damage = min(oscillate(weapon_damage), enemy.hp)
         self.good_hit = real_damage > weapon_damage * 1.07
-        room = world.tile_at(self.x, self.y)
-        enemy = room.enemy
-        enemy.hp = max(0, enemy.hp - real_damage)
+        enemy.hp -= real_damage
+        self.experience += real_damage
         message = (f'Použil jsi {weapon_name} proti'
                    f' {enemy.name_dative.lower()}.')
         if not enemy.is_alive():
