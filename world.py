@@ -215,16 +215,19 @@ class FindConsumableTile(Forest):
 
 
 world_dsl = '''
-|  |VT|HU|TR|FW|EN|  |  |EN|  |  |  |  |FG|
-|  |  |  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
-|FC|FR|FR|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
-|  |FR|  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
-|  |FC|  |TW|CV|EN|CV|  |  |  |  |  |CV|  |
-|  |  |EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
-|  |  |  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
-|  |  |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
-|  |  |FW|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
-|  |  |  |  |  |  |  |  |ST|  |  |  |  |  |
+|  |  |VT|HU|TR|FW|EN|  |  |EN|  |  |  |  |FG|
+|FC|  |  |  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
+|FR|FC|FR|FR|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
+|FR|  |FR|  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
+|  |FR|FC|  |TW|CV|EN|CV|  |  |  |  |  |CV|  |
+|FC|FR|  |EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
+|FR|  |  |  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
+|FR|FC|  |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
+|FR|  |FW|CV|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
+|  |FG|  |CV|  |  |  |  |  |ST|  |  |  |  |  |
+|  |CV|  |TR|  |  |  |FG|  |  |  |  |  |  |  |
+|CV|EN|CV|CV|FG|EN|CV|CV|  |  |  |  |  |  |  |
+|  |FG|  |FG|  |  |  |CV|FG|  |  |  |  |  |  |
 '''
 
 world_map = []
