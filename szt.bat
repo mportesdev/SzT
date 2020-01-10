@@ -1,1 +1,1 @@
-Up.\venv\Scripts\python game.py --no-color
+.\venv\Scripts\python game.py --no-color
