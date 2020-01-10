@@ -22,10 +22,11 @@ class Trader:
                    gold=200,
                    inventory=[
                        items.Consumable('Léčivý lektvar', 40, 48),
-                       items.Consumable('Hojivá mast', 11, 12, 'Hojivou mast'),
                        items.Consumable('Hojivá mast', 14, 16, 'Hojivou mast'),
+                       items.Consumable('Lahvička medicíny', 28, 34,
+                                        'Lahvičku medicíny'),
                        items.Consumable('Léčivý lektvar', 45, 54),
-                       items.Consumable('Bylinkový chleba', 10, 7),
+                       items.Consumable('Hojivá mast', 11, 12, 'Hojivou mast'),
                              ],
                    slang=('prašule', 'vašnosto'))
 
