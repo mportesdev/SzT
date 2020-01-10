@@ -10,6 +10,7 @@ class Enemy:
                  name_dative=None, name_accusative=None,
                  alive_text=None, dead_text=None):
         self.name = name
+        self.name_short = self.name.split()[-1].lower()
         self.hp = hp
         self.damage = damage
 

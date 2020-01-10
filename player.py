@@ -65,7 +65,8 @@ class Player:
             weapon_damage = 1
             weapon_name = 'pěsti'
         real_damage = min(oscillate(weapon_damage), enemy.hp)
-        self.good_hit = real_damage > weapon_damage * 1.1
+        self.good_hit = (real_damage > weapon_damage * 1.1
+                         and enemy.name_short not in ('troll', 'dobrodruh'))
         enemy.hp -= real_damage
         self.experience += real_damage
         message = (f'Použil jsi {weapon_name} proti'
