@@ -113,8 +113,9 @@ class TraderTile(Cave):
                 item_number = f'{i:3}.'
             else:
                 item_number = '    '
-            print(f'{item_number} {item} '.ljust(WIDTH - 20, '.')
-                  + f' {item.value:3} zlaťáků')
+            print(f'{item_number} ', end='')
+            color_print(f'{item} '.ljust(WIDTH - 25, '.')
+                        + f' {item.value:3} zlaťáků', color='96')
 
         try:
             money, title = buyer.slang
@@ -128,8 +129,10 @@ class TraderTile(Cave):
             return
 
         while True:
-            user_input = input('Číslo položky           '
-                               '(Enter = návrat) ').upper()
+            color_print('Číslo položky             (', end='', color='94')
+            print('Enter', end='')
+            color_print(' = návrat) ', end='', color='94')
+            user_input = input().upper()
             if user_input == '':
                 return
             else:
@@ -149,8 +152,13 @@ class TraderTile(Cave):
 
     def check_if_trade(self, player):
         while True:
-            user_input = input('K: koupit   P: prodat'
-                               '   (Enter = návrat) ').upper()
+            print('K', end='')
+            color_print(': koupit    ', end='', color='94')
+            print('P', end='')
+            color_print(': prodat    (', end='', color='94')
+            print('Enter', end='')
+            color_print(' = návrat) ', end='', color='94')
+            user_input = input().upper()
             if user_input == '':
                 return
             elif user_input in ('K', 'P'):

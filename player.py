@@ -88,11 +88,14 @@ class Player:
 
         print('Čím chceš doplnit síly?')
         for i, item in enumerate(consumables, 1):
-            print(f'{i}. {item}')
+            print(f'{i:3}. ', end='')
+            color_print(f'{item}', color='96')
 
         while True:
-            user_input = input('Číslo položky           '
-                               '(Enter = návrat) ').upper()
+            color_print('Číslo položky             (', end='', color='94')
+            print('Enter', end='')
+            color_print(' = návrat) ', end='', color='94')
+            user_input = input().upper()
             if user_input == '':
                 return
             else:
