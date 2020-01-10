@@ -36,9 +36,9 @@ def print_game_title():
     color_print('\n\n',
                 ' '.join(GAME_TITLE).center(WIDTH),
                 '\n',
-                'textová hra'.center(WIDTH),
+                'textová hra na hrdiny'.center(WIDTH),
                 '',
-                'verze 0.3, 9. ledna 2020'.center(WIDTH),
+                'verze 0.4, 10. ledna 2020'.center(WIDTH),
                 '\n\n',
                 sep='\n',
                 color='1;95')
