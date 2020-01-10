@@ -74,6 +74,11 @@ def quit_game():
 def main():
     print_game_title()
     world.parse_world_dsl()
+    total_enemy_hp = sum(tile.enemy.hp
+                         for row in world.world_map
+                         for tile in row
+                         if hasattr(tile, 'enemy'))
+
     player = Player()
 
     while True:
@@ -91,6 +96,9 @@ def main():
 
             action = choose_action(room, player)
             action()
+
+            if player.experience == total_enemy_hp:
+                player.experience += 500
 
             # if the player moves, break to the outer loop to print
             # the room description
