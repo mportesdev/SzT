@@ -214,7 +214,7 @@ class FindConsumableTile(Forest):
             nice_print(message, 'luck', color='96')
 
 
-world_dsl = """
+world_dsl = '''
 |  |VT|HU|TR|FW|EN|  |  |EN|  |  |  |  |FG|
 |  |  |  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
 |FC|FR|FR|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
@@ -225,7 +225,7 @@ world_dsl = """
 |  |  |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
 |  |  |FW|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
 |  |  |  |  |  |  |  |  |ST|  |  |  |  |  |
-"""
+'''
 
 world_map = []
 

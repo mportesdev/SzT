@@ -46,7 +46,7 @@ def print_game_title():
 
 
 def print_action_name(action_name):
-    color_print(f' {action_name.strip()} '.center(WIDTH, "-"), end='\n\n',
+    color_print(f' {action_name.strip()} '.center(WIDTH, '-'), end='\n\n',
                 color='95')
 
 
