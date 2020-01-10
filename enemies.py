@@ -31,20 +31,16 @@ class Enemy:
 
 
 class Animal(Enemy):
-    """Simple and easy to defeat enemy class.
-
-    Objects of this class only cause damage to the player and take
+    """Enemies of this class only cause damage to the player and take
     damage from the player's attacks.
     """
     pass
 
 
 class Monster(Enemy):
-    """Slightly tougher enemy class.
-
-    Objects of this class cause damage to the player, take damage from
-    the player's attacks, and leave a random gold treasure after being
-    killed.
+    """Enemies of this class cause damage to the player, take damage
+    from the player's attacks, and leave a random gold treasure after
+    being killed.
     """
     def __init__(self, name, hp, damage,
                  name_dative=None, name_accusative=None,
@@ -66,11 +62,9 @@ class Monster(Enemy):
 
 
 class Human(Enemy):
-    """Tough enemy class.
-
-    Objects of this class cause damage to the player, take damage from
-    the player's attacks, and drop their weapon after being killed,
-    along with an optional amount of gold.
+    """Enemies of this class cause damage to the player, take damage
+    from the player's attacks, and drop their weapon after being
+    killed, along with an optional amount of gold.
     """
     def __init__(self, name, hp, weapon,
                  name_dative=None, name_accusative=None,
