@@ -169,6 +169,39 @@ enemies_data = (
                          ' tekutina.',
         },
     ),
+
+    (
+        Animal,
+        {
+            'name': 'Vlk',
+            'hp': 28,
+            'damage': 5,
+            'name_dative': 'Vlkovi',
+            'name_accusative': 'Vlka',
+        },
+    ),
+
+    (
+        Monster,
+        {
+            'name': 'Vlkodlak',
+            'hp': 39,
+            'damage': 9,
+            'name_dative': 'Vlkodlakovi',
+            'name_accusative': 'Vlkodlaka',
+        },
+    ),
+
+    (
+        Monster,
+        {
+            'name': 'Lesní troll',
+            'hp': 52,
+            'damage': 12,
+            'name_dative': 'Trollovi',
+            'name_accusative': 'Trolla',
+        },
+    ),
 )
 
 
