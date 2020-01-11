@@ -101,7 +101,8 @@ enemies_data = (
             'name_accusative': 'Pavouka',
             'alive_text': 'Z výšky se spustil obří pavouk a snaží se tě'
                           ' pozřít!',
-            'dead_text': 'Na zemi se válí kusy gigantického pavouka.',
+            'dead_text': 'Na zemi se povalují nohy a trup gigantického'
+                         ' pavouka.',
         },
     ),
 
@@ -115,7 +116,20 @@ enemies_data = (
             'name_accusative': 'Švába',
             'alive_text': 'Z díry vylezl odporný obří šváb a sevřel tě'
                           ' kusadly!',
-            'dead_text': 'Na zemi leží tlející mrtvola švába.',
+            'dead_text': 'Na zemi leží ohavná tlející mrtvola švába.',
+        },
+    ),
+
+    (
+        Animal,
+        {
+            'name': 'Obří netopýr',
+            'hp': 35,
+            'damage': 6,
+            'name_dative': 'Netopýrovi',
+            'name_accusative': 'Netopýra',
+            'dead_text': 'Na zemi leží odpudivý mrtvý netopýr s polámanými'
+                         ' kožnatými křídly.',
         },
     ),
 
