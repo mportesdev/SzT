@@ -297,7 +297,7 @@ def parse_world_dsl():
             elif dsl_cell == 'TW':
                 kwargs.update(trader=npc.Trader.new_weapon_trader())
             elif dsl_cell == 'EN':
-                kwargs.update(enemy=enemies.random_enemy())
+                kwargs.update(enemy=enemies.random_cave_enemy())
             elif dsl_cell == 'TR':
                 kwargs.update(enemy=enemies.Monster.new_troll())
             elif dsl_cell == 'HU':

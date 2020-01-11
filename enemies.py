@@ -205,6 +205,11 @@ enemies_data = (
 )
 
 
-def random_enemy():
-    enemy_class, kwargs = random.choice(enemies_data)
+def random_cave_enemy():
+    enemy_class, kwargs = random.choice(enemies_data[:6])
+    return enemy_class(**kwargs)
+
+
+def random_forest_enemy():
+    enemy_class, kwargs = random.choice(enemies_data[6:])
     return enemy_class(**kwargs)
