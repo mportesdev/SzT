@@ -51,7 +51,7 @@ class VictoryTile(Cave):
                             ' diamantový poklad obrovské ceny!')
 
 
-class EnemyTile(Cave):
+class EnemyTile(PlainTile):
     def __init__(self, x, y, enemy):
         super().__init__(x, y)
         self.enemy = enemy
@@ -89,6 +89,14 @@ class EnemyTile(Cave):
                     nice_print(message, 'luck', color='96')
             except AttributeError:
                 pass
+
+
+class CaveWithEnemy(EnemyTile, Cave):
+    pass
+
+
+class ForestWithEnemy(EnemyTile, Forest):
+    pass
 
 
 class TraderTile(Cave):
@@ -231,7 +239,7 @@ world_dsl = '''
 |FC|FR|  |EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
 |FR|  |  |  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
 |FR|FC|  |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
-|FR|  |FW|CV|  |CV|EN|CV|  |FR|  |FR|  |FG|  |
+|FR|  |FW|CV|  |CV|EN|CV|  |FR|  |FE|  |FG|  |
 |  |FG|  |CV|  |  |  |  |  |ST|  |  |  |  |  |
 |  |CV|  |TR|  |  |  |FG|  |  |  |  |  |  |  |
 |CV|EN|CV|CV|FG|EN|CV|CV|  |  |  |  |  |  |  |
@@ -280,9 +288,10 @@ def parse_world_dsl():
             tile_type = {'VT': VictoryTile,
                          'CV': Cave,
                          'FR': Forest,
-                         'EN': EnemyTile,
-                         'TR': EnemyTile,    # troll
-                         'HU': EnemyTile,    # human
+                         'EN': CaveWithEnemy,
+                         'FE': ForestWithEnemy,
+                         'TR': CaveWithEnemy,    # troll
+                         'HU': CaveWithEnemy,    # human
                          'ST': StartTile,
                          'FG': FindGoldTile,
                          'FW': FindWeaponTile,
@@ -298,6 +307,8 @@ def parse_world_dsl():
                 kwargs.update(trader=npc.Trader.new_weapon_trader())
             elif dsl_cell == 'EN':
                 kwargs.update(enemy=enemies.random_cave_enemy())
+            elif dsl_cell == 'FE':
+                kwargs.update(enemy=enemies.random_forest_enemy())
             elif dsl_cell == 'TR':
                 kwargs.update(enemy=enemies.Monster.new_troll())
             elif dsl_cell == 'HU':
