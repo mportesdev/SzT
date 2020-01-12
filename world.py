@@ -196,7 +196,7 @@ class FindGoldTile(Cave):
             nice_print(message, 'luck', color='96')
 
 
-class FindWeaponTile(Cave):
+class FindWeaponTile(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
         args = random.choice((('Rezavý meč', 16, 72),
@@ -211,6 +211,14 @@ class FindWeaponTile(Cave):
             player.inventory.append(self.weapon)
             message = f'Našel jsi {self.weapon.name_accusative.lower()}.'
             nice_print(message, 'luck', color='96')
+
+
+class CaveWithWeapon(FindWeaponTile, Cave):
+    pass
+
+
+class ForestWithWeapon(FindWeaponTile, Forest):
+    pass
 
 
 class FindConsumableTile(Forest):
@@ -231,15 +239,15 @@ class FindConsumableTile(Forest):
 
 
 world_dsl = '''
-|  |  |VT|HU|TR|FW|EN|  |  |EN|  |  |  |  |FG|
-|FC|  |  |  |  |  |CV|FG|  |CV|  |FW|  |CV|EN|
+|  |  |VT|HU|TR|CW|EN|  |  |EN|  |  |  |  |FG|
+|FC|  |  |  |  |  |CV|FG|  |CV|  |CW|  |CV|EN|
 |FR|FC|FR|FR|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
 |FR|  |FR|  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
 |  |FR|FC|  |TW|CV|EN|CV|  |  |  |  |  |CV|  |
 |FC|FR|  |EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
-|FR|  |  |  |CV|  |  |EN|  |FR|FR|FR|  |CV|  |
+|FR|  |  |  |CV|  |  |EN|  |FR|FW|FR|  |CV|  |
 |FR|FC|  |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
-|FR|  |FW|CV|  |CV|EN|CV|  |FR|  |FE|  |FG|  |
+|FR|  |CW|CV|  |CV|EN|CV|  |FR|  |FE|  |FG|  |
 |  |FG|  |CV|  |  |  |  |  |ST|  |  |  |  |  |
 |  |CV|  |TR|  |  |  |FG|  |  |  |  |  |  |  |
 |CV|EN|CV|CV|FG|EN|CV|CV|  |  |  |  |  |  |  |
@@ -294,7 +302,8 @@ def parse_world_dsl():
                          'HU': CaveWithEnemy,    # human
                          'ST': StartTile,
                          'FG': FindGoldTile,
-                         'FW': FindWeaponTile,
+                         'CW': CaveWithWeapon,
+                         'FW': ForestWithWeapon,
                          'FC': FindConsumableTile,
                          'TM': TraderTile,    # trader - medicine
                          'TW': TraderTile,    # trader - weapons
