@@ -254,6 +254,38 @@ world_dsl = '''
 | |g| |g| | | |c|g| | | | | | |
 '''
 
+_world_dsl = '''
+ m                                 
+ fff      ccc                      
+  f      ccccc                     
+  f      cccccc    c               
+ ff  f        cHcc c c             
+ f  fff       c  cccccc     cccc   
+ ff f f       c      T    ccccw    
+f fff m f     c      cccccccc      
+f f m fff   c          c  c        
+fmf     fW  c  w      ccccc        
+f ff     cccc  c    ccc            
+ff f        cccc  ccc c     g      
+ f m     gccc  cccc   c   ccc  cw  
+mf        c cgcc  c   ccccc ccccc  
+ ff      cc              g    cc   
+         c        f     cc         
+         T    ffm f     c          
+         cg   f  ffff   M          
+         c    ffff f    f          
+       cccccg  f   f mf f ffff m   
+    cccg  c       mf  fff  f fff   
+    gccc cccc      fff  ffff   f   
+    ccgc g ccccc     f  f  m fff   
+     ccc c ccgcg     fffff   f   f 
+      cg c wcccc     m f f fffff fm
+                       f f  f  fff 
+                            ffm  f 
+                                 f 
+                                 S 
+'''
+
 world_map = []
 
 start_tile_location = []
