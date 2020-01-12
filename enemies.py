@@ -178,6 +178,7 @@ enemies_data = (
             'damage': 5,
             'name_dative': 'Vlkovi',
             'name_accusative': 'Vlka',
+            'alive_text': 'Z křoví na tebe vyskočil vychrtlý šedý vlk.',
         },
     ),
 
@@ -200,6 +201,7 @@ enemies_data = (
             'damage': 12,
             'name_dative': 'Trollovi',
             'name_accusative': 'Trolla',
+            'alive_text': 'Cestu ti zastoupil mohutný troll obrostlý mechem.',
         },
     ),
 )
