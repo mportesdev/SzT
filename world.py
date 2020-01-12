@@ -239,19 +239,19 @@ class FindConsumableTile(Forest):
 
 
 world_dsl = '''
-|  |  |VT|HU|TR|CW|EN|  |  |EN|  |  |  |  |FG|
-|FC|  |  |  |  |  |CV|FG|  |CV|  |CW|  |CV|EN|
-|FR|FC|FR|FR|FR|FC|  |CV|  |CV|  |EN|CV|EN|  |
-|FR|  |FR|  |FR|  |  |EN|EN|CV|EN|CV|  |CV|EN|
-|  |FR|FC|  |TW|CV|EN|CV|  |  |  |  |  |CV|  |
-|FC|FR|  |EN|CV|  |  |CV|  |FC|  |FR|FR|TM|CV|
-|FR|  |  |  |CV|  |  |EN|  |FR|FW|FR|  |CV|  |
-|FR|FC|  |EN|CV|FG|  |CV|  |FR|  |FC|  |EN|EN|
-|FR|  |CW|CV|  |CV|EN|CV|  |FR|  |FE|  |FG|  |
-|  |FG|  |CV|  |  |  |  |  |ST|  |  |  |  |  |
-|  |CV|  |TR|  |  |  |FG|  |  |  |  |  |  |  |
-|CV|EN|CV|CV|FG|EN|CV|CV|  |  |  |  |  |  |  |
-|  |FG|  |FG|  |  |  |CV|FG|  |  |  |  |  |  |
+| | |V|H|T|w|C| | |C| | | | |g|
+|m| | | | | |c|g| |c| |w| |c|C|
+|f|m|f|f|f|m| |c| |c| |C|c|C| |
+|f| |f| |f| | |C|C|c|C|c| |c|C|
+| |f|m| |W|c|C|c| | | | | |c| |
+|m|f| |C|c| | |c| |m| |f|f|M|c|
+|f| | | |c| | |C| |f|x|f| |c| |
+|f|m| |C|c|g| |c| |f| |m| |C|C|
+|f| |w|c| |c|C|c| |f| |F| |g| |
+| |g| |c| | | | | |S| | | | | |
+| |c| |T| | | |g| | | | | | | |
+|c|C|c|c|g|C|c|c| | | | | | | |
+| |g| |g| | | |c|g| | | | | | |
 '''
 
 world_map = []
@@ -270,9 +270,9 @@ def tile_at(x, y):
 
 
 def is_dsl_valid(dsl):
-    if dsl.count('|ST|') != 1:
+    if dsl.count('|S|') != 1:
         return False
-    if '|VT|' not in dsl:
+    if '|V|' not in dsl:
         return False
     lines = dsl.strip().splitlines()
     pipe_counts = [line.count('|') for line in lines]
@@ -293,34 +293,34 @@ def parse_world_dsl():
         row = []
         dsl_cells = dsl_row.strip('|').split('|')
         for x, dsl_cell in enumerate(dsl_cells):
-            tile_type = {'VT': VictoryTile,
-                         'CV': Cave,
-                         'FR': Forest,
-                         'EN': CaveWithEnemy,
-                         'FE': ForestWithEnemy,
-                         'TR': CaveWithEnemy,    # troll
-                         'HU': CaveWithEnemy,    # human
-                         'ST': StartTile,
-                         'FG': FindGoldTile,
-                         'CW': CaveWithWeapon,
-                         'FW': ForestWithWeapon,
-                         'FC': FindConsumableTile,
-                         'TM': TraderTile,    # trader - medicine
-                         'TW': TraderTile,    # trader - weapons
-                         '  ': None}[dsl_cell]
+            tile_type = {'V': VictoryTile,
+                         'c': Cave,
+                         'f': Forest,
+                         'C': CaveWithEnemy,
+                         'F': ForestWithEnemy,
+                         'T': CaveWithEnemy,    # troll
+                         'H': CaveWithEnemy,    # human
+                         'S': StartTile,
+                         'g': FindGoldTile,
+                         'w': CaveWithWeapon,
+                         'x': ForestWithWeapon,
+                         'm': FindConsumableTile,
+                         'M': TraderTile,    # trader - medicine
+                         'W': TraderTile,    # trader - weapons
+                         ' ': None}[dsl_cell]
 
             kwargs = {}
-            if dsl_cell == 'TM':
+            if dsl_cell == 'M':
                 kwargs.update(trader=npc.Trader.new_medicine_trader())
-            elif dsl_cell == 'TW':
+            elif dsl_cell == 'W':
                 kwargs.update(trader=npc.Trader.new_weapon_trader())
-            elif dsl_cell == 'EN':
+            elif dsl_cell == 'C':
                 kwargs.update(enemy=enemies.random_cave_enemy())
-            elif dsl_cell == 'FE':
+            elif dsl_cell == 'F':
                 kwargs.update(enemy=enemies.random_forest_enemy())
-            elif dsl_cell == 'TR':
+            elif dsl_cell == 'T':
                 kwargs.update(enemy=enemies.Monster.new_troll())
-            elif dsl_cell == 'HU':
+            elif dsl_cell == 'H':
                 kwargs.update(enemy=enemies.Human.new_human())
 
             if tile_type == StartTile:
