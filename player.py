@@ -29,18 +29,13 @@ class Player:
         for item in self.inventory:
             print(f'            {item}')
 
-    def most_powerful_weapon(self) -> items.Weapon:
-        max_damage = 0
-        best_weapon = None
-        for item in self.inventory:
-            try:
-                if item.damage > max_damage:
-                    best_weapon = item
-                    max_damage = item.damage
-            except AttributeError:
-                pass
-
-        return best_weapon
+    def best_weapon(self):
+        try:
+            return max((item for item in self.inventory
+                        if hasattr(item, 'damage')),
+                       key=lambda weapon: weapon.damage)
+        except ValueError:
+            return
 
     def move(self, dx, dy):
         self.x += dx
@@ -60,7 +55,7 @@ class Player:
 
     def attack(self):
         enemy = world.tile_at(self.x, self.y).enemy
-        best_weapon = self.most_powerful_weapon()
+        best_weapon = self.best_weapon()
         if best_weapon:
             weapon_damage = best_weapon.damage
             weapon_name = best_weapon.name_accusative.lower()
