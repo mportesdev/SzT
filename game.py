@@ -5,12 +5,12 @@ from typing import Dict, Tuple, Callable
 
 from player import Player
 from utils import color_print, print_game_title, print_action_name, nice_print
-from world import World
 
 ActionDict = Dict[str, Tuple[Callable, str]]
 
 
-def get_available_actions(room, player, game_world) -> ActionDict:
+def get_available_actions(player) -> ActionDict:
+    room = player.current_room()
     actions = OrderedDict()
     print('\nMožnosti:')
     try:
@@ -21,13 +21,13 @@ def get_available_actions(room, player, game_world) -> ActionDict:
         action_adder(actions, 'B', player.attack, 'Bojovat\n')
     if not enemy_near or player.good_hit:
         player.good_hit = False
-        if game_world.tile_at(room.x, room.y - 1):
+        if player.world.tile_at(room.x, room.y - 1):
             action_adder(actions, 'S', player.move_north, 'Jít na sever\t')
-        if game_world.tile_at(room.x, room.y + 1):
+        if player.world.tile_at(room.x, room.y + 1):
             action_adder(actions, 'J', player.move_south, 'Jít na jih\t')
-        if game_world.tile_at(room.x - 1, room.y):
+        if player.world.tile_at(room.x - 1, room.y):
             action_adder(actions, 'Z', player.move_west, 'Jít na západ\t')
-        if game_world.tile_at(room.x + 1, room.y):
+        if player.world.tile_at(room.x + 1, room.y):
             action_adder(actions, 'V', player.move_east, 'Jít na východ')
         print()
     if hasattr(room, 'trader'):
@@ -48,8 +48,8 @@ def action_adder(action_dict: ActionDict, hotkey, action: Callable, name):
     color_print(f': {name.expandtabs(15)}', end='', color='94')
 
 
-def choose_action(room, player, game_world) -> Callable:
-    available_actions = get_available_actions(room, player, game_world)
+def choose_action(player) -> Callable:
+    available_actions = get_available_actions(player)
     print()
 
     while True:
@@ -73,23 +73,21 @@ def quit_game():
 
 def main():
     print_game_title()
-    game_world = World()
-    player = Player(game_world)
+    player = Player()
 
     while True:
-        room = game_world.tile_at(player.x, player.y)
-        nice_print(room.intro_text())
+        nice_print(player.current_room().intro_text())
 
-        if room is game_world.victory_tile and game_world.treasure_collected():
+        if player.is_winner():
             break
 
         while True:
-            room.modify_player(player)
+            player.current_room().modify_player(player)
 
             if not player.is_alive():
                 quit_game()
 
-            action = choose_action(room, player, game_world)
+            action = choose_action(player)
             action()
 
             # if the player moves, break to the outer loop to print
