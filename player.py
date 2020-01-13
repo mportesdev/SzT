@@ -71,6 +71,8 @@ class Player:
                    f' {enemy.name_dative.lower()}.')
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_accusative.lower()}!'
+            if self.world.all_dead():
+                self.experience += 500
         nice_print(message, 'fight')
 
     def has_consumables(self):

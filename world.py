@@ -292,6 +292,7 @@ class World:
         self.world_map = []
         self.start_tile = None
         self.victory_tile = None
+        self.parse_world_repr()
 
     def tile_at(self, x, y):
         if x < 0 or y < 0:
@@ -360,3 +361,14 @@ class World:
                     map_row.append(None)
 
             self.world_map.append(map_row)
+
+    def treasure_collected(self):
+        return all(getattr(tile, 'gold_claimed', True)
+                   for row in self.world_map
+                   for tile in row)
+
+    def all_dead(self):
+        return sum(tile.enemy.hp
+                   for row in self.world_map
+                   for tile in row
+                   if hasattr(tile, 'enemy')) == 0

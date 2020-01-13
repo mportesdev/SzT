@@ -74,23 +74,13 @@ def quit_game():
 def main():
     print_game_title()
     game_world = World()
-    game_world.parse_world_repr()
-    total_enemy_hp = sum(tile.enemy.hp
-                         for row in game_world.world_map
-                         for tile in row
-                         if hasattr(tile, 'enemy'))
-
     player = Player(game_world)
 
     while True:
         room = game_world.tile_at(player.x, player.y)
         nice_print(room.intro_text())
 
-        if room is game_world.victory_tile \
-                and all(getattr(tile, 'gold_claimed',
-                                True)
-                        for row in game_world.world_map
-                        for tile in row):
+        if room is game_world.victory_tile and game_world.treasure_collected():
             break
 
         while True:
@@ -101,9 +91,6 @@ def main():
 
             action = choose_action(room, player, game_world)
             action()
-
-            if player.experience == total_enemy_hp:
-                player.experience += 500
 
             # if the player moves, break to the outer loop to print
             # the room description
