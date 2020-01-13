@@ -5,12 +5,12 @@ from typing import Dict, Tuple, Callable
 
 from player import Player
 from utils import color_print, print_game_title, print_action_name, nice_print
-import world
+from world import World
 
 ActionDict = Dict[str, Tuple[Callable, str]]
 
 
-def get_available_actions(room, player) -> ActionDict:
+def get_available_actions(room, player, game_world) -> ActionDict:
     actions = OrderedDict()
     print('\nMožnosti:')
     try:
@@ -21,16 +21,16 @@ def get_available_actions(room, player) -> ActionDict:
         action_adder(actions, 'B', player.attack, 'Bojovat\n')
     if not enemy_near or player.good_hit:
         player.good_hit = False
-        if world.tile_at(room.x, room.y - 1):
+        if game_world.tile_at(room.x, room.y - 1):
             action_adder(actions, 'S', player.move_north, 'Jít na sever\t')
-        if world.tile_at(room.x, room.y + 1):
+        if game_world.tile_at(room.x, room.y + 1):
             action_adder(actions, 'J', player.move_south, 'Jít na jih\t')
-        if world.tile_at(room.x - 1, room.y):
+        if game_world.tile_at(room.x - 1, room.y):
             action_adder(actions, 'Z', player.move_west, 'Jít na západ\t')
-        if world.tile_at(room.x + 1, room.y):
+        if game_world.tile_at(room.x + 1, room.y):
             action_adder(actions, 'V', player.move_east, 'Jít na východ')
         print()
-    if isinstance(room, world.TraderTile):
+    if hasattr(room, 'trader'):
         action_adder(actions, 'O', player.trade, 'Obchodovat\t')
     if player.hp < 100 and player.has_consumables():
         action_adder(actions, 'L', player.heal, 'Léčit se\t')
@@ -48,8 +48,8 @@ def action_adder(action_dict: ActionDict, hotkey, action: Callable, name):
     color_print(f': {name.expandtabs(15)}', end='', color='94')
 
 
-def choose_action(room, player) -> Callable:
-    available_actions = get_available_actions(room, player)
+def choose_action(room, player, game_world) -> Callable:
+    available_actions = get_available_actions(room, player, game_world)
     print()
 
     while True:
@@ -73,22 +73,24 @@ def quit_game():
 
 def main():
     print_game_title()
-    world.parse_world_repr()
+    game_world = World()
+    game_world.parse_world_repr()
     total_enemy_hp = sum(tile.enemy.hp
-                         for row in world.world_map
+                         for row in game_world.world_map
                          for tile in row
                          if hasattr(tile, 'enemy'))
 
-    player = Player()
+    player = Player(game_world)
 
     while True:
-        room = world.tile_at(player.x, player.y)
+        room = game_world.tile_at(player.x, player.y)
         nice_print(room.intro_text())
 
-        if room is world.victory_tile and all(getattr(tile, 'gold_claimed',
-                                                      True)
-                                              for row in world.world_map
-                                              for tile in row):
+        if room is game_world.victory_tile \
+                and all(getattr(tile, 'gold_claimed',
+                                True)
+                        for row in game_world.world_map
+                        for tile in row):
             break
 
         while True:
@@ -97,7 +99,7 @@ def main():
             if not player.is_alive():
                 quit_game()
 
-            action = choose_action(room, player)
+            action = choose_action(room, player, game_world)
             action()
 
             if player.experience == total_enemy_hp:

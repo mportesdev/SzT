@@ -4,18 +4,18 @@ from typing import List, Union
 
 import items
 from utils import color_print, nice_print, oscillate
-import world
 
 InventoryList = List[Union[items.Weapon, items.Consumable]]
 
 
 class Player:
-    def __init__(self):
+    def __init__(self, world):
         self.inventory: InventoryList = [
             items.Weapon('Nůž na chleba', 5, 14),
             items.Consumable('Bylinkový chleba', 8, 11),
         ]
-        self.x, self.y = world.start_tile.x, world.start_tile.y
+        self.world = world
+        self.x, self.y = self.world.start_tile.x, self.world.start_tile.y
         self.hp = 100
         self.gold = 10
         self.experience = 0
@@ -54,7 +54,7 @@ class Player:
         self.move(dx=-1, dy=0)
 
     def attack(self):
-        enemy = world.tile_at(self.x, self.y).enemy
+        enemy = self.world.tile_at(self.x, self.y).enemy
         best_weapon = self.best_weapon()
         if best_weapon:
             weapon_damage = best_weapon.damage
@@ -107,5 +107,5 @@ class Player:
                     color_print('?', color='95')
 
     def trade(self):
-        room = world.tile_at(self.x, self.y)
+        room = self.world.tile_at(self.x, self.y)
         room.check_if_trade(self)

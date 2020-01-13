@@ -286,81 +286,77 @@ mf        c cgcc  c   ccccc ccccc
                                  S 
 '''
 
-world_map = []
 
-start_tile = None
-victory_tile = None
+class World:
+    def __init__(self):
+        self.world_map = []
+        self.start_tile = None
+        self.victory_tile = None
 
+    def tile_at(self, x, y):
+        if x < 0 or y < 0:
+            return None
+        try:
+            return self.world_map[y][x]
+        except IndexError:
+            return None
 
-def tile_at(x, y):
-    if x < 0 or y < 0:
-        return None
+    def validate_map_data(self, map_repr):
+        if map_repr.count('S') != 1:
+            raise SyntaxError('Map must contain exactly 1 start tile')
+        if 'V' not in map_repr:
+            raise SyntaxError('Missing victory tile')
+        lines = map_repr.strip('\n').splitlines()
+        line_lengths = [len(line) for line in lines]
+        for line_length in line_lengths:
+            if line_length != line_lengths[0]:
+                raise SyntaxError('All map rows must have the same length')
 
-    try:
-        return world_map[y][x]
-    except IndexError:
-        return None
+    def parse_world_repr(self):
+        self.validate_map_data(world_repr)
+        lines = world_repr.strip('\n').splitlines()
 
+        for y, line in enumerate(lines):
+            map_row = []
+            for x, tile_code in enumerate(line):
+                tile_type = {'V': Forest,
+                             'c': Cave,
+                             'f': Forest,
+                             'C': CaveWithEnemy,
+                             'F': ForestWithEnemy,
+                             'T': CaveWithEnemy,    # troll
+                             'H': CaveWithEnemy,    # human
+                             'S': StartTile,
+                             'g': FindGoldTile,
+                             'w': CaveWithWeapon,
+                             'x': ForestWithWeapon,
+                             'm': FindConsumableTile,
+                             'M': TraderTile,    # trader - medicine
+                             'W': TraderTile,    # trader - weapons
+                             ' ': None}[tile_code]
 
-def validate_map_data(map_repr):
-    if map_repr.count('S') != 1:
-        raise SyntaxError('Map must contain exactly 1 start tile')
-    if 'V' not in map_repr:
-        raise SyntaxError('Missing victory tile')
-    lines = map_repr.strip('\n').splitlines()
-    line_lengths = [len(line) for line in lines]
-    for line_length in line_lengths:
-        if line_length != line_lengths[0]:
-            raise SyntaxError('All map rows must have the same length')
+                kwargs = {}
+                if tile_code == 'M':
+                    kwargs.update(trader=npc.Trader.new_medicine_trader())
+                elif tile_code == 'W':
+                    kwargs.update(trader=npc.Trader.new_weapon_trader())
+                elif tile_code == 'C':
+                    kwargs.update(enemy=enemies.random_cave_enemy())
+                elif tile_code == 'F':
+                    kwargs.update(enemy=enemies.random_forest_enemy())
+                elif tile_code == 'T':
+                    kwargs.update(enemy=enemies.Monster.new_troll())
+                elif tile_code == 'H':
+                    kwargs.update(enemy=enemies.Human.new_human())
 
+                if tile_type:
+                    tile = tile_type(x, y, **kwargs)
+                    map_row.append(tile)
+                    if tile_code == 'S':
+                        self.start_tile = tile
+                    elif tile_code == 'V':
+                        self.victory_tile = tile
+                else:
+                    map_row.append(None)
 
-def parse_world_repr():
-    validate_map_data(world_repr)
-    lines = world_repr.strip('\n').splitlines()
-
-    for y, line in enumerate(lines):
-        map_row = []
-        for x, tile_code in enumerate(line):
-            tile_type = {'V': Forest,
-                         'c': Cave,
-                         'f': Forest,
-                         'C': CaveWithEnemy,
-                         'F': ForestWithEnemy,
-                         'T': CaveWithEnemy,    # troll
-                         'H': CaveWithEnemy,    # human
-                         'S': StartTile,
-                         'g': FindGoldTile,
-                         'w': CaveWithWeapon,
-                         'x': ForestWithWeapon,
-                         'm': FindConsumableTile,
-                         'M': TraderTile,    # trader - medicine
-                         'W': TraderTile,    # trader - weapons
-                         ' ': None}[tile_code]
-
-            kwargs = {}
-            if tile_code == 'M':
-                kwargs.update(trader=npc.Trader.new_medicine_trader())
-            elif tile_code == 'W':
-                kwargs.update(trader=npc.Trader.new_weapon_trader())
-            elif tile_code == 'C':
-                kwargs.update(enemy=enemies.random_cave_enemy())
-            elif tile_code == 'F':
-                kwargs.update(enemy=enemies.random_forest_enemy())
-            elif tile_code == 'T':
-                kwargs.update(enemy=enemies.Monster.new_troll())
-            elif tile_code == 'H':
-                kwargs.update(enemy=enemies.Human.new_human())
-
-            if tile_type:
-                tile = tile_type(x, y, **kwargs)
-                map_row.append(tile)
-                if tile_code == 'S':
-                    global start_tile
-                    start_tile = tile
-                elif tile_code == 'V':
-                    global victory_tile
-                    victory_tile = tile
-            else:
-                map_row.append(None)
-
-        world_map.append(map_row)
+            self.world_map.append(map_row)
