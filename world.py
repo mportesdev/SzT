@@ -238,23 +238,23 @@ class FindConsumableTile(Forest):
             nice_print(message, 'luck', color='96')
 
 
-world_dsl = '''
-| | |V|H|T|w|C| | |C| | | | |g|
-|m| | | | | |c|g| |c| |w| |c|C|
-|f|m|f|f|f|m| |c| |c| |C|c|C| |
-|f| |f| |f| | |C|C|c|C|c| |c|C|
-| |f|m| |W|c|C|c| | | | | |c| |
-|m|f| |C|c| | |c| |m| |f|f|M|c|
-|f| | | |c| | |C| |f|x|f| |c| |
-|f|m| |C|c|g| |c| |f| |m| |C|C|
-|f| |w|c| |c|C|c| |f| |F| |g| |
-| |g| |c| | | | | |S| | | | | |
-| |c| |T| | | |g| | | | | | | |
-|c|C|c|c|g|C|c|c| | | | | | | |
-| |g| |g| | | |c|g| | | | | | |
+world_repr = '''
+  VHTwC  C    g
+m     cg c w cC
+fmfffm c c CcC 
+f f f  CCcCc cC
+ fm WcCc     c 
+mf Cc  c m ffMc
+f   c  C fxf c 
+fm Ccg c f m CC
+f wc cCc f F g 
+ g c     S     
+ c T   g       
+cCccgCcc       
+ g g   cg      
 '''
 
-_world_dsl = '''
+_world_repr = '''
  m                                 
  fff      ccc                      
   f      ccccc                     
@@ -301,30 +301,25 @@ def tile_at(x, y):
         return None
 
 
-def is_dsl_valid(dsl):
-    if dsl.count('|S|') != 1:
-        return False
-    if '|V|' not in dsl:
-        return False
-    lines = dsl.strip().splitlines()
-    pipe_counts = [line.count('|') for line in lines]
-    for count in pipe_counts:
-        if count != pipe_counts[0]:
-            return False
-
-    return True
+def validate_map_data(map_repr):
+    if map_repr.count('S') != 1:
+        raise SyntaxError('Map must contain exactly 1 start tile')
+    if 'V' not in map_repr:
+        raise SyntaxError('Missing victory tile')
+    lines = map_repr.strip('\n').splitlines()
+    line_lengths = [len(line) for line in lines]
+    for line_length in line_lengths:
+        if line_length != line_lengths[0]:
+            raise SyntaxError('All map rows must have the same length')
 
 
-def parse_world_dsl():
-    if not is_dsl_valid(world_dsl):
-        raise SyntaxError('DSL is invalid!')
+def parse_world_repr():
+    validate_map_data(world_repr)
+    lines = world_repr.strip('\n').splitlines()
 
-    dsl_lines = world_dsl.strip().splitlines()
-
-    for y, dsl_row in enumerate(dsl_lines):
-        row = []
-        dsl_cells = dsl_row.strip('|').split('|')
-        for x, dsl_cell in enumerate(dsl_cells):
+    for y, line in enumerate(lines):
+        map_row = []
+        for x, tile_code in enumerate(line):
             tile_type = {'V': VictoryTile,
                          'c': Cave,
                          'f': Forest,
@@ -339,24 +334,24 @@ def parse_world_dsl():
                          'm': FindConsumableTile,
                          'M': TraderTile,    # trader - medicine
                          'W': TraderTile,    # trader - weapons
-                         ' ': None}[dsl_cell]
+                         ' ': None}[tile_code]
 
             kwargs = {}
-            if dsl_cell == 'M':
+            if tile_code == 'M':
                 kwargs.update(trader=npc.Trader.new_medicine_trader())
-            elif dsl_cell == 'W':
+            elif tile_code == 'W':
                 kwargs.update(trader=npc.Trader.new_weapon_trader())
-            elif dsl_cell == 'C':
+            elif tile_code == 'C':
                 kwargs.update(enemy=enemies.random_cave_enemy())
-            elif dsl_cell == 'F':
+            elif tile_code == 'F':
                 kwargs.update(enemy=enemies.random_forest_enemy())
-            elif dsl_cell == 'T':
+            elif tile_code == 'T':
                 kwargs.update(enemy=enemies.Monster.new_troll())
-            elif dsl_cell == 'H':
+            elif tile_code == 'H':
                 kwargs.update(enemy=enemies.Human.new_human())
 
             if tile_type == StartTile:
                 start_tile_location[:] = x, y
-            row.append(tile_type(x, y, **kwargs) if tile_type else None)
+            map_row.append(tile_type(x, y, **kwargs) if tile_type else None)
 
-        world_map.append(row)
+        world_map.append(map_row)

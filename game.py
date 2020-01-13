@@ -73,7 +73,7 @@ def quit_game():
 
 def main():
     print_game_title()
-    world.parse_world_dsl()
+    world.parse_world_repr()
     total_enemy_hp = sum(tile.enemy.hp
                          for row in world.world_map
                          for tile in row
