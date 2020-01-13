@@ -25,7 +25,7 @@ class Player:
     def is_alive(self):
         return self.hp > 0
 
-    def print_info(self):
+    def print_inventory(self):
         print('Máš u sebe:')
         for item in self.inventory:
             print(f'            {item}')
@@ -110,7 +110,7 @@ class Player:
                     color_print('?', color='95')
 
     def trade(self):
-        self.current_room().check_if_trade(self)
+        self.current_room().facilitate_trade(self)
 
     def current_room(self):
         return self.world.tile_at(self.x, self.y)

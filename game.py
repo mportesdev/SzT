@@ -34,7 +34,7 @@ def get_available_actions(player) -> ActionDict:
         action_adder(actions, 'O', player.trade, 'Obchodovat\t')
     if player.hp < 100 and player.has_consumables():
         action_adder(actions, 'L', player.heal, 'Léčit se\t')
-    action_adder(actions, 'I', player.print_info, 'Inventář\t')
+    action_adder(actions, 'I', player.print_inventory, 'Inventář\t')
     action_adder(actions, 'K', confirm_quit, 'Konec\n')
     color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
                 f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')

@@ -44,13 +44,6 @@ class StartTile(Forest):
                 ' dobrodruha.')
 
 
-class VictoryTile(Cave):
-    def intro_text(self):
-        return self.text + ('.. v šeru kolem tebe se třpytí nesmírné množství'
-                            ' blyštivých kamínků... objevil jsi podzemní'
-                            ' diamantový poklad obrovské ceny!')
-
-
 class EnemyTile(PlainTile):
     def __init__(self, x, y, enemy):
         super().__init__(x, y)
@@ -158,7 +151,7 @@ class TraderTile(Cave):
                 except ValueError:
                     color_print('?', color='95')
 
-    def check_if_trade(self, player):
+    def facilitate_trade(self, player):
         while True:
             print('K', end='')
             color_print(': koupit    ', end='', color='94')
