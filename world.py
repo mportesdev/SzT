@@ -292,7 +292,7 @@ class World:
         self.world_map = []
         self.start_tile = None
         self.victory_tile = None
-        self.parse_world_repr()
+        self.parse_world_repr(world_repr)
 
     def tile_at(self, x, y):
         if x < 0 or y < 0:
@@ -302,21 +302,12 @@ class World:
         except IndexError:
             return None
 
-    def validate_map_data(self, map_repr):
-        if map_repr.count('S') != 1:
-            raise SyntaxError('Map must contain exactly 1 start tile')
-        if 'V' not in map_repr:
-            raise SyntaxError('Missing victory tile')
+    def parse_world_repr(self, map_repr):
+        if map_repr.count('S') != 1 or map_repr.count('V') != 1:
+            raise ValueError('Map must contain exactly 1 start tile'
+                             ' and exactly 1 victory tile')
+
         lines = map_repr.strip('\n').splitlines()
-        line_lengths = [len(line) for line in lines]
-        for line_length in line_lengths:
-            if line_length != line_lengths[0]:
-                raise SyntaxError('All map rows must have the same length')
-
-    def parse_world_repr(self):
-        self.validate_map_data(world_repr)
-        lines = world_repr.strip('\n').splitlines()
-
         for y, line in enumerate(lines):
             map_row = []
             for x, tile_code in enumerate(line):
