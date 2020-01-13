@@ -103,14 +103,16 @@ class TraderTile(Cave):
 
         valid_choices = set()
         for i, item in enumerate(seller.inventory, 1):
-            if item.value <= buyer.gold:
+            price = (buyer.buy_price(item) if buyer is self.trader
+                     else item.value)
+            if price <= buyer.gold:
                 valid_choices.add(i)
                 item_number = f'{i:3}.'
             else:
                 item_number = '    '
             print(f'{item_number} ', end='')
             color_print(f'{item} '.ljust(WIDTH - 25, '.')
-                        + f' {item.value:3} zlaťáků', color='96')
+                        + f' {price:3} zlaťáků', color='96')
 
         try:
             money, title = buyer.slang
@@ -138,8 +140,10 @@ class TraderTile(Cave):
                     to_swap = seller.inventory[choice - 1]
                     seller.inventory.remove(to_swap)
                     buyer.inventory.append(to_swap)
-                    seller.gold += to_swap.value
-                    buyer.gold -= to_swap.value
+                    price = (buyer.buy_price(to_swap) if buyer is self.trader
+                             else to_swap.value)
+                    seller.gold += price
+                    buyer.gold -= price
                     print(f'"Bylo mi potěšením, {title}!"'
                           f' říká {self.trader.name.lower()}.')
                     return
