@@ -100,11 +100,12 @@ class TraderTile(Cave):
 
     def trade(self, buyer, seller):
         if not seller.inventory:
-            print('Obchodník už nemá co nabídnout.' if seller is self.trader
+            print(f'{seller.name} už nemá co nabídnout.'
+                  if seller is self.trader
                   else 'Nemáš nic, co bys mohl prodat.')
             return
         else:
-            print('Obchodník nabízí tyto věci:' if seller is self.trader
+            print(f'{seller.name} nabízí tyto věci:' if seller is self.trader
                   else 'Tyto věci můžeš prodat:')
 
         valid_choices = set()
@@ -124,7 +125,7 @@ class TraderTile(Cave):
             money, title = seller.slang
 
         if not valid_choices:
-            print(f'"Došly mi {money}, {title}!" říká obchodník.'
+            print(f'"Došly mi {money}, {title}!" říká {buyer.name.lower()}.'
                   if buyer is self.trader
                   else 'Na žádnou z nich nemáš peníze.')
             return
@@ -146,7 +147,8 @@ class TraderTile(Cave):
                     buyer.inventory.append(to_swap)
                     seller.gold += to_swap.value
                     buyer.gold -= to_swap.value
-                    print(f'"Bylo mi potěšením, {title}!" říká obchodník.')
+                    print(f'"Bylo mi potěšením, {title}!"'
+                          f' říká {self.trader.name.lower()}.')
                     return
                 except ValueError:
                     color_print('?', color='95')

@@ -16,7 +16,7 @@ class Trader:
 
     @classmethod
     def new_medicine_trader(cls):
-        return cls(name='Obchodník',
+        return cls(name='Mastičkář',
                    text=('Na zemi sedí vousatý hromotluk. V plátěném pytli má'
                          ' nějaké věci, určené patrně na prodej.'),
                    gold=200,
@@ -32,7 +32,7 @@ class Trader:
 
     @classmethod
     def new_weapon_trader(cls):
-        return cls(name='Obchodník',
+        return cls(name='Zbrojíř',
                    text=('Ve stínu stojí vysoký chlapík v kožené vestě a'
                          ' bronzové přilbici.'),
                    gold=300,
