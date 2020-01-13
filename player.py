@@ -15,7 +15,7 @@ class Player:
             items.Weapon('Nůž na chleba', 5, 14),
             items.Consumable('Bylinkový chleba', 8, 11),
         ]
-        self.x, self.y = world.start_tile_location
+        self.x, self.y = world.start_tile.x, world.start_tile.y
         self.hp = 100
         self.gold = 10
         self.experience = 0

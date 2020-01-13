@@ -239,12 +239,12 @@ class FindConsumableTile(Forest):
 
 
 world_repr = '''
-  VHTwC  C    g
+  gHTwC  C    g
 m     cg c w cC
 fmfffm c c CcC 
 f f f  CCcCc cC
  fm WcCc     c 
-mf Cc  c m ffMc
+mf Cc  c m fVMc
 f   c  C fxf c 
 fm Ccg c f m CC
 f wc cCc f F g 
@@ -273,7 +273,7 @@ mf        c cgcc  c   ccccc ccccc
          c        f     cc         
          T    ffm f     c          
          cg   f  ffff   M          
-         c    ffff f    f          
+         c    ffff f    V          
        cccccg  f   f mf f ffff m   
     cccg  c       mf  fff  f fff   
     gccc cccc      fff  ffff   f   
@@ -288,7 +288,8 @@ mf        c cgcc  c   ccccc ccccc
 
 world_map = []
 
-start_tile_location = []
+start_tile = None
+victory_tile = None
 
 
 def tile_at(x, y):
@@ -320,7 +321,7 @@ def parse_world_repr():
     for y, line in enumerate(lines):
         map_row = []
         for x, tile_code in enumerate(line):
-            tile_type = {'V': VictoryTile,
+            tile_type = {'V': Forest,
                          'c': Cave,
                          'f': Forest,
                          'C': CaveWithEnemy,
@@ -350,8 +351,16 @@ def parse_world_repr():
             elif tile_code == 'H':
                 kwargs.update(enemy=enemies.Human.new_human())
 
-            if tile_type == StartTile:
-                start_tile_location[:] = x, y
-            map_row.append(tile_type(x, y, **kwargs) if tile_type else None)
+            if tile_type:
+                tile = tile_type(x, y, **kwargs)
+                map_row.append(tile)
+                if tile_code == 'S':
+                    global start_tile
+                    start_tile = tile
+                elif tile_code == 'V':
+                    global victory_tile
+                    victory_tile = tile
+            else:
+                map_row.append(None)
 
         world_map.append(map_row)

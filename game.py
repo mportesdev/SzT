@@ -85,7 +85,10 @@ def main():
         room = world.tile_at(player.x, player.y)
         nice_print(room.intro_text())
 
-        if isinstance(room, world.VictoryTile):
+        if room is world.victory_tile and all(getattr(tile, 'gold_claimed',
+                                                      True)
+                                              for row in world.world_map
+                                              for tile in row):
             break
 
         while True:
