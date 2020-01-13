@@ -37,13 +37,6 @@ class Forest(PlainTile):
                                    ' stromů.'))
 
 
-class StartTile(Forest):
-    def intro_text(self):
-        return ('Stojíš na úpatí kopce na okraji tajuplného lesa. Svou rodnou'
-                ' vesnici jsi nechal za sebou a vydal ses na nejistou dráhu'
-                ' dobrodruha.')
-
-
 class EnemyTile(PlainTile):
     def __init__(self, x, y, enemy):
         super().__init__(x, y)
@@ -313,7 +306,7 @@ class World:
                              'F': ForestWithEnemy,
                              'T': CaveWithEnemy,    # troll
                              'H': CaveWithEnemy,    # human
-                             'S': StartTile,
+                             'S': PlainTile,
                              'g': FindGoldTile,
                              'w': CaveWithWeapon,
                              'x': ForestWithWeapon,
@@ -340,6 +333,10 @@ class World:
                     tile = tile_type(x, y, **kwargs)
                     map_row.append(tile)
                     if tile_code == 'S':
+                        tile.text = ('Stojíš na úpatí kopce na okraji'
+                                     ' tajuplného lesa. Svou rodnou vesnici jsi'
+                                     ' nechal za sebou a vydal ses na nejistou'
+                                     ' dráhu dobrodruha.')
                         self.start_tile = tile
                     elif tile_code == 'V':
                         self.victory_tile = tile
