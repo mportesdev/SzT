@@ -363,12 +363,11 @@ class World:
             self.world_map.append(map_row)
 
     def treasure_collected(self):
-        return all(getattr(tile, 'gold_claimed', True)
-                   for row in self.world_map
-                   for tile in row)
+        return all(getattr(tile, 'gold_claimed', True) for tile in self)
 
     def all_dead(self):
-        return sum(tile.enemy.hp
-                   for row in self.world_map
-                   for tile in row
+        return sum(tile.enemy.hp for tile in self
                    if hasattr(tile, 'enemy')) == 0
+
+    def __iter__(self):
+        return iter(tile for row in self.world_map for tile in row)
