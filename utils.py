@@ -38,7 +38,7 @@ def print_game_title():
                 '\n',
                 'textová hra na hrdiny'.center(WIDTH),
                 '',
-                'verze 0.4, 10. ledna 2020'.center(WIDTH),
+                'verze 0.5, 13. ledna 2020'.center(WIDTH),
                 '\n\n',
                 sep='\n',
                 color='1;95')
