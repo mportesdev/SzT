@@ -23,18 +23,28 @@ class PlainTile:
 class Cave(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.text = random.choice(('Jsi v chladné tmavé jeskyni.',
-                                   'Stojíš v nízké, vlhké části jeskyně.',
-                                   'Procházíš úzkou podzemní chodbou.'))
+        if 24 <= x <= 31 and 5 <= y <= 8:
+            self.text = ('Kráčíš po rozměklé zemi ve vlhké a zatuchlé části'
+                         ' jeskyně.')
+        elif (9 <= x <= 13 and 1 <= y <= 3) \
+                or (4 <= x <= 7 and 20 <= y <= 24) \
+                or (11 <= x <= 15 and 22 <= y <= 24):
+            self.text = 'Jsi v prostorné jeskyni.'
+        else:
+            self.text = 'Procházíš chladnou tmavou jeskyní.'
 
 
 class Forest(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.text = random.choice(('Stojíš v pološeru hustého prastarého lesa.',
-                                   'Jdeš po zarostlé lesní pěšině.',
-                                   'Ztěžka překračuješ kořeny a padlé kmeny'
-                                   ' stromů.'))
+        if 0 <= x <= 8 and 0 <= y <= 14:
+            self.text = ('Jdeš po sotva znatelné stezce vedoucí tmavým a'
+                         ' zlověstně tichým lesem. V pološeru zakopáváš o'
+                         ' kořeny obrovských stromů.')
+        elif 14 <= x <= 20 and 15 <= y <= 19:
+            self.text = 'Procházíš nejtmavší a nejponurejší částí lesa.'
+        else:
+            self.text = 'Jdeš po úzké, zarostlé lesní pěšině.'
 
 
 class EnemyTile(PlainTile):
