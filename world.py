@@ -249,7 +249,7 @@ mf        c cgcc  c   ccccc ccccc
          c        f     cc         
          T    ffm f     c          
          cg   f  ffff   M          
-         c    ffff F    V          
+         c    ffff t    V          
        cccccg  f   f mf f ffff m   
     cccg  c       mf  fff  f fFf   
     gccc cccc      fff  fFff   f   
@@ -292,6 +292,7 @@ class World:
                              'f': Forest,
                              'C': CaveWithEnemy,
                              'F': ForestWithEnemy,
+                             't': ForestWithEnemy,
                              'T': CaveWithEnemy,    # troll
                              'H': CaveWithEnemy,    # human
                              'S': PlainTile,
@@ -312,6 +313,8 @@ class World:
                     kwargs.update(enemy=enemies.random_cave_enemy())
                 elif tile_code == 'F':
                     kwargs.update(enemy=enemies.random_forest_enemy())
+                elif tile_code == 't':
+                    kwargs.update(enemy=enemies.Monster.new_forest_troll())
                 elif tile_code == 'T':
                     kwargs.update(enemy=enemies.Monster.new_troll())
                 elif tile_code == 'H':

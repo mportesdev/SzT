@@ -61,6 +61,16 @@ class Monster(Enemy):
                    alive_text='Vyrušil jsi dřímajícího kamenného trolla!',
                    dead_text='Zabitý kamenný troll připomíná obyčejnou skálu.')
 
+    @classmethod
+    def new_forest_troll(cls):
+        return cls(name='Lesní troll',
+                   hp=52,
+                   damage=12,
+                   name_dative='Trollovi',
+                   name_accusative='Trolla',
+                   alive_text='Cestu ti zastoupil mohutný troll obrostlý'
+                              ' mechem.')
+
 
 class Human(Enemy):
     """Enemies of this class cause damage to the player, take damage
@@ -190,18 +200,6 @@ enemies_data = (
             'damage': 9,
             'name_dative': 'Vlkodlakovi',
             'name_accusative': 'Vlkodlaka',
-        },
-    ),
-
-    (
-        Monster,
-        {
-            'name': 'Lesní troll',
-            'hp': 52,
-            'damage': 12,
-            'name_dative': 'Trollovi',
-            'name_accusative': 'Trolla',
-            'alive_text': 'Cestu ti zastoupil mohutný troll obrostlý mechem.',
         },
     ),
 )
