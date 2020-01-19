@@ -4,9 +4,11 @@ import os
 import random
 import sys
 from textwrap import TextWrapper
+import time
 
 GAME_TITLE = 'Strach ze tmy'
 WIDTH = 70
+DELAY = 0.025
 
 INDENT_EMPTY = '           '
 INDENT_INFO = '        >  '
@@ -25,10 +27,12 @@ def color_print(*args, color=None, **kwargs):
 
     if color is not None:
         print('\033[0m', end='')
+    time.sleep(DELAY)
 
 
 def color_print_dummy(*args, color=None, **kwargs):
     print(*args, **kwargs)
+    time.sleep(DELAY)
 
 
 def print_game_title():
