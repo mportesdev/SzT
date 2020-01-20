@@ -1,7 +1,6 @@
-This is a text adventure game in the Czech language. It is based on a demonstration project whose repository can be found here:
+Strach ze tmy
+=============
 
-https://github.com/myrmica-habilis/cave-terror
+Česká textová dobrodružná hra ve stylu Adventure. Zdrojový kód vychází ze `vzorové hry <https://github.com/myrmica-habilis/cave-terror>`__ vytvořené podle knihy `Make Your Own Python Text Adventure <https://www.apress.com/gp/book/9781484232309>`__.
 
-Working title is *Strach ze tmy* ("Fear of the Dark").
-
-It is still work-in-progress, being continuously refactored and extended.
+Hra je ve stádiu vývoje a je průběžně upravována a rozšiřována.
