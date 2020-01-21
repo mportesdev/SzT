@@ -5,6 +5,10 @@ Strach ze tmy
 
 Hra je ve stádiu vývoje a je průběžně upravována a rozšiřována.
 
-.. image:: screenshot.png
+Ukázky:
+
+.. image:: screenshot_pycharm.png
 
 .. image:: screenshot_windows.png
+
+.. image:: screenshot_replit.png
