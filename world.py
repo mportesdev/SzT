@@ -245,22 +245,22 @@ world_repr = '''
  fff      ccc                      
   f      ccccc                     
   f      cccccc    c               
- ff  f        cHcc c c             
- f  fff       c  cccccc     cccc   
- ff f f       c      T    ccCcw    
-f fff m f     c      cccccccc      
+ ff  f        cHcc c c  cg         
+ f  fff   ccc c  cccccc c   cccc   
+ ff f f   c ccc  c   T  c ccCcw    
+f fff m f c   c  cc ccccccccc      
 f f m fff   c          C  C        
-fmf     fW  c  w      ccccc        
-f ff     cccc  c    ccc            
-ff f        cccc  ccc C     g      
- f m     gccc  cccc   c   ccc  cw  
-mf        c cgcc  c   cccCc cCccc  
- ff      cc              g    cc   
-         c        f     cc         
+fmf     fW  c  wcc  c ccccccc      
+f ff     cccc  c  c ccc       c    
+ff f        cccc  ccc C g   gcc    
+ f m     gccc  cccc c c c ccc  cw  
+mf        c cgcc  c c cccCc cCccc  
+ ff      cc         c c  g    cc   
+         c        f   g cc         
          T    ffm f     c          
          cg   f  ffff   M          
          c    ffff t    V          
-       cccccg  f   f mf f ffff m   
+       cccccg  x   f mf f ffff m   
     cccg  c       mf  fff  f fFf   
     gccc cccc      fff  fFff   f   
     ccgc g ccccc     f  f  m fff   
