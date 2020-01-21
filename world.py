@@ -247,14 +247,14 @@ world_repr = '''
   f      cccccc    c               
  ff  f        cHcc c c             
  f  fff       c  cccccc     cccc   
- ff f f       c      T    ccccw    
+ ff f f       c      T    ccCcw    
 f fff m f     c      cccccccc      
-f f m fff   c          c  c        
+f f m fff   c          C  C        
 fmf     fW  c  w      ccccc        
 f ff     cccc  c    ccc            
-ff f        cccc  ccc c     g      
+ff f        cccc  ccc C     g      
  f m     gccc  cccc   c   ccc  cw  
-mf        c cgcc  c   ccccc ccccc  
+mf        c cgcc  c   cccCc cCccc  
  ff      cc              g    cc   
          c        f     cc         
          T    ffm f     c          
