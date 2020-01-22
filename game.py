@@ -48,18 +48,26 @@ def action_adder(action_dict: ActionDict, hotkey, action: Callable, name):
     color_print(f': {name.expandtabs(15)}', end='', color='94')
 
 
-def choose_action(player) -> Callable:
+def choose_action(player, command_buffer) -> Callable:
     available_actions = get_available_actions(player)
     print()
 
     while True:
-        action_input = input('Co teď? ').upper()
+        if command_buffer:
+            action_input = command_buffer.pop(0)
+        else:
+            action_input = input('Co teď? ').upper()
+            command_buffer.extend(action_input[1:])
+            action_input = action_input[:1]
         action, action_name = available_actions.get(action_input, (None, ''))
         if action is not None:
             print_action_name(action_name)
             return action
         else:
-            color_print('?', color='95')
+            if command_buffer:
+                command_buffer.clear()
+            else:
+                color_print('?', color='95')
 
 
 def confirm_quit():
@@ -74,6 +82,7 @@ def quit_game():
 def main():
     print_game_title()
     player = Player()
+    command_buffer = []
 
     while True:
         nice_print(player.current_room().intro_text())
@@ -87,7 +96,7 @@ def main():
             if not player.is_alive():
                 quit_game()
 
-            action = choose_action(player)
+            action = choose_action(player, command_buffer)
             action()
 
             # if the player moves, break to the outer loop to print
