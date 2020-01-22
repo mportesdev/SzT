@@ -249,35 +249,34 @@ class FindConsumableTile(Forest):
 
 
 world_repr = '''
- m                                 
- fff      ccc                      
-  f      ccccc                     
-  f      cccccc    c               
- ff  f        cHcc c c  cg         
- f  fff   ccc c  cccccc c   cccc   
- ff f f   c ccc  c   T  c ccCcw    
-f fff m f c   c  cc ccccccccc      
-f f m fff   c          C  C        
-fmf     fW  c  wcc  c ccccccc      
-f ff     cccc  c  c ccc       c    
-ff f        cccc  ccc C g   gcc    
- f m     gccc  cccc c c c ccc  cw  
-mf        c cgcc  c c cccCc cCccc  
- ff      cc         c c  g    cc   
-         c        f   g cc         
-         T    ffm f     c          
-         cg   f  ffff   M          
-         c    ffff t    V          
-       cccccg  x   f mf f ffff m   
-    cccg  c       mf  fff  f fFf   
-    gccc cccc      fff  fFff   f   
-    ccgc g ccccc     f  f  m fff   
-     ccc c ccgcg     fffff   f   f 
-      cg c wcccc     m f f xffff fm
-                       f f  f  fff 
-                            ffm  f 
-                                 f 
-                                 S 
+ m        cc cc                          
+ fff    cc c c                           
+  f      cccccc    c                     
+  f  f        cHcc c c  cg    c          
+ ff fff   ccc c  cccccc c    cc          
+ f  f f   c ccc  c   T  c    c cc        
+ ff f m f c   c  cc cccccccccccc         
+f fff fff   c          C  C              
+f f m   fW  c  wcc  c ccccccc            
+fmf      cccc  c  c ccc       c          
+f ff        cccc  ccc C g   gcc          
+ff f     gccc  cccc c c c ccc  c         
+ f m      c cgcc  c c cccCc cCcccc       
+mf       cc         c c  g    c  c       
+ ff      c        f   g cc    cc         
+         T    ffm f     c                
+         cg   f  ffff   M                
+     c   c    ffff t    V                
+     c cccccc  x   f mf f ffff m         
+    cc c  c       mf  fff  f fFf         
+    c  c cccc cc   fff  fFff   f         
+    cccc c  c  cc    f  f  m fff         
+   cc c  c ccc c     fffff   f   f       
+   c  c  c c ccc     m f f xffff fm      
+   cc                  f f  f  fff       
+                            ffm  f       
+                                 f       
+                                 S       
 '''
 
 
