@@ -67,5 +67,6 @@ def oscillate(number, relative_delta=0.2):
     return random.randint(number - delta, number + delta)
 
 
-if '--no-color' in sys.argv[1:] or os.name == 'nt':
+if '--no-color' in sys.argv[1:] or (os.name == 'nt'
+                                    and '--color' not in sys.argv[1:]):
     color_print = color_print_dummy
