@@ -204,7 +204,7 @@ class FindWeaponTile(PlainTile):
         if (x, y) == (27, 24):
             args = ('Rezavá sekerka', 9, 32, 'Rezavou sekerku')
         else:
-            args = random.choice((('Rezavý meč', 16, 72),
+            args = random.choice((('Zrezivělý meč', 16, 72),
                                   ('Ostnatý palcát', 18, 85),
                                   ('Řemdih', 20, 94)))
         self.weapon = items.Weapon(*args)
@@ -214,7 +214,12 @@ class FindWeaponTile(PlainTile):
         if not self.weapon_claimed:
             self.weapon_claimed = True
             player.inventory.append(self.weapon)
-            message = f'Našel jsi {self.weapon.name_accusative.lower()}.'
+            if isinstance(self, Forest):
+                message = ('V křoví u cesty jsi našel'
+                           f' {self.weapon.name_accusative.lower()}.')
+            else:
+                message = ('Ve skulině pod kamenem jsi našel'
+                           f' {self.weapon.name_accusative.lower()}.')
             nice_print(message, 'luck', color='96')
 
 
@@ -338,9 +343,10 @@ class World:
                     map_row.append(tile)
                     if tile_code == 'S':
                         tile.text = ('Stojíš na úpatí kopce na okraji'
-                                     ' tajuplného lesa. Svou rodnou vesnici jsi'
-                                     ' nechal za sebou a vydal ses na nejistou'
-                                     ' dráhu dobrodruha.')
+                                     ' tajuplného lesa. Svou rodnou vesnici a'
+                                     ' poklidný život pekařského učně jsi'
+                                     ' nechal daleko za sebou a vydal ses na'
+                                     ' nejistou dráhu dobrodruha.')
                         self.start_tile = tile
                     elif tile_code == 'V':
                         self.victory_tile = tile
