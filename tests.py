@@ -4,6 +4,40 @@ import pytest
 from items import Item
 from npc import Trader
 from utils import oscillate
+import world
+
+
+@pytest.fixture
+def game_world():
+    return world.World()
+
+
+@pytest.mark.parametrize('x, y', ((0, 0), (-1, -1), (34, 28), (35, 29),
+                                  (10, 0), (0, 14), (5, 6), (24, 14)))
+def test_world_tile_at_returns_none(game_world, x, y):
+    """Test world.World.tile_at"""
+    assert game_world.tile_at(x, y) is None
+
+
+@pytest.mark.parametrize('x, y, tile_class', ((5, 5, world.Forest),
+                                              (25, 13, world.CaveWithEnemy),
+                                              (30, 6, world.CaveWithWeapon),
+                                              (25, 14, world.FindGoldTile)))
+def test_world_tile_at_returns_correct_tile(game_world, x, y, tile_class):
+    """Test world.World.tile_at"""
+    assert isinstance(game_world.tile_at(x, y), tile_class)
+
+
+@pytest.mark.parametrize('x, y, attribute', ((25, 4, 'gold'),
+                                             (25, 4, 'gold_claimed'),
+                                             (11, 24, 'weapon'),
+                                             (11, 24, 'weapon_claimed'),
+                                             (16, 16, 'consumable'),
+                                             (16, 16, 'consumable_claimed'),
+                                             (9, 16, 'enemy')))
+def test_special_tiles_attribute(game_world, x, y, attribute):
+    """Test world.World.tile_at"""
+    assert hasattr(game_world.tile_at(x, y), attribute)
 
 
 @pytest.fixture
