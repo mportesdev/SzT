@@ -19,29 +19,25 @@ def get_available_actions(player) -> ActionDict:
     except AttributeError:
         enemy_near = False
     if enemy_near:
-        action_adder(actions, 'B', player.attack, 'Bojovat\n')
+        actions['B'] = (player.attack, 'Bojovat\n')
     if not enemy_near or player.good_hit:
         player.good_hit = False
         if player.world.tile_at(room.x, room.y - 1):
-            action_adder(actions, 'S', player.move_north, 'Jít na sever\t')
+            actions['S'] = (player.move_north, 'Jít na sever\t')
         if player.world.tile_at(room.x, room.y + 1):
-            action_adder(actions, 'J', player.move_south, 'Jít na jih\t')
+            actions['J'] = (player.move_south, 'Jít na jih\t')
         if player.world.tile_at(room.x - 1, room.y):
-            action_adder(actions, 'Z', player.move_west, 'Jít na západ\t')
+            actions['Z'] = (player.move_west, 'Jít na západ\t')
         if player.world.tile_at(room.x + 1, room.y):
-            action_adder(actions, 'V', player.move_east, 'Jít na východ')
+            actions['V'] = (player.move_east, 'Jít na východ')
     if hasattr(room, 'trader'):
-        action_adder(actions, 'O', player.trade, 'Obchodovat\t')
+        actions['O'] = (player.trade, 'Obchodovat\t')
     if player.hp < 100 and player.has_consumables():
-        action_adder(actions, 'L', player.heal, 'Léčit se\t')
-    action_adder(actions, 'I', player.print_inventory, 'Inventář\t')
-    action_adder(actions, 'K', confirm_quit, 'Konec\n')
+        actions['L'] = (player.heal, 'Léčit se\t')
+    actions['I'] = (player.print_inventory, 'Inventář\t')
+    actions['K'] = (confirm_quit, 'Konec\n')
 
     return actions
-
-
-def action_adder(action_dict: ActionDict, hotkey, action: Callable, name):
-    action_dict[hotkey] = action, name
 
 
 def choose_action(player, command_buffer) -> Callable:
