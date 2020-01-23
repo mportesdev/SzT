@@ -8,6 +8,8 @@ from utils import color_print, print_game_title, print_action_name, nice_print
 
 ActionDict = Dict[str, Tuple[Callable, str]]
 
+movement_hotkeys = {'S', 'J', 'Z', 'V'}
+
 
 def get_available_actions(player) -> ActionDict:
     room = player.current_room()
@@ -55,8 +57,9 @@ def choose_action(player, command_buffer) -> Callable:
             action_input = command_buffer.pop(0)
         else:
             action_input = input('Co teď? ').upper()
-            command_buffer.extend(action_input[1:])
-            action_input = action_input[:1]
+            if set(action_input).issubset(movement_hotkeys):
+                command_buffer.extend(action_input[1:])
+                action_input = action_input[:1]
         action, action_name = available_actions.get(action_input, (None, ''))
         if action is not None:
             print_action_name(action_name)
@@ -70,7 +73,7 @@ def choose_action(player, command_buffer) -> Callable:
 
 def print_options(available_actions):
     print('\nMožnosti:')
-    movements = [k for k in available_actions.keys() if k in 'SJZV']
+    movements = [k for k in available_actions.keys() if k in movement_hotkeys]
 
     for hotkey, (_, name) in available_actions.items():
         color_print(f'{hotkey}', end='', color='0')
