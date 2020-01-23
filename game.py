@@ -12,7 +12,6 @@ ActionDict = Dict[str, Tuple[Callable, str]]
 def get_available_actions(player) -> ActionDict:
     room = player.current_room()
     actions = OrderedDict()
-    print('\nMožnosti:')
     try:
         enemy_near = room.enemy.is_alive()
     except AttributeError:
@@ -29,27 +28,33 @@ def get_available_actions(player) -> ActionDict:
             action_adder(actions, 'Z', player.move_west, 'Jít na západ\t')
         if player.world.tile_at(room.x + 1, room.y):
             action_adder(actions, 'V', player.move_east, 'Jít na východ')
-        print()
     if hasattr(room, 'trader'):
         action_adder(actions, 'O', player.trade, 'Obchodovat\t')
     if player.hp < 100 and player.has_consumables():
         action_adder(actions, 'L', player.heal, 'Léčit se\t')
     action_adder(actions, 'I', player.print_inventory, 'Inventář\t')
     action_adder(actions, 'K', confirm_quit, 'Konec\n')
-    color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
-                f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
 
     return actions
 
 
 def action_adder(action_dict: ActionDict, hotkey, action: Callable, name):
     action_dict[hotkey] = action, name
-    color_print(f'{hotkey}', end='', color='0')
-    color_print(f': {name.expandtabs(15)}', end='', color='94')
 
 
 def choose_action(player, command_buffer) -> Callable:
+    print('\nMožnosti:')
     available_actions = get_available_actions(player)
+    movements = [k for k in available_actions.keys() if k in 'SJZV']
+
+    for hotkey, (_, name) in available_actions.items():
+        color_print(f'{hotkey}', end='', color='0')
+        color_print(f': {name.expandtabs(15)}', end='', color='94')
+        if movements and hotkey == movements[-1]:
+            print()
+
+    color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
+                f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
     print()
 
     while True:
