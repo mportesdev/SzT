@@ -43,18 +43,11 @@ def action_adder(action_dict: ActionDict, hotkey, action: Callable, name):
 
 
 def choose_action(player, command_buffer) -> Callable:
-    print('\nMožnosti:')
     available_actions = get_available_actions(player)
-    movements = [k for k in available_actions.keys() if k in 'SJZV']
-
-    for hotkey, (_, name) in available_actions.items():
-        color_print(f'{hotkey}', end='', color='0')
-        color_print(f': {name.expandtabs(15)}', end='', color='94')
-        if movements and hotkey == movements[-1]:
-            print()
-
-    color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
-                f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
+    if not command_buffer:
+        print_options(available_actions)
+        color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
+                    f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
     print()
 
     while True:
@@ -73,6 +66,17 @@ def choose_action(player, command_buffer) -> Callable:
                 command_buffer.clear()
             else:
                 color_print('?', color='95')
+
+
+def print_options(available_actions):
+    print('\nMožnosti:')
+    movements = [k for k in available_actions.keys() if k in 'SJZV']
+
+    for hotkey, (_, name) in available_actions.items():
+        color_print(f'{hotkey}', end='', color='0')
+        color_print(f': {name.expandtabs(15)}', end='', color='94')
+        if movements and hotkey == movements[-1]:
+            print()
 
 
 def confirm_quit():
