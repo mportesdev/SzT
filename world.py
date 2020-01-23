@@ -23,13 +23,11 @@ class PlainTile:
 class Cave(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        if 24 <= x <= 31 and 5 <= y <= 8:
+        if x >= 26 and y <= 8:
             self.text = ('Kráčíš po rozměklé zemi ve vlhké a zatuchlé části'
                          ' jeskyně.')
-        elif (9 <= x <= 13 and 1 <= y <= 3) \
-                or (4 <= x <= 7 and 20 <= y <= 24) \
-                or (11 <= x <= 15 and 22 <= y <= 24):
-            self.text = 'Jsi v prostorné jeskyni.'
+        elif x <= 16 and y >= 17:
+            self.text = 'Bloudíš spletí úzkých a nízkých podzemních chodeb.'
         else:
             self.text = 'Procházíš chladnou tmavou jeskyní.'
 
@@ -37,11 +35,11 @@ class Cave(PlainTile):
 class Forest(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        if 0 <= x <= 8 and 0 <= y <= 14:
+        if x <= 8 and y <= 14:
             self.text = ('Jdeš po sotva znatelné stezce vedoucí tmavým a'
                          ' zlověstně tichým lesem. V pološeru zakopáváš o'
                          ' kořeny obrovských stromů.')
-        elif 14 <= x <= 20 and 15 <= y <= 19:
+        elif 14 <= x <= 20 and 14 <= y <= 20:
             self.text = 'Procházíš nejtmavší a nejponurejší částí lesa.'
         else:
             self.text = 'Jdeš po úzké, zarostlé lesní pěšině.'
@@ -201,7 +199,7 @@ class FindGoldTile(Cave):
 class FindWeaponTile(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        if (x, y) == (27, 24):
+        if (x, y) == (27, 23):
             args = ('Rezavá sekerka', 9, 32, 'Rezavou sekerku')
         else:
             args = random.choice((('Zrezivělý meč', 16, 72),
@@ -272,7 +270,7 @@ mf       cc         c c  g    c  c
     c  c cccc cc   fff  fFff   f         
     cccc c  c  cc    f  f  m fff         
    cc c  c ccc c     fffff   f   f       
-   c  c  c c ccc     m f f xffff fm      
+   c  c  c w ccc     m f f xffff fm      
    cc                  f f  f  fff       
                             ffm  f       
                                  f       
