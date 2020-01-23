@@ -25,12 +25,16 @@ class Trader:
                          ' nějaké věci, určené patrně na prodej.'),
                    gold=350,
                    inventory=[
-                       items.Consumable('Hojivá mast', 11, 12, 'Hojivou mast'),
+                       items.Consumable('Hojivá mast', 11, 12, 'Hojivou mastí',
+                                        'Hojivou mast'),
                        items.Consumable('Lahvička medicíny', 28, 34,
+                                        'Lahvičkou medicíny',
                                         'Lahvičku medicíny'),
-                       items.Consumable('Léčivý lektvar', 39, 48),
+                       items.Consumable('Léčivý lektvar', 39, 48,
+                                        'Léčivým lektvarem'),
                        items.Weapon('Dýka', 11, 45, 'Dýku'),
-                       items.Consumable('Speciální lektvar', 52, 61),
+                       items.Consumable('Speciální lektvar', 52, 61,
+                                        'Speciálním lektvarem'),
                              ],
                    slang=('prašule', 'vašnosto'))
 
@@ -43,6 +47,7 @@ class Trader:
                    inventory=[
                        items.Weapon('Obouruční meč', 24, 102),
                        items.Weapon('Těžká sekera', 26, 110, 'Těžkou sekeru'),
-                       items.Consumable('Hojivá mast', 14, 16, 'Hojivou mast'),
+                       items.Consumable('Hojivá mast', 14, 16, 'Hojivou mastí',
+                                        'Hojivou mast'),
                              ],
                    slang=('peníze', 'sire'))

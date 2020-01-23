@@ -13,7 +13,7 @@ class Player:
     def __init__(self):
         self.inventory: InventoryList = [
             items.Weapon('Tupý nůž', 5, 14),
-            items.Consumable('Bylinkový chleba', 8, 11),
+            items.Consumable('Bylinkový chleba', 8, 11, 'Bylinkovým chlebem'),
         ]
         self.world = World()
         self.x, self.y = self.world.start_tile.x, self.world.start_tile.y
@@ -84,10 +84,10 @@ class Player:
         consumables = [item for item in self.inventory
                        if isinstance(item, items.Consumable)]
 
-        print('Čím chceš doplnit síly?')
+        print('Čím se chceš kurýrovat?')
         for i, item in enumerate(consumables, 1):
             print(f'{i:3}. ', end='')
-            color_print(f'{item}', color='96')
+            color_print(f'{item.str_7()}', color='96')
 
         while True:
             color_print('Číslo položky             (', end='', color='94')
@@ -104,7 +104,7 @@ class Player:
                     to_eat = consumables[choice - 1]
                     self.hp = min(100, self.hp + to_eat.healing_value)
                     self.inventory.remove(to_eat)
-                    print(f'Hned se cítíš lépe!')
+                    print('Hned je ti lépe!')
                     return
                 except (ValueError, IndexError):
                     color_print('?', color='95')

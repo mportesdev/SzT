@@ -232,9 +232,10 @@ class ForestWithWeapon(FindWeaponTile, Forest):
 class FindConsumableTile(Forest):
     def __init__(self, x, y):
         super().__init__(x, y)
-        args = random.choice((('Léčivé bylinky', 18, 20),
-                              ('Kouzelné houby', 22, 26),
-                              ('Kouzelné bobule', 14, 14)))
+        args = random.choice((('Léčivé bylinky', 18, 20, 'Léčivými bylinkami'),
+                              ('Kouzelné houby', 22, 26, 'Kouzelnými houbami'),
+                              ('Kouzelné bobule', 14, 14,
+                               'Kouzelnými bobulemi')))
         self.consumable = items.Consumable(*args)
         self.consumable_claimed = False
 
