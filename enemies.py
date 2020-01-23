@@ -7,15 +7,15 @@ import items
 
 class Enemy:
     def __init__(self, name, hp, damage,
-                 name_dative=None, name_accusative=None,
+                 name_3=None, name_4=None,
                  alive_text=None, dead_text=None):
         self.name = name
         self.name_short = self.name.split()[-1].lower()
         self.hp = hp
         self.damage = damage
 
-        self.name_dative = name_dative or self.name
-        self.name_accusative = name_accusative or self.name
+        self.name_3 = name_3 or self.name
+        self.name_4 = name_4 or self.name
 
         self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
         self.dead_text = dead_text or f'Na zemi leží mrtvý {self.name.lower()}.'
@@ -44,10 +44,10 @@ class Monster(Enemy):
     being killed.
     """
     def __init__(self, name, hp, damage,
-                 name_dative=None, name_accusative=None,
+                 name_3=None, name_4=None,
                  alive_text=None, dead_text=None):
         super().__init__(name, hp, damage,
-                         name_dative, name_accusative, alive_text, dead_text)
+                         name_3, name_4, alive_text, dead_text)
         self.gold = random.randint(5, 20)
         self.gold_claimed = False
 
@@ -56,8 +56,8 @@ class Monster(Enemy):
         return cls(name='Kamenný troll',
                    hp=82,
                    damage=14,
-                   name_dative='Trollovi',
-                   name_accusative='Trolla',
+                   name_3='Trollovi',
+                   name_4='Trolla',
                    alive_text='Vyrušil jsi dřímajícího kamenného trolla!',
                    dead_text='Zabitý kamenný troll připomíná obyčejnou skálu.')
 
@@ -66,8 +66,8 @@ class Monster(Enemy):
         return cls(name='Lesní troll',
                    hp=52,
                    damage=12,
-                   name_dative='Trollovi',
-                   name_accusative='Trolla',
+                   name_3='Trollovi',
+                   name_4='Trolla',
                    alive_text='Cestu ti zastoupil mohutný troll obrostlý'
                               ' mechem.')
 
@@ -78,10 +78,10 @@ class Human(Enemy):
     killed, along with an optional amount of gold.
     """
     def __init__(self, name, hp, weapon,
-                 name_dative=None, name_accusative=None,
+                 name_3=None, name_4=None,
                  alive_text=None, dead_text=None):
         super().__init__(name, hp, None,
-                         name_dative, name_accusative, alive_text, dead_text)
+                         name_3, name_4, alive_text, dead_text)
         self.weapon = weapon
         self.weapon_claimed = False
         self.damage = self.weapon.damage
@@ -93,8 +93,8 @@ class Human(Enemy):
         return cls(name='Cizí dobrodruh',
                    hp=80,
                    weapon=items.Weapon('Železné kopí', 18, 85),
-                   name_dative='Dobrodruhovi',
-                   name_accusative='Dobrodruha',
+                   name_3='Dobrodruhovi',
+                   name_4='Dobrodruha',
                    alive_text='Vrhl se na tebe pološílený dobrodruh - jiný hráč'
                               ' této hry!',
                    dead_text='Na zemi leží mrtvola muže s vytřeštěnýma očima.')
@@ -107,8 +107,8 @@ enemies_data = (
             'name': 'Obří pavouk',
             'hp': 24,
             'damage': 6,
-            'name_dative': 'Pavoukovi',
-            'name_accusative': 'Pavouka',
+            'name_3': 'Pavoukovi',
+            'name_4': 'Pavouka',
             'alive_text': 'Z výšky se spustil obří pavouk a snaží se tě'
                           ' pozřít!',
             'dead_text': 'Na zemi se povalují nohy a trup gigantického'
@@ -122,8 +122,8 @@ enemies_data = (
             'name': 'Obří šváb',
             'hp': 28,
             'damage': 4,
-            'name_dative': 'Švábovi',
-            'name_accusative': 'Švába',
+            'name_3': 'Švábovi',
+            'name_4': 'Švába',
             'alive_text': 'Z díry vylezl odporný obří šváb a sevřel tě'
                           ' kusadly!',
             'dead_text': 'Na zemi leží ohavná tlející mrtvola švába.',
@@ -136,8 +136,8 @@ enemies_data = (
             'name': 'Obří netopýr',
             'hp': 35,
             'damage': 6,
-            'name_dative': 'Netopýrovi',
-            'name_accusative': 'Netopýra',
+            'name_3': 'Netopýrovi',
+            'name_4': 'Netopýra',
             'dead_text': 'Na zemi leží odpudivý mrtvý netopýr s polámanými'
                          ' kožnatými křídly.',
         },
@@ -149,8 +149,8 @@ enemies_data = (
             'name': 'Skřet',
             'hp': 42,
             'damage': 10,
-            'name_dative': 'Skřetovi',
-            'name_accusative': 'Skřeta',
+            'name_3': 'Skřetovi',
+            'name_4': 'Skřeta',
         },
     ),
 
@@ -160,8 +160,8 @@ enemies_data = (
             'name': 'Krysodlak',
             'hp': 45,
             'damage': 12,
-            'name_dative': 'Krysodlakovi',
-            'name_accusative': 'Krysodlaka',
+            'name_3': 'Krysodlakovi',
+            'name_4': 'Krysodlaka',
         },
     ),
 
@@ -171,8 +171,8 @@ enemies_data = (
             'name': 'Jeskynní dráček',
             'hp': 55,
             'damage': 8,
-            'name_dative': 'Dráčkovi',
-            'name_accusative': 'Dráčka',
+            'name_3': 'Dráčkovi',
+            'name_4': 'Dráčka',
             'alive_text': 'Ze tmy vyskočil malý jeskynní dráček a zasáhl tě'
                           ' ohnivou koulí!',
             'dead_text': 'Z mrtvoly jeskynního dráčka vytéká jasně oranžová'
@@ -186,8 +186,8 @@ enemies_data = (
             'name': 'Vlk',
             'hp': 28,
             'damage': 5,
-            'name_dative': 'Vlkovi',
-            'name_accusative': 'Vlka',
+            'name_3': 'Vlkovi',
+            'name_4': 'Vlka',
             'alive_text': 'Z křoví na tebe vyskočil vychrtlý šedý vlk.',
         },
     ),
@@ -198,8 +198,8 @@ enemies_data = (
             'name': 'Vlkodlak',
             'hp': 39,
             'damage': 9,
-            'name_dative': 'Vlkodlakovi',
-            'name_accusative': 'Vlkodlaka',
+            'name_3': 'Vlkodlakovi',
+            'name_4': 'Vlkodlaka',
         },
     ),
 )

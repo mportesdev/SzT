@@ -56,7 +56,7 @@ class EnemyTile(PlainTile):
     def modify_player(self, player):
         if self.enemy.is_alive():
             if player.good_hit:
-                nice_print(f'Zasáhl jsi {self.enemy.name_accusative.lower()} do'
+                nice_print(f'Zasáhl jsi {self.enemy.name_4.lower()} do'
                            f' hlavy! {self.enemy.name} zmateně vrávorá.',
                            'fight', color='96')
             else:
@@ -72,14 +72,14 @@ class EnemyTile(PlainTile):
                 if not self.enemy.gold_claimed and self.enemy.gold > 0:
                     self.enemy.gold_claimed = True
                     player.gold += self.enemy.gold
-                    message = (f'Sebral jsi {self.enemy.name_dative.lower()}'
+                    message = (f'Sebral jsi {self.enemy.name_3.lower()}'
                                f' {self.enemy.gold} zlaťáků.')
                     nice_print(message, 'luck', color='96')
                 if not self.enemy.weapon_claimed:
                     self.enemy.weapon_claimed = True
                     player.inventory.append(self.enemy.weapon)
-                    message = (f'Sebral jsi {self.enemy.name_dative.lower()}'
-                               f' {self.enemy.weapon.name_accusative.lower()}.')
+                    message = (f'Sebral jsi {self.enemy.name_3.lower()}'
+                               f' {self.enemy.weapon.name_4.lower()}.')
                     nice_print(message, 'luck', color='96')
             except AttributeError:
                 pass
@@ -214,10 +214,10 @@ class FindWeaponTile(PlainTile):
             player.inventory.append(self.weapon)
             if isinstance(self, Forest):
                 message = ('V křoví u cesty jsi našel'
-                           f' {self.weapon.name_accusative.lower()}.')
+                           f' {self.weapon.name_4.lower()}.')
             else:
                 message = ('Ve skulině pod kamenem jsi našel'
-                           f' {self.weapon.name_accusative.lower()}.')
+                           f' {self.weapon.name_4.lower()}.')
             nice_print(message, 'luck', color='96')
 
 
@@ -243,7 +243,7 @@ class FindConsumableTile(Forest):
         if not self.consumable_claimed:
             self.consumable_claimed = True
             player.inventory.append(self.consumable)
-            message = f'Našel jsi {self.consumable.name_accusative.lower()}.'
+            message = f'Našel jsi {self.consumable.name_4.lower()}.'
             nice_print(message, 'luck', color='96')
 
 

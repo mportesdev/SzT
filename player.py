@@ -59,7 +59,7 @@ class Player:
         best_weapon = self.best_weapon()
         if best_weapon:
             weapon_damage = best_weapon.damage
-            weapon_name = best_weapon.name_accusative.lower()
+            weapon_name = best_weapon.name_4.lower()
         else:
             weapon_damage = 1
             weapon_name = 'pěsti'
@@ -69,9 +69,9 @@ class Player:
         enemy.hp -= real_damage
         self.experience += real_damage
         message = (f'Použil jsi {weapon_name} proti'
-                   f' {enemy.name_dative.lower()}.')
+                   f' {enemy.name_3.lower()}.')
         if not enemy.is_alive():
-            message += f' Zabil jsi {enemy.name_accusative.lower()}!'
+            message += f' Zabil jsi {enemy.name_4.lower()}!'
             if self.world.all_dead():
                 self.experience += 500
         nice_print(message, 'fight')
