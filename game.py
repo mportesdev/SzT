@@ -8,11 +8,12 @@ from utils import color_print, print_game_title, print_action_name, nice_print
 
 ActionDict = Dict[str, Tuple[Callable, str]]
 
+movement_hotkeys = {'S', 'J', 'Z', 'V'}
+
 
 def get_available_actions(player) -> ActionDict:
     room = player.current_room()
     actions = OrderedDict()
-    print('\nMožnosti:')
     try:
         enemy_near = room.enemy.is_alive()
     except AttributeError:
@@ -29,37 +30,56 @@ def get_available_actions(player) -> ActionDict:
             action_adder(actions, 'Z', player.move_west, 'Jít na západ\t')
         if player.world.tile_at(room.x + 1, room.y):
             action_adder(actions, 'V', player.move_east, 'Jít na východ')
-        print()
     if hasattr(room, 'trader'):
         action_adder(actions, 'O', player.trade, 'Obchodovat\t')
     if player.hp < 100 and player.has_consumables():
         action_adder(actions, 'L', player.heal, 'Léčit se\t')
     action_adder(actions, 'I', player.print_inventory, 'Inventář\t')
     action_adder(actions, 'K', confirm_quit, 'Konec\n')
-    color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
-                f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
 
     return actions
 
 
 def action_adder(action_dict: ActionDict, hotkey, action: Callable, name):
     action_dict[hotkey] = action, name
-    color_print(f'{hotkey}', end='', color='0')
-    color_print(f': {name.expandtabs(15)}', end='', color='94')
 
 
-def choose_action(player) -> Callable:
+def choose_action(player, command_buffer) -> Callable:
     available_actions = get_available_actions(player)
+    if not command_buffer:
+        print_options(available_actions)
+        color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
+                    f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
     print()
 
     while True:
-        action_input = input('Co teď? ').upper()
+        if command_buffer:
+            action_input = command_buffer.pop(0)
+        else:
+            action_input = input('Co teď? ').upper()
+            if set(action_input).issubset(movement_hotkeys):
+                command_buffer.extend(action_input[1:])
+                action_input = action_input[:1]
         action, action_name = available_actions.get(action_input, (None, ''))
         if action is not None:
             print_action_name(action_name)
             return action
         else:
-            color_print('?', color='95')
+            if command_buffer:
+                command_buffer.clear()
+            else:
+                color_print('?', color='95')
+
+
+def print_options(available_actions):
+    print('\nMožnosti:')
+    movements = [k for k in available_actions.keys() if k in movement_hotkeys]
+
+    for hotkey, (_, name) in available_actions.items():
+        color_print(f'{hotkey}', end='', color='0')
+        color_print(f': {name.expandtabs(15)}', end='', color='94')
+        if movements and hotkey == movements[-1]:
+            print()
 
 
 def confirm_quit():
@@ -74,6 +94,7 @@ def quit_game():
 def main():
     print_game_title()
     player = Player()
+    command_buffer = []
 
     while True:
         nice_print(player.current_room().intro_text())
@@ -87,7 +108,7 @@ def main():
             if not player.is_alive():
                 quit_game()
 
-            action = choose_action(player)
+            action = choose_action(player, command_buffer)
             action()
 
             # if the player moves, break to the outer loop to print
