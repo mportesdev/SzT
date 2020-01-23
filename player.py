@@ -21,6 +21,7 @@ class Player:
         self.gold = 10
         self.experience = 0
         self.good_hit = False
+        self.fast_travel = False
 
     def is_alive(self):
         return self.hp > 0

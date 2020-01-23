@@ -41,30 +41,36 @@ def get_available_actions(player) -> ActionDict:
 
 
 def choose_action(player, command_buffer) -> Callable:
-    available_actions = get_available_actions(player)
-    if not command_buffer:
-        print_options(available_actions)
-        color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
-                    f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
-    print()
-
     while True:
-        if command_buffer:
-            action_input = command_buffer.pop(0)
-        else:
-            action_input = input('Co teď? ').upper()
-            if set(action_input).issubset(movement_hotkeys):
-                command_buffer.extend(action_input[1:])
-                action_input = action_input[:1]
-        action, action_name = available_actions.get(action_input, (None, ''))
-        if action is not None:
-            print_action_name(action_name)
-            return action
-        else:
+        available_actions = get_available_actions(player)
+        if not command_buffer:
+            print_options(available_actions)
+            color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
+                        f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
+        print()
+
+        while True:
             if command_buffer:
-                command_buffer.clear()
+                action_input = command_buffer.pop(0)
+                first = False
             else:
-                color_print('?', color='95')
+                action_input = input('Co teď? ').upper()
+                if set(action_input).issubset(movement_hotkeys):
+                    command_buffer.extend(action_input[1:])
+                    player.fast_travel = bool(command_buffer)
+                    action_input = action_input[:1]
+                    first = True
+            action, action_name = available_actions.get(action_input,
+                                                        (None, ''))
+            if action is not None:
+                print_action_name(action_name)
+                return action
+            else:
+                command_buffer.clear()
+                if player.fast_travel and not first:
+                    break
+                else:
+                    color_print('?', color='95')
 
 
 def print_options(available_actions):
@@ -93,6 +99,8 @@ def main():
     command_buffer = []
 
     while True:
+        # if not player.fast_travel:
+        #     nice_print(player.current_room().intro_text())
         nice_print(player.current_room().intro_text())
 
         if player.is_winner():
