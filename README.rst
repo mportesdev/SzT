@@ -12,3 +12,5 @@ Ukázky:
 .. image:: screenshot_windows.png
 
 .. image:: screenshot_replit.png
+
+.. image:: screenshot_idle.png
