@@ -1,14 +1,13 @@
 # coding: utf-8
 
 from collections import OrderedDict
+import re
 from typing import Dict, Tuple, Callable
 
 from player import Player
 from utils import color_print, print_game_title, print_action_name, nice_print
 
 ActionDict = Dict[str, Tuple[Callable, str]]
-
-movement_hotkeys = {'S', 'J', 'Z', 'V'}
 
 
 def get_available_actions(player) -> ActionDict:
@@ -19,23 +18,23 @@ def get_available_actions(player) -> ActionDict:
     except AttributeError:
         enemy_near = False
     if enemy_near:
-        actions['B'] = (player.attack, 'Bojovat\n')
+        actions['B'] = (player.attack, 'Bojovat')
+    if hasattr(room, 'trader'):
+        actions['O'] = (player.trade, 'Obchodovat')
     if not enemy_near or player.good_hit:
         player.good_hit = False
         if player.world.tile_at(room.x, room.y - 1):
-            actions['S'] = (player.move_north, 'Jít na sever\t')
+            actions['S'] = (player.move_north, 'Jít na sever')
         if player.world.tile_at(room.x, room.y + 1):
-            actions['J'] = (player.move_south, 'Jít na jih\t')
+            actions['J'] = (player.move_south, 'Jít na jih')
         if player.world.tile_at(room.x - 1, room.y):
-            actions['Z'] = (player.move_west, 'Jít na západ\t')
+            actions['Z'] = (player.move_west, 'Jít na západ')
         if player.world.tile_at(room.x + 1, room.y):
             actions['V'] = (player.move_east, 'Jít na východ')
-    if hasattr(room, 'trader'):
-        actions['O'] = (player.trade, 'Obchodovat\t')
     if player.hp < 100 and player.has_consumables():
-        actions['L'] = (player.heal, 'Léčit se\t')
-    actions['I'] = (player.print_inventory, 'Inventář\t')
-    actions['K'] = (confirm_quit, 'Konec\n')
+        actions['L'] = (player.heal, 'Léčit se')
+    actions['I'] = (player.print_inventory, 'Inventář')
+    actions['K'] = (confirm_quit, 'Konec')
 
     return actions
 
@@ -57,7 +56,7 @@ def choose_action(player, command_buffer: list) -> Callable:
                     break
             else:
                 action_input = input('Co teď? ').upper()
-                if set(action_input).issubset(movement_hotkeys):
+                if set(action_input).issubset(set('SJZV')):
                     command_buffer.extend(action_input[1:])
                     action_input = action_input[:1]
             action, action_name = available_actions.get(action_input,
@@ -72,13 +71,17 @@ def choose_action(player, command_buffer: list) -> Callable:
 
 def print_options(available_actions):
     print('\nMožnosti:')
-    movements = [k for k in available_actions.keys() if k in movement_hotkeys]
+    hotkeys = ''.join(available_actions.keys())
+    hotkey_groups = re.search(r'([BO]*)([SJZV]*)([LIK]*)', hotkeys).groups()
 
-    for hotkey, (_, name) in available_actions.items():
-        color_print(f'{hotkey}', end='', color='0')
-        color_print(f': {name.expandtabs(15)}', end='', color='94')
-        if movements and hotkey == movements[-1]:
-            print()
+    for hotkey_group in hotkey_groups:
+        for hotkey in hotkey_group:
+            print(f'{hotkey}', end='')
+            name = available_actions[hotkey][1]
+            if hotkey == hotkey_group[-1]:
+                color_print(f': {name}', color='94')
+            else:
+                color_print(f': {name:<15}', end='', color='94')
 
 
 def confirm_quit():
