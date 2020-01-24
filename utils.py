@@ -2,6 +2,7 @@
 
 import os
 import random
+import re
 import sys
 from textwrap import TextWrapper
 import time
@@ -65,6 +66,10 @@ def nice_print(message, msg_type='info', color=None):
 def oscillate(number, relative_delta=0.2):
     delta = int(number * relative_delta)
     return random.randint(number - delta, number + delta)
+
+
+def hotkey_groups(hotkeys):
+    return re.search(r'([BO]*)([SJZV]*)([LIK]*)', hotkeys).groups()
 
 
 if '--no-color' in sys.argv[1:] or (os.name == 'nt'

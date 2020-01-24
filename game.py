@@ -1,11 +1,11 @@
 # coding: utf-8
 
 from collections import OrderedDict
-import re
 from typing import Dict, Tuple, Callable
 
 from player import Player
-from utils import color_print, print_game_title, print_action_name, nice_print
+from utils import color_print, print_game_title, print_action_name, \
+                  nice_print, hotkey_groups
 
 ActionDict = Dict[str, Tuple[Callable, str]]
 
@@ -13,14 +13,17 @@ ActionDict = Dict[str, Tuple[Callable, str]]
 def get_available_actions(player) -> ActionDict:
     room = player.current_room()
     actions = OrderedDict()
+
     try:
         enemy_near = room.enemy.is_alive()
     except AttributeError:
         enemy_near = False
     if enemy_near:
         actions['B'] = (player.attack, 'Bojovat')
+
     if hasattr(room, 'trader'):
         actions['O'] = (player.trade, 'Obchodovat')
+
     if not enemy_near or player.good_hit:
         player.good_hit = False
         if player.world.tile_at(room.x, room.y - 1):
@@ -31,8 +34,10 @@ def get_available_actions(player) -> ActionDict:
             actions['Z'] = (player.move_west, 'Jít na západ')
         if player.world.tile_at(room.x + 1, room.y):
             actions['V'] = (player.move_east, 'Jít na východ')
+
     if player.hp < 100 and player.has_consumables():
         actions['L'] = (player.heal, 'Léčit se')
+
     actions['I'] = (player.print_inventory, 'Inventář')
     actions['K'] = (confirm_quit, 'Konec')
 
@@ -71,10 +76,7 @@ def choose_action(player, command_buffer: list) -> Callable:
 
 def print_options(available_actions):
     print('\nMožnosti:')
-    hotkeys = ''.join(available_actions.keys())
-    hotkey_groups = re.search(r'([BO]*)([SJZV]*)([LIK]*)', hotkeys).groups()
-
-    for hotkey_group in hotkey_groups:
+    for hotkey_group in hotkey_groups(''.join(available_actions.keys())):
         for hotkey in hotkey_group:
             print(f'{hotkey}', end='')
             name = available_actions[hotkey][1]

@@ -3,7 +3,7 @@ import pytest
 
 from items import Item
 from npc import Trader
-from utils import oscillate
+from utils import oscillate, hotkey_groups
 import world
 
 
@@ -72,3 +72,13 @@ def test_oscillate(n, relative_delta, expected_min, expected_max):
     assert min(results) == expected_min
     assert max(results) == expected_max
     assert len(results) == expected_max - expected_min + 1
+
+
+@pytest.mark.parametrize('hotkeys, result', (
+        ('BOSJZVLIK', ('BO', 'SJZV', 'LIK')),
+        ('', ('', '', '')),
+        ('SVIK', ('', 'SV', 'IK')),
+        ('BJZLIK', ('B', 'JZ', 'LIK')),
+))
+def test_hotkey_groups(hotkeys, result):
+    assert hotkey_groups(hotkeys) == result
