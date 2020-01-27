@@ -342,7 +342,7 @@ class World:
                     if tile_code == 'S':
                         tile.text = ('Stojíš na úpatí kopce na okraji'
                                      ' tajuplného lesa. Svou rodnou vesnici a'
-                                     ' poklidný život pekařského učně jsi'
+                                     ' poklidný život řeznického učedníka jsi'
                                      ' nechal daleko za sebou a vydal ses na'
                                      ' nejistou dráhu dobrodruha.')
                         self.start_tile = tile

@@ -52,4 +52,4 @@ class Trader:
                                         'Hojivou mast'),
                        items.Weapon('Halapartna', 19, 91, 'Halapartnu'),
                              ],
-                   slang=('peníze', 'sire'))
+                   slang=('finance', 'sire'))

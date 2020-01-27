@@ -37,4 +37,7 @@ if __name__ == '__main__':
     except SystemExit as err:
         print(err)
     else:
-        print('\n\nDokázal jsi to! Blahopřeji k vítězství.')
+        print('\nDokázal jsi to!',
+              'Překonal jsi všechny nástrahy a získal poklad nesmírné ceny.',
+              'Blahopřeji k vítězství.',
+              sep='\n\n')
