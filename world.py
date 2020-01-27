@@ -201,9 +201,10 @@ class FindWeaponTile(PlainTile):
         super().__init__(x, y)
         if (x, y) == (27, 23):
             args = ('Rezavá dýka', 9, 32, 'Rezavou dýku')
+        elif (x, y) == (15, 18):
+            args = ('Zrezivělý meč', 16, 72)
         else:
-            args = random.choice((('Zrezivělý meč', 16, 72),
-                                  ('Ostnatý palcát', 18, 85),
+            args = random.choice((('Ostnatý palcát', 18, 85),
                                   ('Řemdih', 20, 94)))
         self.weapon = items.Weapon(*args)
         self.weapon_claimed = False
@@ -232,10 +233,22 @@ class ForestWithWeapon(FindWeaponTile, Forest):
 class FindConsumableTile(Forest):
     def __init__(self, x, y):
         super().__init__(x, y)
-        args = random.choice((('Léčivé bylinky', 18, 20, 'Léčivými bylinkami'),
-                              ('Kouzelné houby', 22, 26, 'Kouzelnými houbami'),
-                              ('Kouzelné bobule', 14, 14,
-                               'Kouzelnými bobulemi')))
+        if (x, y) == (34, 23):
+            args = ('Léčivé bylinky', 18, 20, 'Léčivými bylinkami')
+        elif (x, y) == (30, 25):
+            args = ('Léčivé houby', 12, 10, 'Léčivými houbami')
+        elif (x, y) == (31, 18):
+            args = ('Léčivé bobule', 13, 12, 'Léčivými bobulemi')
+        else:
+            args = random.choice((('Léčivé houby', 12, 10, 'Léčivými houbami'),
+                                  ('Léčivé bobule', 13, 12,
+                                   'Léčivými bobulemi'),
+                                  ('Léčivé bylinky', 18, 20,
+                                   'Léčivými bylinkami'),
+                                  ('Kouzelné houby', 22, 26,
+                                   'Kouzelnými houbami'),
+                                  ('Kouzelné bobule', 16, 17,
+                                   'Kouzelnými bobulemi')))
         self.consumable = items.Consumable(*args)
         self.consumable_claimed = False
 
