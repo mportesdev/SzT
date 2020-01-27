@@ -207,7 +207,7 @@ class FindGemstoneTile(Cave):
     def modify_player(self, player):
         if not self.gemstone_claimed:
             self.gemstone_claimed = True
-            player.inventory.append(self.gemstone)
+            player.gemstones.append(self.gemstone)
             message = f'Našel jsi {self.gemstone.name_4.lower()}.'
             nice_print(message, 'luck', color='96')
 
