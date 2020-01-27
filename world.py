@@ -200,7 +200,7 @@ class FindWeaponTile(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
         if (x, y) == (27, 23):
-            args = ('Rezavá sekerka', 9, 32, 'Rezavou sekerku')
+            args = ('Rezavá dýka', 9, 32, 'Rezavou dýku')
         else:
             args = random.choice((('Zrezivělý meč', 16, 72),
                                   ('Ostnatý palcát', 18, 85),

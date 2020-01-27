@@ -32,7 +32,8 @@ class Trader:
                                         'Lahvičku medicíny'),
                        items.Consumable('Léčivý lektvar', 39, 48,
                                         'Léčivým lektvarem'),
-                       items.Weapon('Dýka', 11, 45, 'Dýku'),
+                       items.Weapon('Zálesácká sekerka', 12, 47,
+                                    'Zálesáckou sekerku'),
                        items.Consumable('Speciální lektvar', 52, 61,
                                         'Speciálním lektvarem'),
                              ],
@@ -49,5 +50,6 @@ class Trader:
                        items.Weapon('Těžká sekera', 26, 110, 'Těžkou sekeru'),
                        items.Consumable('Hojivá mast', 14, 16, 'Hojivou mastí',
                                         'Hojivou mast'),
+                       items.Weapon('Halapartna', 19, 91, 'Halapartnu'),
                              ],
                    slang=('peníze', 'sire'))
