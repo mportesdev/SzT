@@ -7,6 +7,9 @@ class Item:
         self.value = value
         self.name_4 = name_4 or self.name
 
+    def __str__(self):
+        return self.name_4
+
 
 class Weapon(Item):
     def __init__(self, name, damage, value, name_4=None):
