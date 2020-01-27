@@ -72,7 +72,7 @@ class Player:
                    f' {enemy.name_3.lower()}.')
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_4.lower()}!'
-            if self.world.all_dead():
+            if self.world.all_enemies_dead():
                 self.experience += 500
         nice_print(message, 'fight')
 
