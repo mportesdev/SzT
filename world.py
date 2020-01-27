@@ -361,4 +361,5 @@ class World:
                    if hasattr(tile, 'enemy')) == 0
 
     def __iter__(self):
-        return iter(tile for row in self.world_map for tile in row)
+        return iter(tile for row in self.world_map for tile in row
+                    if tile is not None)
