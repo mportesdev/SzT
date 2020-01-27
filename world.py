@@ -354,10 +354,11 @@ class World:
                     map_row.append(tile)
                     if tile_code == 'S':
                         tile.text = ('Stojíš na úpatí kopce na okraji'
-                                     ' tajuplného lesa. Svou rodnou vesnici a'
-                                     ' poklidný život řeznického učedníka jsi'
-                                     ' nechal daleko za sebou a vydal ses na'
-                                     ' nejistou dráhu dobrodruha.')
+                                     ' tajuplného lesa. Svou rodnou vesnici,'
+                                     ' stejně jako vcelku poklidný život'
+                                     ' řeznického učedníka a spořádaného'
+                                     ' křesťana, jsi nechal daleko za sebou a'
+                                     ' vydal ses na nejistou dráhu dobrodruha.')
                         self.start_tile = tile
                     elif tile_code == 'V':
                         self.victory_tile = tile
