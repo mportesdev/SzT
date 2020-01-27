@@ -198,7 +198,7 @@ class FindGoldTile(Cave):
             nice_print(message, 'luck', color='96')
 
 
-class FindGemTile(Cave):
+class FindGemstoneTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.gemstone = None
@@ -328,7 +328,7 @@ class World:
                          ('Ametyst', '95'), ('Safír', '94')}
 
         if map_repr.count('1') > len(gemstone_data):
-            raise ValueError('Not enough gem data')
+            raise ValueError('Not enough gemstone data')
         if map_repr.count('S') != 1 or map_repr.count('V') != 1:
             raise ValueError('Map must contain exactly 1 start tile'
                              ' and exactly 1 victory tile')
@@ -347,7 +347,7 @@ class World:
                              'H': CaveWithEnemy,    # human
                              'S': PlainTile,
                              'g': FindGoldTile,
-                             '1': FindGemTile,
+                             '1': FindGemstoneTile,
                              'w': CaveWithWeapon,
                              'x': ForestWithWeapon,
                              'm': FindConsumableTile,
@@ -392,8 +392,8 @@ class World:
             self.world_map.append(map_row)
 
     def treasure_collected(self):
-        return all(tile.gem_claimed for tile in self
-                   if hasattr(tile, 'gem_claimed'))
+        return all(tile.gemstone_claimed for tile in self
+                   if hasattr(tile, 'gemstone_claimed'))
 
     def all_enemies_dead(self):
         return not any(tile.enemy.is_alive() for tile in self
