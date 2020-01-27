@@ -28,7 +28,10 @@ class Player:
     def print_inventory(self):
         print('Máš u sebe:')
         for item in self.inventory:
-            print(f'            {item}')
+            print('            ', end='')
+            if isinstance(item, items.Gemstone):
+                color_print(f'◆ ', color=(item.color), end='')
+            print(item)
 
     def best_weapon(self):
         try:

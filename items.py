@@ -21,8 +21,7 @@ class Weapon(Item):
 
 
 class Consumable(Item):
-    def __init__(self, name, healing_value, value,
-                 name_7, name_4=None):
+    def __init__(self, name, healing_value, value, name_7, name_4=None):
         super().__init__(name, value, name_4)
         self.healing_value = healing_value
         self.name_7 = name_7
@@ -32,3 +31,9 @@ class Consumable(Item):
 
     def str_7(self):
         return f'{self.name_7} (zdraví +{self.healing_value})'
+
+
+class Gemstone(Item):
+    def __init__(self, name, color, name_4=None):
+        super().__init__(name, None, name_4)
+        self.color = color

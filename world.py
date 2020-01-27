@@ -201,14 +201,14 @@ class FindGoldTile(Cave):
 class FindGemTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.gem = items.Item('Diamant', None)
-        self.gem_claimed = False
+        self.gemstone = None
+        self.gemstone_claimed = False
 
     def modify_player(self, player):
-        if not self.gem_claimed:
-            self.gem_claimed = True
-            player.inventory.append(self.gem)
-            message = f'Našel jsi {self.gem.name_4.lower()}.'
+        if not self.gemstone_claimed:
+            self.gemstone_claimed = True
+            player.inventory.append(self.gemstone)
+            message = f'Našel jsi {self.gemstone.name_4.lower()}.'
             nice_print(message, 'luck', color='96')
 
 
@@ -311,6 +311,11 @@ class World:
             return None
 
     def parse_world_repr(self, map_repr):
+        gemstone_data = {('Diamant', '0'), ('Rubín', '91'), ('Tyrkys', '96'),
+                         ('Ametyst', '95'), ('Safír', '94')}
+
+        if map_repr.count('1') > len(gemstone_data):
+            raise ValueError('Not enough gem data')
         if map_repr.count('S') != 1 or map_repr.count('V') != 1:
             raise ValueError('Map must contain exactly 1 start tile'
                              ' and exactly 1 victory tile')
@@ -365,6 +370,8 @@ class World:
                         self.start_tile = tile
                     elif tile_code == 'V':
                         self.victory_tile = tile
+                    elif tile_code == '1':
+                        tile.gemstone = items.Gemstone(*gemstone_data.pop())
                 else:
                     map_row.append(None)
 
