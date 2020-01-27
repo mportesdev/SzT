@@ -100,7 +100,9 @@ class TraderTile(Cave):
         self.trader = trader
 
     def trade(self, buyer, seller):
-        if not seller.inventory:
+        sellable_items = [item for item in seller.inventory
+                          if item.value is not None]
+        if not sellable_items:
             print(f'{seller.name} už nemá co nabídnout.'
                   if seller is self.trader
                   else 'Nemáš nic, co bys mohl prodat.')
@@ -110,7 +112,7 @@ class TraderTile(Cave):
                   else 'Tyto věci můžeš prodat:')
 
         valid_choices = set()
-        for i, item in enumerate(seller.inventory, 1):
+        for i, item in enumerate(sellable_items, 1):
             price = (buyer.buy_price(item) if buyer is self.trader
                      else item.value)
             if price <= buyer.gold:
@@ -196,6 +198,20 @@ class FindGoldTile(Cave):
             nice_print(message, 'luck', color='96')
 
 
+class FindGemTile(Cave):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.gemstone = None
+        self.gemstone_claimed = False
+
+    def modify_player(self, player):
+        if not self.gemstone_claimed:
+            self.gemstone_claimed = True
+            player.inventory.append(self.gemstone)
+            message = f'Našel jsi {self.gemstone.name_4.lower()}.'
+            nice_print(message, 'luck', color='96')
+
+
 class FindWeaponTile(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -261,13 +277,13 @@ class FindConsumableTile(Forest):
 
 
 world_repr = '''
- m        cc cc                          
+ m        1c cc                          
  fff    cc c c                           
   f      cccccc    c                     
   f  f        cHcc c c  cg    c          
  ff fff   ccc c  cccccc c    cc          
  f  f f   c ccc  c   T  c    c cc        
- ff f m f c   c  cc cccccccccccc         
+ ff f m f 1   c  cc cccccccccccc         
 f fff fff   c          C  C              
 f f m   fW  c  wcc  c ccccccc            
 fmf      cccc  c  c ccc       c          
@@ -278,14 +294,14 @@ mf       cc         c c  g    c  c
  ff      c        f   g cc    cc         
          T    ffm f     c                
          cg   f  ffff   M                
-     c   c    ffff t    V                
+     1   c    ffff t    V                
      c cccccc  x   f mf f ffff m         
     cc c  c       mf  fff  f fFf         
     c  c cccc cc   fff  fFff   f         
-    cccc c  c  cc    f  f  m fff         
+    cccc c  c  c1    f  f  m fff         
    cc c  c ccc c     fffff   f   f       
    c  c  c w ccc     m f f xffff fm      
-   cc                  f f  f  fff       
+   c1                  f f  f  fff       
                             ffm  f       
                                  f       
                                  S       
@@ -308,6 +324,11 @@ class World:
             return None
 
     def parse_world_repr(self, map_repr):
+        gemstone_data = {('Diamant', '0'), ('Rubín', '91'), ('Tyrkys', '96'),
+                         ('Ametyst', '95'), ('Safír', '94')}
+
+        if map_repr.count('1') > len(gemstone_data):
+            raise ValueError('Not enough gem data')
         if map_repr.count('S') != 1 or map_repr.count('V') != 1:
             raise ValueError('Map must contain exactly 1 start tile'
                              ' and exactly 1 victory tile')
@@ -326,6 +347,7 @@ class World:
                              'H': CaveWithEnemy,    # human
                              'S': PlainTile,
                              'g': FindGoldTile,
+                             '1': FindGemTile,
                              'w': CaveWithWeapon,
                              'x': ForestWithWeapon,
                              'm': FindConsumableTile,
@@ -362,13 +384,16 @@ class World:
                         self.start_tile = tile
                     elif tile_code == 'V':
                         self.victory_tile = tile
+                    elif tile_code == '1':
+                        tile.gemstone = items.Gemstone(*gemstone_data.pop())
                 else:
                     map_row.append(None)
 
             self.world_map.append(map_row)
 
     def treasure_collected(self):
-        return all(getattr(tile, 'gold_claimed', True) for tile in self)
+        return all(tile.gem_claimed for tile in self
+                   if hasattr(tile, 'gem_claimed'))
 
     def all_enemies_dead(self):
         return not any(tile.enemy.is_alive() for tile in self
