@@ -288,25 +288,25 @@ world_repr = '''
  m        1c cc                          
  fff    cc c c                           
   f      cccccc    c                     
-  f  f        cHcc c c  cg    c          
- ff fff   ccc c  cccccc c    cc          
+  F  f        cHcc c c  cg    c          
+ ff fFf   ccc c  cccccc c    cc          
  f  f f   c ccc  c   T  c    c cc        
  ff f m f 1   c  cc cccccccccccc         
 f fff fff   c          C  C              
-f f m   fW  c  wcc  c ccccccc            
+f F m   fW  c  wcc  c ccccccc            
 fmf      cccc  c  c ccc       c          
 f ff        cccc  ccc C g   gcc          
 ff f     gccc  cccc c c c ccc  c         
- f m      c cgcc  c c cccCc cCcccc       
+ F m      c cgcc  c c cccCc cCcccc       
 mf       cc         c c  g    c  c       
  ff      c        f   g cc    cc         
-         T    ffm f     c                
+         T    Ffm f     c                
          cg   f  ffff   M                
      1   c    ffff t    V                
      c cccccc  x   f mf f ffff m         
-    cc c  c       mf  fff  f fFf         
-    c  c cccc cc   fff  fFff   f         
-    cccc c  c  c1    f  f  m fff         
+    cc c  c       mf  fff  f fff         
+    c  c cccc cc   fff  fFff   F         
+    cccc c  c  c1    F  f  m fff         
    cc c  c ccc c     fffff   f   f       
    c  c  c w ccc     m f f xffff fm      
    c1                  f f  f  fff       
