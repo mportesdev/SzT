@@ -5,7 +5,8 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, color_print, nice_print, oscillate
+from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, \
+                  color_print, nice_print, oscillate
 
 
 class PlainTile:
@@ -58,7 +59,7 @@ class EnemyTile(PlainTile):
             if player.good_hit:
                 nice_print(f'Zasáhl jsi {self.enemy.name_4.lower()} do'
                            f' hlavy! {self.enemy.name} zmateně vrávorá.',
-                           'fight', color='96')
+                           'fight', color=CYAN)
             else:
                 player.hp = max(0, player.hp - oscillate(self.enemy.damage))
                 message = f'{self.enemy} útočí. '
@@ -66,7 +67,7 @@ class EnemyTile(PlainTile):
                     message += f'Utrpěl jsi zranění.'
                 else:
                     message += 'Jsi mrtev!\n'
-                nice_print(message, 'fight', color='91')
+                nice_print(message, 'fight', color=RED)
         else:
             try:
                 if not self.enemy.gold_claimed and self.enemy.gold > 0:
@@ -74,13 +75,13 @@ class EnemyTile(PlainTile):
                     player.gold += self.enemy.gold
                     message = (f'Sebral jsi {self.enemy.name_3.lower()}'
                                f' {self.enemy.gold} zlaťáků.')
-                    nice_print(message, 'luck', color='96')
+                    nice_print(message, 'luck', color=CYAN)
                 if not self.enemy.weapon_claimed:
                     self.enemy.weapon_claimed = True
                     player.inventory.append(self.enemy.weapon)
                     message = (f'Sebral jsi {self.enemy.name_3.lower()}'
                                f' {self.enemy.weapon.name_4.lower()}.')
-                    nice_print(message, 'luck', color='96')
+                    nice_print(message, 'luck', color=CYAN)
             except AttributeError:
                 pass
 
@@ -122,7 +123,7 @@ class TraderTile(Cave):
                 item_number = '    '
             print(f'{item_number} ', end='')
             color_print(f'{item} '.ljust(WIDTH - 25, '.')
-                        + f' {price:3} zlaťáků', color='96')
+                        + f' {price:3} zlaťáků', color=CYAN)
 
         try:
             money, title = buyer.slang
@@ -136,9 +137,9 @@ class TraderTile(Cave):
             return
 
         while True:
-            color_print('Číslo položky             (', end='', color='94')
+            color_print('Číslo položky             (', end='', color=BLUE)
             print('Enter', end='')
-            color_print(' = návrat) ', end='', color='94')
+            color_print(' = návrat) ', end='', color=BLUE)
             user_input = input().upper()
             if user_input == '':
                 return
@@ -158,16 +159,16 @@ class TraderTile(Cave):
                           f' říká {self.trader.name.lower()}.')
                     return
                 except ValueError:
-                    color_print('?', color='95')
+                    color_print('?', color=MAGENTA)
 
     def facilitate_trade(self, player):
         while True:
             print('K', end='')
-            color_print(': koupit    ', end='', color='94')
+            color_print(': koupit    ', end='', color=BLUE)
             print('P', end='')
-            color_print(': prodat    (', end='', color='94')
+            color_print(': prodat    (', end='', color=BLUE)
             print('Enter', end='')
-            color_print(' = návrat) ', end='', color='94')
+            color_print(' = návrat) ', end='', color=BLUE)
             user_input = input().upper()
             if user_input == '':
                 return
@@ -178,7 +179,7 @@ class TraderTile(Cave):
                     buyer, seller = self.trader, player
                 self.trade(buyer=buyer, seller=seller)
             else:
-                color_print('?', color='95')
+                color_print('?', color=MAGENTA)
 
     def intro_text(self):
         return self.text + ' ' + self.trader.text
@@ -195,7 +196,7 @@ class FindGoldTile(Cave):
             self.gold_claimed = True
             player.gold += self.gold
             message = f'Našel jsi {self.gold} zlaťáků.'
-            nice_print(message, 'luck', color='96')
+            nice_print(message, 'luck', color=CYAN)
 
 
 class FindGemstoneTile(Cave):
@@ -209,7 +210,7 @@ class FindGemstoneTile(Cave):
             self.gemstone_claimed = True
             player.gemstones.append(self.gemstone)
             message = f'Našel jsi {self.gemstone.name_4.lower()}.'
-            nice_print(message, 'luck', color='96')
+            nice_print(message, 'luck', color=CYAN)
 
 
 class FindWeaponTile(PlainTile):
@@ -235,7 +236,7 @@ class FindWeaponTile(PlainTile):
             else:
                 message = ('Ve skulině pod kamenem jsi našel'
                            f' {self.weapon.name_4.lower()}.')
-            nice_print(message, 'luck', color='96')
+            nice_print(message, 'luck', color=CYAN)
 
 
 class CaveWithWeapon(FindWeaponTile, Cave):
@@ -273,7 +274,7 @@ class FindConsumableTile(Forest):
             self.consumable_claimed = True
             player.inventory.append(self.consumable)
             message = f'Našel jsi {self.consumable.name_4.lower()}.'
-            nice_print(message, 'luck', color='96')
+            nice_print(message, 'luck', color=CYAN)
 
 
 world_repr = '''
@@ -324,8 +325,8 @@ class World:
             return None
 
     def parse_world_repr(self, map_repr):
-        gemstone_data = {('Diamant', '0'), ('Rubín', '91'), ('Tyrkys', '96'),
-                         ('Ametyst', '95'), ('Safír', '94')}
+        gemstone_data = {('Diamant', '0'), ('Rubín', RED), ('Tyrkys', CYAN),
+                         ('Ametyst', MAGENTA), ('Safír', BLUE)}
 
         if map_repr.count('1') > len(gemstone_data):
             raise ValueError('Not enough gemstone data')

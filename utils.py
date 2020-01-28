@@ -12,6 +12,11 @@ GAME_TITLE = 'Strach ze tmy'
 WIDTH = 70
 DELAY = 0.025
 
+RED = '91'
+BLUE = '94'
+MAGENTA = '95'
+CYAN = '96'
+
 INDENT_EMPTY = '           '
 INDENT_INFO = '        >  '
 INDENT_FIGHT = '        !  '
@@ -56,12 +61,12 @@ def print_game_title():
                 '\n\n',
                 sep='\n',
                 color='1;95')
-    color_print('-' * WIDTH, end='\n\n', color='95')
+    color_print('-' * WIDTH, end='\n\n', color=MAGENTA)
 
 
 def print_action_name(action_name):
     color_print(f' {action_name.strip()} '.center(WIDTH, '-'), end='\n\n',
-                color='95')
+                color=MAGENTA)
 
 
 def print_options(available_actions):
@@ -71,9 +76,9 @@ def print_options(available_actions):
             print(f'{hotkey}', end='')
             name = available_actions[hotkey][1]
             if hotkey == hotkey_group[-1]:
-                color_print(f': {name}', color='94')
+                color_print(f': {name}', color=BLUE)
             else:
-                color_print(f': {name:<15}', end='', color='94')
+                color_print(f': {name:<15}', end='', color=BLUE)
 
 
 def get_available_actions(player):
@@ -116,7 +121,8 @@ def choose_action(player, command_buffer):
         if not command_buffer:
             print_options(available_actions)
             color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.experience}'
-                        f'\tzlato: {player.gold} ]'.expandtabs(18), color='95')
+                        f'\tzlato: {player.gold} ]'.expandtabs(18),
+                        color=MAGENTA)
             print()
 
         while True:
@@ -137,7 +143,7 @@ def choose_action(player, command_buffer):
                 return action
             else:
                 command_buffer.clear()
-                color_print('?', color='95')
+                color_print('?', color=MAGENTA)
 
 
 def oscillate(number, relative_delta=0.2):

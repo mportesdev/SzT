@@ -3,7 +3,7 @@
 from typing import List, Union
 
 import items
-from utils import color_print, nice_print, oscillate
+from utils import BLUE, MAGENTA, CYAN, color_print, nice_print, oscillate
 from world import World
 
 InventoryList = List[Union[items.Weapon, items.Consumable]]
@@ -92,12 +92,12 @@ class Player:
         print('Čím se chceš kurýrovat?')
         for i, item in enumerate(consumables, 1):
             print(f'{i:3}. ', end='')
-            color_print(f'{item.str_7()}', color='96')
+            color_print(f'{item.str_7()}', color=CYAN)
 
         while True:
-            color_print('Číslo položky             (', end='', color='94')
+            color_print('Číslo položky             (', end='', color=BLUE)
             print('Enter', end='')
-            color_print(' = návrat) ', end='', color='94')
+            color_print(' = návrat) ', end='', color=BLUE)
             user_input = input().upper()
             if user_input == '':
                 return
@@ -112,7 +112,7 @@ class Player:
                     print('Hned je ti lépe!')
                     return
                 except (ValueError, IndexError):
-                    color_print('?', color='95')
+                    color_print('?', color=MAGENTA)
 
     def trade(self):
         self.current_room().facilitate_trade(self)
