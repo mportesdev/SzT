@@ -80,7 +80,7 @@ class Player:
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_4.lower()}!'
             if self.world.all_enemies_dead():
-                self.xp += 500
+                self.xp += 100
         nice_print(message, 'fight')
 
     def has_consumables(self):

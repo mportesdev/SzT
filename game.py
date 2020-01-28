@@ -15,7 +15,7 @@ def main():
 
         room.visited = True
         if player.world.all_tiles_visited():
-            player.xp += 500
+            player.xp += 100
 
         if player.is_winner():
             break
