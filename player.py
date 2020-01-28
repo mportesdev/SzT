@@ -20,7 +20,7 @@ class Player:
         self.x, self.y = self.world.start_tile.x, self.world.start_tile.y
         self.hp = 100
         self.gold = 10
-        self.experience = 0
+        self.xp = 0
         self.good_hit = False
 
     def is_alive(self):
@@ -66,17 +66,21 @@ class Player:
         else:
             weapon_damage = 1
             weapon_name = 'pěsti'
-        real_damage = min(oscillate(weapon_damage), enemy.hp)
-        self.good_hit = (real_damage > weapon_damage * 1.1
+        real_weapon_damage = oscillate(weapon_damage)
+        self.good_hit = (real_weapon_damage > weapon_damage * 1.1
                          and enemy.name_short not in ('troll', 'dobrodruh'))
+        attack_bonus = self.xp // 100
+        real_damage = min(real_weapon_damage + attack_bonus, enemy.hp)
+        # print(f'{weapon_damage=}, {real_weapon_damage=}')
+        # print(f'{attack_bonus=}, {real_damage=}')
         enemy.hp -= real_damage
-        self.experience += real_damage
+        self.xp += real_damage
         message = (f'Použil jsi {weapon_name} proti'
                    f' {enemy.name_3.lower()}.')
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_4.lower()}!'
             if self.world.all_enemies_dead():
-                self.experience += 500
+                self.xp += 500
         nice_print(message, 'fight')
 
     def has_consumables(self):

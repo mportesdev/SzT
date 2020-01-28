@@ -61,10 +61,16 @@ class EnemyTile(PlainTile):
                            f' hlavy! {self.enemy.name} zmateně vrávorá.',
                            'fight', color=CYAN)
             else:
-                player.hp = max(0, player.hp - oscillate(self.enemy.damage))
+                real_enemy_damage = oscillate(self.enemy.damage)
+                defense_bonus = player.xp // 100
+                real_damage = min(real_enemy_damage - defense_bonus, player.hp)
+                # print(f'{self.enemy.damage=}, {real_enemy_damage=}')
+                # print(f'{defense_bonus=}, {real_damage=}')
+                player.hp -= real_damage
                 message = f'{self.enemy} útočí. '
                 if player.is_alive():
                     message += f'Utrpěl jsi zranění.'
+                    player.xp += 1
                 else:
                     message += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
                 nice_print(message, 'fight', color=RED)
