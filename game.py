@@ -30,14 +30,14 @@ def main():
                           player.move_east, player.move_west):
                 break
 
+    print('\nDokázal jsi to!',
+          'Překonal jsi všechny nástrahy a získal poklad nesmírné ceny.',
+          'Blahopřeji k vítězství.',
+          sep='\n\n')
+
 
 if __name__ == '__main__':
     try:
         main()
-    except SystemExit as err:
-        print(err)
-    else:
-        print('\nDokázal jsi to!',
-              'Překonal jsi všechny nástrahy a získal poklad nesmírné ceny.',
-              'Blahopřeji k vítězství.',
-              sep='\n\n')
+    except SystemExit:
+        pass

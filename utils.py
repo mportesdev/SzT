@@ -161,7 +161,8 @@ def confirm_quit():
 
 
 def quit_game():
-    raise SystemExit('\nHra končí.')
+    print('\nHra končí.')
+    raise SystemExit
 
 
 if '--no-color' in sys.argv[1:] or (os.name == 'nt'
