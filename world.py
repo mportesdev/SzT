@@ -63,10 +63,10 @@ class EnemyTile(PlainTile):
             else:
                 player.hp = max(0, player.hp - oscillate(self.enemy.damage))
                 message = f'{self.enemy} útočí. '
-                if player.hp > 0:
+                if player.is_alive():
                     message += f'Utrpěl jsi zranění.'
                 else:
-                    message += 'Jsi mrtev!\n'
+                    message += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
                 nice_print(message, 'fight', color=RED)
         else:
             try:

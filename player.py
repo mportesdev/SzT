@@ -31,9 +31,7 @@ class Player:
         for item in self.inventory:
             print(f'            {item}')
         for gemstone in self.gemstones:
-            print('            ', end='')
-            color_print('◆ ', color=gemstone.color, end='')
-            print(gemstone)
+            color_print(f'            < {gemstone} >', color=gemstone.color)
 
     def best_weapon(self):
         try:

@@ -60,7 +60,7 @@ def print_game_title():
                 'verze 0.6, 21. ledna 2020'.center(WIDTH),
                 '\n\n',
                 sep='\n',
-                color='1;95')
+                color=MAGENTA)
     color_print('-' * WIDTH, end='\n\n', color=MAGENTA)
 
 
@@ -161,7 +161,7 @@ def confirm_quit():
 
 
 def quit_game():
-    raise SystemExit('Hra končí.')
+    raise SystemExit('\nHra končí.')
 
 
 if '--no-color' in sys.argv[1:] or (os.name == 'nt'
