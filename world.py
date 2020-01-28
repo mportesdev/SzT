@@ -65,8 +65,6 @@ class EnemyTile(PlainTile):
                 real_enemy_damage = oscillate(self.enemy.damage)
                 defense_bonus = player.xp // 100
                 real_damage = min(real_enemy_damage - defense_bonus, player.hp)
-                # print(f'{self.enemy.damage=}, {real_enemy_damage=}')
-                # print(f'{defense_bonus=}, {real_damage=}')
                 player.hp -= real_damage
                 message = f'{self.enemy} útočí. '
                 if player.is_alive():

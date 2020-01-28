@@ -71,8 +71,6 @@ class Player:
                          and enemy.name_short not in ('troll', 'dobrodruh'))
         attack_bonus = self.xp // 100
         real_damage = min(real_weapon_damage + attack_bonus, enemy.hp)
-        # print(f'{weapon_damage=}, {real_weapon_damage=}')
-        # print(f'{attack_bonus=}, {real_damage=}')
         enemy.hp -= real_damage
         self.xp += real_damage
         message = (f'Použil jsi {weapon_name} proti'
