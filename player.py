@@ -3,7 +3,8 @@
 from typing import List, Union
 
 import items
-from utils import BLUE, MAGENTA, CYAN, color_print, nice_print, oscillate
+from utils import BLUE, MAGENTA, CYAN, \
+                  color_print, nice_print, award_bonus, oscillate
 from world import World
 
 InventoryList = List[Union[items.Weapon, items.Consumable]]
@@ -78,7 +79,7 @@ class Player:
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_4.lower()}!'
             if self.world.all_enemies_dead():
-                self.xp += 100
+                award_bonus(self, 100, 'zabití všech nepřátel')
         nice_print(message, 'fight')
 
     def has_consumables(self):

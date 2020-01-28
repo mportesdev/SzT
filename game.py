@@ -15,9 +15,10 @@ def main():
 
         if not room.visited:
             command_buffer.clear()
-        room.visited = True
-        if player.world.all_tiles_visited():
-            player.xp += 100
+
+            room.visited = True
+            if player.world.all_tiles_visited():
+                utils.award_bonus(player, 100, 'prozkoumání všech míst')
 
         if player.is_winner():
             break

@@ -81,6 +81,11 @@ def print_options(available_actions):
                 color_print(f': {name:<15}', end='', color=BLUE)
 
 
+def award_bonus(player, bonus, achievement):
+    player.xp += bonus
+    color_print(f'Za {achievement} získáváš zkušenost 100 bodů!', color=CYAN)
+
+
 def get_available_actions(player):
     room = player.current_room()
     actions = OrderedDict()

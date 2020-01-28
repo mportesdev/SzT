@@ -6,7 +6,7 @@ import enemies
 import items
 import npc
 from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, \
-                  color_print, nice_print, oscillate
+                  color_print, nice_print, award_bonus, oscillate
 
 
 class PlainTile:
@@ -214,7 +214,7 @@ class FindGemstoneTile(Cave):
         if not self.gemstone_claimed:
             self.gemstone_claimed = True
             if player.world.treasure_collected():
-                player.xp += 100
+                award_bonus(player, 100, 'nalezení všech drahokamů')
             player.gemstones.append(self.gemstone)
             message = f'Našel jsi {self.gemstone.name_4.lower()}.'
             nice_print(message, 'luck', color=CYAN)
