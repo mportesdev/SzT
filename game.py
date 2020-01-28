@@ -13,6 +13,8 @@ def main():
         room = player.current_room()
         utils.nice_print(room.intro_text())
 
+        if not room.visited:
+            command_buffer.clear()
         room.visited = True
         if player.world.all_tiles_visited():
             player.xp += 100
