@@ -10,13 +10,18 @@ def main():
     command_buffer = []
 
     while True:
-        utils.nice_print(player.current_room().intro_text())
+        room = player.current_room()
+        utils.nice_print(room.intro_text())
+
+        room.visited = True
+        if player.world.all_tiles_visited():
+            player.xp += 500
 
         if player.is_winner():
             break
 
         while True:
-            player.current_room().modify_player(player)
+            room.modify_player(player)
 
             if not player.is_alive():
                 utils.quit_game()

@@ -13,6 +13,7 @@ class PlainTile:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.visited = False
 
     def modify_player(self, player):
         pass
@@ -405,6 +406,9 @@ class World:
     def all_enemies_dead(self):
         return not any(tile.enemy.is_alive() for tile in self
                        if hasattr(tile, 'enemy'))
+
+    def all_tiles_visited(self):
+        return all(tile.visited for tile in self)
 
     def __iter__(self):
         return iter(tile for row in self.world_map for tile in row
