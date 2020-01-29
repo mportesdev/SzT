@@ -213,11 +213,11 @@ class FindGemstoneTile(Cave):
     def modify_player(self, player):
         if not self.gemstone_claimed:
             self.gemstone_claimed = True
-            if player.world.treasure_collected():
-                award_bonus(player, 100, 'nalezení všech drahokamů')
             player.gemstones.append(self.gemstone)
             message = f'Našel jsi {self.gemstone.name_4.lower()}.'
             nice_print(message, 'luck', color=CYAN)
+            if player.world.treasure_collected():
+                award_bonus(player, 300, 'nalezení všech drahokamů')
 
 
 class FindWeaponTile(PlainTile):

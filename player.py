@@ -78,9 +78,9 @@ class Player:
                    f' {enemy.name_3.lower()}.')
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_4.lower()}!'
-            if self.world.all_enemies_dead():
-                award_bonus(self, 100, 'zabití všech nepřátel')
         nice_print(message, 'fight')
+        if self.world.all_enemies_dead():
+            award_bonus(self, 200, 'zabití všech nepřátel')
 
     def has_consumables(self):
         return any(isinstance(item, items.Consumable)
