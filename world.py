@@ -285,7 +285,7 @@ class FindConsumableTile(Forest):
 
 
 world_repr = '''
- m        1c cc                          
+fm        1c cc                          
  fff    cc c c                           
   f      cccccc    c                     
   F  f        cHcc c c  cg    c          
@@ -302,17 +302,17 @@ mf       cc         c c  g    c  c
  ff      c        f   g cc    cc         
          T    Ffm f     c                
          cg   f  ffff   M                
-     1   c    ffff t    V                
-     c cccccc  x   f mf f ffff m         
-    cc c  c       mf  fff  f fff         
-    c  c cccc cc   fff  fFff   F         
-    cccc c  c  c1    F  f  m fff         
-   cc c  c ccc c     fffff   f   f       
-   c  c  c w ccc     m f f xffff fm      
-   c1                  f f  f  fff       
-                            ffm  f       
-                                 f       
-                                 S       
+     1   c    ffff t    V           ff f 
+     c cccccc  x   f mf f ffff m     ffff
+    cc c  c       mf  fff  f fff  ff f  m
+    c  c cccc cc   fff  fFff   F   fFff  
+    cccc c  c  c1    F  f  m fff fff  ff 
+   cc c  c ccc c     fffff   f   f  f f  
+   c  c  c w ccc     m f f xffFf fm ffFff
+   c1                  f f  f  fff  f   f
+                            ffm  f fm fff
+                                 f f ff f
+                                 S     mf
 '''
 
 
