@@ -68,7 +68,8 @@ class EnemyTile(PlainTile):
                 player.hp -= real_damage
                 message = f'{self.enemy} útočí. '
                 if player.is_alive():
-                    message += f'Utrpěl jsi zranění.'
+                    message += ('Utrpěl jsi zranění.' if real_damage
+                                else 'Ubránil ses.')
                     player.xp += 1
                 else:
                     message += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
