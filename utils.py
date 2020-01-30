@@ -162,6 +162,13 @@ def hotkey_groups(hotkeys):
     return re.search(r'([BO]*)([SJZV]*)([LIMK]*)', hotkeys).groups()
 
 
+def leading_trailing(input_str, value):
+    pattern = f'^({value}*).*?({value}*)$'
+    leading, trailing = re.match(pattern, input_str).groups()
+
+    return len(leading), len(trailing)
+
+
 def confirm_quit():
     if input('Opravdu skončit? (A / cokoliv) ').upper() == 'A':
         quit_game()
