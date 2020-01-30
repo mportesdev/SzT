@@ -65,10 +65,10 @@ class EnemyTile(PlainTile):
                 real_enemy_damage = oscillate(self.enemy.damage)
                 defense_bonus = player.xp // 100
                 real_damage = min(real_enemy_damage - defense_bonus, player.hp)
-                player.hp -= real_damage
+                player.hp -= max(real_damage, 0)
                 message = f'{self.enemy} útočí. '
                 if player.is_alive():
-                    message += ('Utrpěl jsi zranění.' if real_damage
+                    message += ('Utrpěl jsi zranění.' if real_damage > 0
                                 else 'Ubránil ses.')
                     player.xp += 1
                 else:
