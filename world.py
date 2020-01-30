@@ -420,7 +420,7 @@ class World:
                     if (tile.x, tile.y) == player_position:
                         row_data.append('H')
                     elif tile.visited:
-                        row_data.append('.')
+                        row_data.append('#' if isinstance(tile, Cave) else '+')
                     else:
                         row_data.append(' ')
                 except AttributeError:
