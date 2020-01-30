@@ -5,8 +5,8 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, \
-                  color_print, nice_print, award_bonus, oscillate
+from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, color_print, nice_print, \
+                  award_bonus, oscillate, leading_trailing
 
 
 class PlainTile:
@@ -412,6 +412,7 @@ class World:
 
     def map_of_visited(self, player_position):
         map_data = []
+        trim_left, trim_right = 1000, 1000
         for row in self.world_map:
             row_data = []
             for tile in row:
@@ -424,7 +425,16 @@ class World:
                         row_data.append(' ')
                 except AttributeError:
                     row_data.append(' ')
-            map_data.append(row_data)
+            if set(row_data) != {' '}:
+                blank_left, blank_right = leading_trailing(''.join(row_data),
+                                                           ' ')
+                trim_left = min(trim_left, blank_left)
+                trim_right = min(trim_right, blank_right)
+                map_data.append(row_data)
+
+        for row_data in map_data:
+            row_data[:trim_left] = []
+            row_data[-trim_right:] = []
 
         return map_data
 
