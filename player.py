@@ -124,3 +124,9 @@ class Player:
     def is_winner(self):
         return self.current_room() is self.world.victory_tile \
                and self.world.treasure_collected()
+
+    def print_map(self):
+        map_data = self.world.map_of_visited((self.x, self.y))
+
+        print('\n'.join(''.join(row_data)
+                        for row_data in map_data))

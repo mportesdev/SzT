@@ -410,6 +410,24 @@ class World:
     def all_tiles_visited(self):
         return all(tile.visited for tile in self)
 
+    def map_of_visited(self, player_position):
+        map_data = []
+        for row in self.world_map:
+            row_data = []
+            for tile in row:
+                try:
+                    if (tile.x, tile.y) == player_position:
+                        row_data.append('H')
+                    elif tile.visited:
+                        row_data.append('.')
+                    else:
+                        row_data.append(' ')
+                except AttributeError:
+                    row_data.append(' ')
+            map_data.append(row_data)
+
+        return map_data
+
     def __iter__(self):
         return iter(tile for row in self.world_map for tile in row
                     if tile is not None)

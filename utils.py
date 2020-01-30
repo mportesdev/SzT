@@ -116,6 +116,7 @@ def get_available_actions(player):
         actions['L'] = (player.heal, 'Léčit se')
 
     actions['I'] = (player.print_inventory, 'Inventář')
+    actions['M'] = (player.print_map, 'Mapa')
     actions['K'] = (confirm_quit, 'Konec')
 
     return actions
@@ -158,7 +159,7 @@ def oscillate(number, relative_delta=0.2):
 
 
 def hotkey_groups(hotkeys):
-    return re.search(r'([BO]*)([SJZV]*)([LIK]*)', hotkeys).groups()
+    return re.search(r'([BO]*)([SJZV]*)([LIMK]*)', hotkeys).groups()
 
 
 def confirm_quit():
