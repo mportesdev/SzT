@@ -434,7 +434,7 @@ class World:
 
         for row_data in map_data:
             row_data[:trim_left] = []
-            row_data[-trim_right:] = []
+            row_data[len(row_data)-trim_right:] = []
 
         return map_data
 
