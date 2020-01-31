@@ -50,6 +50,20 @@ def color_print_dummy(*args, color=None, **kwargs):
     time.sleep(DELAY)
 
 
+def multicolor(text, colors, delimiter='|', end='\n'):
+    split_text = text.split(delimiter)
+    item_count = len(split_text)
+    color_count = len(colors)
+
+    if item_count > color_count:
+        raise ValueError(f'Not enough color information (expected {item_count},'
+                         f' got {color_count})')
+
+    for item, color in zip(split_text, colors):
+        color_print(item, color=color, end='')
+    print(end=end)
+
+
 def print_game_title():
     os.system('cls' if os.name == 'nt' else 'clear')
     color_print('\n\n',
