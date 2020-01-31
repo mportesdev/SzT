@@ -5,8 +5,9 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, color_print, nice_print, \
-                  award_bonus, option_input, oscillate, leading_trailing
+from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, \
+                  nice_print, color_print, multicolor, award_bonus, \
+                  option_input, oscillate, leading_trailing
 
 
 class PlainTile:
@@ -143,9 +144,8 @@ class TraderTile(Cave):
             return
 
         while True:
-            color_print('Číslo položky             (', end='', color=BLUE)
-            print('Enter', end='')
-            color_print(' = návrat) ', end='', color=BLUE)
+            multicolor('Číslo položky             (|Enter| = návrat)',
+                       (BLUE, '0', BLUE), end=' ')
             user_input = option_input(valid_choices | {''})
             if user_input == '':
                 return
@@ -163,12 +163,8 @@ class TraderTile(Cave):
 
     def facilitate_trade(self, player):
         while True:
-            print('K', end='')
-            color_print(': koupit    ', end='', color=BLUE)
-            print('P', end='')
-            color_print(': prodat    (', end='', color=BLUE)
-            print('Enter', end='')
-            color_print(' = návrat) ', end='', color=BLUE)
+            multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat)',
+                       ('0', BLUE, '0', BLUE, '0', BLUE), end=' ')
             user_input = input().upper()
             if user_input == '':
                 return

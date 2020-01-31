@@ -3,8 +3,8 @@
 from typing import List, Union
 
 import items
-from utils import BLUE, CYAN, color_print, nice_print, award_bonus, \
-                  option_input, oscillate
+from utils import BLUE, CYAN, nice_print, color_print, multicolor, \
+                  award_bonus, option_input, oscillate
 from world import World
 
 InventoryList = List[Union[items.Weapon, items.Consumable]]
@@ -96,9 +96,8 @@ class Player:
             color_print(f'{item.str_7()}', color=CYAN)
 
         while True:
-            color_print('Číslo položky             (', end='', color=BLUE)
-            print('Enter', end='')
-            color_print(' = návrat) ', end='', color=BLUE)
+            multicolor('Číslo položky             (|Enter| = návrat)',
+                       (BLUE, '0', BLUE), end=' ')
             valid_choices = set(range(1, len(consumables) + 1))
             user_input = option_input(valid_choices | {''})
             if user_input == '':
