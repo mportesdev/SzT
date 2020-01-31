@@ -219,6 +219,12 @@ class FindGemstoneTile(Cave):
             nice_print(message, 'luck', color=CYAN)
             if player.world.treasure_collected():
                 award_bonus(player, 300, 'nalezení všech drahokamů')
+                nice_print('Drahokamy teď musíš vynést ven z jeskyně a dojít'
+                           ' s nimi na začátek své cesty.')
+                player.world.start_tile.text += (' Překonal jsi všechny'
+                                                 ' nástrahy a skutečně získal'
+                                                 ' kýžené magické artefakty.'
+                                                 ' Čeká tě velká budoucnost.')
 
 
 class FindWeaponTile(PlainTile):
@@ -384,11 +390,10 @@ class World:
                     tile = tile_type(x, y, **kwargs)
                     map_row.append(tile)
                     if tile_code == 'S':
-                        tile.text = ('Stojíš na úpatí kopce na okraji'
-                                     ' tajuplného lesa. Svou rodnou vesnici,'
-                                     ' stejně jako vcelku poklidný život'
-                                     ' řeznického učedníka a spořádaného'
-                                     ' křesťana, jsi nechal daleko za sebou a'
+                        tile.text = ('Stojíš na okraji tajuplného lesa na úpatí'
+                                     ' Hory běsů. Svou rodnou vesnici, stejně'
+                                     ' jako vcelku poklidný život pekařského'
+                                     ' učedníka, jsi nechal daleko za sebou a'
                                      ' vydal ses na nejistou dráhu dobrodruha.')
                         self.start_tile = tile
                     elif tile_code == 'V':

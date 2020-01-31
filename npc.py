@@ -42,8 +42,8 @@ class Trader:
     @classmethod
     def new_weapon_trader(cls):
         return cls(name='Zbrojíř',
-                   text=('Ve stínu stojí vysoký chlapík v kožené vestě a'
-                         ' bronzové přilbici.'),
+                   text=('Ve stínu stojí prošedivělý sporý chlápek v kožené'
+                         ' vestě a bronzové přilbici.'),
                    gold=450,
                    inventory=[
                        items.Weapon('Obouruční meč', 24, 102),

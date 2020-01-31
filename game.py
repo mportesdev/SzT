@@ -19,6 +19,12 @@ def main():
             room.visited = True
             if player.world.all_tiles_visited():
                 utils.award_bonus(player, 100, 'prozkoumání všech míst')
+            if room is player.world.start_tile:
+                utils.nice_print('Uvnitř pověstmi opředené hory se prý ukrývá'
+                                 ' pětice posvátných drahokamů, které i'
+                                 ' obyčejnému smrtelníkovi mohou přinést'
+                                 ' nadlidské schopnosti.')
+                room.text = room.text[:room.text.find('.') + 1]
 
         if player.is_winner():
             break
@@ -38,10 +44,7 @@ def main():
                           player.move_east, player.move_west):
                 break
 
-    print('\nDokázal jsi to!',
-          'Překonal jsi všechny nástrahy a získal poklad nesmírné ceny.',
-          'Blahopřeji k vítězství.',
-          sep='\n\n')
+    print('\nDokázal jsi to!\n\nBlahopřeji k vítězství.')
 
 
 if __name__ == '__main__':
