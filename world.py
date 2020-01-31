@@ -6,7 +6,7 @@ import enemies
 import items
 import npc
 from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, color_print, nice_print, \
-                  award_bonus, oscillate, leading_trailing
+                  award_bonus, option_input, oscillate, leading_trailing
 
 
 class PlainTile:
@@ -146,26 +146,20 @@ class TraderTile(Cave):
             color_print('Číslo položky             (', end='', color=BLUE)
             print('Enter', end='')
             color_print(' = návrat) ', end='', color=BLUE)
-            user_input = input().upper()
+            user_input = option_input(valid_choices | {''})
             if user_input == '':
                 return
             else:
-                try:
-                    choice = int(user_input)
-                    if choice not in valid_choices:
-                        raise ValueError
-                    to_swap = seller.inventory[choice - 1]
-                    seller.inventory.remove(to_swap)
-                    buyer.inventory.append(to_swap)
-                    price = (buyer.buy_price(to_swap) if buyer is self.trader
-                             else to_swap.value)
-                    seller.gold += price
-                    buyer.gold -= price
-                    print(f'"Bylo mi potěšením, {title}!"'
-                          f' říká {self.trader.name.lower()}.')
-                    return
-                except ValueError:
-                    color_print('?', color=MAGENTA)
+                to_swap = seller.inventory[user_input - 1]
+                seller.inventory.remove(to_swap)
+                buyer.inventory.append(to_swap)
+                price = (buyer.buy_price(to_swap) if buyer is self.trader
+                         else to_swap.value)
+                seller.gold += price
+                buyer.gold -= price
+                print(f'"Bylo mi potěšením, {title}!"'
+                      f' říká {self.trader.name.lower()}.')
+                return
 
     def facilitate_trade(self, player):
         while True:

@@ -153,6 +153,16 @@ def choose_action(player, command_buffer):
                 color_print('?', color=MAGENTA)
 
 
+def option_input(options):
+    while True:
+        user_input = input()
+        for option in options:
+            if user_input == str(option):
+                return option
+        else:
+            color_print('?', color=MAGENTA)
+
+
 def oscillate(number, relative_delta=0.2):
     delta = int(number * relative_delta)
     return random.randint(number - delta, number + delta)

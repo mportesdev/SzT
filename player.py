@@ -3,8 +3,8 @@
 from typing import List, Union
 
 import items
-from utils import BLUE, MAGENTA, CYAN, \
-                  color_print, nice_print, award_bonus, oscillate
+from utils import BLUE, CYAN, color_print, nice_print, award_bonus, \
+                  option_input, oscillate
 from world import World
 
 InventoryList = List[Union[items.Weapon, items.Consumable]]
@@ -99,21 +99,16 @@ class Player:
             color_print('Číslo položky             (', end='', color=BLUE)
             print('Enter', end='')
             color_print(' = návrat) ', end='', color=BLUE)
-            user_input = input().upper()
+            valid_choices = set(range(1, len(consumables) + 1))
+            user_input = option_input(valid_choices | {''})
             if user_input == '':
                 return
             else:
-                try:
-                    choice = int(user_input)
-                    if choice < 1:
-                        raise IndexError
-                    to_eat = consumables[choice - 1]
-                    self.hp = min(100, self.hp + to_eat.healing_value)
-                    self.inventory.remove(to_eat)
-                    print('Hned je ti lépe!')
-                    return
-                except (ValueError, IndexError):
-                    color_print('?', color=MAGENTA)
+                to_eat = consumables[user_input - 1]
+                self.hp = min(100, self.hp + to_eat.healing_value)
+                self.inventory.remove(to_eat)
+                print('Hned je ti lépe!')
+                return
 
     def trade(self):
         self.current_room().facilitate_trade(self)
