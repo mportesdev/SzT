@@ -141,9 +141,9 @@ def choose_action(player, command_buffer):
         available_actions = get_available_actions(player)
         if not command_buffer:
             print_options(available_actions)
-            color_print(f'[ Zdraví: {player.hp}\tzkušenost: {player.xp}'
-                        f'\tzlato: {player.gold} ]'.expandtabs(18),
-                        color=MAGENTA)
+            multicolor(f'[ Zdraví: |{player.hp:<8}|zkušenost: |{player.xp:<7}|'
+                       f'zlato: |{player.gold:<4}|]',
+                       (MAGENTA, '0', MAGENTA, '0', MAGENTA, '0', MAGENTA))
             print()
 
         while True:
