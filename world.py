@@ -292,29 +292,29 @@ class FindConsumableTile(Forest):
 
 
 world_repr = '''
-fm        1c cc                          
- fff    cc c c                           
-  f      cccccc    c                     
-  F  f        cHcc c c  cg    c          
- ff fFf   ccc c  cccccc c    cc          
- f  f f   c ccc  c   T  c    c cc        
- ff f m f 1   c  cc cccccccccccc         
-f fff fff   c          C  C              
-f F m   fW  c  wcc  c ccccccc            
-fmf      cccc  c  c ccc       c          
-f ff        cccc  ccc C g   gcc          
-ff f     gccc  cccc c c c ccc  c         
- F m      c cgcc  c c cccCc cCcccc       
-mf       cc         c c  g    c  c       
- ff      c        f   g cc    cc         
+fm        gc cccc 1                      
+ fff    cc C c  Ccc                      
+  f      cccccc    c         gc          
+  F  f        cHcc c c  cg    C cc       
+ ff fFf   ccC c  cccccc c    cc  cccg    
+ f  f f   c ccc  c   T  c  cTc ccC       
+ ff f m f 1   c  cc cccccccc ccc c       
+f fff fff   c          C  C      c1      
+f F m   fW  c  cgcc c ccccccc            
+fmf      cccc  c  c ccc       c  g c     
+f ff    c   cCcc cCcc C g   ccc  c cc    
+ff f   Cccccc  ccc  c c c ccc  c ccc     
+ F m  cc  c cgCc c wc cccCc cTcccc       
+mf    g  cc c       c c  c    c  cCc     
+ ff   cc c        f   g cc    gc   w     
          T    Ffm f     c                
          cg   f  ffff   M                
-     1   c    ffff t    f           ff f 
-     c cccccc  x   f mf f ffff m     ffff
-    cc c  c       mf  fff  f fff  ff f  m
-    c  c cccc cc   fff  fFff   F   fFff  
+         c    ffff t    f           ff f 
+       ccCccc  x   f mf f ffff m     ffff
+   cc cc  c       mf  fff  f fff  ff f  m
+    c  c ccCc cc   fff  fFff   F   fFff  
     cccc c  c  c1    F  f  m fff fff  ff 
-   cc c  c ccc c     fffff   f   f  f f  
+   Cc g  c ccc C     fffff   f   f  f f  
    c  c  c w ccc     m f f xffFf fm ffFff
    c1                  f f  f  fff  f   f
                             ffm  f fm fff
