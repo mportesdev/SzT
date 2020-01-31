@@ -13,8 +13,8 @@ InventoryList = List[Union[items.Weapon, items.Consumable]]
 class Player:
     def __init__(self):
         self.inventory: InventoryList = [
-            items.Weapon('Tupý nůž', 5, 14),
-            items.Consumable('Bylinkový chleba', 8, 11, 'Bylinkovým chlebem'),
+            items.Weapon('Tupý nůž', 5, 13),
+            items.Consumable('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
         self.gemstones = []
         self.world = World()
