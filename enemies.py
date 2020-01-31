@@ -54,8 +54,8 @@ class Monster(Enemy):
     @classmethod
     def new_troll(cls):
         return cls(name='Kamenný troll',
-                   hp=82,
-                   damage=14,
+                   hp=92,
+                   damage=16,
                    name_3='Trollovi',
                    name_4='Trolla',
                    alive_text='Vyrušil jsi dřímajícího kamenného trolla!',
@@ -64,7 +64,7 @@ class Monster(Enemy):
     @classmethod
     def new_forest_troll(cls):
         return cls(name='Lesní troll',
-                   hp=52,
+                   hp=62,
                    damage=12,
                    name_3='Trollovi',
                    name_4='Trolla',
@@ -91,7 +91,7 @@ class Human(Enemy):
     @classmethod
     def new_human(cls):
         return cls(name='Cizí dobrodruh',
-                   hp=80,
+                   hp=98,
                    weapon=items.Weapon('Železné kopí', 18, 85),
                    name_3='Dobrodruhovi',
                    name_4='Dobrodruha',
@@ -105,8 +105,8 @@ enemies_data = (
         Animal,
         {
             'name': 'Obří pavouk',
-            'hp': 24,
-            'damage': 6,
+            'hp': 29,
+            'damage': 7,
             'name_3': 'Pavoukovi',
             'name_4': 'Pavouka',
             'alive_text': 'Z výšky se spustil obří pavouk a snaží se tě'
@@ -120,8 +120,8 @@ enemies_data = (
         Animal,
         {
             'name': 'Obří šváb',
-            'hp': 28,
-            'damage': 4,
+            'hp': 33,
+            'damage': 5,
             'name_3': 'Švábovi',
             'name_4': 'Švába',
             'alive_text': 'Z díry vylezl odporný obří šváb a sevřel tě'
@@ -134,7 +134,7 @@ enemies_data = (
         Animal,
         {
             'name': 'Obří netopýr',
-            'hp': 35,
+            'hp': 36,
             'damage': 6,
             'name_3': 'Netopýrovi',
             'name_4': 'Netopýra',
@@ -147,8 +147,8 @@ enemies_data = (
         Monster,
         {
             'name': 'Skřet',
-            'hp': 42,
-            'damage': 10,
+            'hp': 43,
+            'damage': 12,
             'name_3': 'Skřetovi',
             'name_4': 'Skřeta',
         },
@@ -158,8 +158,8 @@ enemies_data = (
         Monster,
         {
             'name': 'Krysodlak',
-            'hp': 45,
-            'damage': 12,
+            'hp': 47,
+            'damage': 10,
             'name_3': 'Krysodlakovi',
             'name_4': 'Krysodlaka',
         },
@@ -169,8 +169,8 @@ enemies_data = (
         Animal,
         {
             'name': 'Jeskynní dráček',
-            'hp': 55,
-            'damage': 8,
+            'hp': 54,
+            'damage': 9,
             'name_3': 'Dráčkovi',
             'name_4': 'Dráčka',
             'alive_text': 'Ze tmy vyskočil malý jeskynní dráček a zasáhl tě'
