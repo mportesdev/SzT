@@ -48,7 +48,7 @@ class Monster(Enemy):
                  alive_text=None, dead_text=None):
         super().__init__(name, hp, damage,
                          name_3, name_4, alive_text, dead_text)
-        self.gold = random.randint(5, 20)
+        self.gold = random.randint(8, 16)
         self.gold_claimed = False
 
     @classmethod
@@ -85,7 +85,7 @@ class Human(Enemy):
         self.weapon = weapon
         self.weapon_claimed = False
         self.damage = self.weapon.damage
-        self.gold = random.choice((0, random.randint(5, 15)))
+        self.gold = random.choice((0, random.randint(10, 20)))
         self.gold_claimed = False
 
     @classmethod

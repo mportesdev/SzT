@@ -194,7 +194,7 @@ class TraderTile(Cave):
 class FindGoldTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.gold = random.randint(5, 50)
+        self.gold = random.randint(12, 24)
         self.gold_claimed = False
 
     def modify_player(self, player):
