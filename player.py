@@ -122,7 +122,7 @@ class Player:
         return self.world.tile_at(self.x, self.y)
 
     def is_winner(self):
-        return self.current_room() is self.world.victory_tile \
+        return self.current_room() is self.world.start_tile \
                and self.world.treasure_collected()
 
     def print_map(self):

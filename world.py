@@ -309,7 +309,7 @@ mf       cc         c c  g    c  c
  ff      c        f   g cc    cc         
          T    Ffm f     c                
          cg   f  ffff   M                
-     1   c    ffff t    V           ff f 
+     1   c    ffff t    f           ff f 
      c cccccc  x   f mf f ffff m     ffff
     cc c  c       mf  fff  f fff  ff f  m
     c  c cccc cc   fff  fFff   F   fFff  
@@ -327,7 +327,6 @@ class World:
     def __init__(self):
         self.world_map = []
         self.start_tile = None
-        self.victory_tile = None
         self.parse_world_repr(world_repr)
 
     def tile_at(self, x, y):
@@ -344,16 +343,14 @@ class World:
 
         if map_repr.count('1') > len(gemstone_data):
             raise ValueError('Not enough gemstone data')
-        if map_repr.count('S') != 1 or map_repr.count('V') != 1:
-            raise ValueError('Map must contain exactly 1 start tile'
-                             ' and exactly 1 victory tile')
+        if map_repr.count('S') != 1:
+            raise ValueError('Map must contain exactly 1 start tile')
 
         lines = map_repr.strip('\n').splitlines()
         for y, line in enumerate(lines):
             map_row = []
             for x, tile_code in enumerate(line):
-                tile_type = {'V': Forest,
-                             'c': Cave,
+                tile_type = {'c': Cave,
                              'f': Forest,
                              'C': CaveWithEnemy,
                              'F': ForestWithEnemy,
@@ -396,8 +393,6 @@ class World:
                                      ' učedníka, jsi nechal daleko za sebou a'
                                      ' vydal ses na nejistou dráhu dobrodruha.')
                         self.start_tile = tile
-                    elif tile_code == 'V':
-                        self.victory_tile = tile
                     elif tile_code == '1':
                         tile.gemstone = items.Gemstone(*gemstone_data.pop())
                 else:
