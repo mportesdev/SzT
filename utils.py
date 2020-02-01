@@ -87,12 +87,11 @@ def print_options(available_actions):
     print('\nMožnosti:')
     for hotkey_group in hotkey_groups(''.join(available_actions.keys())):
         for hotkey in hotkey_group:
-            print(f'{hotkey}', end='')
             name = available_actions[hotkey][1]
             if hotkey == hotkey_group[-1]:
-                color_print(f': {name}', color=BLUE)
+                multicolor(f'{hotkey}|: {name}', ('0', BLUE))
             else:
-                color_print(f': {name:<15}', end='', color=BLUE)
+                multicolor(f'{hotkey}|: {name:<15}', ('0', BLUE), end='')
 
 
 def award_bonus(player, bonus, achievement):
