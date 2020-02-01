@@ -10,7 +10,7 @@ import time
 
 GAME_TITLE = 'Strach ze tmy'
 WIDTH = 70
-DELAY = 0.025
+DELAY = 0.015
 
 # Colors
 NONE = '0'

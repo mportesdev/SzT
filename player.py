@@ -3,8 +3,8 @@
 from typing import List, Union
 
 import items
-from utils import NONE, BLUE, CYAN, nice_print, color_print, multicolor, \
-                  award_bonus, option_input, oscillate
+from utils import WIDTH, NONE, BLUE, CYAN, nice_print, color_print, \
+                  multicolor, award_bonus, option_input, oscillate
 from world import World
 
 InventoryList = List[Union[items.Weapon, items.Consumable]]
@@ -122,7 +122,7 @@ class Player:
     def print_map(self):
         map_data = self.world.map_of_visited((self.x, self.y))
 
-        print('\n'.join(''.join(row_data)
+        print('\n'.join(''.join(row_data).center(WIDTH)
                         for row_data in map_data))
         multicolor('[ |+| les           |#| jeskyně         |H| hráč     ]',
                    (BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE))
