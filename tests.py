@@ -3,7 +3,7 @@ import pytest
 
 from items import Item
 from npc import Trader
-from utils import RED, BLUE, MAGENTA, CYAN, multicolor, oscillate, \
+from utils import NONE, RED, BLUE, MAGENTA, CYAN, multicolor, oscillate, \
                   hotkey_groups, leading_trailing
 import world
 
@@ -111,12 +111,12 @@ def test_multicolor():
     multicolor('red|blue|magenta|cyan',
                (RED, BLUE, MAGENTA, CYAN))
     multicolor('Číslo položky             (|Enter| = návrat) ',
-               (BLUE, '0', BLUE))
+               (BLUE, NONE, BLUE))
     multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-               ('0', BLUE, '0', BLUE, '0', BLUE))
+               (NONE, BLUE, NONE, BLUE, NONE, BLUE))
     multicolor('[ |+| les           |#| jeskyně         |H| hráč    ]',
-               (BLUE, '0', BLUE, '0', BLUE, '0', BLUE))
+               (BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE))
 
     with pytest.raises(ValueError):
         multicolor('[ |+| les           |#| jeskyně         |H| hráč    ]',
-                   (BLUE, '0', BLUE, '0', BLUE, '0'))
+                   (BLUE, NONE, BLUE, NONE, BLUE, NONE))

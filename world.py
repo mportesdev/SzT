@@ -5,7 +5,7 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, \
+from utils import NONE, WIDTH, RED, BLUE, MAGENTA, CYAN, \
                   nice_print, color_print, multicolor, award_bonus, \
                   option_input, oscillate, leading_trailing
 
@@ -145,7 +145,7 @@ class TraderTile(Cave):
 
         while True:
             multicolor('Číslo položky             (|Enter| = návrat)',
-                       (BLUE, '0', BLUE), end=' ')
+                       (BLUE, NONE, BLUE), end=' ')
             user_input = option_input(valid_choices | {''})
             if user_input == '':
                 return
@@ -164,7 +164,7 @@ class TraderTile(Cave):
     def facilitate_trade(self, player):
         while True:
             multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat)',
-                       ('0', BLUE, '0', BLUE, '0', BLUE), end=' ')
+                       (NONE, BLUE, NONE, BLUE, NONE, BLUE), end=' ')
             user_input = input().upper()
             if user_input == '':
                 return
@@ -328,7 +328,7 @@ class World:
             return None
 
     def parse_world_repr(self, map_repr):
-        gemstone_data = {('Diamant', '0'), ('Rubín', RED), ('Tyrkys', CYAN),
+        gemstone_data = {('Diamant', NONE), ('Rubín', RED), ('Tyrkys', CYAN),
                          ('Ametyst', MAGENTA), ('Safír', BLUE)}
 
         if map_repr.count('1') > len(gemstone_data):

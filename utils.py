@@ -12,6 +12,8 @@ GAME_TITLE = 'Strach ze tmy'
 WIDTH = 70
 DELAY = 0.025
 
+# Colors
+NONE = '0'
 RED = '91'
 BLUE = '94'
 MAGENTA = '95'
@@ -89,9 +91,9 @@ def print_options(available_actions):
         for hotkey in hotkey_group:
             name = available_actions[hotkey][1]
             if hotkey == hotkey_group[-1]:
-                multicolor(f'{hotkey}|: {name}', ('0', BLUE))
+                multicolor(f'{hotkey}|: {name}', (NONE, BLUE))
             else:
-                multicolor(f'{hotkey}|: {name:<15}', ('0', BLUE), end='')
+                multicolor(f'{hotkey}|: {name:<15}', (NONE, BLUE), end='')
 
 
 def award_bonus(player, bonus, achievement):
@@ -142,7 +144,7 @@ def choose_action(player, command_buffer):
             print_options(available_actions)
             multicolor(f'[ Zdraví: |{player.hp:<8}|zkušenost: |{player.xp:<7}|'
                        f'zlato: |{player.gold:<4}|]',
-                       (MAGENTA, '0', MAGENTA, '0', MAGENTA, '0', MAGENTA))
+                       (MAGENTA, NONE, MAGENTA, NONE, MAGENTA, NONE, MAGENTA))
             print()
 
         while True:
