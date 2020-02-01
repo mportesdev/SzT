@@ -15,6 +15,7 @@ class PlainTile:
         self.x = x
         self.y = y
         self.visited = False
+        self.seen = False
 
     def modify_player(self, player):
         pass
@@ -412,6 +413,8 @@ class World:
                         row_data.append('H')
                     elif tile.visited:
                         row_data.append('#' if isinstance(tile, Cave) else '+')
+                    elif tile.seen:
+                        row_data.append('?')
                     else:
                         row_data.append(' ')
                 except AttributeError:

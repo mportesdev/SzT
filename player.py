@@ -124,5 +124,6 @@ class Player:
 
         print('\n'.join(''.join(row_data).center(WIDTH)
                         for row_data in map_data))
-        multicolor('[ |+| les           |#| jeskyně         |H| hráč     ]',
-                   (BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE))
+        multicolor('[ |+| les           |#| jeskyně         '
+                   '|H| hráč            |?| neznámo ]',
+                   (BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE))

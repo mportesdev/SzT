@@ -118,14 +118,24 @@ def get_available_actions(player):
 
     if not enemy_near or player.good_hit:
         player.good_hit = False
-        if player.world.tile_at(room.x, room.y - 1):
+
+        room_north = player.world.tile_at(room.x, room.y - 1)
+        room_south = player.world.tile_at(room.x, room.y + 1)
+        room_west = player.world.tile_at(room.x - 1, room.y)
+        room_east = player.world.tile_at(room.x + 1, room.y)
+
+        if room_north:
             actions['S'] = (player.move_north, 'Jít na sever')
-        if player.world.tile_at(room.x, room.y + 1):
+            room_north.seen = True
+        if room_south:
             actions['J'] = (player.move_south, 'Jít na jih')
-        if player.world.tile_at(room.x - 1, room.y):
+            room_south.seen = True
+        if room_west:
             actions['Z'] = (player.move_west, 'Jít na západ')
-        if player.world.tile_at(room.x + 1, room.y):
+            room_west.seen = True
+        if room_east:
             actions['V'] = (player.move_east, 'Jít na východ')
+            room_east.seen = True
 
     if player.hp < 100 and player.has_consumables():
         actions['L'] = (player.heal, 'Léčit se')
