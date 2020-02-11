@@ -301,8 +301,8 @@ mf    g  cc c       c c  c    c  cCc
  ff   cc c        f   g cc    gc   w     
          T    Ffm f     c                
          cg   f  ffff   M                
-         c    ffff t    f           ff f 
-       ccCccc  x   f mf f ffff m     ffff
+         c c  ffff t    f           ff f 
+       ccCcc   x   f mf f ffff m     ffff
    cc cc  c       mf  fff  f fff  ff f  m
     c  c ccCc cc   fff  fFff   F   fFff  
     cccc c  c  c1    F  f  m fff fff  ff 
@@ -349,7 +349,7 @@ class World:
                              't': ForestWithEnemy,
                              'T': CaveWithEnemy,    # troll
                              'H': CaveWithEnemy,    # human
-                             'S': PlainTile,
+                             'S': Forest,
                              'g': FindGoldTile,
                              '1': FindGemstoneTile,
                              'w': CaveWithWeapon,
