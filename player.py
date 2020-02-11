@@ -106,7 +106,7 @@ class Player:
                 to_eat = consumables[user_input - 1]
                 self.hp = min(100, self.hp + to_eat.healing_value)
                 self.inventory.remove(to_eat)
-                print('Hned je ti lépe!')
+                print('Hned se cítíš líp.')
                 return
 
     def trade(self):
@@ -124,6 +124,6 @@ class Player:
 
         print('\n'.join(''.join(row_data).center(WIDTH)
                         for row_data in map_data))
-        multicolor('[ |+| les           |#| jeskyně         '
+        multicolor('\n[ |+| les           |#| jeskyně         '
                    '|H| hráč            |?| neznámo ]',
                    (BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE))

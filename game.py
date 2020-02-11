@@ -20,11 +20,15 @@ def main():
             if player.world.all_tiles_visited():
                 utils.award_bonus(player, 100, 'prozkoumání všech míst')
             if room is player.world.start_tile:
+                utils.nice_print('Svou rodnou vesnici, stejně'
+                                 ' jako vcelku poklidný život pekařského'
+                                 ' učedníka, jsi nechal daleko za sebou a'
+                                 ' vydal ses na nejistou dráhu dobrodruha.',
+                                 'none')
                 utils.nice_print('Uvnitř pověstmi opředené hory se prý ukrývá'
                                  ' pětice posvátných drahokamů, které i'
                                  ' obyčejnému smrtelníkovi mohou přinést'
                                  ' nadlidské schopnosti.')
-                room.text = room.text[:room.text.find('.') + 1]
 
         if player.is_winner():
             break

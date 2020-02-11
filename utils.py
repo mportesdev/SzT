@@ -153,7 +153,7 @@ def choose_action(player, command_buffer):
         if not command_buffer:
             print_options(available_actions)
             multicolor(f'[ Zdraví: |{player.hp:<8}|zkušenost: |{player.xp:<7}|'
-                       f'zlato: |{player.gold:<4}|]',
+                       f'zlato: |{player.gold}| ]',
                        (MAGENTA, NONE, MAGENTA, NONE, MAGENTA, NONE, MAGENTA))
             print()
 

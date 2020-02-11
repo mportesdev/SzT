@@ -61,7 +61,7 @@ class EnemyTile(PlainTile):
         if self.enemy.is_alive():
             if player.good_hit:
                 nice_print(f'Zasáhl jsi {self.enemy.name_4.lower()} do'
-                           f' hlavy! {self.enemy.name} zmateně vrávorá.',
+                           f' hlavy. {self.enemy.name} zmateně vrávorá.',
                            'fight', color=CYAN)
             else:
                 real_enemy_damage = oscillate(self.enemy.damage)
@@ -158,7 +158,7 @@ class TraderTile(Cave):
                          else to_swap.value)
                 seller.gold += price
                 buyer.gold -= price
-                print(f'"Bylo mi potěšením, {title}!"'
+                print(f'"Bylo mi potěšením, {title}."'
                       f' říká {self.trader.name.lower()}.')
                 return
 
@@ -212,10 +212,11 @@ class FindGemstoneTile(Cave):
                 award_bonus(player, 300, 'nalezení všech drahokamů')
                 nice_print('Drahokamy teď musíš vynést ven z jeskyně a dojít'
                            ' s nimi na začátek své cesty.')
-                player.world.start_tile.text += (' Překonal jsi všechny'
-                                                 ' nástrahy a skutečně získal'
-                                                 ' kýžené magické artefakty.'
-                                                 ' Čeká tě velká budoucnost.')
+                player.world.start_tile.text += (
+                    ' Překonal jsi všechny nástrahy a skutečně se ti podařilo'
+                    ' získat kýžené magické artefakty. Otevírá se před tebou'
+                    ' svět neomezených možností.'
+                )
 
 
 class FindWeaponTile(PlainTile):
@@ -329,7 +330,7 @@ class World:
             return None
 
     def parse_world_repr(self, map_repr):
-        gemstone_data = {('Diamant', NONE), ('Rubín', RED), ('Tyrkys', CYAN),
+        gemstone_data = {('Diamant', NONE), ('Rubín', RED), ('Zirkon', CYAN),
                          ('Ametyst', MAGENTA), ('Safír', BLUE)}
 
         if map_repr.count('1') > len(gemstone_data):
@@ -378,11 +379,9 @@ class World:
                     tile = tile_type(x, y, **kwargs)
                     map_row.append(tile)
                     if tile_code == 'S':
-                        tile.text = ('Stojíš na okraji tajuplného lesa na úpatí'
-                                     ' Hory běsů. Svou rodnou vesnici, stejně'
-                                     ' jako vcelku poklidný život pekařského'
-                                     ' učedníka, jsi nechal daleko za sebou a'
-                                     ' vydal ses na nejistou dráhu dobrodruha.')
+                        tile.text = ('Stojíš při okraji tajuplného lesa na'
+                                     ' úpatí zlověstně strmého, temně šedého'
+                                     ' štítu Hory běsů.')
                         self.start_tile = tile
                     elif tile_code == '1':
                         tile.gemstone = items.Gemstone(*gemstone_data.pop())
