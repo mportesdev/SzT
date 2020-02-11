@@ -27,12 +27,34 @@ class PlainTile:
 class Cave(PlainTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        if x >= 26 and y <= 8:
-            self.text = ('Kráčíš po rozměklé zemi ve vlhké a zatuchlé části'
+        if x <= 18 and y <= 6:
+            # zone 1
+            self.text = ('Klopýtáš po rozbitém kamení v téměř úplné tmě této'
+                         ' části jeskyně.')
+        elif x >= 27 and y <= 7:
+            # zone 3
+            self.text = ('Našlapuješ po rozměklé zemi ve vlhké a zatuchlé části'
                          ' jeskyně.')
-        elif x <= 16 and y >= 17:
-            self.text = 'Bloudíš spletí úzkých a nízkých podzemních chodeb.'
+        elif 22 <= x <= 26 and y >= 9:
+            # zone 5
+            self.text = 'Procházíš chladnou tmavou jeskyní.'
+        elif x >= 27 and y >= 9:
+            # zone 6
+            self.text = 'Procházíš spletí nepříjemně tísnivých úzkých chodeb.'
+        elif x <= 8 and y >= 18:
+            # zone 8
+            self.text = 'Procházíš chladnou tmavou jeskyní.'
+        elif y >= 19:
+            # zone 9
+            self.text = 'Procházíš chladnou tmavou jeskyní.'
+        elif x <= 11 and y >= 10:
+            # zone 7
+            self.text = 'Procházíš chladnou tmavou jeskyní.'
+        elif x <= 21 and y >= 7:
+            # zone 4
+            self.text = 'Procházíš chladnou tmavou jeskyní.'
         else:
+            # zone 2
             self.text = 'Procházíš chladnou tmavou jeskyní.'
 
 
