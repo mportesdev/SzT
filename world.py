@@ -188,17 +188,14 @@ class TraderTile(Cave):
         while True:
             multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat)',
                        (NONE, BLUE, NONE, BLUE, NONE, BLUE), end=' ')
-            user_input = input().upper()
+            user_input = option_input({'K', 'P', ''})
             if user_input == '':
                 return
-            elif user_input in ('K', 'P'):
-                if user_input == 'K':
-                    buyer, seller = player, self.trader
-                else:
-                    buyer, seller = self.trader, player
-                self.trade(buyer=buyer, seller=seller)
+            elif user_input == 'K':
+                buyer, seller = player, self.trader
             else:
-                color_print('?', color=MAGENTA)
+                buyer, seller = self.trader, player
+            self.trade(buyer=buyer, seller=seller)
 
     def intro_text(self):
         return self.text + ' ' + self.trader.text

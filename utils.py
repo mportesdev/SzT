@@ -206,7 +206,9 @@ def leading_trailing(input_str, value):
 
 
 def confirm_quit():
-    if input('Opravdu skončit? (A / cokoliv) ').upper() == 'A':
+    multicolor('Opravdu skončit? (|A| / |N|)', (BLUE, NONE, BLUE, NONE, BLUE),
+               end=' ')
+    if option_input({'A', 'N'}) == 'A':
         quit_game()
 
 
