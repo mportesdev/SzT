@@ -178,11 +178,12 @@ def choose_action(player, command_buffer):
                 color_print('?', color=MAGENTA)
 
 
-def option_input(options):
+def option_input(options, ignore_case=True):
     while True:
         user_input = input()
         for option in options:
-            if user_input == str(option):
+            if user_input == str(option) or \
+                    ignore_case and user_input.upper() == str(option).upper():
                 return option
         else:
             color_print('?', color=MAGENTA)
