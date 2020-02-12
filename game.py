@@ -26,8 +26,8 @@ def main():
                                  ' vydal ses na nejistou dráhu dobrodruha.',
                                  'none')
                 utils.nice_print('Uvnitř pověstmi opředené hory se prý ukrývá'
-                                 ' pětice posvátných drahokamů, které i'
-                                 ' obyčejnému smrtelníkovi mohou přinést'
+                                 ' pětice posvátných magických předmětů, které'
+                                 ' i obyčejnému smrtelníkovi mohou přinést'
                                  ' nadlidské schopnosti.')
 
         if player.is_winner():

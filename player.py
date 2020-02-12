@@ -16,7 +16,7 @@ class Player:
             items.Weapon('Tupý nůž', 5, 13),
             items.Consumable('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
-        self.gemstones = []
+        self.artifacts = []
         self.world = World()
         self.x, self.y = self.world.start_tile.x, self.world.start_tile.y
         self.hp = 100
@@ -31,8 +31,8 @@ class Player:
         print('Máš u sebe:')
         for item in self.inventory:
             print(f'            {item}')
-        for gemstone in self.gemstones:
-            color_print(f'            < {gemstone} >', color=gemstone.color)
+        for artifact in self.artifacts:
+            color_print(f'            < {artifact} >', color=artifact.color)
 
     def best_weapon(self):
         try:

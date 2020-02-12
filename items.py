@@ -33,7 +33,7 @@ class Consumable(Item):
         return f'{self.name_7} (zdraví +{self.healing_value})'
 
 
-class Gemstone(Item):
+class Artifact(Item):
     def __init__(self, name, color, name_4=None):
         super().__init__(name, None, name_4)
         self.color = color

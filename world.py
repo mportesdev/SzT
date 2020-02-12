@@ -215,21 +215,21 @@ class FindGoldTile(Cave):
             nice_print(message, 'luck', color=CYAN)
 
 
-class FindGemstoneTile(Cave):
+class FindArtifactTile(Cave):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.gemstone = None
-        self.gemstone_claimed = False
+        self.artifact = None
+        self.artifact_claimed = False
 
     def modify_player(self, player):
-        if not self.gemstone_claimed:
-            self.gemstone_claimed = True
-            player.gemstones.append(self.gemstone)
-            message = f'Našel jsi {self.gemstone.name_4.lower()}.'
+        if not self.artifact_claimed:
+            self.artifact_claimed = True
+            player.artifacts.append(self.artifact)
+            message = f'Našel jsi {self.artifact.name_4.lower()}.'
             nice_print(message, 'luck', color=CYAN)
             if player.world.treasure_collected():
-                award_bonus(player, 300, 'nalezení všech drahokamů')
-                nice_print('Drahokamy teď musíš vynést ven z jeskyně a dojít'
+                award_bonus(player, 300, 'nalezení všech magických předmětů')
+                nice_print('Artefakty teď musíš vynést ven z jeskyně a dojít'
                            ' s nimi na začátek své cesty.')
                 player.world.start_tile.text += (
                     ' Překonal jsi všechny nástrahy a skutečně se ti podařilo'
@@ -303,14 +303,14 @@ class FindConsumableTile(Forest):
 
 
 world_repr = '''
-fm        gc cccc 1                      
+fm        gc cccc A                      
  fff    cc C c  Ccc                      
   f      cccccc    c         gc          
   F  f        cHcc c c  cg    C cc       
  ff fFf   ccC c  cccccc c    cc  cccg    
  f  f f   c ccc  c   T  c  cTc ccC       
- ff f m f 1   c  cc cccccccc ccc c       
-f fff fff   c          C  C      c1      
+ ff f m f A   c  cc cccccccc ccc c       
+f fff fff   c          C  C      cA      
 f F m   fW  c  cgcc c ccccccc            
 fmf      cccc  c  c ccc       c  g c     
 f ff    c   cCcc cCcc C g   ccc  c cc    
@@ -324,10 +324,10 @@ mf    g  cc c       c c  c    c  cCc
        ccCcc   x   f mf f ffff m     ffff
    cc cc  c       mf  fff  f fff  ff f  m
     c  c ccCc cc   fff  fFff   F   fFff  
-    cccc c  c  c1    F  f  m fff fff  ff 
+    cccc c  c  cA    F  f  m fff fff  ff 
    Cc g  c ccc C     fffff   f   f  f f  
    c  c  c w ccc     m f f xffFf fm ffFff
-   c1                  f f  f  fff  f   f
+   cA                  f f  f  fff  f   f
                             ffm  f fm fff
                                  f f ff f
                                  S     mf
@@ -349,11 +349,16 @@ class World:
             return None
 
     def parse_world_repr(self, map_repr):
-        gemstone_data = {('Diamant', NONE), ('Rubín', RED), ('Zirkon', CYAN),
-                         ('Ametyst', MAGENTA), ('Safír', BLUE)}
+        artifact_data = {
+            ('Křišťálová koule', NONE, 'Křišťálovou kouli'),
+            ('Rubínový kříž', RED),
+            ('Tyrkysová tiára', CYAN, 'Tyrkysovou tiáru'),
+            ('Ametystový kalich', MAGENTA),
+            ('Safírový trojzubec', BLUE)
+        }
 
-        if map_repr.count('1') > len(gemstone_data):
-            raise ValueError('Not enough gemstone data')
+        if map_repr.count('1') > len(artifact_data):
+            raise ValueError('Not enough artifact data')
         if map_repr.count('S') != 1:
             raise ValueError('Map must contain exactly 1 start tile')
 
@@ -370,7 +375,7 @@ class World:
                              'H': CaveWithEnemy,    # human
                              'S': Forest,
                              'g': FindGoldTile,
-                             '1': FindGemstoneTile,
+                             'A': FindArtifactTile,
                              'w': CaveWithWeapon,
                              'x': ForestWithWeapon,
                              'm': FindConsumableTile,
@@ -403,15 +408,15 @@ class World:
                                      ' štítu Hory běsů.')
                         self.start_tile = tile
                     elif tile_code == '1':
-                        tile.gemstone = items.Gemstone(*gemstone_data.pop())
+                        tile.artifact = items.Artifact(*artifact_data.pop())
                 else:
                     map_row.append(None)
 
             self.world_map.append(map_row)
 
     def treasure_collected(self):
-        return all(tile.gemstone_claimed for tile in self
-                   if hasattr(tile, 'gemstone_claimed'))
+        return all(tile.artifact_claimed for tile in self
+                   if hasattr(tile, 'artifact_claimed'))
 
     def all_enemies_dead(self):
         return not any(tile.enemy.is_alive() for tile in self
