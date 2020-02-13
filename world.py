@@ -406,8 +406,9 @@ class World:
                     map_row.append(tile)
                     if tile_code == 'S':
                         tile.text = ('Stojíš při okraji tajuplného lesa na'
-                                     ' úpatí zlověstně strmého, temně šedého'
-                                     ' štítu Hory běsů.')
+                                     ' úpatí nehostinné Hory běsů. Vrchol'
+                                     ' jejího hrozivého štítu je zahalen nízkým'
+                                     ' mračnem.')
                         self.start_tile = tile
                 else:
                     map_row.append(None)
