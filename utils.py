@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from collections import OrderedDict
+from itertools import cycle
 import os
 import random
 import re
@@ -52,16 +53,17 @@ def color_print_dummy(*args, color=None, **kwargs):
     time.sleep(DELAY)
 
 
-def multicolor(text, colors, delimiter='|', end='\n'):
-    split_text = text.split(delimiter)
-    item_count = len(split_text)
-    color_count = len(colors)
+def multicolor(text, colors, repeat=True, delimiter='|', end='\n'):
+    text_items = text.split(delimiter)
 
-    if item_count > color_count:
-        raise ValueError(f'Not enough color information (expected {item_count},'
-                         f' got {color_count})')
+    if repeat:
+        colors = cycle(colors)
+    else:
+        if len(text_items) > len(colors):
+            raise ValueError('Not enough color information (expected at least'
+                             f' {len(text_items)}, got {len(colors)})')
 
-    for item, color in zip(split_text, colors):
+    for item, color in zip(text_items, colors):
         color_print(item, color=color, end='')
     print(end=end)
 
@@ -153,9 +155,7 @@ def choose_action(player, command_buffer):
         if not command_buffer:
             print_options(available_actions)
             multicolor(f'[ Zdraví: |{player.hp:<8}|zkušenost: |{player.xp:<7}|'
-                       f'zlato: |{player.gold}| ]',
-                       (MAGENTA, DEFAULT, MAGENTA, DEFAULT, MAGENTA, DEFAULT,
-                        MAGENTA))
+                       f'zlato: |{player.gold}| ]', (MAGENTA, DEFAULT))
             print()
 
         while True:
@@ -207,9 +207,7 @@ def leading_trailing(input_str, value):
 
 
 def confirm_quit():
-    multicolor('Opravdu skončit? (|A| / |N|)', (BLUE, DEFAULT, BLUE, DEFAULT,
-                                                BLUE),
-               end=' ')
+    multicolor('Opravdu skončit? (|A| / |N|)', (BLUE, DEFAULT), end=' ')
     if option_input({'A', 'N'}) == 'A':
         raise SystemExit
 

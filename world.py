@@ -168,7 +168,7 @@ class TraderTile(Cave):
 
         while True:
             multicolor('Číslo položky             (|Enter| = návrat)',
-                       (BLUE, DEFAULT, BLUE), end=' ')
+                       (BLUE, DEFAULT), end=' ')
             user_input = option_input(valid_choices | {''})
             if user_input == '':
                 return
@@ -187,7 +187,7 @@ class TraderTile(Cave):
     def facilitate_trade(self, player):
         while True:
             multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat)',
-                       (DEFAULT, BLUE, DEFAULT, BLUE, DEFAULT, BLUE), end=' ')
+                       (DEFAULT, BLUE), end=' ')
             user_input = option_input({'K', 'P', ''})
             if user_input == '':
                 return

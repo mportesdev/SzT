@@ -97,7 +97,7 @@ class Player:
 
         while True:
             multicolor('Číslo položky             (|Enter| = návrat)',
-                       (BLUE, DEFAULT, BLUE), end=' ')
+                       (BLUE, DEFAULT), end=' ')
             valid_choices = set(range(1, len(consumables) + 1))
             user_input = option_input(valid_choices | {''})
             if user_input == '':
@@ -121,6 +121,4 @@ class Player:
         print('\n'.join(''.join(row_data).center(WIDTH)
                         for row_data in map_data))
         multicolor('\n[ |+| les           |#| jeskyně         '
-                   '|H| hráč            |?| neznámo ]',
-                   (BLUE, DEFAULT, BLUE, DEFAULT, BLUE, DEFAULT, BLUE, DEFAULT,
-                    BLUE))
+                   '|H| hráč            |?| neznámo ]', (BLUE, DEFAULT))
