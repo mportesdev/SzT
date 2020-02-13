@@ -78,7 +78,7 @@ class Player:
                    f' {enemy.name_3.lower()}.')
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_4.lower()}!'
-        nice_print(message, 'fight', Color.DEFAULT)
+        nice_print(message, 'fight')
         if self.world.all_enemies_dead():
             award_bonus(self, 200, 'zabití všech nepřátel')
 

@@ -96,7 +96,7 @@ class EnemyTile(PlainTile):
                     player.xp += 1
                 else:
                     message += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                nice_print(message, 'fight')
+                nice_print(message, 'fight', Color.RED)
         else:
             try:
                 if not self.enemy.gold_claimed and self.enemy.gold > 0:

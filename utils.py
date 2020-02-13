@@ -16,7 +16,6 @@ DELAY = 0.015
 
 
 class Color(Enum):
-    DEFAULT = '0'
     RED = '91'
     BLUE = '94'
     MAGENTA = '95'
@@ -38,8 +37,6 @@ def nice_print(message, msg_type='info', color=None):
                   luck=INDENT_LUCK).get(msg_type, INDENT_EMPTY)
     text_wrapper.initial_indent = indent
 
-    if msg_type == 'fight' and color is None:
-        color = Color.RED
     if msg_type == 'luck' and color is None:
         color = Color.CYAN
 
