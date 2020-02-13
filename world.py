@@ -87,7 +87,7 @@ class EnemyTile(PlainTile):
                            'fight', color=CYAN)
             else:
                 real_enemy_damage = oscillate(self.enemy.damage)
-                defense_bonus = player.xp // 100
+                defense_bonus = player.xp // 200
                 real_damage = min(real_enemy_damage - defense_bonus, player.hp)
                 player.hp -= max(real_damage, 0)
                 message = f'{self.enemy} útočí. '

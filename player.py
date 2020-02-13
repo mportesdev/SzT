@@ -70,7 +70,7 @@ class Player:
         real_weapon_damage = oscillate(weapon_damage)
         self.good_hit = (real_weapon_damage > weapon_damage * 1.1
                          and enemy.name_short not in ('troll', 'dobrodruh'))
-        attack_bonus = self.xp // 100
+        attack_bonus = self.xp // 200
         real_damage = min(real_weapon_damage + attack_bonus, enemy.hp)
         enemy.hp -= real_damage
         self.xp += real_damage
