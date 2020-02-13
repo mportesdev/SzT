@@ -37,7 +37,7 @@ def main():
             room.modify_player(player)
 
             if not player.is_alive():
-                utils.quit_game()
+                raise SystemExit
 
             action = utils.choose_action(player, command_buffer)
             action()
@@ -55,4 +55,4 @@ if __name__ == '__main__':
     try:
         main()
     except SystemExit:
-        pass
+        print('\nHra končí.')

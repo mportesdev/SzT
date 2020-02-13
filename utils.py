@@ -209,12 +209,7 @@ def confirm_quit():
     multicolor('Opravdu skončit? (|A| / |N|)', (BLUE, NONE, BLUE, NONE, BLUE),
                end=' ')
     if option_input({'A', 'N'}) == 'A':
-        quit_game()
-
-
-def quit_game():
-    print('\nHra končí.')
-    raise SystemExit
+        raise SystemExit
 
 
 if '--no-color' in sys.argv[1:] or (os.name == 'nt'
