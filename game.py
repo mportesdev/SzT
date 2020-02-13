@@ -30,7 +30,8 @@ def main():
                                  ' i obyčejnému smrtelníkovi mohou přinést'
                                  ' nadlidské schopnosti.')
 
-        if player.is_winner():
+        if room is player.world.start_tile \
+                and player.world.treasure_collected():
             break
 
         while True:

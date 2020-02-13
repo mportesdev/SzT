@@ -115,10 +115,6 @@ class Player:
     def current_room(self):
         return self.world.tile_at(self.x, self.y)
 
-    def is_winner(self):
-        return self.current_room() is self.world.start_tile \
-               and self.world.treasure_collected()
-
     def print_map(self):
         map_data = self.world.map_of_visited((self.x, self.y))
 
