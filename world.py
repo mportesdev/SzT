@@ -5,9 +5,8 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, \
-                  nice_print, color_print, multicolor, award_bonus, \
-                  option_input, oscillate, leading_trailing
+from utils import WIDTH, Color, nice_print, color_print, multicolor, \
+                  award_bonus, option_input, oscillate, leading_trailing
 
 
 class PlainTile:
@@ -84,7 +83,7 @@ class EnemyTile(PlainTile):
             if player.good_hit:
                 nice_print(f'Zasáhl jsi {self.enemy.name_4.lower()} do'
                            f' hlavy. {self.enemy.name} zmateně vrávorá.',
-                           'fight', BLUE)
+                           'fight', Color.BLUE)
             else:
                 real_enemy_damage = oscillate(self.enemy.damage)
                 defense_bonus = player.xp // 200
@@ -153,7 +152,7 @@ class TraderTile(Cave):
                 item_number = '    '
             print(f'{item_number} ', end='')
             color_print(f'{item} '.ljust(WIDTH - 25, '.')
-                        + f' {price:3} zlaťáků', color=CYAN)
+                        + f' {price:3} zlaťáků', color=Color.CYAN)
 
         try:
             money, title = buyer.slang
@@ -168,7 +167,7 @@ class TraderTile(Cave):
 
         while True:
             multicolor('Číslo položky             (|Enter| = návrat)',
-                       (BLUE, None), end=' ')
+                       (Color.BLUE, None), end=' ')
             user_input = option_input(valid_choices | {''})
             if user_input == '':
                 return
@@ -187,7 +186,7 @@ class TraderTile(Cave):
     def facilitate_trade(self, player):
         while True:
             multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat)',
-                       (None, BLUE), end=' ')
+                       (None, Color.BLUE), end=' ')
             user_input = option_input({'K', 'P', ''})
             if user_input == '':
                 return
@@ -351,10 +350,10 @@ class World:
     def parse_world_repr(self, map_repr):
         artifact_data = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
-            ('Rubínový kříž', RED),
-            ('Tyrkysová tiára', CYAN, 'Tyrkysovou tiáru'),
-            ('Ametystový kalich', MAGENTA),
-            ('Safírový trojzubec', BLUE)
+            ('Rubínový kříž', Color.RED),
+            ('Tyrkysová tiára', Color.CYAN, 'Tyrkysovou tiáru'),
+            ('Ametystový kalich', Color.MAGENTA),
+            ('Safírový trojzubec', Color.BLUE)
         }
 
         if map_repr.count('1') > len(artifact_data):

@@ -3,8 +3,7 @@ import pytest
 
 from items import Item
 from npc import Trader
-from utils import RED, BLUE, MAGENTA, CYAN, multicolor, oscillate, \
-                  hotkey_groups, leading_trailing
+from utils import Color, multicolor, oscillate, hotkey_groups, leading_trailing
 import world
 
 
@@ -109,52 +108,55 @@ def test_leading_trailing(inputs, result):
 
 def test_multicolor():
     multicolor('red|blue|magenta|cyan',
-               (RED, BLUE, MAGENTA, CYAN))
+               (Color.RED, Color.BLUE, Color.MAGENTA, Color.CYAN))
 
     multicolor('Číslo položky             (|Enter| = návrat) ',
-               (BLUE, None))
+               (Color.BLUE, None))
     multicolor('Číslo položky             (|Enter| = návrat) ',
-               (BLUE, None, BLUE),
+               (Color.BLUE, None, Color.BLUE),
                repeat=False)
 
     multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-               (None, BLUE))
+               (None, Color.BLUE))
     multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-               (None, BLUE, None, BLUE, None, BLUE),
+               (None, Color.BLUE, None, Color.BLUE, None, Color.BLUE),
                repeat=False)
 
     multicolor('[ |+| les           |#| jeskyně         '
                '|H| hráč            |?| neznámo ]',
-               (BLUE, None))
+               (Color.BLUE, None))
     multicolor('[ |+| les           |#| jeskyně         '
                '|H| hráč            |?| neznámo ]',
-               (BLUE, None, BLUE, None, BLUE, None, BLUE, None,
-                BLUE),
+               (Color.BLUE, None, Color.BLUE, None, Color.BLUE, None,
+                Color.BLUE, None, Color.BLUE),
                repeat=False)
 
     multicolor(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-               (MAGENTA, None))
+               (Color.MAGENTA, None))
     multicolor(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-               (MAGENTA, None, MAGENTA, None, MAGENTA, None, MAGENTA),
+               (Color.MAGENTA, None, Color.MAGENTA, None, Color.MAGENTA, None,
+                Color.MAGENTA),
                repeat=False)
 
     with pytest.raises(ValueError):
         multicolor('Číslo položky             (|Enter| = návrat) ',
-                   (BLUE, None),
+                   (Color.BLUE, None),
                    repeat=False)
 
     with pytest.raises(ValueError):
         multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-                   (None, BLUE, None, BLUE, None),
+                   (None, Color.BLUE, None, Color.BLUE, None),
                    repeat=False)
 
     with pytest.raises(ValueError):
         multicolor('[ |+| les           |#| jeskyně         '
                    '|H| hráč            |?| neznámo ]',
-                   (BLUE, None, BLUE, None, BLUE, None, BLUE, None),
+                   (Color.BLUE, None, Color.BLUE, None, Color.BLUE, None,
+                    Color.BLUE, None),
                    repeat=False)
 
     with pytest.raises(ValueError):
         multicolor(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-                   (MAGENTA, None, MAGENTA, None, MAGENTA, None),
+                   (Color.MAGENTA, None, Color.MAGENTA, None, Color.MAGENTA,
+                    None),
                    repeat=False)

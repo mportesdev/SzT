@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from collections import OrderedDict
+from enum import Enum
 from itertools import cycle
 import os
 import random
@@ -13,11 +14,14 @@ GAME_TITLE = 'Strach ze tmy'
 WIDTH = 70
 DELAY = 0.015
 
-# Colors
-RED = '91'
-BLUE = '94'
-MAGENTA = '95'
-CYAN = '96'
+
+class Color(Enum):
+    DEFAULT = '0'
+    RED = '91'
+    BLUE = '94'
+    MAGENTA = '95'
+    CYAN = '96'
+
 
 INDENT_EMPTY = '           '
 INDENT_INFO = '        >  '
@@ -35,16 +39,16 @@ def nice_print(message, msg_type='info', color=None):
     text_wrapper.initial_indent = indent
 
     if msg_type == 'fight' and color is None:
-        color = RED
+        color = Color.RED
     if msg_type == 'luck' and color is None:
-        color = CYAN
+        color = Color.CYAN
 
     color_print(text_wrapper.fill(message), color=color)
 
 
 def color_print(*args, color=None, **kwargs):
     if color is not None:
-        print(f'\033[{color}m', end='')
+        print(f'\033[{color.value}m', end='')
 
     print(*args, **kwargs)
 
@@ -83,13 +87,13 @@ def print_game_title():
                 'verze 0.8, 30. ledna 2020'.center(WIDTH),
                 '\n\n',
                 sep='\n',
-                color=MAGENTA)
-    color_print('-' * WIDTH, end='\n\n', color=MAGENTA)
+                color=Color.MAGENTA)
+    color_print('-' * WIDTH, end='\n\n', color=Color.MAGENTA)
 
 
 def print_action_name(action_name):
     color_print(f' {action_name.strip()} '.center(WIDTH, '-'), end='\n\n',
-                color=MAGENTA)
+                color=Color.MAGENTA)
 
 
 def print_options(available_actions):
@@ -98,15 +102,15 @@ def print_options(available_actions):
         for hotkey in hotkey_group:
             name = available_actions[hotkey][1]
             if hotkey == hotkey_group[-1]:
-                multicolor(f'{hotkey}|: {name}', (None, BLUE))
+                multicolor(f'{hotkey}|: {name}', (None, Color.BLUE))
             else:
-                multicolor(f'{hotkey}|: {name:<15}', (None, BLUE), end='')
+                multicolor(f'{hotkey}|: {name:<15}', (None, Color.BLUE), end='')
 
 
 def award_bonus(player, bonus, achievement):
     player.xp += bonus
     nice_print(f'Za {achievement} získáváš zkušenost {bonus} bodů!',
-               color=MAGENTA)
+               color=Color.MAGENTA)
 
 
 def get_available_actions(player):
@@ -160,7 +164,7 @@ def choose_action(player, command_buffer):
         if not command_buffer:
             print_options(available_actions)
             multicolor(f'[ Zdraví: |{player.hp:<8}|zkušenost: |{player.xp:<7}|'
-                       f'zlato: |{player.gold}| ]', (MAGENTA, None))
+                       f'zlato: |{player.gold}| ]', (Color.MAGENTA, None))
             print()
 
         while True:
@@ -181,7 +185,7 @@ def choose_action(player, command_buffer):
                 return action
             else:
                 command_buffer.clear()
-                color_print('?', color=MAGENTA)
+                color_print('?', color=Color.MAGENTA)
 
 
 def option_input(options, ignore_case=True):
@@ -192,7 +196,7 @@ def option_input(options, ignore_case=True):
                     ignore_case and user_input.upper() == str(option).upper():
                 return option
         else:
-            color_print('?', color=MAGENTA)
+            color_print('?', color=Color.MAGENTA)
 
 
 def oscillate(number, relative_delta=0.2):
@@ -212,7 +216,7 @@ def leading_trailing(input_str, value):
 
 
 def confirm_quit():
-    multicolor('Opravdu skončit? (|A| / |N|)', (BLUE, None), end=' ')
+    multicolor('Opravdu skončit? (|A| / |N|)', (Color.BLUE, None), end=' ')
     if option_input({'A', 'N'}) == 'A':
         raise SystemExit
 
