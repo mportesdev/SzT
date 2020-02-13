@@ -216,9 +216,9 @@ class FindGoldTile(Cave):
 
 
 class FindArtifactTile(Cave):
-    def __init__(self, x, y):
+    def __init__(self, x, y, artifact):
         super().__init__(x, y)
-        self.artifact = None
+        self.artifact = artifact
         self.artifact_claimed = False
 
     def modify_player(self, player):
@@ -398,6 +398,8 @@ class World:
                     kwargs.update(enemy=enemies.Monster.new_troll())
                 elif tile_code == 'H':
                     kwargs.update(enemy=enemies.Human.new_human())
+                elif tile_code == 'A':
+                    kwargs.update(artifact=items.Artifact(*artifact_data.pop()))
 
                 if tile_type:
                     tile = tile_type(x, y, **kwargs)
@@ -407,8 +409,6 @@ class World:
                                      ' úpatí zlověstně strmého, temně šedého'
                                      ' štítu Hory běsů.')
                         self.start_tile = tile
-                    elif tile_code == '1':
-                        tile.artifact = items.Artifact(*artifact_data.pop())
                 else:
                     map_row.append(None)
 
