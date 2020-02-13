@@ -5,7 +5,7 @@ import random
 import enemies
 import items
 import npc
-from utils import DEFAULT, WIDTH, RED, BLUE, MAGENTA, CYAN, \
+from utils import WIDTH, RED, BLUE, MAGENTA, CYAN, \
                   nice_print, color_print, multicolor, award_bonus, \
                   option_input, oscillate, leading_trailing
 
@@ -84,7 +84,7 @@ class EnemyTile(PlainTile):
             if player.good_hit:
                 nice_print(f'Zasáhl jsi {self.enemy.name_4.lower()} do'
                            f' hlavy. {self.enemy.name} zmateně vrávorá.',
-                           'fight', DEFAULT)
+                           'fight', BLUE)
             else:
                 real_enemy_damage = oscillate(self.enemy.damage)
                 defense_bonus = player.xp // 200
@@ -350,7 +350,7 @@ class World:
 
     def parse_world_repr(self, map_repr):
         artifact_data = {
-            ('Křišťálová koule', DEFAULT, 'Křišťálovou kouli'),
+            ('Křišťálová koule', None, 'Křišťálovou kouli'),
             ('Rubínový kříž', RED),
             ('Tyrkysová tiára', CYAN, 'Tyrkysovou tiáru'),
             ('Ametystový kalich', MAGENTA),

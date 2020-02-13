@@ -3,7 +3,7 @@
 from typing import List, Union
 
 import items
-from utils import WIDTH, DEFAULT, BLUE, CYAN, nice_print, color_print, \
+from utils import WIDTH, BLUE, CYAN, nice_print, color_print, \
                   multicolor, award_bonus, option_input, oscillate
 from world import World
 
@@ -78,7 +78,7 @@ class Player:
                    f' {enemy.name_3.lower()}.')
         if not enemy.is_alive():
             message += f' Zabil jsi {enemy.name_4.lower()}!'
-        nice_print(message, 'fight', DEFAULT)
+        nice_print(message, 'fight', '0')
         if self.world.all_enemies_dead():
             award_bonus(self, 200, 'zabití všech nepřátel')
 

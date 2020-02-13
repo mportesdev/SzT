@@ -14,7 +14,6 @@ WIDTH = 70
 DELAY = 0.015
 
 # Colors
-DEFAULT = '0'
 RED = '91'
 BLUE = '94'
 MAGENTA = '95'
@@ -44,12 +43,12 @@ def nice_print(message, msg_type='info', color=None):
 
 
 def color_print(*args, color=None, **kwargs):
-    if color is not None and color != DEFAULT:
+    if color is not None:
         print(f'\033[{color}m', end='')
 
     print(*args, **kwargs)
 
-    if color is not None and color != DEFAULT:
+    if color is not None:
         print('\033[0m', end='')
     time.sleep(DELAY)
 
