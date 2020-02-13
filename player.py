@@ -3,7 +3,7 @@
 from typing import List, Union
 
 import items
-from utils import WIDTH, NONE, BLUE, CYAN, nice_print, color_print, \
+from utils import WIDTH, DEFAULT, BLUE, CYAN, nice_print, color_print, \
                   multicolor, award_bonus, option_input, oscillate
 from world import World
 
@@ -97,7 +97,7 @@ class Player:
 
         while True:
             multicolor('Číslo položky             (|Enter| = návrat)',
-                       (BLUE, NONE, BLUE), end=' ')
+                       (BLUE, DEFAULT, BLUE), end=' ')
             valid_choices = set(range(1, len(consumables) + 1))
             user_input = option_input(valid_choices | {''})
             if user_input == '':
@@ -122,4 +122,5 @@ class Player:
                         for row_data in map_data))
         multicolor('\n[ |+| les           |#| jeskyně         '
                    '|H| hráč            |?| neznámo ]',
-                   (BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE, NONE, BLUE))
+                   (BLUE, DEFAULT, BLUE, DEFAULT, BLUE, DEFAULT, BLUE, DEFAULT,
+                    BLUE))

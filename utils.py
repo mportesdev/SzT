@@ -13,7 +13,7 @@ WIDTH = 70
 DELAY = 0.015
 
 # Colors
-NONE = '0'
+DEFAULT = '0'
 RED = '91'
 BLUE = '94'
 MAGENTA = '95'
@@ -91,9 +91,9 @@ def print_options(available_actions):
         for hotkey in hotkey_group:
             name = available_actions[hotkey][1]
             if hotkey == hotkey_group[-1]:
-                multicolor(f'{hotkey}|: {name}', (NONE, BLUE))
+                multicolor(f'{hotkey}|: {name}', (DEFAULT, BLUE))
             else:
-                multicolor(f'{hotkey}|: {name:<15}', (NONE, BLUE), end='')
+                multicolor(f'{hotkey}|: {name:<15}', (DEFAULT, BLUE), end='')
 
 
 def award_bonus(player, bonus, achievement):
@@ -154,7 +154,8 @@ def choose_action(player, command_buffer):
             print_options(available_actions)
             multicolor(f'[ Zdraví: |{player.hp:<8}|zkušenost: |{player.xp:<7}|'
                        f'zlato: |{player.gold}| ]',
-                       (MAGENTA, NONE, MAGENTA, NONE, MAGENTA, NONE, MAGENTA))
+                       (MAGENTA, DEFAULT, MAGENTA, DEFAULT, MAGENTA, DEFAULT,
+                        MAGENTA))
             print()
 
         while True:
@@ -206,7 +207,8 @@ def leading_trailing(input_str, value):
 
 
 def confirm_quit():
-    multicolor('Opravdu skončit? (|A| / |N|)', (BLUE, NONE, BLUE, NONE, BLUE),
+    multicolor('Opravdu skončit? (|A| / |N|)', (BLUE, DEFAULT, BLUE, DEFAULT,
+                                                BLUE),
                end=' ')
     if option_input({'A', 'N'}) == 'A':
         raise SystemExit
