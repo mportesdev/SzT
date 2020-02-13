@@ -37,12 +37,12 @@ def nice_print(message, msg_type='info', color=None):
 
 
 def color_print(*args, color=None, **kwargs):
-    if color is not None:
+    if color is not None and color != DEFAULT:
         print(f'\033[{color}m', end='')
 
     print(*args, **kwargs)
 
-    if color is not None:
+    if color is not None and color != DEFAULT:
         print('\033[0m', end='')
     time.sleep(DELAY)
 
