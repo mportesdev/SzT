@@ -84,7 +84,7 @@ class EnemyTile(PlainTile):
             if player.good_hit:
                 nice_print(f'Zasáhl jsi {self.enemy.name_4.lower()} do'
                            f' hlavy. {self.enemy.name} zmateně vrávorá.',
-                           'fight', color=CYAN)
+                           'fight', DEFAULT)
             else:
                 real_enemy_damage = oscillate(self.enemy.damage)
                 defense_bonus = player.xp // 200
@@ -97,7 +97,7 @@ class EnemyTile(PlainTile):
                     player.xp += 1
                 else:
                     message += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                nice_print(message, 'fight', color=RED)
+                nice_print(message, 'fight')
         else:
             try:
                 if not self.enemy.gold_claimed and self.enemy.gold > 0:
@@ -105,13 +105,13 @@ class EnemyTile(PlainTile):
                     player.gold += self.enemy.gold
                     message = (f'Sebral jsi {self.enemy.name_3.lower()}'
                                f' {self.enemy.gold} zlaťáků.')
-                    nice_print(message, 'luck', color=CYAN)
+                    nice_print(message, 'luck')
                 if not self.enemy.weapon_claimed:
                     self.enemy.weapon_claimed = True
                     player.inventory.append(self.enemy.weapon)
                     message = (f'Sebral jsi {self.enemy.name_3.lower()}'
                                f' {self.enemy.weapon.name_4.lower()}.')
-                    nice_print(message, 'luck', color=CYAN)
+                    nice_print(message, 'luck')
             except AttributeError:
                 pass
 
@@ -212,7 +212,7 @@ class FindGoldTile(Cave):
             self.gold_claimed = True
             player.gold += self.gold
             message = f'Našel jsi {self.gold} zlaťáků.'
-            nice_print(message, 'luck', color=CYAN)
+            nice_print(message, 'luck')
 
 
 class FindArtifactTile(Cave):
@@ -226,7 +226,7 @@ class FindArtifactTile(Cave):
             self.artifact_claimed = True
             player.artifacts.append(self.artifact)
             message = f'Našel jsi {self.artifact.name_4.lower()}.'
-            nice_print(message, 'luck', color=CYAN)
+            nice_print(message, 'luck')
             if player.world.treasure_collected():
                 award_bonus(player, 300, 'nalezení všech magických předmětů')
                 nice_print('Artefakty teď musíš vynést ven z jeskyně a dojít'
@@ -261,7 +261,7 @@ class FindWeaponTile(PlainTile):
             else:
                 message = ('Ve skulině pod kamenem jsi našel'
                            f' {self.weapon.name_4.lower()}.')
-            nice_print(message, 'luck', color=CYAN)
+            nice_print(message, 'luck')
 
 
 class CaveWithWeapon(FindWeaponTile, Cave):
@@ -299,7 +299,7 @@ class FindConsumableTile(Forest):
             self.consumable_claimed = True
             player.inventory.append(self.consumable)
             message = f'Našel jsi {self.consumable.name_4.lower()}.'
-            nice_print(message, 'luck', color=CYAN)
+            nice_print(message, 'luck')
 
 
 world_repr = '''

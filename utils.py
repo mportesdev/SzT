@@ -34,6 +34,12 @@ def nice_print(message, msg_type='info', color=None):
                   fight=INDENT_FIGHT,
                   luck=INDENT_LUCK).get(msg_type, INDENT_EMPTY)
     text_wrapper.initial_indent = indent
+
+    if msg_type == 'fight' and color is None:
+        color = RED
+    if msg_type == 'luck' and color is None:
+        color = CYAN
+
     color_print(text_wrapper.fill(message), color=color)
 
 

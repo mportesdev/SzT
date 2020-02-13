@@ -23,8 +23,7 @@ def main():
                 utils.nice_print('Svou rodnou vesnici, stejně'
                                  ' jako vcelku poklidný život pekařského'
                                  ' učedníka, jsi nechal daleko za sebou a'
-                                 ' vydal ses na nejistou dráhu dobrodruha.',
-                                 'none')
+                                 ' vydal ses na nejistou dráhu dobrodruha.')
                 utils.nice_print('Uvnitř pověstmi opředené hory se prý ukrývá'
                                  ' pětice posvátných magických předmětů, které'
                                  ' i obyčejnému smrtelníkovi mohou přinést'
