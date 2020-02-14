@@ -15,11 +15,18 @@ WIDTH = 70
 DELAY = 0.015
 
 
-class Color(Enum):
-    RED = '91'
-    BLUE = '94'
-    MAGENTA = '95'
-    CYAN = '96'
+class DarkColor(Enum):
+    RED = 31
+    BLUE = 34
+    MAGENTA = 35
+    CYAN = 36
+
+
+class BrightColor(Enum):
+    RED = 91
+    BLUE = 94
+    MAGENTA = 95
+    CYAN = 96
 
 
 INDENT_EMPTY = '           '
@@ -217,6 +224,8 @@ def confirm_quit():
     if option_input({'A', 'N'}) == 'A':
         raise SystemExit
 
+
+Color = DarkColor if '--dark' in sys.argv[1:] else BrightColor
 
 if '--no-color' in sys.argv[1:] or (os.name == 'nt'
                                     and '--color' not in sys.argv[1:]):
