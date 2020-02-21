@@ -1,25 +1,25 @@
 # coding: utf-8
 
-from player import Player
+from player import Hráč
 import utils
 
 
 def main():
     utils.print_game_title()
-    player = Player()
+    hráč = Hráč()
     command_buffer = []
 
     while True:
-        room = player.current_room()
+        room = hráč.místnost_pobytu()
         utils.nice_print(room.intro_text())
 
         if not room.visited:
             command_buffer.clear()
 
             room.visited = True
-            if player.world.all_tiles_visited():
-                utils.award_bonus(player, 100, 'prozkoumání všech míst')
-            if room is player.world.start_tile:
+            if hráč.svět.all_tiles_visited():
+                utils.award_bonus(hráč, 100, 'prozkoumání všech míst')
+            if room is hráč.svět.start_tile:
                 utils.nice_print('Svou rodnou vesnici, stejně'
                                  ' jako vcelku poklidný život pekařského'
                                  ' učedníka, jsi nechal daleko za sebou a'
@@ -29,23 +29,23 @@ def main():
                                  ' i obyčejnému smrtelníkovi mohou přinést'
                                  ' nadlidské schopnosti.')
 
-        if room is player.world.start_tile \
-                and player.world.treasure_collected():
+        if room is hráč.svět.start_tile \
+                and hráč.svět.treasure_collected():
             break
 
         while True:
-            room.modify_player(player)
+            room.modify_player(hráč)
 
-            if not player.is_alive():
+            if not hráč.žije():
                 raise SystemExit
 
-            action = utils.choose_action(player, command_buffer)
+            action = utils.choose_action(hráč, command_buffer)
             action()
 
             # if the player moves, break to the outer loop to print
             # the room description
-            if action in (player.move_north, player.move_south,
-                          player.move_east, player.move_west):
+            if action in (hráč.jdi_na_sever, hráč.jdi_na_jih,
+                          hráč.jdi_na_východ, hráč.jdi_na_západ):
                 break
 
     print('\nDokázal jsi to!\n\nBlahopřeji k vítězství.')

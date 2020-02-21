@@ -7,8 +7,8 @@ class Trader:
     def __init__(self, name, text, gold, inventory, slang):
         self.name = name
         self.text = text
-        self.gold = gold
-        self.inventory = inventory
+        self.zlato = gold
+        self.inventář = inventory
         self.slang = slang
         self.margin = 10
 

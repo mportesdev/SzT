@@ -118,7 +118,7 @@ def award_bonus(player, bonus, achievement):
 
 
 def get_available_actions(player):
-    room = player.current_room()
+    room = player.místnost_pobytu()
     actions = OrderedDict()
 
     try:
@@ -126,37 +126,37 @@ def get_available_actions(player):
     except AttributeError:
         enemy_near = False
     if enemy_near:
-        actions['B'] = (player.attack, 'Bojovat')
+        actions['B'] = (player.bojuj, 'Bojovat')
 
     if hasattr(room, 'trader'):
-        actions['O'] = (player.trade, 'Obchodovat')
+        actions['O'] = (player.obchoduj, 'Obchodovat')
 
-    if not enemy_near or player.good_hit:
-        player.good_hit = False
+    if not enemy_near or player.zdařilý_zásah:
+        player.zdařilý_zásah = False
 
-        room_north = player.world.tile_at(room.x, room.y - 1)
-        room_south = player.world.tile_at(room.x, room.y + 1)
-        room_west = player.world.tile_at(room.x - 1, room.y)
-        room_east = player.world.tile_at(room.x + 1, room.y)
+        room_north = player.svět.tile_at(room.x, room.y - 1)
+        room_south = player.svět.tile_at(room.x, room.y + 1)
+        room_west = player.svět.tile_at(room.x - 1, room.y)
+        room_east = player.svět.tile_at(room.x + 1, room.y)
 
         if room_north:
-            actions['S'] = (player.move_north, 'Jít na sever')
+            actions['S'] = (player.jdi_na_sever, 'Jít na sever')
             room_north.seen = True
         if room_south:
-            actions['J'] = (player.move_south, 'Jít na jih')
+            actions['J'] = (player.jdi_na_jih, 'Jít na jih')
             room_south.seen = True
         if room_west:
-            actions['Z'] = (player.move_west, 'Jít na západ')
+            actions['Z'] = (player.jdi_na_západ, 'Jít na západ')
             room_west.seen = True
         if room_east:
-            actions['V'] = (player.move_east, 'Jít na východ')
+            actions['V'] = (player.jdi_na_východ, 'Jít na východ')
             room_east.seen = True
 
-    if player.hp < 100 and player.has_consumables():
-        actions['L'] = (player.heal, 'Léčit se')
+    if player.zdraví < 100 and player.má_léčivky():
+        actions['L'] = (player.kurýruj_se, 'Léčit se')
 
-    actions['I'] = (player.print_inventory, 'Inventář')
-    actions['M'] = (player.print_map, 'Mapa')
+    actions['I'] = (player.vypiš_věci, 'Inventář')
+    actions['M'] = (player.nakresli_mapu, 'Mapa')
     actions['K'] = (confirm_quit, 'Konec')
 
     return actions
@@ -167,8 +167,8 @@ def choose_action(player, command_buffer):
         available_actions = get_available_actions(player)
         if not command_buffer:
             print_options(available_actions)
-            multicolor(f'[ Zdraví: |{player.hp:<8}|zkušenost: |{player.xp:<7}|'
-                       f'zlato: |{player.gold}| ]', (Color.MAGENTA, None))
+            multicolor(f'[ Zdraví: |{player.zdraví:<8}|zkušenost: |{player.xp:<7}|'
+                       f'zlato: |{player.zlato}| ]', (Color.MAGENTA, None))
             print()
 
         while True:

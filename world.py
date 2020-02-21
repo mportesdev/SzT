@@ -80,17 +80,17 @@ class EnemyTile(PlainTile):
 
     def modify_player(self, player):
         if self.enemy.is_alive():
-            if player.good_hit:
+            if player.zdařilý_zásah:
                 nice_print(f'Zasáhl jsi {self.enemy.name_4.lower()} do'
                            f' hlavy. {self.enemy.name} zmateně vrávorá.',
                            'fight', Color.BLUE)
             else:
                 real_enemy_damage = oscillate(self.enemy.damage)
                 defense_bonus = player.xp // 200
-                real_damage = min(real_enemy_damage - defense_bonus, player.hp)
-                player.hp -= max(real_damage, 0)
+                real_damage = min(real_enemy_damage - defense_bonus, player.zdraví)
+                player.zdraví -= max(real_damage, 0)
                 message = f'{self.enemy} útočí. '
-                if player.is_alive():
+                if player.žije():
                     message += ('Utrpěl jsi zranění.' if real_damage > 0
                                 else 'Ubránil ses.')
                     player.xp += 1
@@ -101,13 +101,13 @@ class EnemyTile(PlainTile):
             try:
                 if not self.enemy.gold_claimed and self.enemy.gold > 0:
                     self.enemy.gold_claimed = True
-                    player.gold += self.enemy.gold
+                    player.zlato += self.enemy.gold
                     message = (f'Sebral jsi {self.enemy.name_3.lower()}'
                                f' {self.enemy.gold} zlaťáků.')
                     nice_print(message, 'luck')
                 if not self.enemy.weapon_claimed:
                     self.enemy.weapon_claimed = True
-                    player.inventory.append(self.enemy.weapon)
+                    player.inventář.append(self.enemy.weapon)
                     message = (f'Sebral jsi {self.enemy.name_3.lower()}'
                                f' {self.enemy.weapon.name_4.lower()}.')
                     nice_print(message, 'luck')
@@ -130,7 +130,7 @@ class TraderTile(Cave):
         self.trader = trader
 
     def trade(self, buyer, seller):
-        sellable_items = [item for item in seller.inventory
+        sellable_items = [item for item in seller.inventář
                           if item.value is not None]
         if not sellable_items:
             print(f'{seller.name} už nemá co nabídnout.'
@@ -145,7 +145,7 @@ class TraderTile(Cave):
         for i, item in enumerate(sellable_items, 1):
             price = (buyer.buy_price(item) if buyer is self.trader
                      else item.value)
-            if price <= buyer.gold:
+            if price <= buyer.zlato:
                 valid_choices.add(i)
                 item_number = f'{i:3}.'
             else:
@@ -172,13 +172,13 @@ class TraderTile(Cave):
             if user_input == '':
                 return
             else:
-                to_swap = seller.inventory[user_input - 1]
-                seller.inventory.remove(to_swap)
-                buyer.inventory.append(to_swap)
+                to_swap = seller.inventář[user_input - 1]
+                seller.inventář.remove(to_swap)
+                buyer.inventář.append(to_swap)
                 price = (buyer.buy_price(to_swap) if buyer is self.trader
                          else to_swap.value)
-                seller.gold += price
-                buyer.gold -= price
+                seller.zlato += price
+                buyer.zlato -= price
                 print(f'"Bylo mi potěšením, {title}."'
                       f' říká {self.trader.name.lower()}.')
                 return
@@ -209,7 +209,7 @@ class FindGoldTile(Cave):
     def modify_player(self, player):
         if not self.gold_claimed:
             self.gold_claimed = True
-            player.gold += self.gold
+            player.zlato += self.gold
             message = f'Našel jsi {self.gold} zlaťáků.'
             nice_print(message, 'luck')
 
@@ -223,14 +223,14 @@ class FindArtifactTile(Cave):
     def modify_player(self, player):
         if not self.artifact_claimed:
             self.artifact_claimed = True
-            player.artifacts.append(self.artifact)
+            player.artefakty.append(self.artifact)
             message = f'Našel jsi {self.artifact.name_4.lower()}.'
             nice_print(message, 'luck')
-            if player.world.treasure_collected():
+            if player.svět.treasure_collected():
                 award_bonus(player, 300, 'nalezení všech magických předmětů')
                 nice_print('Artefakty teď musíš vynést ven z jeskyně a dojít'
                            ' s nimi na začátek své cesty.')
-                player.world.start_tile.text += (
+                player.svět.start_tile.text += (
                     ' Překonal jsi všechny nástrahy a skutečně se ti podařilo'
                     ' získat kýžené magické artefakty. Otevírá se před tebou'
                     ' svět neomezených možností.'
@@ -253,7 +253,7 @@ class FindWeaponTile(PlainTile):
     def modify_player(self, player):
         if not self.weapon_claimed:
             self.weapon_claimed = True
-            player.inventory.append(self.weapon)
+            player.inventář.append(self.weapon)
             if isinstance(self, Forest):
                 message = ('V křoví u cesty jsi našel'
                            f' {self.weapon.name_4.lower()}.')
@@ -296,7 +296,7 @@ class FindConsumableTile(Forest):
     def modify_player(self, player):
         if not self.consumable_claimed:
             self.consumable_claimed = True
-            player.inventory.append(self.consumable)
+            player.inventář.append(self.consumable)
             message = f'Našel jsi {self.consumable.name_4.lower()}.'
             nice_print(message, 'luck')
 

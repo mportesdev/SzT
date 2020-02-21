@@ -10,115 +10,115 @@ from world import World
 InventoryList = List[Union[items.Weapon, items.Consumable]]
 
 
-class Player:
+class Hráč:
     def __init__(self):
-        self.inventory: InventoryList = [
+        self.inventář: InventoryList = [
             items.Weapon('Tupý nůž', 5, 13),
             items.Consumable('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
-        self.artifacts = []
-        self.world = World()
-        self.x, self.y = self.world.start_tile.x, self.world.start_tile.y
-        self.hp = 100
-        self.gold = 10
+        self.artefakty = []
+        self.svět = World()
+        self.x, self.y = self.svět.start_tile.x, self.svět.start_tile.y
+        self.zdraví = 100
+        self.zlato = 10
         self.xp = 0
-        self.good_hit = False
+        self.zdařilý_zásah = False
 
-    def is_alive(self):
-        return self.hp > 0
+    def žije(self):
+        return self.zdraví > 0
 
-    def print_inventory(self):
+    def vypiš_věci(self):
         print('Máš u sebe:')
-        for item in self.inventory:
-            print(f'            {item}')
-        for artifact in self.artifacts:
-            color_print(f'            < {artifact} >', color=artifact.color)
+        for věc in self.inventář:
+            print(f'            {věc}')
+        for artefakt in self.artefakty:
+            color_print(f'            < {artefakt} >', color=artefakt.color)
 
-    def best_weapon(self):
+    def nejlepší_zbraň(self):
         try:
-            return max((item for item in self.inventory
-                        if hasattr(item, 'damage')),
-                       key=lambda weapon: weapon.damage)
+            return max((věc for věc in self.inventář
+                        if hasattr(věc, 'damage')),
+                       key=lambda zbraň: zbraň.damage)
         except ValueError:
             return
 
-    def move(self, dx, dy):
+    def jdi(self, dx, dy):
         self.x += dx
         self.y += dy
 
-    def move_north(self):
-        self.move(dx=0, dy=-1)
+    def jdi_na_sever(self):
+        self.jdi(dx=0, dy=-1)
 
-    def move_south(self):
-        self.move(dx=0, dy=1)
+    def jdi_na_jih(self):
+        self.jdi(dx=0, dy=1)
 
-    def move_east(self):
-        self.move(dx=1, dy=0)
+    def jdi_na_východ(self):
+        self.jdi(dx=1, dy=0)
 
-    def move_west(self):
-        self.move(dx=-1, dy=0)
+    def jdi_na_západ(self):
+        self.jdi(dx=-1, dy=0)
 
-    def attack(self):
-        enemy = self.current_room().enemy
-        best_weapon = self.best_weapon()
-        if best_weapon:
-            weapon_damage = best_weapon.damage
-            weapon_name = best_weapon.name_4.lower()
+    def bojuj(self):
+        nepřítel = self.místnost_pobytu().enemy
+        nejlepší_zbraň = self.nejlepší_zbraň()
+        if nejlepší_zbraň:
+            síla_zbraně = nejlepší_zbraň.damage
+            název_zbraně = nejlepší_zbraň.name_4.lower()
         else:
-            weapon_damage = 1
-            weapon_name = 'pěsti'
-        real_weapon_damage = oscillate(weapon_damage)
-        self.good_hit = (real_weapon_damage > weapon_damage * 1.1
-                         and enemy.name_short not in ('troll', 'dobrodruh'))
-        attack_bonus = self.xp // 200
-        real_damage = min(real_weapon_damage + attack_bonus, enemy.hp)
-        enemy.hp -= real_damage
-        self.xp += real_damage
-        message = (f'Použil jsi {weapon_name} proti'
-                   f' {enemy.name_3.lower()}.')
-        if not enemy.is_alive():
-            message += f' Zabil jsi {enemy.name_4.lower()}!'
-        nice_print(message, 'fight')
-        if self.world.all_enemies_dead():
+            síla_zbraně = 1
+            název_zbraně = 'pěsti'
+        skutečný_zásah_zbraní = oscillate(síla_zbraně)
+        self.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
+                              and nepřítel.name_short not in ('troll', 'dobrodruh'))
+        útočný_bonus = self.xp // 200
+        skutečný_zásah = min(skutečný_zásah_zbraní + útočný_bonus, nepřítel.hp)
+        nepřítel.hp -= skutečný_zásah
+        self.xp += skutečný_zásah
+        zpráva = (f'Použil jsi {název_zbraně} proti'
+                  f' {nepřítel.name_3.lower()}.')
+        if not nepřítel.is_alive():
+            zpráva += f' Zabil jsi {nepřítel.name_4.lower()}!'
+        nice_print(zpráva, 'fight')
+        if self.svět.all_enemies_dead():
             award_bonus(self, 200, 'zabití všech nepřátel')
 
-    def has_consumables(self):
-        return any(isinstance(item, items.Consumable)
-                   for item in self.inventory)
+    def má_léčivky(self):
+        return any(isinstance(věc, items.Consumable)
+                   for věc in self.inventář)
 
-    def heal(self):
-        consumables = [item for item in self.inventory
-                       if isinstance(item, items.Consumable)]
+    def kurýruj_se(self):
+        léčivky = [věc for věc in self.inventář
+                   if isinstance(věc, items.Consumable)]
 
         print('Čím se chceš kurýrovat?')
-        for i, item in enumerate(consumables, 1):
+        for i, věc in enumerate(léčivky, 1):
             print(f'{i:3}. ', end='')
-            color_print(f'{item.str_7()}', color=Color.CYAN)
+            color_print(f'{věc.str_7()}', color=Color.CYAN)
 
         while True:
             multicolor('Číslo položky             (|Enter| = návrat)',
                        (Color.BLUE, None), end=' ')
-            valid_choices = set(range(1, len(consumables) + 1))
-            user_input = option_input(valid_choices | {''})
-            if user_input == '':
+            možnosti = set(range(1, len(léčivky) + 1))
+            vstup = option_input(možnosti | {''})
+            if vstup == '':
                 return
             else:
-                to_eat = consumables[user_input - 1]
-                self.hp = min(100, self.hp + to_eat.healing_value)
-                self.inventory.remove(to_eat)
+                vybráno = léčivky[vstup - 1]
+                self.zdraví = min(100, self.zdraví + vybráno.healing_value)
+                self.inventář.remove(vybráno)
                 print('Hned se cítíš líp.')
                 return
 
-    def trade(self):
-        self.current_room().facilitate_trade(self)
+    def obchoduj(self):
+        self.místnost_pobytu().facilitate_trade(self)
 
-    def current_room(self):
-        return self.world.tile_at(self.x, self.y)
+    def místnost_pobytu(self):
+        return self.svět.tile_at(self.x, self.y)
 
-    def print_map(self):
-        map_data = self.world.map_of_visited((self.x, self.y))
+    def nakresli_mapu(self):
+        mapa_navštívených = self.svět.map_of_visited((self.x, self.y))
 
-        print('\n'.join(''.join(row_data).center(WIDTH)
-                        for row_data in map_data))
+        print('\n'.join(''.join(řádka).center(WIDTH)
+                        for řádka in mapa_navštívených))
         multicolor('\n[ |+| les           |#| jeskyně         '
                    '|H| hráč            |?| neznámo ]', (Color.BLUE, None))
