@@ -38,7 +38,7 @@ def hra():
             if not hráč.žije():
                 raise SystemExit
 
-            akce = utils.choose_action(hráč, fronta_příkazů)
+            akce = utils.vyber_akci(hráč, fronta_příkazů)
             akce()
 
             # v případě pohybu vyskočit do vnější smyčky a vypsat popis

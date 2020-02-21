@@ -184,7 +184,7 @@ class JeskyněObchod(Jeskyně):
                 prodejce.zlato += cena
                 kupující.zlato -= cena
                 print(f'"Bylo mi potěšením, {oslovení}."'
-                      f' říká {self.obchodník.name.lower()}.')
+                      f' říká {self.obchodník.jméno.lower()}.')
                 return
 
     def obchoduj(self, hráč):

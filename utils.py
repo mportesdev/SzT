@@ -162,32 +162,31 @@ def get_available_actions(player):
     return actions
 
 
-def choose_action(player, fronta_příkazů):
+def vyber_akci(hráč, fronta_příkazů):
     while True:
-        available_actions = get_available_actions(player)
+        dostupné_akce = get_available_actions(hráč)
         if not fronta_příkazů:
-            print_options(available_actions)
-            multicolor(f'[ Zdraví: |{player.zdraví:<8}|'
-                       f'zkušenost: |{player.xp:<7}|'
-                       f'zlato: |{player.zlato}| ]', (Color.MAGENTA, None))
+            print_options(dostupné_akce)
+            multicolor(f'[ Zdraví: |{hráč.zdraví:<8}|'
+                       f'zkušenost: |{hráč.xp:<7}|'
+                       f'zlato: |{hráč.zlato}| ]', (Color.MAGENTA, None))
             print()
 
         while True:
             if fronta_příkazů:
-                action_input = fronta_příkazů.pop(0)
-                if action_input not in available_actions:
+                vstup = fronta_příkazů.pop(0)
+                if vstup not in dostupné_akce:
                     fronta_příkazů.clear()
                     break
             else:
-                action_input = input('Co teď? ').upper()
-                if set(action_input).issubset(set('SJZV')):
-                    fronta_příkazů.extend(action_input[1:])
-                    action_input = action_input[:1]
-            action, action_name = available_actions.get(action_input,
-                                                        (None, ''))
-            if action is not None:
-                print_action_name(action_name)
-                return action
+                vstup = input('Co teď? ').upper()
+                if set(vstup).issubset(set('SJZV')):
+                    fronta_příkazů.extend(vstup[1:])
+                    vstup = vstup[:1]
+            akce, název_akce = dostupné_akce.get(vstup, (None, ''))
+            if akce is not None:
+                print_action_name(název_akce)
+                return akce
             else:
                 fronta_příkazů.clear()
                 color_print('?', color=Color.MAGENTA)
