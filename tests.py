@@ -3,41 +3,41 @@ import pytest
 
 from items import Item
 from npc import Trader
-from utils import Color, multicolor, oscillate, hotkey_groups, leading_trailing
+from utils import Color, multicolor, oscillate, hotkey_groups, okolí
 import world
 
 
 @pytest.fixture
 def game_world():
-    return world.World()
+    return world.Svět()
 
 
-@pytest.mark.parametrize('x, y', ((0, 0), (-1, -1), (33, 28), (34, 27),
+@pytest.mark.parametrize('x, y', ((0, 1), (-1, -1), (33, 28), (34, 27),
                                   (10, 1), (1, 10), (5, 5), (24, 13)))
-def test_world_tile_at_returns_none(game_world, x, y):
-    """Test world.World.tile_at"""
-    assert game_world.tile_at(x, y) is None
+def test_mistnost_na_pozici_je_none(game_world, x, y):
+    """Test world.Svět.místnost_na_pozici"""
+    assert game_world.místnost_na_pozici(x, y) is None
 
 
-@pytest.mark.parametrize('x, y, tile_class', ((8, 6, world.Forest),
-                                              (25, 12, world.CaveWithEnemy),
-                                              (15, 8, world.CaveWithWeapon),
-                                              (22, 14, world.FindGoldTile)))
-def test_world_tile_at_returns_correct_tile(game_world, x, y, tile_class):
-    """Test world.World.tile_at"""
-    assert isinstance(game_world.tile_at(x, y), tile_class)
+@pytest.mark.parametrize('x, y, tile_class', ((8, 6, world.Les),
+                                              (25, 12, world.JeskyněBoj),
+                                              (19, 12, world.JeskyněZbraň),
+                                              (22, 14, world.JeskyněZlato)))
+def test_mistnost_na_pozici_je_spravny_typ(game_world, x, y, tile_class):
+    """Test world.Svět.místnost_na_pozici"""
+    assert isinstance(game_world.místnost_na_pozici(x, y), tile_class)
 
 
-@pytest.mark.parametrize('x, y, attribute', ((25, 3, 'gold'),
-                                             (25, 3, 'gold_claimed'),
-                                             (11, 23, 'weapon'),
-                                             (11, 23, 'weapon_claimed'),
-                                             (16, 15, 'consumable'),
-                                             (16, 15, 'consumable_claimed'),
-                                             (9, 15, 'enemy')))
-def test_special_tiles_attribute(game_world, x, y, attribute):
-    """Test world.World.tile_at"""
-    assert hasattr(game_world.tile_at(x, y), attribute)
+@pytest.mark.parametrize('x, y, attribute', ((25, 3, 'zlato'),
+                                             (25, 3, 'zlato_sebráno'),
+                                             (11, 23, 'zbraň'),
+                                             (11, 23, 'zbraň_sebrána'),
+                                             (16, 15, 'léčivka'),
+                                             (16, 15, 'léčivka_sebrána'),
+                                             (9, 15, 'nepřítel')))
+def test_mistnost_na_pozici_ma_specialni_atribut(game_world, x, y, attribute):
+    """Test world.Svět.místnost_na_pozici"""
+    assert hasattr(game_world.místnost_na_pozici(x, y), attribute)
 
 
 @pytest.fixture
@@ -103,7 +103,7 @@ def test_hotkey_groups(hotkeys, result):
         (('               ..H..                         ', ' '), (15, 25))
 ))
 def test_leading_trailing(inputs, result):
-    assert leading_trailing(*inputs) == result
+    assert okolí(*inputs) == result
 
 
 def test_multicolor():

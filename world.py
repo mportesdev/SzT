@@ -6,24 +6,24 @@ import enemies
 import items
 import npc
 from utils import WIDTH, Color, nice_print, color_print, multicolor, \
-                  award_bonus, option_input, oscillate, leading_trailing
+    award_bonus, option_input, oscillate, okolí
 
 
-class PlainTile:
+class Místnost:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.visited = False
-        self.seen = False
+        self.navštívena = False
+        self.viděna = False
 
-    def modify_player(self, player):
+    def dopad_na_hráče(self, hráč):
         pass
 
-    def intro_text(self):
+    def popis(self):
         return self.text
 
 
-class Cave(PlainTile):
+class Jeskyně(Místnost):
     def __init__(self, x, y):
         super().__init__(x, y)
         if x <= 18 and y <= 6:
@@ -57,7 +57,7 @@ class Cave(PlainTile):
             self.text = 'Procházíš chladnou tmavou jeskyní.'
 
 
-class Forest(PlainTile):
+class Les(Místnost):
     def __init__(self, x, y):
         super().__init__(x, y)
         if x <= 8 and y <= 14:
@@ -70,238 +70,240 @@ class Forest(PlainTile):
             self.text = 'Jdeš po úzké, zarostlé lesní pěšině.'
 
 
-class EnemyTile(PlainTile):
-    def __init__(self, x, y, enemy):
+class MístnostBoj(Místnost):
+    def __init__(self, x, y, nepřítel):
         super().__init__(x, y)
-        self.enemy = enemy
+        self.nepřítel = nepřítel
 
-    def intro_text(self):
-        return self.text + ' ' + self.enemy.text
+    def popis(self):
+        return self.text + ' ' + self.nepřítel.text
 
-    def modify_player(self, player):
-        if self.enemy.is_alive():
-            if player.zdařilý_zásah:
-                nice_print(f'Zasáhl jsi {self.enemy.name_4.lower()} do'
-                           f' hlavy. {self.enemy.name} zmateně vrávorá.',
+    def dopad_na_hráče(self, hráč):
+        if self.nepřítel.is_alive():
+            if hráč.zdařilý_zásah:
+                nice_print(f'Zasáhl jsi {self.nepřítel.name_4.lower()} do'
+                           f' hlavy. {self.nepřítel.name} zmateně vrávorá.',
                            'fight', Color.BLUE)
             else:
-                real_enemy_damage = oscillate(self.enemy.damage)
-                defense_bonus = player.xp // 200
-                real_damage = min(real_enemy_damage - defense_bonus, player.zdraví)
-                player.zdraví -= max(real_damage, 0)
-                message = f'{self.enemy} útočí. '
-                if player.žije():
-                    message += ('Utrpěl jsi zranění.' if real_damage > 0
-                                else 'Ubránil ses.')
-                    player.xp += 1
+                skutečný_zásah_nepřítele = oscillate(self.nepřítel.damage)
+                obranný_bonus = hráč.xp // 200
+                skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
+                                     hráč.zdraví)
+                hráč.zdraví -= max(skutečný_zásah, 0)
+                zpráva = f'{self.nepřítel} útočí. '
+                if hráč.žije():
+                    zpráva += ('Utrpěl jsi zranění.' if skutečný_zásah > 0
+                               else 'Ubránil ses.')
+                    hráč.xp += 1
                 else:
-                    message += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                nice_print(message, 'fight', Color.RED)
+                    zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
+                nice_print(zpráva, 'fight', Color.RED)
         else:
             try:
-                if not self.enemy.gold_claimed and self.enemy.gold > 0:
-                    self.enemy.gold_claimed = True
-                    player.zlato += self.enemy.gold
-                    message = (f'Sebral jsi {self.enemy.name_3.lower()}'
-                               f' {self.enemy.gold} zlaťáků.')
-                    nice_print(message, 'luck')
-                if not self.enemy.weapon_claimed:
-                    self.enemy.weapon_claimed = True
-                    player.inventář.append(self.enemy.weapon)
-                    message = (f'Sebral jsi {self.enemy.name_3.lower()}'
-                               f' {self.enemy.weapon.name_4.lower()}.')
-                    nice_print(message, 'luck')
+                if not self.nepřítel.gold_claimed and self.nepřítel.gold > 0:
+                    self.nepřítel.gold_claimed = True
+                    hráč.zlato += self.nepřítel.gold
+                    zpráva = (f'Sebral jsi {self.nepřítel.name_3.lower()}'
+                              f' {self.nepřítel.gold} zlaťáků.')
+                    nice_print(zpráva, 'luck')
+                if not self.nepřítel.weapon_claimed:
+                    self.nepřítel.weapon_claimed = True
+                    hráč.inventář.append(self.nepřítel.weapon)
+                    zpráva = (f'Sebral jsi {self.nepřítel.name_3.lower()}'
+                              f' {self.nepřítel.weapon.name_4.lower()}.')
+                    nice_print(zpráva, 'luck')
             except AttributeError:
                 pass
 
 
-class CaveWithEnemy(EnemyTile, Cave):
+class JeskyněBoj(MístnostBoj, Jeskyně):
     pass
 
 
-class ForestWithEnemy(EnemyTile, Forest):
+class LesBoj(MístnostBoj, Les):
     pass
 
 
-class TraderTile(Cave):
-    def __init__(self, x, y, trader):
+class JeskyněObchod(Jeskyně):
+    def __init__(self, x, y, obchodník):
         super().__init__(x, y)
         self.text = 'Stojíš u vchodu do jeskyně.'
-        self.trader = trader
+        self.obchodník = obchodník
 
-    def trade(self, buyer, seller):
-        sellable_items = [item for item in seller.inventář
-                          if item.value is not None]
-        if not sellable_items:
-            print(f'{seller.name} už nemá co nabídnout.'
-                  if seller is self.trader
+    def proveď_obchod(self, kupující, prodejce):
+        věci_na_prodej = [věc for věc in prodejce.inventář
+                          if věc.value is not None]
+        if not věci_na_prodej:
+            print(f'{prodejce.name} už nemá co nabídnout.'
+                  if prodejce is self.obchodník
                   else 'Nemáš nic, co bys mohl prodat.')
             return
         else:
-            print(f'{seller.name} nabízí tyto věci:' if seller is self.trader
+            print(f'{prodejce.name} nabízí tyto věci:'
+                  if prodejce is self.obchodník
                   else 'Tyto věci můžeš prodat:')
 
-        valid_choices = set()
-        for i, item in enumerate(sellable_items, 1):
-            price = (buyer.buy_price(item) if buyer is self.trader
-                     else item.value)
-            if price <= buyer.zlato:
-                valid_choices.add(i)
-                item_number = f'{i:3}.'
+        možnosti = set()
+        for i, věc in enumerate(věci_na_prodej, 1):
+            cena = (kupující.buy_price(věc) if kupující is self.obchodník
+                    else věc.value)
+            if cena <= kupující.zlato:
+                možnosti.add(i)
+                číslo_položky = f'{i:3}.'
             else:
-                item_number = '    '
-            print(f'{item_number} ', end='')
-            color_print(f'{item} '.ljust(WIDTH - 25, '.')
-                        + f' {price:3} zlaťáků', color=Color.CYAN)
+                číslo_položky = '    '
+            print(f'{číslo_položky} ', end='')
+            color_print(f'{věc} '.ljust(WIDTH - 25, '.')
+                        + f' {cena:3} zlaťáků', color=Color.CYAN)
 
         try:
-            money, title = buyer.slang
+            název_peněz, oslovení = kupující.slang
         except AttributeError:
-            money, title = seller.slang
+            název_peněz, oslovení = prodejce.slang
 
-        if not valid_choices:
-            print(f'"Došly mi {money}, {title}!" říká {buyer.name.lower()}.'
-                  if buyer is self.trader
+        if not možnosti:
+            print(f'"Došly mi {název_peněz}, {oslovení}!"'
+                  f' říká {kupující.name.lower()}.'
+                  if kupující is self.obchodník
                   else 'Na žádnou z nich nemáš peníze.')
             return
 
         while True:
             multicolor('Číslo položky             (|Enter| = návrat)',
                        (Color.BLUE, None), end=' ')
-            user_input = option_input(valid_choices | {''})
-            if user_input == '':
+            vstup = option_input(možnosti | {''})
+            if vstup == '':
                 return
             else:
-                to_swap = seller.inventář[user_input - 1]
-                seller.inventář.remove(to_swap)
-                buyer.inventář.append(to_swap)
-                price = (buyer.buy_price(to_swap) if buyer is self.trader
-                         else to_swap.value)
-                seller.zlato += price
-                buyer.zlato -= price
-                print(f'"Bylo mi potěšením, {title}."'
-                      f' říká {self.trader.name.lower()}.')
+                vybráno = prodejce.inventář[vstup - 1]
+                prodejce.inventář.remove(vybráno)
+                kupující.inventář.append(vybráno)
+                cena = (kupující.buy_price(vybráno)
+                        if kupující is self.obchodník
+                        else vybráno.value)
+                prodejce.zlato += cena
+                kupující.zlato -= cena
+                print(f'"Bylo mi potěšením, {oslovení}."'
+                      f' říká {self.obchodník.name.lower()}.')
                 return
 
-    def facilitate_trade(self, player):
+    def obchoduj(self, hráč):
         while True:
             multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat)',
                        (None, Color.BLUE), end=' ')
-            user_input = option_input({'K', 'P', ''})
-            if user_input == '':
+            vstup = option_input({'K', 'P', ''})
+            if vstup == '':
                 return
-            elif user_input == 'K':
-                buyer, seller = player, self.trader
+            elif vstup == 'K':
+                kupující, prodejce = hráč, self.obchodník
             else:
-                buyer, seller = self.trader, player
-            self.trade(buyer=buyer, seller=seller)
+                kupující, prodejce = self.obchodník, hráč
+            self.proveď_obchod(kupující=kupující, prodejce=prodejce)
 
-    def intro_text(self):
-        return self.text + ' ' + self.trader.text
+    def popis(self):
+        return self.text + ' ' + self.obchodník.text
 
 
-class FindGoldTile(Cave):
+class JeskyněZlato(Jeskyně):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.gold = random.randint(12, 24)
-        self.gold_claimed = False
+        self.zlato = random.randint(12, 24)
+        self.zlato_sebráno = False
 
-    def modify_player(self, player):
-        if not self.gold_claimed:
-            self.gold_claimed = True
-            player.zlato += self.gold
-            message = f'Našel jsi {self.gold} zlaťáků.'
-            nice_print(message, 'luck')
+    def dopad_na_hráče(self, hráč):
+        if not self.zlato_sebráno:
+            self.zlato_sebráno = True
+            hráč.zlato += self.zlato
+            zpráva = f'Našel jsi {self.zlato} zlaťáků.'
+            nice_print(zpráva, 'luck')
 
 
-class FindArtifactTile(Cave):
-    def __init__(self, x, y, artifact):
+class JeskyněArtefakt(Jeskyně):
+    def __init__(self, x, y, artefakt):
         super().__init__(x, y)
-        self.artifact = artifact
-        self.artifact_claimed = False
+        self.artefakt = artefakt
+        self.artefakt_sebrán = False
 
-    def modify_player(self, player):
-        if not self.artifact_claimed:
-            self.artifact_claimed = True
-            player.artefakty.append(self.artifact)
-            message = f'Našel jsi {self.artifact.name_4.lower()}.'
-            nice_print(message, 'luck')
-            if player.svět.treasure_collected():
-                award_bonus(player, 300, 'nalezení všech magických předmětů')
+    def dopad_na_hráče(self, hráč):
+        if not self.artefakt_sebrán:
+            self.artefakt_sebrán = True
+            hráč.artefakty.append(self.artefakt)
+            zpráva = f'Našel jsi {self.artefakt.name_4.lower()}.'
+            nice_print(zpráva, 'luck')
+            if hráč.svět.poklad_posbírán():
+                award_bonus(hráč, 300, 'nalezení všech magických předmětů')
                 nice_print('Artefakty teď musíš vynést ven z jeskyně a dojít'
                            ' s nimi na začátek své cesty.')
-                player.svět.start_tile.text += (
+                hráč.svět.start_tile.text += (
                     ' Překonal jsi všechny nástrahy a skutečně se ti podařilo'
                     ' získat kýžené magické artefakty. Otevírá se před tebou'
                     ' svět neomezených možností.'
                 )
 
 
-class FindWeaponTile(PlainTile):
+class MístnostZbraň(Místnost):
     def __init__(self, x, y):
         super().__init__(x, y)
         if (x, y) == (27, 23):
-            args = ('Rezavá dýka', 9, 31, 'Rezavou dýku')
+            parametry = ('Rezavá dýka', 9, 31, 'Rezavou dýku')
         elif (x, y) == (15, 18):
-            args = ('Zrezivělý meč', 16, 69)
+            parametry = ('Zrezivělý meč', 16, 69)
         else:
-            args = random.choice((('Ostnatý palcát', 18, 82),
-                                  ('Řemdih', 20, 91)))
-        self.weapon = items.Weapon(*args)
-        self.weapon_claimed = False
+            parametry = random.choice((('Ostnatý palcát', 18, 82),
+                                       ('Řemdih', 20, 91)))
+        self.zbraň = items.Weapon(*parametry)
+        self.zbraň_sebrána = False
 
-    def modify_player(self, player):
-        if not self.weapon_claimed:
-            self.weapon_claimed = True
-            player.inventář.append(self.weapon)
-            if isinstance(self, Forest):
-                message = ('V křoví u cesty jsi našel'
-                           f' {self.weapon.name_4.lower()}.')
+    def dopad_na_hráče(self, hráč):
+        if not self.zbraň_sebrána:
+            self.zbraň_sebrána = True
+            hráč.inventář.append(self.zbraň)
+            if isinstance(self, Les):
+                zpráva = ('V křoví u cesty jsi našel'
+                          f' {self.zbraň.name_4.lower()}.')
             else:
-                message = ('Ve skulině pod kamenem jsi našel'
-                           f' {self.weapon.name_4.lower()}.')
-            nice_print(message, 'luck')
+                zpráva = ('Ve skulině pod kamenem jsi našel'
+                          f' {self.zbraň.name_4.lower()}.')
+            nice_print(zpráva, 'luck')
 
 
-class CaveWithWeapon(FindWeaponTile, Cave):
+class JeskyněZbraň(MístnostZbraň, Jeskyně):
     pass
 
 
-class ForestWithWeapon(FindWeaponTile, Forest):
+class LesZbraň(MístnostZbraň, Les):
     pass
 
 
-class FindConsumableTile(Forest):
+class LesLéčivka(Les):
     def __init__(self, x, y):
         super().__init__(x, y)
         if (x, y) == (34, 23):
-            args = ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami')
+            parametry = ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami')
         elif (x, y) == (30, 25):
-            args = ('Léčivé houby', 12, 9, 'Léčivými houbami')
+            parametry = ('Léčivé houby', 12, 9, 'Léčivými houbami')
         elif (x, y) == (31, 18):
-            args = ('Léčivé bobule', 13, 11, 'Léčivými bobulemi')
+            parametry = ('Léčivé bobule', 13, 11, 'Léčivými bobulemi')
         else:
-            args = random.choice((('Léčivé houby', 12, 9, 'Léčivými houbami'),
-                                  ('Léčivé bobule', 13, 11,
-                                   'Léčivými bobulemi'),
-                                  ('Léčivé bylinky', 18, 19,
-                                   'Léčivými bylinkami'),
-                                  ('Kouzelné houby', 22, 25,
-                                   'Kouzelnými houbami'),
-                                  ('Kouzelné bobule', 16, 16,
-                                   'Kouzelnými bobulemi')))
-        self.consumable = items.Consumable(*args)
-        self.consumable_claimed = False
+            parametry = random.choice((
+                ('Léčivé houby', 12, 9, 'Léčivými houbami'),
+                ('Léčivé bobule', 13, 11, 'Léčivými bobulemi'),
+                ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami'),
+                ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
+                ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
+            ))
+        self.léčivka = items.Consumable(*parametry)
+        self.léčivka_sebrána = False
 
-    def modify_player(self, player):
-        if not self.consumable_claimed:
-            self.consumable_claimed = True
-            player.inventář.append(self.consumable)
-            message = f'Našel jsi {self.consumable.name_4.lower()}.'
-            nice_print(message, 'luck')
+    def dopad_na_hráče(self, hráč):
+        if not self.léčivka_sebrána:
+            self.léčivka_sebrána = True
+            hráč.inventář.append(self.léčivka)
+            zpráva = f'Našel jsi {self.léčivka.name_4.lower()}.'
+            nice_print(zpráva, 'luck')
 
 
-world_repr = '''
+mapa_hry = '''
 fm        gc cccc A                      
  fff    cc C c  Ccc                      
   f      cccccc    c         gc          
@@ -333,22 +335,22 @@ mf    g  cc c       c c  c    c  cCc
 '''
 
 
-class World:
+class Svět:
     def __init__(self):
-        self.world_map = []
-        self.start_tile = None
-        self.parse_world_repr(world_repr)
+        self.mapa = []
+        self.start = None
+        self.načti_mapu(mapa_hry)
 
-    def tile_at(self, x, y):
+    def místnost_na_pozici(self, x, y):
         if x < 0 or y < 0:
             return None
         try:
-            return self.world_map[y][x]
+            return self.mapa[y][x]
         except IndexError:
             return None
 
-    def parse_world_repr(self, map_repr):
-        artifact_data = {
+    def načti_mapu(self, mapa):
+        data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
             ('Rubínový kříž', Color.RED),
             ('Tyrkysová tiára', Color.CYAN, 'Tyrkysovou tiáru'),
@@ -356,105 +358,110 @@ class World:
             ('Safírový trojzubec', Color.BLUE)
         }
 
-        if map_repr.count('1') > len(artifact_data):
-            raise ValueError('Not enough artifact data')
-        if map_repr.count('S') != 1:
-            raise ValueError('Map must contain exactly 1 start tile')
+        if mapa.count('1') > len(data_artefaktů):
+            raise ValueError('Nedostatek dat pro artefakty')
+        if mapa.count('S') != 1:
+            raise ValueError('Na mapě musí být přesně jedna startovní místnost')
 
-        lines = map_repr.strip('\n').splitlines()
-        for y, line in enumerate(lines):
-            map_row = []
-            for x, tile_code in enumerate(line):
-                tile_type = {'c': Cave,
-                             'f': Forest,
-                             'C': CaveWithEnemy,
-                             'F': ForestWithEnemy,
-                             't': ForestWithEnemy,
-                             'T': CaveWithEnemy,    # troll
-                             'H': CaveWithEnemy,    # human
-                             'S': Forest,
-                             'g': FindGoldTile,
-                             'A': FindArtifactTile,
-                             'w': CaveWithWeapon,
-                             'x': ForestWithWeapon,
-                             'm': FindConsumableTile,
-                             'M': TraderTile,    # trader - medicine
-                             'W': TraderTile,    # trader - weapons
-                             ' ': None}[tile_code]
+        řádky = mapa.strip('\n').splitlines()
+        for y, řádka in enumerate(řádky):
+            řádka_mapy = []
+            for x, kód_místnosti in enumerate(řádka):
+                typ_místnosti = {'c': Jeskyně,
+                                 'f': Les,
+                                 'C': JeskyněBoj,
+                                 'F': LesBoj,
+                                 't': LesBoj,
+                                 'T': JeskyněBoj,  # troll
+                                 'H': JeskyněBoj,  # člověk
+                                 'S': Les,
+                                 'g': JeskyněZlato,
+                                 'A': JeskyněArtefakt,
+                                 'w': JeskyněZbraň,
+                                 'x': LesZbraň,
+                                 'm': LesLéčivka,
+                                 'M': JeskyněObchod,  # mastičkář
+                                 'W': JeskyněObchod,  # zbrojíř
+                                 ' ': None}[kód_místnosti]
 
-                kwargs = {}
-                if tile_code == 'M':
-                    kwargs.update(trader=npc.Trader.new_medicine_trader())
-                elif tile_code == 'W':
-                    kwargs.update(trader=npc.Trader.new_weapon_trader())
-                elif tile_code == 'C':
-                    kwargs.update(enemy=enemies.random_cave_enemy())
-                elif tile_code == 'F':
-                    kwargs.update(enemy=enemies.random_forest_enemy())
-                elif tile_code == 't':
-                    kwargs.update(enemy=enemies.Monster.new_forest_troll())
-                elif tile_code == 'T':
-                    kwargs.update(enemy=enemies.Monster.new_troll())
-                elif tile_code == 'H':
-                    kwargs.update(enemy=enemies.Human.new_human())
-                elif tile_code == 'A':
-                    kwargs.update(artifact=items.Artifact(*artifact_data.pop()))
+                parametry = {}
+                if kód_místnosti == 'M':
+                    parametry.update(obchodník=npc.Trader.new_medicine_trader())
+                elif kód_místnosti == 'W':
+                    parametry.update(obchodník=npc.Trader.new_weapon_trader())
+                elif kód_místnosti == 'C':
+                    parametry.update(nepřítel=enemies.random_cave_enemy())
+                elif kód_místnosti == 'F':
+                    parametry.update(nepřítel=enemies.random_forest_enemy())
+                elif kód_místnosti == 't':
+                    parametry.update(
+                        nepřítel=enemies.Monster.new_forest_troll()
+                    )
+                elif kód_místnosti == 'T':
+                    parametry.update(nepřítel=enemies.Monster.new_troll())
+                elif kód_místnosti == 'H':
+                    parametry.update(nepřítel=enemies.Human.new_human())
+                elif kód_místnosti == 'A':
+                    parametry.update(
+                        artefakt=items.Artifact(*data_artefaktů.pop())
+                    )
 
-                if tile_type:
-                    tile = tile_type(x, y, **kwargs)
-                    map_row.append(tile)
-                    if tile_code == 'S':
-                        tile.text = ('Stojíš při okraji tajuplného lesa na'
-                                     ' úpatí nehostinné Hory běsů. Vrchol'
-                                     ' jejího hrozivého štítu je zahalen nízkým'
-                                     ' mračnem.')
-                        self.start_tile = tile
+                if typ_místnosti:
+                    místnost = typ_místnosti(x, y, **parametry)
+                    řádka_mapy.append(místnost)
+                    if kód_místnosti == 'S':
+                        místnost.text = (
+                            'Stojíš při okraji tajuplného lesa na úpatí'
+                            ' nehostinné Hory běsů. Vrchol jejího hrozivého'
+                            ' štítu je zahalen nízkým mračnem.'
+                        )
+                        self.start = místnost
                 else:
-                    map_row.append(None)
+                    řádka_mapy.append(None)
 
-            self.world_map.append(map_row)
+            self.mapa.append(řádka_mapy)
 
-    def treasure_collected(self):
-        return all(tile.artifact_claimed for tile in self
-                   if hasattr(tile, 'artifact_claimed'))
+    def poklad_posbírán(self):
+        return all(místnost.artefakt_sebrán for místnost in self
+                   if hasattr(místnost, 'artefakt_sebrán'))
 
-    def all_enemies_dead(self):
-        return not any(tile.enemy.is_alive() for tile in self
-                       if hasattr(tile, 'enemy'))
+    def nepřátelé_pobiti(self):
+        return not any(místnost.nepřítel.is_alive() for místnost in self
+                       if hasattr(místnost, 'nepřítel'))
 
-    def all_tiles_visited(self):
-        return all(tile.visited for tile in self)
+    def vše_navštíveno(self):
+        return all(místnost.navštívena for místnost in self)
 
-    def map_of_visited(self, player_position):
-        map_data = []
-        trim_left, trim_right = 1000, 1000
-        for row in self.world_map:
-            row_data = []
-            for tile in row:
+    def mapa_navštívených(self, pozice_hráče):
+        mapa = []
+        ořez_vlevo, ořez_vpravo = 1000, 1000
+        for řádka in self.mapa:
+            řádka_mapy = []
+            for místnost in řádka:
                 try:
-                    if (tile.x, tile.y) == player_position:
-                        row_data.append('H')
-                    elif tile.visited:
-                        row_data.append('#' if isinstance(tile, Cave) else '+')
-                    elif tile.seen:
-                        row_data.append('?')
+                    if (místnost.x, místnost.y) == pozice_hráče:
+                        řádka_mapy.append('H')
+                    elif místnost.navštívena:
+                        řádka_mapy.append('#' if isinstance(místnost, Jeskyně)
+                                          else '+')
+                    elif místnost.viděna:
+                        řádka_mapy.append('?')
                     else:
-                        row_data.append(' ')
+                        řádka_mapy.append(' ')
                 except AttributeError:
-                    row_data.append(' ')
-            if set(row_data) != {' '}:
-                blank_left, blank_right = leading_trailing(''.join(row_data),
-                                                           ' ')
-                trim_left = min(trim_left, blank_left)
-                trim_right = min(trim_right, blank_right)
-                map_data.append(row_data)
+                    řádka_mapy.append(' ')
+            if set(řádka_mapy) != {' '}:
+                prázdno_vlevo, prázdno_vpravo = okolí(''.join(řádka_mapy), ' ')
+                ořez_vlevo = min(ořez_vlevo, prázdno_vlevo)
+                ořez_vpravo = min(ořez_vpravo, prázdno_vpravo)
+                mapa.append(řádka_mapy)
 
-        for row_data in map_data:
-            row_data[:trim_left] = []
-            row_data[len(row_data)-trim_right:] = []
+        for řádka_mapy in mapa:
+            řádka_mapy[:ořez_vlevo] = []
+            řádka_mapy[len(řádka_mapy) - ořez_vpravo:] = []
 
-        return map_data
+        return mapa
 
     def __iter__(self):
-        return iter(tile for row in self.world_map for tile in row
-                    if tile is not None)
+        return iter(místnost for řádka in self.mapa for místnost in řádka
+                    if místnost is not None)

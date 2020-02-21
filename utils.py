@@ -122,7 +122,7 @@ def get_available_actions(player):
     actions = OrderedDict()
 
     try:
-        enemy_near = room.enemy.is_alive()
+        enemy_near = room.nepřítel.is_alive()
     except AttributeError:
         enemy_near = False
     if enemy_near:
@@ -134,23 +134,23 @@ def get_available_actions(player):
     if not enemy_near or player.zdařilý_zásah:
         player.zdařilý_zásah = False
 
-        room_north = player.svět.tile_at(room.x, room.y - 1)
-        room_south = player.svět.tile_at(room.x, room.y + 1)
-        room_west = player.svět.tile_at(room.x - 1, room.y)
-        room_east = player.svět.tile_at(room.x + 1, room.y)
+        room_north = player.svět.místnost_na_pozici(room.x, room.y - 1)
+        room_south = player.svět.místnost_na_pozici(room.x, room.y + 1)
+        room_west = player.svět.místnost_na_pozici(room.x - 1, room.y)
+        room_east = player.svět.místnost_na_pozici(room.x + 1, room.y)
 
         if room_north:
             actions['S'] = (player.jdi_na_sever, 'Jít na sever')
-            room_north.seen = True
+            room_north.viděna = True
         if room_south:
             actions['J'] = (player.jdi_na_jih, 'Jít na jih')
-            room_south.seen = True
+            room_south.viděna = True
         if room_west:
             actions['Z'] = (player.jdi_na_západ, 'Jít na západ')
-            room_west.seen = True
+            room_west.viděna = True
         if room_east:
             actions['V'] = (player.jdi_na_východ, 'Jít na východ')
-            room_east.seen = True
+            room_east.viděna = True
 
     if player.zdraví < 100 and player.má_léčivky():
         actions['L'] = (player.kurýruj_se, 'Léčit se')
@@ -162,25 +162,26 @@ def get_available_actions(player):
     return actions
 
 
-def choose_action(player, command_buffer):
+def choose_action(player, fronta_příkazů):
     while True:
         available_actions = get_available_actions(player)
-        if not command_buffer:
+        if not fronta_příkazů:
             print_options(available_actions)
-            multicolor(f'[ Zdraví: |{player.zdraví:<8}|zkušenost: |{player.xp:<7}|'
+            multicolor(f'[ Zdraví: |{player.zdraví:<8}|'
+                       f'zkušenost: |{player.xp:<7}|'
                        f'zlato: |{player.zlato}| ]', (Color.MAGENTA, None))
             print()
 
         while True:
-            if command_buffer:
-                action_input = command_buffer.pop(0)
+            if fronta_příkazů:
+                action_input = fronta_příkazů.pop(0)
                 if action_input not in available_actions:
-                    command_buffer.clear()
+                    fronta_příkazů.clear()
                     break
             else:
                 action_input = input('Co teď? ').upper()
                 if set(action_input).issubset(set('SJZV')):
-                    command_buffer.extend(action_input[1:])
+                    fronta_příkazů.extend(action_input[1:])
                     action_input = action_input[:1]
             action, action_name = available_actions.get(action_input,
                                                         (None, ''))
@@ -188,7 +189,7 @@ def choose_action(player, command_buffer):
                 print_action_name(action_name)
                 return action
             else:
-                command_buffer.clear()
+                fronta_příkazů.clear()
                 color_print('?', color=Color.MAGENTA)
 
 
@@ -212,7 +213,7 @@ def hotkey_groups(hotkeys):
     return re.search(r'([BO]*)([SJZV]*)([LIMK]*)', hotkeys).groups()
 
 
-def leading_trailing(input_str, value):
+def okolí(input_str, value):
     pattern = f'^({value}*).*?({value}*)$'
     leading, trailing = re.match(pattern, input_str).groups()
 

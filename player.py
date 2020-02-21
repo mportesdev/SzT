@@ -5,7 +5,7 @@ from typing import List, Union
 import items
 from utils import WIDTH, Color, nice_print, color_print, multicolor, \
                   award_bonus, option_input, oscillate
-from world import World
+from world import Svět
 
 InventoryList = List[Union[items.Weapon, items.Consumable]]
 
@@ -17,8 +17,8 @@ class Hráč:
             items.Consumable('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
         self.artefakty = []
-        self.svět = World()
-        self.x, self.y = self.svět.start_tile.x, self.svět.start_tile.y
+        self.svět = Svět()
+        self.x, self.y = self.svět.start.x, self.svět.start.y
         self.zdraví = 100
         self.zlato = 10
         self.xp = 0
@@ -59,7 +59,7 @@ class Hráč:
         self.jdi(dx=-1, dy=0)
 
     def bojuj(self):
-        nepřítel = self.místnost_pobytu().enemy
+        nepřítel = self.místnost_pobytu().nepřítel
         nejlepší_zbraň = self.nejlepší_zbraň()
         if nejlepší_zbraň:
             síla_zbraně = nejlepší_zbraň.damage
@@ -69,7 +69,8 @@ class Hráč:
             název_zbraně = 'pěsti'
         skutečný_zásah_zbraní = oscillate(síla_zbraně)
         self.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
-                              and nepřítel.name_short not in ('troll', 'dobrodruh'))
+                              and nepřítel.name_short not in ('troll',
+                                                              'dobrodruh'))
         útočný_bonus = self.xp // 200
         skutečný_zásah = min(skutečný_zásah_zbraní + útočný_bonus, nepřítel.hp)
         nepřítel.hp -= skutečný_zásah
@@ -79,7 +80,7 @@ class Hráč:
         if not nepřítel.is_alive():
             zpráva += f' Zabil jsi {nepřítel.name_4.lower()}!'
         nice_print(zpráva, 'fight')
-        if self.svět.all_enemies_dead():
+        if self.svět.nepřátelé_pobiti():
             award_bonus(self, 200, 'zabití všech nepřátel')
 
     def má_léčivky(self):
@@ -110,13 +111,13 @@ class Hráč:
                 return
 
     def obchoduj(self):
-        self.místnost_pobytu().facilitate_trade(self)
+        self.místnost_pobytu().obchoduj(self)
 
     def místnost_pobytu(self):
-        return self.svět.tile_at(self.x, self.y)
+        return self.svět.místnost_na_pozici(self.x, self.y)
 
     def nakresli_mapu(self):
-        mapa_navštívených = self.svět.map_of_visited((self.x, self.y))
+        mapa_navštívených = self.svět.mapa_navštívených((self.x, self.y))
 
         print('\n'.join(''.join(řádka).center(WIDTH)
                         for řádka in mapa_navštívených))

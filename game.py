@@ -4,22 +4,22 @@ from player import Hráč
 import utils
 
 
-def main():
+def hra():
     utils.print_game_title()
     hráč = Hráč()
-    command_buffer = []
+    fronta_příkazů = []
 
     while True:
-        room = hráč.místnost_pobytu()
-        utils.nice_print(room.intro_text())
+        místnost = hráč.místnost_pobytu()
+        utils.nice_print(místnost.popis())
 
-        if not room.visited:
-            command_buffer.clear()
+        if not místnost.navštívena:
+            fronta_příkazů.clear()
 
-            room.visited = True
-            if hráč.svět.all_tiles_visited():
+            místnost.navštívena = True
+            if hráč.svět.vše_navštíveno():
                 utils.award_bonus(hráč, 100, 'prozkoumání všech míst')
-            if room is hráč.svět.start_tile:
+            if místnost is hráč.svět.start:
                 utils.nice_print('Svou rodnou vesnici, stejně'
                                  ' jako vcelku poklidný život pekařského'
                                  ' učedníka, jsi nechal daleko za sebou a'
@@ -29,23 +29,22 @@ def main():
                                  ' i obyčejnému smrtelníkovi mohou přinést'
                                  ' nadlidské schopnosti.')
 
-        if room is hráč.svět.start_tile \
-                and hráč.svět.treasure_collected():
+        if místnost is hráč.svět.start and hráč.svět.poklad_posbírán():
             break
 
         while True:
-            room.modify_player(hráč)
+            místnost.dopad_na_hráče(hráč)
 
             if not hráč.žije():
                 raise SystemExit
 
-            action = utils.choose_action(hráč, command_buffer)
-            action()
+            akce = utils.choose_action(hráč, fronta_příkazů)
+            akce()
 
-            # if the player moves, break to the outer loop to print
-            # the room description
-            if action in (hráč.jdi_na_sever, hráč.jdi_na_jih,
-                          hráč.jdi_na_východ, hráč.jdi_na_západ):
+            # v případě pohybu vyskočit do vnější smyčky a vypsat popis
+            # místnosti
+            if akce in (hráč.jdi_na_sever, hráč.jdi_na_jih,
+                        hráč.jdi_na_východ, hráč.jdi_na_západ):
                 break
 
     print('\nDokázal jsi to!\n\nBlahopřeji k vítězství.')
@@ -53,6 +52,6 @@ def main():
 
 if __name__ == '__main__':
     try:
-        main()
+        hra()
     except SystemExit:
         print('\nHra končí.')
