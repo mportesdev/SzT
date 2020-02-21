@@ -128,7 +128,7 @@ def get_available_actions(player):
     if enemy_near:
         actions['B'] = (player.bojuj, 'Bojovat')
 
-    if hasattr(room, 'trader'):
+    if hasattr(room, 'obchodník'):
         actions['O'] = (player.obchoduj, 'Obchodovat')
 
     if not enemy_near or player.zdařilý_zásah:

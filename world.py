@@ -234,7 +234,7 @@ class JeskyněArtefakt(Jeskyně):
                 award_bonus(hráč, 300, 'nalezení všech magických předmětů')
                 nice_print('Artefakty teď musíš vynést ven z jeskyně a dojít'
                            ' s nimi na začátek své cesty.')
-                hráč.svět.start_tile.text += (
+                hráč.svět.start.text += (
                     ' Překonal jsi všechny nástrahy a skutečně se ti podařilo'
                     ' získat kýžené magické artefakty. Otevírá se před tebou'
                     ' svět neomezených možností.'
