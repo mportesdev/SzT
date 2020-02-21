@@ -5,211 +5,210 @@ import random
 import items
 
 
-class Enemy:
-    def __init__(self, name, hp, damage,
-                 name_3=None, name_4=None,
-                 alive_text=None, dead_text=None):
-        self.name = name
-        self.name_short = self.name.split()[-1].lower()
-        self.hp = hp
-        self.damage = damage
+class Nepřítel:
+    def __init__(self, jméno, zdraví, útok,
+                 jméno_3_pád=None, jméno_4_pád=None,
+                 text_živý=None, text_mrtvý=None):
+        self.jméno = jméno
+        self.krátké_jméno = self.jméno.split()[-1].lower()
+        self.zdraví = zdraví
+        self.útok = útok
 
-        self.name_3 = name_3 or self.name
-        self.name_4 = name_4 or self.name
+        self.jméno_3_pád = jméno_3_pád or self.jméno
+        self.jméno_4_pád = jméno_4_pád or self.jméno
 
-        self.alive_text = alive_text or f'Zaútočil na tebe {self.name.lower()}!'
-        self.dead_text = dead_text or f'Na zemi leží mrtvý {self.name.lower()}.'
+        self.text_živý = text_živý or f'Zaútočil na tebe {self.jméno.lower()}!'
+        self.text_mrtvý = text_mrtvý or ('Na zemi leží mrtvý'
+                                         f' {self.jméno.lower()}.')
 
     def __str__(self):
-        return self.name
+        return self.jméno
 
-    def is_alive(self):
-        return self.hp > 0
+    def žije(self):
+        return self.zdraví > 0
 
     @property
     def text(self):
-        return self.alive_text if self.is_alive() else self.dead_text
+        return self.text_živý if self.žije() else self.text_mrtvý
 
 
-class Animal(Enemy):
+class Zvíře(Nepřítel):
     """Enemies of this class only cause damage to the player and take
     damage from the player's attacks.
     """
     pass
 
 
-class Monster(Enemy):
+class Netvor(Nepřítel):
     """Enemies of this class cause damage to the player, take damage
     from the player's attacks, and leave a random gold treasure after
     being killed.
     """
-    def __init__(self, name, hp, damage,
-                 name_3=None, name_4=None,
-                 alive_text=None, dead_text=None):
-        super().__init__(name, hp, damage,
-                         name_3, name_4, alive_text, dead_text)
-        self.gold = random.randint(8, 16)
-        self.gold_claimed = False
+    def __init__(self, jméno, zdraví, útok,
+                 jméno_3_pád=None, jméno_4_pád=None,
+                 text_živý=None, text_mrtvý=None):
+        super().__init__(jméno, zdraví, útok,
+                         jméno_3_pád, jméno_4_pád, text_živý, text_mrtvý)
+        self.zlato = random.randint(8, 16)
+        self.zlato_sebráno = False
 
     @classmethod
-    def new_troll(cls):
-        return cls(name='Kamenný troll',
-                   hp=92,
-                   damage=16,
-                   name_3='Trollovi',
-                   name_4='Trolla',
-                   alive_text='Vyrušil jsi dřímajícího kamenného trolla!',
-                   dead_text='Zabitý kamenný troll připomíná obyčejnou skálu.')
+    def troll(cls):
+        return cls(jméno='Kamenný troll',
+                   zdraví=92,
+                   útok=16,
+                   jméno_3_pád='Trollovi',
+                   jméno_4_pád='Trolla',
+                   text_živý='Vyrušil jsi dřímajícího kamenného trolla!',
+                   text_mrtvý='Zabitý kamenný troll připomíná obyčejnou skálu.')
 
     @classmethod
-    def new_forest_troll(cls):
-        return cls(name='Lesní troll',
-                   hp=62,
-                   damage=12,
-                   name_3='Trollovi',
-                   name_4='Trolla',
-                   alive_text='Cestu ti zastoupil mohutný troll obrostlý'
-                              ' mechem.')
+    def lesní_troll(cls):
+        return cls(jméno='Lesní troll',
+                   zdraví=62,
+                   útok=12,
+                   jméno_3_pád='Trollovi',
+                   jméno_4_pád='Trolla',
+                   text_živý='Cestu ti zastoupil mohutný troll obrostlý'
+                             ' mechem.')
 
 
-class Human(Enemy):
+class Člověk(Nepřítel):
     """Enemies of this class cause damage to the player, take damage
     from the player's attacks, and drop their weapon after being
     killed, along with an optional amount of gold.
     """
-    def __init__(self, name, hp, weapon,
-                 name_3=None, name_4=None,
-                 alive_text=None, dead_text=None):
-        super().__init__(name, hp, None,
-                         name_3, name_4, alive_text, dead_text)
-        self.weapon = weapon
-        self.weapon_claimed = False
-        self.damage = self.weapon.damage
-        self.gold = random.choice((0, random.randint(10, 20)))
-        self.gold_claimed = False
+    def __init__(self, jméno, zdraví, zbraň,
+                 jméno_3_pád=None, jméno_4_pád=None,
+                 text_živý=None, text_mrtvý=None):
+        super().__init__(jméno, zdraví, None,
+                         jméno_3_pád, jméno_4_pád, text_živý, text_mrtvý)
+        self.zbraň = zbraň
+        self.zbraň_sebrána = False
+        self.útok = self.zbraň.damage
+        self.zlato = random.choice((0, random.randint(10, 20)))
+        self.zlato_sebráno = False
 
     @classmethod
-    def new_human(cls):
-        return cls(name='Cizí dobrodruh',
-                   hp=98,
-                   weapon=items.Weapon('Železné kopí', 18, 85),
-                   name_3='Dobrodruhovi',
-                   name_4='Dobrodruha',
-                   alive_text='Vrhl se na tebe pološílený dobrodruh - jiný hráč'
-                              ' této hry!',
-                   dead_text='Na zemi leží mrtvola muže s vytřeštěnýma očima.')
+    def dobrodruh(cls):
+        return cls(jméno='Cizí dobrodruh',
+                   zdraví=98,
+                   zbraň=items.Weapon('Železné kopí', 18, 85),
+                   jméno_3_pád='Dobrodruhovi',
+                   jméno_4_pád='Dobrodruha',
+                   text_živý='Vrhl se na tebe pološílený dobrodruh - jiný hráč'
+                             ' této hry!',
+                   text_mrtvý='Na zemi leží mrtvola muže s vytřeštěnýma očima.')
 
 
-enemies_data = (
+data_nepřátel = (
     (
-        Animal,
+        Zvíře,
         {
-            'name': 'Obří pavouk',
-            'hp': 29,
-            'damage': 7,
-            'name_3': 'Pavoukovi',
-            'name_4': 'Pavouka',
-            'alive_text': 'Z výšky se spustil obří pavouk a snaží se tě'
-                          ' pozřít!',
-            'dead_text': 'Na zemi se povalují nohy a trup gigantického'
-                         ' pavouka.',
+            'jméno': 'Obří pavouk',
+            'zdraví': 29,
+            'útok': 7,
+            'jméno_3_pád': 'Pavoukovi',
+            'jméno_4_pád': 'Pavouka',
+            'text_živý': 'Z výšky se spustil obří pavouk a snaží se tě pozřít!',
+            'text_mrtvý': 'Na zemi se povalují nohy a trup gigantického'
+                          ' pavouka.',
         },
     ),
 
     (
-        Animal,
+        Zvíře,
         {
-            'name': 'Obří šváb',
-            'hp': 33,
-            'damage': 5,
-            'name_3': 'Švábovi',
-            'name_4': 'Švába',
-            'alive_text': 'Z díry vylezl odporný obří šváb a sevřel tě'
-                          ' kusadly!',
-            'dead_text': 'Na zemi leží ohavná tlející mrtvola švába.',
+            'jméno': 'Obří šváb',
+            'zdraví': 33,
+            'útok': 5,
+            'jméno_3_pád': 'Švábovi',
+            'jméno_4_pád': 'Švába',
+            'text_živý': 'Z díry vylezl odporný obří šváb a sevřel tě kusadly!',
+            'text_mrtvý': 'Na zemi leží ohavná tlející mrtvola švába.',
         },
     ),
 
     (
-        Animal,
+        Zvíře,
         {
-            'name': 'Obří netopýr',
-            'hp': 36,
-            'damage': 6,
-            'name_3': 'Netopýrovi',
-            'name_4': 'Netopýra',
-            'dead_text': 'Na zemi leží odpudivý mrtvý netopýr s polámanými'
-                         ' kožnatými křídly.',
+            'jméno': 'Obří netopýr',
+            'zdraví': 36,
+            'útok': 6,
+            'jméno_3_pád': 'Netopýrovi',
+            'jméno_4_pád': 'Netopýra',
+            'text_mrtvý': 'Na zemi leží odpudivý mrtvý netopýr s polámanými'
+                          ' kožnatými křídly.',
         },
     ),
 
     (
-        Monster,
+        Netvor,
         {
-            'name': 'Skřet',
-            'hp': 43,
-            'damage': 12,
-            'name_3': 'Skřetovi',
-            'name_4': 'Skřeta',
+            'jméno': 'Skřet',
+            'zdraví': 43,
+            'útok': 12,
+            'jméno_3_pád': 'Skřetovi',
+            'jméno_4_pád': 'Skřeta',
         },
     ),
 
     (
-        Monster,
+        Netvor,
         {
-            'name': 'Krysodlak',
-            'hp': 47,
-            'damage': 10,
-            'name_3': 'Krysodlakovi',
-            'name_4': 'Krysodlaka',
+            'jméno': 'Krysodlak',
+            'zdraví': 47,
+            'útok': 10,
+            'jméno_3_pád': 'Krysodlakovi',
+            'jméno_4_pád': 'Krysodlaka',
         },
     ),
 
     (
-        Animal,
+        Zvíře,
         {
-            'name': 'Jeskynní dráček',
-            'hp': 54,
-            'damage': 9,
-            'name_3': 'Dráčkovi',
-            'name_4': 'Dráčka',
-            'alive_text': 'Ze tmy vyskočil malý jeskynní dráček a zasáhl tě'
-                          ' ohnivou koulí!',
-            'dead_text': 'Z mrtvoly jeskynního dráčka vytéká jasně oranžová'
-                         ' tekutina.',
+            'jméno': 'Jeskynní dráček',
+            'zdraví': 54,
+            'útok': 9,
+            'jméno_3_pád': 'Dráčkovi',
+            'jméno_4_pád': 'Dráčka',
+            'text_živý': 'Ze tmy vyskočil malý jeskynní dráček a zasáhl tě'
+                         ' ohnivou koulí!',
+            'text_mrtvý': 'Z mrtvoly jeskynního dráčka vytéká jasně oranžová'
+                          ' tekutina.',
         },
     ),
 
     (
-        Animal,
+        Zvíře,
         {
-            'name': 'Vlk',
-            'hp': 28,
-            'damage': 5,
-            'name_3': 'Vlkovi',
-            'name_4': 'Vlka',
-            'alive_text': 'Z křoví na tebe vyskočil vychrtlý šedý vlk.',
+            'jméno': 'Vlk',
+            'zdraví': 28,
+            'útok': 5,
+            'jméno_3_pád': 'Vlkovi',
+            'jméno_4_pád': 'Vlka',
+            'text_živý': 'Z křoví na tebe vyskočil vychrtlý šedý vlk.',
         },
     ),
 
     (
-        Monster,
+        Netvor,
         {
-            'name': 'Vlkodlak',
-            'hp': 39,
-            'damage': 9,
-            'name_3': 'Vlkodlakovi',
-            'name_4': 'Vlkodlaka',
+            'jméno': 'Vlkodlak',
+            'zdraví': 39,
+            'útok': 9,
+            'jméno_3_pád': 'Vlkodlakovi',
+            'jméno_4_pád': 'Vlkodlaka',
         },
     ),
 )
 
 
-def random_cave_enemy():
-    enemy_class, kwargs = random.choice(enemies_data[:6])
-    return enemy_class(**kwargs)
+def náhodný_jeskynní_nepřítel():
+    typ_nepřítele, parametry = random.choice(data_nepřátel[:6])
+    return typ_nepřítele(**parametry)
 
 
-def random_forest_enemy():
-    enemy_class, kwargs = random.choice(enemies_data[6:])
-    return enemy_class(**kwargs)
+def náhodný_lesní_nepřítel():
+    typ_nepřítele, parametry = random.choice(data_nepřátel[6:])
+    return typ_nepřítele(**parametry)

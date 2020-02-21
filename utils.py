@@ -122,7 +122,7 @@ def get_available_actions(player):
     actions = OrderedDict()
 
     try:
-        enemy_near = room.nepřítel.is_alive()
+        enemy_near = room.nepřítel.žije()
     except AttributeError:
         enemy_near = False
     if enemy_near:

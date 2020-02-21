@@ -2,7 +2,7 @@ from collections import Counter
 import pytest
 
 from items import Item
-from npc import Trader
+from npc import Obchodník
 from utils import Color, multicolor, oscillate, hotkey_groups, okolí
 import world
 
@@ -42,7 +42,7 @@ def test_mistnost_na_pozici_ma_specialni_atribut(game_world, x, y, attribute):
 
 @pytest.fixture
 def trader():
-    return Trader('name', 'text', 0, [], ())
+    return Obchodník('name', 'text', 0, [], ())
 
 
 @pytest.fixture
@@ -55,9 +55,9 @@ def item():
                                            (99, 89), (100, 90), (101, 90),
                                            (109, 98), (110, 99), (111, 99)))
 def test_trader_buy_price(trader, item, value, result):
-    """Test npc.Trader.buy_price"""
+    """Test npc.Obchodník.výkupní_cena"""
     item.value = value
-    assert trader.buy_price(item) == result
+    assert trader.výkupní_cena(item) == result
 
 
 @pytest.mark.parametrize('n, relative_delta, expected_min, expected_max', (

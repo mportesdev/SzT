@@ -3,28 +3,28 @@
 import items
 
 
-class Trader:
-    def __init__(self, name, text, gold, inventory, slang):
-        self.name = name
+class Obchodník:
+    def __init__(self, jméno, text, zlato, inventář, mluva):
+        self.jméno = jméno
         self.text = text
-        self.zlato = gold
-        self.inventář = inventory
-        self.slang = slang
-        self.margin = 10
+        self.zlato = zlato
+        self.inventář = inventář
+        self.mluva = mluva
+        self.marže = 10
 
     def __str__(self):
-        return self.name
+        return self.jméno
 
-    def buy_price(self, item):
-        return item.value * (100 - self.margin) // 100
+    def výkupní_cena(self, věc):
+        return věc.value * (100 - self.marže) // 100
 
     @classmethod
-    def new_medicine_trader(cls):
-        return cls(name='Mastičkář',
+    def mastičkář(cls):
+        return cls(jméno='Mastičkář',
                    text=('Na zemi sedí vousatý hromotluk. V plátěném pytli má'
                          ' nějaké věci, určené patrně na prodej.'),
-                   gold=350,
-                   inventory=[
+                   zlato=350,
+                   inventář=[
                        items.Consumable('Hojivá mast', 11, 13, 'Hojivou mastí',
                                         'Hojivou mast'),
                        items.Consumable('Lahvička medicíny', 28, 37,
@@ -37,19 +37,19 @@ class Trader:
                        items.Consumable('Speciální lektvar', 52, 67,
                                         'Speciálním lektvarem'),
                              ],
-                   slang=('prašule', 'vašnosto'))
+                   mluva=('prašule', 'vašnosto'))
 
     @classmethod
-    def new_weapon_trader(cls):
-        return cls(name='Zbrojíř',
+    def zbrojíř(cls):
+        return cls(jméno='Zbrojíř',
                    text=('Ve stínu stojí prošedivělý sporý chlápek v kožené'
                          ' vestě a bronzové přilbici.'),
-                   gold=450,
-                   inventory=[
+                   zlato=450,
+                   inventář=[
                        items.Weapon('Obouruční meč', 24, 112),
                        items.Weapon('Těžká sekera', 26, 121, 'Těžkou sekeru'),
                        items.Consumable('Hojivá mast', 14, 18, 'Hojivou mastí',
                                         'Hojivou mast'),
                        items.Weapon('Halapartna', 19, 99, 'Halapartnu'),
                              ],
-                   slang=('finance', 'sire'))
+                   mluva=('finance', 'sire'))

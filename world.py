@@ -79,13 +79,13 @@ class MístnostBoj(Místnost):
         return self.text + ' ' + self.nepřítel.text
 
     def dopad_na_hráče(self, hráč):
-        if self.nepřítel.is_alive():
+        if self.nepřítel.žije():
             if hráč.zdařilý_zásah:
-                nice_print(f'Zasáhl jsi {self.nepřítel.name_4.lower()} do'
-                           f' hlavy. {self.nepřítel.name} zmateně vrávorá.',
+                nice_print(f'Zasáhl jsi {self.nepřítel.jméno_4_pád.lower()} do'
+                           f' hlavy. {self.nepřítel.jméno} zmateně vrávorá.',
                            'fight', Color.BLUE)
             else:
-                skutečný_zásah_nepřítele = oscillate(self.nepřítel.damage)
+                skutečný_zásah_nepřítele = oscillate(self.nepřítel.útok)
                 obranný_bonus = hráč.xp // 200
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
@@ -100,17 +100,17 @@ class MístnostBoj(Místnost):
                 nice_print(zpráva, 'fight', Color.RED)
         else:
             try:
-                if not self.nepřítel.gold_claimed and self.nepřítel.gold > 0:
-                    self.nepřítel.gold_claimed = True
-                    hráč.zlato += self.nepřítel.gold
-                    zpráva = (f'Sebral jsi {self.nepřítel.name_3.lower()}'
-                              f' {self.nepřítel.gold} zlaťáků.')
+                if not self.nepřítel.zlato_sebráno and self.nepřítel.zlato > 0:
+                    self.nepřítel.zlato_sebráno = True
+                    hráč.zlato += self.nepřítel.zlato
+                    zpráva = (f'Sebral jsi {self.nepřítel.jméno_3_pád.lower()}'
+                              f' {self.nepřítel.zlato} zlaťáků.')
                     nice_print(zpráva, 'luck')
-                if not self.nepřítel.weapon_claimed:
+                if not self.nepřítel.zbraň_sebrána:
                     self.nepřítel.weapon_claimed = True
-                    hráč.inventář.append(self.nepřítel.weapon)
-                    zpráva = (f'Sebral jsi {self.nepřítel.name_3.lower()}'
-                              f' {self.nepřítel.weapon.name_4.lower()}.')
+                    hráč.inventář.append(self.nepřítel.zbraň)
+                    zpráva = (f'Sebral jsi {self.nepřítel.jméno_3_pád.lower()}'
+                              f' {self.nepřítel.zbraň.name_4.lower()}.')
                     nice_print(zpráva, 'luck')
             except AttributeError:
                 pass
@@ -134,18 +134,18 @@ class JeskyněObchod(Jeskyně):
         věci_na_prodej = [věc for věc in prodejce.inventář
                           if věc.value is not None]
         if not věci_na_prodej:
-            print(f'{prodejce.name} už nemá co nabídnout.'
+            print(f'{prodejce.jméno} už nemá co nabídnout.'
                   if prodejce is self.obchodník
                   else 'Nemáš nic, co bys mohl prodat.')
             return
         else:
-            print(f'{prodejce.name} nabízí tyto věci:'
+            print(f'{prodejce.jméno} nabízí tyto věci:'
                   if prodejce is self.obchodník
                   else 'Tyto věci můžeš prodat:')
 
         možnosti = set()
         for i, věc in enumerate(věci_na_prodej, 1):
-            cena = (kupující.buy_price(věc) if kupující is self.obchodník
+            cena = (kupující.výkupní_cena(věc) if kupující is self.obchodník
                     else věc.value)
             if cena <= kupující.zlato:
                 možnosti.add(i)
@@ -157,13 +157,13 @@ class JeskyněObchod(Jeskyně):
                         + f' {cena:3} zlaťáků', color=Color.CYAN)
 
         try:
-            název_peněz, oslovení = kupující.slang
+            název_peněz, oslovení = kupující.mluva
         except AttributeError:
-            název_peněz, oslovení = prodejce.slang
+            název_peněz, oslovení = prodejce.mluva
 
         if not možnosti:
             print(f'"Došly mi {název_peněz}, {oslovení}!"'
-                  f' říká {kupující.name.lower()}.'
+                  f' říká {kupující.jméno.lower()}.'
                   if kupující is self.obchodník
                   else 'Na žádnou z nich nemáš peníze.')
             return
@@ -178,7 +178,7 @@ class JeskyněObchod(Jeskyně):
                 vybráno = prodejce.inventář[vstup - 1]
                 prodejce.inventář.remove(vybráno)
                 kupující.inventář.append(vybráno)
-                cena = (kupující.buy_price(vybráno)
+                cena = (kupující.výkupní_cena(vybráno)
                         if kupující is self.obchodník
                         else vybráno.value)
                 prodejce.zlato += cena
@@ -386,21 +386,21 @@ class Svět:
 
                 parametry = {}
                 if kód_místnosti == 'M':
-                    parametry.update(obchodník=npc.Trader.new_medicine_trader())
+                    parametry.update(obchodník=npc.Obchodník.mastičkář())
                 elif kód_místnosti == 'W':
-                    parametry.update(obchodník=npc.Trader.new_weapon_trader())
+                    parametry.update(obchodník=npc.Obchodník.zbrojíř())
                 elif kód_místnosti == 'C':
-                    parametry.update(nepřítel=enemies.random_cave_enemy())
-                elif kód_místnosti == 'F':
-                    parametry.update(nepřítel=enemies.random_forest_enemy())
-                elif kód_místnosti == 't':
                     parametry.update(
-                        nepřítel=enemies.Monster.new_forest_troll()
+                        nepřítel=enemies.náhodný_jeskynní_nepřítel()
                     )
+                elif kód_místnosti == 'F':
+                    parametry.update(nepřítel=enemies.náhodný_lesní_nepřítel())
+                elif kód_místnosti == 't':
+                    parametry.update(nepřítel=enemies.Netvor.lesní_troll())
                 elif kód_místnosti == 'T':
-                    parametry.update(nepřítel=enemies.Monster.new_troll())
+                    parametry.update(nepřítel=enemies.Netvor.troll())
                 elif kód_místnosti == 'H':
-                    parametry.update(nepřítel=enemies.Human.new_human())
+                    parametry.update(nepřítel=enemies.Člověk.dobrodruh())
                 elif kód_místnosti == 'A':
                     parametry.update(
                         artefakt=items.Artifact(*data_artefaktů.pop())
@@ -426,7 +426,7 @@ class Svět:
                    if hasattr(místnost, 'artefakt_sebrán'))
 
     def nepřátelé_pobiti(self):
-        return not any(místnost.nepřítel.is_alive() for místnost in self
+        return not any(místnost.nepřítel.žije() for místnost in self
                        if hasattr(místnost, 'nepřítel'))
 
     def vše_navštíveno(self):

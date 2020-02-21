@@ -69,16 +69,17 @@ class Hráč:
             název_zbraně = 'pěsti'
         skutečný_zásah_zbraní = oscillate(síla_zbraně)
         self.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
-                              and nepřítel.name_short not in ('troll',
-                                                              'dobrodruh'))
+                              and nepřítel.krátké_jméno not in ('troll',
+                                                                'dobrodruh'))
         útočný_bonus = self.xp // 200
-        skutečný_zásah = min(skutečný_zásah_zbraní + útočný_bonus, nepřítel.hp)
-        nepřítel.hp -= skutečný_zásah
+        skutečný_zásah = min(skutečný_zásah_zbraní + útočný_bonus,
+                             nepřítel.zdraví)
+        nepřítel.zdraví -= skutečný_zásah
         self.xp += skutečný_zásah
         zpráva = (f'Použil jsi {název_zbraně} proti'
-                  f' {nepřítel.name_3.lower()}.')
-        if not nepřítel.is_alive():
-            zpráva += f' Zabil jsi {nepřítel.name_4.lower()}!'
+                  f' {nepřítel.jméno_3_pád.lower()}.')
+        if not nepřítel.žije():
+            zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
         nice_print(zpráva, 'fight')
         if self.svět.nepřátelé_pobiti():
             award_bonus(self, 200, 'zabití všech nepřátel')
