@@ -3,18 +3,18 @@
 from typing import List, Union
 
 import items
-from utils import WIDTH, Color, nice_print, color_print, multicolor, \
-                  award_bonus, option_input, oscillate
+from utils import ŠÍŘKA, Color, nice_print, color_print, multicolor, \
+                  uděl_odměnu, option_input, oscillate
 from world import Svět
 
-InventoryList = List[Union[items.Weapon, items.Consumable]]
+InventoryList = List[Union[items.Zbraň, items.Léčivka]]
 
 
 class Hráč:
     def __init__(self):
         self.inventář: InventoryList = [
-            items.Weapon('Tupý nůž', 5, 13),
-            items.Consumable('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
+            items.Zbraň('Tupý nůž', 5, 13),
+            items.Léčivka('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
         self.artefakty = []
         self.svět = Svět()
@@ -32,13 +32,13 @@ class Hráč:
         for věc in self.inventář:
             print(f'            {věc}')
         for artefakt in self.artefakty:
-            color_print(f'            < {artefakt} >', color=artefakt.color)
+            color_print(f'            < {artefakt} >', color=artefakt.barva)
 
     def nejlepší_zbraň(self):
         try:
             return max((věc for věc in self.inventář
-                        if hasattr(věc, 'damage')),
-                       key=lambda zbraň: zbraň.damage)
+                        if hasattr(věc, 'útok')),
+                       key=lambda zbraň: zbraň.útok)
         except ValueError:
             return
 
@@ -62,8 +62,8 @@ class Hráč:
         nepřítel = self.místnost_pobytu().nepřítel
         nejlepší_zbraň = self.nejlepší_zbraň()
         if nejlepší_zbraň:
-            síla_zbraně = nejlepší_zbraň.damage
-            název_zbraně = nejlepší_zbraň.name_4.lower()
+            síla_zbraně = nejlepší_zbraň.útok
+            název_zbraně = nejlepší_zbraň.název_4_pád.lower()
         else:
             síla_zbraně = 1
             název_zbraně = 'pěsti'
@@ -82,15 +82,15 @@ class Hráč:
             zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
         nice_print(zpráva, 'fight')
         if self.svět.nepřátelé_pobiti():
-            award_bonus(self, 200, 'zabití všech nepřátel')
+            uděl_odměnu(self, 200, 'zabití všech nepřátel')
 
     def má_léčivky(self):
-        return any(isinstance(věc, items.Consumable)
+        return any(isinstance(věc, items.Léčivka)
                    for věc in self.inventář)
 
     def kurýruj_se(self):
         léčivky = [věc for věc in self.inventář
-                   if isinstance(věc, items.Consumable)]
+                   if isinstance(věc, items.Léčivka)]
 
         print('Čím se chceš kurýrovat?')
         for i, věc in enumerate(léčivky, 1):
@@ -106,7 +106,7 @@ class Hráč:
                 return
             else:
                 vybráno = léčivky[vstup - 1]
-                self.zdraví = min(100, self.zdraví + vybráno.healing_value)
+                self.zdraví = min(100, self.zdraví + vybráno.léčivá_síla)
                 self.inventář.remove(vybráno)
                 print('Hned se cítíš líp.')
                 return
@@ -120,7 +120,7 @@ class Hráč:
     def nakresli_mapu(self):
         mapa_navštívených = self.svět.mapa_navštívených((self.x, self.y))
 
-        print('\n'.join(''.join(řádka).center(WIDTH)
+        print('\n'.join(''.join(řádka).center(ŠÍŘKA)
                         for řádka in mapa_navštívených))
         multicolor('\n[ |+| les           |#| jeskyně         '
                    '|H| hráč            |?| neznámo ]', (Color.BLUE, None))

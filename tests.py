@@ -1,7 +1,7 @@
 from collections import Counter
 import pytest
 
-from items import Item
+from items import Věc
 from npc import Obchodník
 from utils import Color, multicolor, oscillate, hotkey_groups, okolí
 import world
@@ -47,7 +47,7 @@ def trader():
 
 @pytest.fixture
 def item():
-    return Item('name', 100)
+    return Věc('name', 100)
 
 
 @pytest.mark.parametrize('value, result', ((1, 0), (2, 1),
@@ -56,7 +56,7 @@ def item():
                                            (109, 98), (110, 99), (111, 99)))
 def test_trader_buy_price(trader, item, value, result):
     """Test npc.Obchodník.výkupní_cena"""
-    item.value = value
+    item.cena = value
     assert trader.výkupní_cena(item) == result
 
 

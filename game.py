@@ -18,7 +18,7 @@ def hra():
 
             místnost.navštívena = True
             if hráč.svět.vše_navštíveno():
-                utils.award_bonus(hráč, 100, 'prozkoumání všech míst')
+                utils.uděl_odměnu(hráč, 100, 'prozkoumání všech míst')
             if místnost is hráč.svět.start:
                 utils.nice_print('Svou rodnou vesnici, stejně'
                                  ' jako vcelku poklidný život pekařského'

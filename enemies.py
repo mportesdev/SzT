@@ -85,7 +85,7 @@ class Člověk(Nepřítel):
                          jméno_3_pád, jméno_4_pád, text_živý, text_mrtvý)
         self.zbraň = zbraň
         self.zbraň_sebrána = False
-        self.útok = self.zbraň.damage
+        self.útok = self.zbraň.útok
         self.zlato = random.choice((0, random.randint(10, 20)))
         self.zlato_sebráno = False
 
@@ -93,7 +93,7 @@ class Člověk(Nepřítel):
     def dobrodruh(cls):
         return cls(jméno='Cizí dobrodruh',
                    zdraví=98,
-                   zbraň=items.Weapon('Železné kopí', 18, 85),
+                   zbraň=items.Zbraň('Železné kopí', 18, 85),
                    jméno_3_pád='Dobrodruhovi',
                    jméno_4_pád='Dobrodruha',
                    text_živý='Vrhl se na tebe pološílený dobrodruh - jiný hráč'

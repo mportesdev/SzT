@@ -1,39 +1,39 @@
 # coding: utf-8
 
 
-class Item:
-    def __init__(self, name, value, name_4=None):
-        self.name = name
-        self.value = value
-        self.name_4 = name_4 or self.name
+class Věc:
+    def __init__(self, název, cena, název_4_pád=None):
+        self.název = název
+        self.cena = cena
+        self.název_4_pád = název_4_pád or self.název
 
     def __str__(self):
-        return self.name_4
+        return self.název_4_pád
 
 
-class Weapon(Item):
-    def __init__(self, name, damage, value, name_4=None):
-        super().__init__(name, value, name_4)
-        self.damage = damage
-
-    def __str__(self):
-        return f'{self.name_4} (útok +{self.damage})'
-
-
-class Consumable(Item):
-    def __init__(self, name, healing_value, value, name_7, name_4=None):
-        super().__init__(name, value, name_4)
-        self.healing_value = healing_value
-        self.name_7 = name_7
+class Zbraň(Věc):
+    def __init__(self, název, útok, cena, název_4_pád=None):
+        super().__init__(název, cena, název_4_pád)
+        self.útok = útok
 
     def __str__(self):
-        return f'{self.name_4} (zdraví +{self.healing_value})'
+        return f'{self.název_4_pád} (útok +{self.útok})'
+
+
+class Léčivka(Věc):
+    def __init__(self, název, léčivá_síla, cena, název_7_pád, název_4_pád=None):
+        super().__init__(název, cena, název_4_pád)
+        self.léčivá_síla = léčivá_síla
+        self.název_7_pád = název_7_pád
+
+    def __str__(self):
+        return f'{self.název_4_pád} (zdraví +{self.léčivá_síla})'
 
     def str_7(self):
-        return f'{self.name_7} (zdraví +{self.healing_value})'
+        return f'{self.název_7_pád} (zdraví +{self.léčivá_síla})'
 
 
-class Artifact(Item):
-    def __init__(self, name, color, name_4=None):
-        super().__init__(name, None, name_4)
-        self.color = color
+class Artefakt(Věc):
+    def __init__(self, název, barva, název_4_pád=None):
+        super().__init__(název, None, název_4_pád)
+        self.barva = barva

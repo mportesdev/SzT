@@ -16,7 +16,7 @@ class Obchodník:
         return self.jméno
 
     def výkupní_cena(self, věc):
-        return věc.value * (100 - self.marže) // 100
+        return věc.cena * (100 - self.marže) // 100
 
     @classmethod
     def mastičkář(cls):
@@ -25,16 +25,16 @@ class Obchodník:
                          ' nějaké věci, určené patrně na prodej.'),
                    zlato=350,
                    inventář=[
-                       items.Consumable('Hojivá mast', 11, 13, 'Hojivou mastí',
+                       items.Léčivka('Hojivá mast', 11, 13, 'Hojivou mastí',
                                         'Hojivou mast'),
-                       items.Consumable('Lahvička medicíny', 28, 37,
+                       items.Léčivka('Lahvička medicíny', 28, 37,
                                         'Lahvičkou medicíny',
                                         'Lahvičku medicíny'),
-                       items.Consumable('Léčivý lektvar', 39, 53,
+                       items.Léčivka('Léčivý lektvar', 39, 53,
                                         'Léčivým lektvarem'),
-                       items.Weapon('Zálesácká sekerka', 12, 51,
+                       items.Zbraň('Zálesácká sekerka', 12, 51,
                                     'Zálesáckou sekerku'),
-                       items.Consumable('Speciální lektvar', 52, 67,
+                       items.Léčivka('Speciální lektvar', 52, 67,
                                         'Speciálním lektvarem'),
                              ],
                    mluva=('prašule', 'vašnosto'))
@@ -46,10 +46,10 @@ class Obchodník:
                          ' vestě a bronzové přilbici.'),
                    zlato=450,
                    inventář=[
-                       items.Weapon('Obouruční meč', 24, 112),
-                       items.Weapon('Těžká sekera', 26, 121, 'Těžkou sekeru'),
-                       items.Consumable('Hojivá mast', 14, 18, 'Hojivou mastí',
+                       items.Zbraň('Obouruční meč', 24, 112),
+                       items.Zbraň('Těžká sekera', 26, 121, 'Těžkou sekeru'),
+                       items.Léčivka('Hojivá mast', 14, 18, 'Hojivou mastí',
                                         'Hojivou mast'),
-                       items.Weapon('Halapartna', 19, 99, 'Halapartnu'),
+                       items.Zbraň('Halapartna', 19, 99, 'Halapartnu'),
                              ],
                    mluva=('finance', 'sire'))

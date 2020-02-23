@@ -5,8 +5,8 @@ import random
 import enemies
 import items
 import npc
-from utils import WIDTH, Color, nice_print, color_print, multicolor, \
-    award_bonus, option_input, oscillate, okolí
+from utils import ŠÍŘKA, Color, nice_print, color_print, multicolor, \
+                  uděl_odměnu, option_input, oscillate, okolí
 
 
 class Místnost:
@@ -110,7 +110,7 @@ class MístnostBoj(Místnost):
                     self.nepřítel.weapon_claimed = True
                     hráč.inventář.append(self.nepřítel.zbraň)
                     zpráva = (f'Sebral jsi {self.nepřítel.jméno_3_pád.lower()}'
-                              f' {self.nepřítel.zbraň.name_4.lower()}.')
+                              f' {self.nepřítel.zbraň.název_4_pád.lower()}.')
                     nice_print(zpráva, 'luck')
             except AttributeError:
                 pass
@@ -132,7 +132,7 @@ class JeskyněObchod(Jeskyně):
 
     def proveď_obchod(self, kupující, prodejce):
         věci_na_prodej = [věc for věc in prodejce.inventář
-                          if věc.value is not None]
+                          if věc.cena is not None]
         if not věci_na_prodej:
             print(f'{prodejce.jméno} už nemá co nabídnout.'
                   if prodejce is self.obchodník
@@ -146,14 +146,14 @@ class JeskyněObchod(Jeskyně):
         možnosti = set()
         for i, věc in enumerate(věci_na_prodej, 1):
             cena = (kupující.výkupní_cena(věc) if kupující is self.obchodník
-                    else věc.value)
+                    else věc.cena)
             if cena <= kupující.zlato:
                 možnosti.add(i)
                 číslo_položky = f'{i:3}.'
             else:
                 číslo_položky = '    '
             print(f'{číslo_položky} ', end='')
-            color_print(f'{věc} '.ljust(WIDTH - 25, '.')
+            color_print(f'{věc} '.ljust(ŠÍŘKA - 25, '.')
                         + f' {cena:3} zlaťáků', color=Color.CYAN)
 
         try:
@@ -180,7 +180,7 @@ class JeskyněObchod(Jeskyně):
                 kupující.inventář.append(vybráno)
                 cena = (kupující.výkupní_cena(vybráno)
                         if kupující is self.obchodník
-                        else vybráno.value)
+                        else vybráno.cena)
                 prodejce.zlato += cena
                 kupující.zlato -= cena
                 print(f'"Bylo mi potěšením, {oslovení}."'
@@ -228,10 +228,10 @@ class JeskyněArtefakt(Jeskyně):
         if not self.artefakt_sebrán:
             self.artefakt_sebrán = True
             hráč.artefakty.append(self.artefakt)
-            zpráva = f'Našel jsi {self.artefakt.name_4.lower()}.'
+            zpráva = f'Našel jsi {self.artefakt.název_4_pád.lower()}.'
             nice_print(zpráva, 'luck')
             if hráč.svět.poklad_posbírán():
-                award_bonus(hráč, 300, 'nalezení všech magických předmětů')
+                uděl_odměnu(hráč, 300, 'nalezení všech magických předmětů')
                 nice_print('Artefakty teď musíš vynést ven z jeskyně a dojít'
                            ' s nimi na začátek své cesty.')
                 hráč.svět.start.text += (
@@ -251,7 +251,7 @@ class MístnostZbraň(Místnost):
         else:
             parametry = random.choice((('Ostnatý palcát', 18, 82),
                                        ('Řemdih', 20, 91)))
-        self.zbraň = items.Weapon(*parametry)
+        self.zbraň = items.Zbraň(*parametry)
         self.zbraň_sebrána = False
 
     def dopad_na_hráče(self, hráč):
@@ -260,10 +260,10 @@ class MístnostZbraň(Místnost):
             hráč.inventář.append(self.zbraň)
             if isinstance(self, Les):
                 zpráva = ('V křoví u cesty jsi našel'
-                          f' {self.zbraň.name_4.lower()}.')
+                          f' {self.zbraň.název_4_pád.lower()}.')
             else:
                 zpráva = ('Ve skulině pod kamenem jsi našel'
-                          f' {self.zbraň.name_4.lower()}.')
+                          f' {self.zbraň.název_4_pád.lower()}.')
             nice_print(zpráva, 'luck')
 
 
@@ -292,14 +292,14 @@ class LesLéčivka(Les):
                 ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
                 ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
             ))
-        self.léčivka = items.Consumable(*parametry)
+        self.léčivka = items.Léčivka(*parametry)
         self.léčivka_sebrána = False
 
     def dopad_na_hráče(self, hráč):
         if not self.léčivka_sebrána:
             self.léčivka_sebrána = True
             hráč.inventář.append(self.léčivka)
-            zpráva = f'Našel jsi {self.léčivka.name_4.lower()}.'
+            zpráva = f'Našel jsi {self.léčivka.název_4_pád.lower()}.'
             nice_print(zpráva, 'luck')
 
 
@@ -403,7 +403,7 @@ class Svět:
                     parametry.update(nepřítel=enemies.Člověk.dobrodruh())
                 elif kód_místnosti == 'A':
                     parametry.update(
-                        artefakt=items.Artifact(*data_artefaktů.pop())
+                        artefakt=items.Artefakt(*data_artefaktů.pop())
                     )
 
                 if typ_místnosti:

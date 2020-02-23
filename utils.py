@@ -10,9 +10,9 @@ import sys
 from textwrap import TextWrapper
 import time
 
-GAME_TITLE = 'Strach ze tmy'
-WIDTH = 70
-DELAY = 0.015
+NÁZEV_HRY = 'Strach ze tmy'
+ŠÍŘKA = 70
+PRODLEVA = 0.015
 
 
 class DarkColor(Enum):
@@ -34,7 +34,7 @@ INDENT_INFO = '        >  '
 INDENT_FIGHT = '        !  '
 INDENT_LUCK = '        *  '
 
-text_wrapper = TextWrapper(width=WIDTH - len(INDENT_EMPTY),
+text_wrapper = TextWrapper(width=ŠÍŘKA - len(INDENT_EMPTY),
                            subsequent_indent=INDENT_EMPTY)
 
 
@@ -58,12 +58,12 @@ def color_print(*args, color=None, **kwargs):
 
     if color is not None:
         print('\033[0m', end='')
-    time.sleep(DELAY)
+    time.sleep(PRODLEVA)
 
 
 def color_print_dummy(*args, color=None, **kwargs):
     print(*args, **kwargs)
-    time.sleep(DELAY)
+    time.sleep(PRODLEVA)
 
 
 def multicolor(text, colors, repeat=True, delimiter='|', end='\n'):
@@ -84,19 +84,19 @@ def multicolor(text, colors, repeat=True, delimiter='|', end='\n'):
 def print_game_title():
     os.system('cls' if os.name == 'nt' else 'clear')
     color_print('\n\n',
-                ' '.join(GAME_TITLE).center(WIDTH),
+                ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
                 '\n',
-                'textová hra na hrdiny'.center(WIDTH),
+                'textová hra na hrdiny'.center(ŠÍŘKA),
                 '',
-                'verze 0.8, 30. ledna 2020'.center(WIDTH),
+                'verze 0.8, 30. ledna 2020'.center(ŠÍŘKA),
                 '\n\n',
                 sep='\n',
                 color=Color.MAGENTA)
-    color_print('-' * WIDTH, end='\n\n', color=Color.MAGENTA)
+    color_print('-' * ŠÍŘKA, end='\n\n', color=Color.MAGENTA)
 
 
 def print_action_name(action_name):
-    color_print(f' {action_name.strip()} '.center(WIDTH, '-'), end='\n\n',
+    color_print(f' {action_name.strip()} '.center(ŠÍŘKA, '-'), end='\n\n',
                 color=Color.MAGENTA)
 
 
@@ -111,9 +111,9 @@ def print_options(available_actions):
                 multicolor(f'{hotkey}|: {name:<15}', (None, Color.BLUE), end='')
 
 
-def award_bonus(player, bonus, achievement):
-    player.xp += bonus
-    nice_print(f'Za {achievement} získáváš zkušenost {bonus} bodů!',
+def uděl_odměnu(hráč, odměna, za_co):
+    hráč.xp += odměna
+    nice_print(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
                color=Color.MAGENTA)
 
 
