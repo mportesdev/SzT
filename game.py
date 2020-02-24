@@ -5,7 +5,7 @@ import utils
 
 
 def hra():
-    utils.print_game_title()
+    utils.zobraz_titul()
     hráč = Hráč()
     fronta_příkazů = []
 

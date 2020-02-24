@@ -40,7 +40,7 @@ def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
     zalamovač_textu.initial_indent = f'        {symbol}  '
 
     if typ_zprávy == 'štěstí' and barva is None:
-        barva = Color.CYAN
+        barva = Barva.CYAN
 
     vypiš_barevně(zalamovač_textu.fill(zpráva), barva=barva)
 
@@ -56,27 +56,27 @@ def vypiš_barevně(*args, barva=None, **kwargs):
     time.sleep(PRODLEVA)
 
 
-def color_print_dummy(*args, color=None, **kwargs):
+def vypiš_barevně_atrapa(*args, barva=None, **kwargs):
     print(*args, **kwargs)
     time.sleep(PRODLEVA)
 
 
-def multicolor(text, colors, repeat=True, delimiter='|', end='\n'):
-    text_items = text.split(delimiter)
+def vícebarevně(text, barvy, opakovat=True, oddělovač='|', konec='\n'):
+    části_textu = text.split(oddělovač)
 
-    if repeat:
-        colors = cycle(colors)
+    if opakovat:
+        barvy = cycle(barvy)
     else:
-        if len(text_items) > len(colors):
-            raise ValueError('Not enough color information (expected at least'
-                             f' {len(text_items)}, got {len(colors)})')
+        if len(části_textu) > len(barvy):
+            raise ValueError('Málo dat pro barvy (očekáváno alespoň'
+                             f' {len(části_textu)}, dáno {len(barvy)})')
 
-    for item, color in zip(text_items, colors):
-        vypiš_barevně(item, barva=color, end='')
-    print(end=end)
+    for část, barva in zip(části_textu, barvy):
+        vypiš_barevně(část, barva=barva, end='')
+    print(end=konec)
 
 
-def print_game_title():
+def zobraz_titul():
     os.system('cls' if os.name == 'nt' else 'clear')
     vypiš_barevně('\n\n',
                   ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
@@ -85,30 +85,31 @@ def print_game_title():
                   '',
                   'verze 0.8, 30. ledna 2020'.center(ŠÍŘKA),
                   '\n\n',
-                  barva=Color.MAGENTA, sep='\n')
-    vypiš_barevně('-' * ŠÍŘKA, barva=Color.MAGENTA, end='\n\n')
+                  barva=Barva.MAGENTA, sep='\n')
+    vypiš_barevně('-' * ŠÍŘKA, barva=Barva.MAGENTA, end='\n\n')
 
 
-def print_action_name(action_name):
-    vypiš_barevně(f' {action_name.strip()} '.center(ŠÍŘKA, '-'),
-                  barva=Color.MAGENTA, end='\n\n')
+def vypiš_název_akce(název_akce):
+    vypiš_barevně(f' {název_akce.strip()} '.center(ŠÍŘKA, '-'),
+                  barva=Barva.MAGENTA, end='\n\n')
 
 
-def print_options(available_actions):
+def zobraz_možnosti(možnosti):
     print('\nMožnosti:')
-    for hotkey_group in hotkey_groups(''.join(available_actions.keys())):
-        for hotkey in hotkey_group:
-            name = available_actions[hotkey][1]
-            if hotkey == hotkey_group[-1]:
-                multicolor(f'{hotkey}|: {name}', (None, Color.BLUE))
+    for skupina_kláves in skupiny_kláves(''.join(možnosti.keys())):
+        for klávesa in skupina_kláves:
+            název = možnosti[klávesa][1]
+            if klávesa == skupina_kláves[-1]:
+                vícebarevně(f'{klávesa}|: {název}', (None, Barva.BLUE))
             else:
-                multicolor(f'{hotkey}|: {name:<15}', (None, Color.BLUE), end='')
+                vícebarevně(f'{klávesa}|: {název:<15}', (None, Barva.BLUE),
+                            konec='')
 
 
 def uděl_odměnu(hráč, odměna, za_co):
     hráč.xp += odměna
     vypiš_odstavec(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
-                   barva=Color.MAGENTA)
+                   barva=Barva.MAGENTA)
 
 
 def get_available_actions(player):
@@ -158,18 +159,18 @@ def get_available_actions(player):
 
 def vyber_akci(hráč, fronta_příkazů):
     while True:
-        dostupné_akce = get_available_actions(hráč)
+        možnosti = get_available_actions(hráč)
         if not fronta_příkazů:
-            print_options(dostupné_akce)
-            multicolor(f'[ Zdraví: |{hráč.zdraví:<8}|'
-                       f'zkušenost: |{hráč.xp:<7}|'
-                       f'zlato: |{hráč.zlato}| ]', (Color.MAGENTA, None))
+            zobraz_možnosti(možnosti)
+            vícebarevně(f'[ Zdraví: |{hráč.zdraví:<8}|'
+                        f'zkušenost: |{hráč.xp:<7}|'
+                        f'zlato: |{hráč.zlato}| ]', (Barva.MAGENTA, None))
             print()
 
         while True:
             if fronta_příkazů:
                 vstup = fronta_příkazů.pop(0)
-                if vstup not in dostupné_akce:
+                if vstup not in možnosti:
                     fronta_příkazů.clear()
                     break
             else:
@@ -177,13 +178,13 @@ def vyber_akci(hráč, fronta_příkazů):
                 if set(vstup).issubset(set('SJZV')):
                     fronta_příkazů.extend(vstup[1:])
                     vstup = vstup[:1]
-            akce, název_akce = dostupné_akce.get(vstup, (None, ''))
+            akce, název_akce = možnosti.get(vstup, (None, ''))
             if akce is not None:
-                print_action_name(název_akce)
+                vypiš_název_akce(název_akce)
                 return akce
             else:
                 fronta_příkazů.clear()
-                vypiš_barevně('?', barva=Color.MAGENTA)
+                vypiš_barevně('?', barva=Barva.MAGENTA)
 
 
 def option_input(options, ignore_case=True):
@@ -194,7 +195,7 @@ def option_input(options, ignore_case=True):
                     ignore_case and user_input.upper() == str(option).upper():
                 return option
         else:
-            vypiš_barevně('?', barva=Color.MAGENTA)
+            vypiš_barevně('?', barva=Barva.MAGENTA)
 
 
 def oscillate(number, relative_delta=0.2):
@@ -202,8 +203,8 @@ def oscillate(number, relative_delta=0.2):
     return random.randint(number - delta, number + delta)
 
 
-def hotkey_groups(hotkeys):
-    return re.search(r'([BO]*)([SJZV]*)([LIMK]*)', hotkeys).groups()
+def skupiny_kláves(klávesy):
+    return re.search(r'([BO]*)([SJZV]*)([LIMK]*)', klávesy).groups()
 
 
 def okolí(input_str, value):
@@ -214,13 +215,13 @@ def okolí(input_str, value):
 
 
 def confirm_quit():
-    multicolor('Opravdu skončit? (|A| / |N|)', (Color.BLUE, None), end=' ')
+    vícebarevně('Opravdu skončit? (|A| / |N|)', (Barva.BLUE, None), konec=' ')
     if option_input({'A', 'N'}) == 'A':
         raise SystemExit
 
 
-Color = DarkColor if '--dark' in sys.argv[1:] else BrightColor
+Barva = DarkColor if '--dark' in sys.argv[1:] else BrightColor
 
 if '--no-color' in sys.argv[1:] or (os.name == 'nt'
                                     and '--color' not in sys.argv[1:]):
-    color_print = color_print_dummy
+    vypiš_barevně = vypiš_barevně_atrapa

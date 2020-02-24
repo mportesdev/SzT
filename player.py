@@ -3,7 +3,7 @@
 from typing import List, Union
 
 import items
-from utils import ŠÍŘKA, Color, vypiš_odstavec, vypiš_barevně, multicolor, \
+from utils import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
                   uděl_odměnu, option_input, oscillate
 from world import Svět
 
@@ -95,11 +95,11 @@ class Hráč:
         print('Čím se chceš kurýrovat?')
         for i, věc in enumerate(léčivky, 1):
             print(f'{i:3}. ', end='')
-            vypiš_barevně(f'{věc.str_7()}', barva=Color.CYAN)
+            vypiš_barevně(f'{věc.str_7()}', barva=Barva.CYAN)
 
         while True:
-            multicolor('Číslo položky             (|Enter| = návrat)',
-                       (Color.BLUE, None), end=' ')
+            vícebarevně('Číslo položky             (|Enter| = návrat)',
+                        (Barva.BLUE, None), konec=' ')
             možnosti = set(range(1, len(léčivky) + 1))
             vstup = option_input(možnosti | {''})
             if vstup == '':
@@ -122,5 +122,5 @@ class Hráč:
 
         print('\n'.join(''.join(řádka).center(ŠÍŘKA)
                         for řádka in mapa_navštívených))
-        multicolor('\n[ |+| les           |#| jeskyně         '
-                   '|H| hráč            |?| neznámo ]', (Color.BLUE, None))
+        vícebarevně('\n[ |+| les           |#| jeskyně         '
+                    '|H| hráč            |?| neznámo ]', (Barva.BLUE, None))

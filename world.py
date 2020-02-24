@@ -5,7 +5,7 @@ import random
 import enemies
 import items
 import npc
-from utils import ŠÍŘKA, Color, vypiš_odstavec, vypiš_barevně, multicolor, \
+from utils import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
                   uděl_odměnu, option_input, oscillate, okolí
 
 
@@ -84,7 +84,7 @@ class MístnostBoj(Místnost):
                 vypiš_odstavec(
                     f'Zasáhl jsi {self.nepřítel.jméno_4_pád.lower()} do hlavy.'
                     f' {self.nepřítel.jméno} zmateně vrávorá.',
-                    'boj', Color.BLUE
+                    'boj', Barva.BLUE
                 )
             else:
                 skutečný_zásah_nepřítele = oscillate(self.nepřítel.útok)
@@ -99,7 +99,7 @@ class MístnostBoj(Místnost):
                     hráč.xp += 1
                 else:
                     zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                vypiš_odstavec(zpráva, 'boj', Color.RED)
+                vypiš_odstavec(zpráva, 'boj', Barva.RED)
         else:
             try:
                 if not self.nepřítel.zlato_sebráno and self.nepřítel.zlato > 0:
@@ -156,7 +156,7 @@ class JeskyněObchod(Jeskyně):
                 číslo_položky = '    '
             print(f'{číslo_položky} ', end='')
             vypiš_barevně(f'{věc} '.ljust(ŠÍŘKA - 25, '.')
-                          + f' {cena:3} zlaťáků', barva=Color.CYAN)
+                          + f' {cena:3} zlaťáků', barva=Barva.CYAN)
 
         try:
             název_peněz, oslovení = kupující.mluva
@@ -171,8 +171,8 @@ class JeskyněObchod(Jeskyně):
             return
 
         while True:
-            multicolor('Číslo položky             (|Enter| = návrat)',
-                       (Color.BLUE, None), end=' ')
+            vícebarevně('Číslo položky             (|Enter| = návrat)',
+                        (Barva.BLUE, None), konec=' ')
             vstup = option_input(možnosti | {''})
             if vstup == '':
                 return
@@ -191,8 +191,8 @@ class JeskyněObchod(Jeskyně):
 
     def obchoduj(self, hráč):
         while True:
-            multicolor('K|: koupit    |P|: prodat    (|Enter| = návrat)',
-                       (None, Color.BLUE), end=' ')
+            vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat)',
+                        (None, Barva.BLUE), konec=' ')
             vstup = option_input({'K', 'P', ''})
             if vstup == '':
                 return
@@ -354,10 +354,10 @@ class Svět:
     def načti_mapu(self, mapa):
         data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
-            ('Rubínový kříž', Color.RED),
-            ('Tyrkysová tiára', Color.CYAN, 'Tyrkysovou tiáru'),
-            ('Ametystový kalich', Color.MAGENTA),
-            ('Safírový trojzubec', Color.BLUE)
+            ('Rubínový kříž', Barva.RED),
+            ('Tyrkysová tiára', Barva.CYAN, 'Tyrkysovou tiáru'),
+            ('Ametystový kalich', Barva.MAGENTA),
+            ('Safírový trojzubec', Barva.BLUE)
         }
 
         if mapa.count('1') > len(data_artefaktů):
