@@ -29,34 +29,29 @@ class BrightColor(Enum):
     CYAN = 96
 
 
-INDENT_EMPTY = '           '
-INDENT_INFO = '        >  '
-INDENT_FIGHT = '        !  '
-INDENT_LUCK = '        *  '
+ODSAZENÍ = ' ' * 11
 
-text_wrapper = TextWrapper(width=ŠÍŘKA - len(INDENT_EMPTY),
-                           subsequent_indent=INDENT_EMPTY)
+zalamovač_textu = TextWrapper(width=ŠÍŘKA - len(ODSAZENÍ),
+                              subsequent_indent=ODSAZENÍ)
 
 
-def nice_print(message, msg_type='info', color=None):
-    indent = dict(info=INDENT_INFO,
-                  fight=INDENT_FIGHT,
-                  luck=INDENT_LUCK).get(msg_type, INDENT_EMPTY)
-    text_wrapper.initial_indent = indent
+def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
+    symbol = dict(info='>', boj='!', štěstí='*').get(typ_zprávy, ' ')
+    zalamovač_textu.initial_indent = f'        {symbol}  '
 
-    if msg_type == 'luck' and color is None:
-        color = Color.CYAN
+    if typ_zprávy == 'štěstí' and barva is None:
+        barva = Color.CYAN
 
-    color_print(text_wrapper.fill(message), color=color)
+    vypiš_barevně(zalamovač_textu.fill(zpráva), barva=barva)
 
 
-def color_print(*args, color=None, **kwargs):
-    if color is not None:
-        print(f'\033[{color.value}m', end='')
+def vypiš_barevně(*args, barva=None, **kwargs):
+    if barva is not None:
+        print(f'\033[{barva.value}m', end='')
 
     print(*args, **kwargs)
 
-    if color is not None:
+    if barva is not None:
         print('\033[0m', end='')
     time.sleep(PRODLEVA)
 
@@ -77,27 +72,26 @@ def multicolor(text, colors, repeat=True, delimiter='|', end='\n'):
                              f' {len(text_items)}, got {len(colors)})')
 
     for item, color in zip(text_items, colors):
-        color_print(item, color=color, end='')
+        vypiš_barevně(item, barva=color, end='')
     print(end=end)
 
 
 def print_game_title():
     os.system('cls' if os.name == 'nt' else 'clear')
-    color_print('\n\n',
-                ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
-                '\n',
-                'textová hra na hrdiny'.center(ŠÍŘKA),
-                '',
-                'verze 0.8, 30. ledna 2020'.center(ŠÍŘKA),
-                '\n\n',
-                sep='\n',
-                color=Color.MAGENTA)
-    color_print('-' * ŠÍŘKA, end='\n\n', color=Color.MAGENTA)
+    vypiš_barevně('\n\n',
+                  ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
+                  '\n',
+                  'textová hra na hrdiny'.center(ŠÍŘKA),
+                  '',
+                  'verze 0.8, 30. ledna 2020'.center(ŠÍŘKA),
+                  '\n\n',
+                  barva=Color.MAGENTA, sep='\n')
+    vypiš_barevně('-' * ŠÍŘKA, barva=Color.MAGENTA, end='\n\n')
 
 
 def print_action_name(action_name):
-    color_print(f' {action_name.strip()} '.center(ŠÍŘKA, '-'), end='\n\n',
-                color=Color.MAGENTA)
+    vypiš_barevně(f' {action_name.strip()} '.center(ŠÍŘKA, '-'),
+                  barva=Color.MAGENTA, end='\n\n')
 
 
 def print_options(available_actions):
@@ -113,8 +107,8 @@ def print_options(available_actions):
 
 def uděl_odměnu(hráč, odměna, za_co):
     hráč.xp += odměna
-    nice_print(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
-               color=Color.MAGENTA)
+    vypiš_odstavec(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
+                   barva=Color.MAGENTA)
 
 
 def get_available_actions(player):
@@ -189,7 +183,7 @@ def vyber_akci(hráč, fronta_příkazů):
                 return akce
             else:
                 fronta_příkazů.clear()
-                color_print('?', color=Color.MAGENTA)
+                vypiš_barevně('?', barva=Color.MAGENTA)
 
 
 def option_input(options, ignore_case=True):
@@ -200,7 +194,7 @@ def option_input(options, ignore_case=True):
                     ignore_case and user_input.upper() == str(option).upper():
                 return option
         else:
-            color_print('?', color=Color.MAGENTA)
+            vypiš_barevně('?', barva=Color.MAGENTA)
 
 
 def oscillate(number, relative_delta=0.2):

@@ -11,7 +11,7 @@ def hra():
 
     while True:
         místnost = hráč.místnost_pobytu()
-        utils.nice_print(místnost.popis())
+        utils.vypiš_odstavec(místnost.popis())
 
         if not místnost.navštívena:
             fronta_příkazů.clear()
@@ -20,14 +20,16 @@ def hra():
             if hráč.svět.vše_navštíveno():
                 utils.uděl_odměnu(hráč, 100, 'prozkoumání všech míst')
             if místnost is hráč.svět.start:
-                utils.nice_print('Svou rodnou vesnici, stejně'
-                                 ' jako vcelku poklidný život pekařského'
-                                 ' učedníka, jsi nechal daleko za sebou a'
-                                 ' vydal ses na nejistou dráhu dobrodruha.')
-                utils.nice_print('Uvnitř pověstmi opředené hory se prý ukrývá'
-                                 ' pětice posvátných magických předmětů, které'
-                                 ' i obyčejnému smrtelníkovi mohou přinést'
-                                 ' nadlidské schopnosti.')
+                utils.vypiš_odstavec(
+                    'Svou rodnou vesnici, stejně jako vcelku poklidný život'
+                    ' pekařského učedníka, jsi nechal daleko za sebou a vydal'
+                    ' ses na nejistou dráhu dobrodruha.'
+                )
+                utils.vypiš_odstavec(
+                    'Uvnitř pověstmi opředené hory se prý ukrývá pětice'
+                    ' posvátných magických předmětů, které i obyčejnému'
+                    ' smrtelníkovi mohou přinést nadlidské schopnosti.'
+                )
 
         if místnost is hráč.svět.start and hráč.svět.poklad_posbírán():
             break

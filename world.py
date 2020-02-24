@@ -5,7 +5,7 @@ import random
 import enemies
 import items
 import npc
-from utils import ŠÍŘKA, Color, nice_print, color_print, multicolor, \
+from utils import ŠÍŘKA, Color, vypiš_odstavec, vypiš_barevně, multicolor, \
                   uděl_odměnu, option_input, oscillate, okolí
 
 
@@ -81,9 +81,11 @@ class MístnostBoj(Místnost):
     def dopad_na_hráče(self, hráč):
         if self.nepřítel.žije():
             if hráč.zdařilý_zásah:
-                nice_print(f'Zasáhl jsi {self.nepřítel.jméno_4_pád.lower()} do'
-                           f' hlavy. {self.nepřítel.jméno} zmateně vrávorá.',
-                           'fight', Color.BLUE)
+                vypiš_odstavec(
+                    f'Zasáhl jsi {self.nepřítel.jméno_4_pád.lower()} do hlavy.'
+                    f' {self.nepřítel.jméno} zmateně vrávorá.',
+                    'boj', Color.BLUE
+                )
             else:
                 skutečný_zásah_nepřítele = oscillate(self.nepřítel.útok)
                 obranný_bonus = hráč.xp // 200
@@ -97,7 +99,7 @@ class MístnostBoj(Místnost):
                     hráč.xp += 1
                 else:
                     zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                nice_print(zpráva, 'fight', Color.RED)
+                vypiš_odstavec(zpráva, 'boj', Color.RED)
         else:
             try:
                 if not self.nepřítel.zlato_sebráno and self.nepřítel.zlato > 0:
@@ -105,13 +107,13 @@ class MístnostBoj(Místnost):
                     hráč.zlato += self.nepřítel.zlato
                     zpráva = (f'Sebral jsi {self.nepřítel.jméno_3_pád.lower()}'
                               f' {self.nepřítel.zlato} zlaťáků.')
-                    nice_print(zpráva, 'luck')
+                    vypiš_odstavec(zpráva, 'štěstí')
                 if not self.nepřítel.zbraň_sebrána:
                     self.nepřítel.weapon_claimed = True
                     hráč.inventář.append(self.nepřítel.zbraň)
                     zpráva = (f'Sebral jsi {self.nepřítel.jméno_3_pád.lower()}'
                               f' {self.nepřítel.zbraň.název_4_pád.lower()}.')
-                    nice_print(zpráva, 'luck')
+                    vypiš_odstavec(zpráva, 'štěstí')
             except AttributeError:
                 pass
 
@@ -153,8 +155,8 @@ class JeskyněObchod(Jeskyně):
             else:
                 číslo_položky = '    '
             print(f'{číslo_položky} ', end='')
-            color_print(f'{věc} '.ljust(ŠÍŘKA - 25, '.')
-                        + f' {cena:3} zlaťáků', color=Color.CYAN)
+            vypiš_barevně(f'{věc} '.ljust(ŠÍŘKA - 25, '.')
+                          + f' {cena:3} zlaťáků', barva=Color.CYAN)
 
         try:
             název_peněz, oslovení = kupující.mluva
@@ -215,7 +217,7 @@ class JeskyněZlato(Jeskyně):
             self.zlato_sebráno = True
             hráč.zlato += self.zlato
             zpráva = f'Našel jsi {self.zlato} zlaťáků.'
-            nice_print(zpráva, 'luck')
+            vypiš_odstavec(zpráva, 'štěstí')
 
 
 class JeskyněArtefakt(Jeskyně):
@@ -229,11 +231,11 @@ class JeskyněArtefakt(Jeskyně):
             self.artefakt_sebrán = True
             hráč.artefakty.append(self.artefakt)
             zpráva = f'Našel jsi {self.artefakt.název_4_pád.lower()}.'
-            nice_print(zpráva, 'luck')
+            vypiš_odstavec(zpráva, 'štěstí')
             if hráč.svět.poklad_posbírán():
                 uděl_odměnu(hráč, 300, 'nalezení všech magických předmětů')
-                nice_print('Artefakty teď musíš vynést ven z jeskyně a dojít'
-                           ' s nimi na začátek své cesty.')
+                vypiš_odstavec('Artefakty teď musíš vynést ven z jeskyně a'
+                               ' dojít s nimi na začátek své cesty.')
                 hráč.svět.start.text += (
                     ' Překonal jsi všechny nástrahy a skutečně se ti podařilo'
                     ' získat kýžené magické artefakty. Otevírá se před tebou'
@@ -264,7 +266,7 @@ class MístnostZbraň(Místnost):
             else:
                 zpráva = ('Ve skulině pod kamenem jsi našel'
                           f' {self.zbraň.název_4_pád.lower()}.')
-            nice_print(zpráva, 'luck')
+            vypiš_odstavec(zpráva, 'štěstí')
 
 
 class JeskyněZbraň(MístnostZbraň, Jeskyně):
@@ -300,7 +302,7 @@ class LesLéčivka(Les):
             self.léčivka_sebrána = True
             hráč.inventář.append(self.léčivka)
             zpráva = f'Našel jsi {self.léčivka.název_4_pád.lower()}.'
-            nice_print(zpráva, 'luck')
+            vypiš_odstavec(zpráva, 'štěstí')
 
 
 mapa_hry = '''

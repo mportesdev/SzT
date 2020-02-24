@@ -3,7 +3,7 @@
 from typing import List, Union
 
 import items
-from utils import ŠÍŘKA, Color, nice_print, color_print, multicolor, \
+from utils import ŠÍŘKA, Color, vypiš_odstavec, vypiš_barevně, multicolor, \
                   uděl_odměnu, option_input, oscillate
 from world import Svět
 
@@ -32,7 +32,7 @@ class Hráč:
         for věc in self.inventář:
             print(f'            {věc}')
         for artefakt in self.artefakty:
-            color_print(f'            < {artefakt} >', color=artefakt.barva)
+            vypiš_barevně(f'            < {artefakt} >', barva=artefakt.barva)
 
     def nejlepší_zbraň(self):
         try:
@@ -80,7 +80,7 @@ class Hráč:
                   f' {nepřítel.jméno_3_pád.lower()}.')
         if not nepřítel.žije():
             zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
-        nice_print(zpráva, 'fight')
+        vypiš_odstavec(zpráva, 'boj')
         if self.svět.nepřátelé_pobiti():
             uděl_odměnu(self, 200, 'zabití všech nepřátel')
 
@@ -95,7 +95,7 @@ class Hráč:
         print('Čím se chceš kurýrovat?')
         for i, věc in enumerate(léčivky, 1):
             print(f'{i:3}. ', end='')
-            color_print(f'{věc.str_7()}', color=Color.CYAN)
+            vypiš_barevně(f'{věc.str_7()}', barva=Color.CYAN)
 
         while True:
             multicolor('Číslo položky             (|Enter| = návrat)',
