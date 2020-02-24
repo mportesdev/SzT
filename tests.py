@@ -3,7 +3,7 @@ import pytest
 
 from items import Věc
 from npc import Obchodník
-from utils import Barva, vícebarevně, oscillate, skupiny_kláves, okolí
+from utils import Barva, vícebarevně, s_odchylkou, skupiny_kláves, okraje
 import world
 
 
@@ -76,8 +76,8 @@ def test_trader_buy_price(trader, item, value, result):
         (487, 0.26, 361, 613)  # 487 +- 126.62 -> [360.38-613.62] -> [361-613]
 ))
 def test_oscillate(n, relative_delta, expected_min, expected_max):
-    """Test utils.oscillate"""
-    results = Counter(oscillate(n, relative_delta) for __ in range(10_000))
+    """Test utils.s_odchylkou"""
+    results = Counter(s_odchylkou(n, relative_delta) for __ in range(10_000))
     assert min(results) == expected_min
     assert max(results) == expected_max
     assert len(results) == expected_max - expected_min + 1
@@ -103,52 +103,59 @@ def test_hotkey_groups(hotkeys, result):
         (('               ..H..                         ', ' '), (15, 25))
 ))
 def test_leading_trailing(inputs, result):
-    assert okolí(*inputs) == result
+    assert okraje(*inputs) == result
 
 
 def test_multicolor():
-    vícebarevně('red|blue|magenta|cyan',
-                (Barva.RED, Barva.BLUE, Barva.MAGENTA, Barva.CYAN))
+    vícebarevně('červená|modrá|fialová|tyrkys',
+                (Barva.ČERVENÁ, Barva.MODRÁ, Barva.FIALOVÁ, Barva.TYRKYS))
 
     vícebarevně('Číslo položky             (|Enter| = návrat) ',
-                (Barva.BLUE, None))
+                (Barva.MODRÁ, None))
     vícebarevně('Číslo položky             (|Enter| = návrat) ',
-                (Barva.BLUE, None, Barva.BLUE), opakovat=False)
+                (Barva.MODRÁ, None, Barva.MODRÁ),
+                opakovat=False)
 
     vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-                (None, Barva.BLUE))
+                (None, Barva.MODRÁ))
     vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-                (None, Barva.BLUE, None, Barva.BLUE, None, Barva.BLUE),
+                (None, Barva.MODRÁ, None, Barva.MODRÁ, None, Barva.MODRÁ),
                 opakovat=False)
 
     vícebarevně('[ |+| les           |#| jeskyně         '
-                '|H| hráč            |?| neznámo ]', (Barva.BLUE, None))
+                '|H| hráč            |?| neznámo ]', (Barva.MODRÁ, None))
     vícebarevně('[ |+| les           |#| jeskyně         '
                 '|H| hráč            |?| neznámo ]',
-                (Barva.BLUE, None, Barva.BLUE, None, Barva.BLUE, None,
-                 Barva.BLUE, None, Barva.BLUE), opakovat=False)
+                (Barva.MODRÁ, None, Barva.MODRÁ, None, Barva.MODRÁ, None,
+                 Barva.MODRÁ, None, Barva.MODRÁ),
+                opakovat=False)
 
     vícebarevně(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-                (Barva.MAGENTA, None))
+                (Barva.FIALOVÁ, None))
     vícebarevně(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-                (Barva.MAGENTA, None, Barva.MAGENTA, None, Barva.MAGENTA, None,
-                 Barva.MAGENTA), opakovat=False)
+                (Barva.FIALOVÁ, None, Barva.FIALOVÁ, None, Barva.FIALOVÁ, None,
+                 Barva.FIALOVÁ),
+                opakovat=False)
 
     with pytest.raises(ValueError):
         vícebarevně('Číslo položky             (|Enter| = návrat) ',
-                    (Barva.BLUE, None), opakovat=False)
+                    (Barva.MODRÁ, None),
+                    opakovat=False)
 
     with pytest.raises(ValueError):
         vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-                    (None, Barva.BLUE, None, Barva.BLUE, None), opakovat=False)
+                    (None, Barva.MODRÁ, None, Barva.MODRÁ, None),
+                    opakovat=False)
 
     with pytest.raises(ValueError):
         vícebarevně('[ |+| les           |#| jeskyně         '
                     '|H| hráč            |?| neznámo ]',
-                    (Barva.BLUE, None, Barva.BLUE, None, Barva.BLUE, None,
-                     Barva.BLUE, None), opakovat=False)
+                    (Barva.MODRÁ, None, Barva.MODRÁ, None, Barva.MODRÁ, None,
+                     Barva.MODRÁ, None),
+                    opakovat=False)
 
     with pytest.raises(ValueError):
         vícebarevně(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-                    (Barva.MAGENTA, None, Barva.MAGENTA, None, Barva.MAGENTA,
-                     None), opakovat=False)
+                    (Barva.FIALOVÁ, None, Barva.FIALOVÁ, None, Barva.FIALOVÁ,
+                     None),
+                    opakovat=False)

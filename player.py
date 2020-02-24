@@ -4,7 +4,7 @@ from typing import List, Union
 
 import items
 from utils import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
-                  uděl_odměnu, option_input, oscillate
+                  uděl_odměnu, vstup_z_možností, s_odchylkou
 from world import Svět
 
 InventoryList = List[Union[items.Zbraň, items.Léčivka]]
@@ -67,7 +67,7 @@ class Hráč:
         else:
             síla_zbraně = 1
             název_zbraně = 'pěsti'
-        skutečný_zásah_zbraní = oscillate(síla_zbraně)
+        skutečný_zásah_zbraní = s_odchylkou(síla_zbraně)
         self.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
                               and nepřítel.krátké_jméno not in ('troll',
                                                                 'dobrodruh'))
@@ -95,13 +95,13 @@ class Hráč:
         print('Čím se chceš kurýrovat?')
         for i, věc in enumerate(léčivky, 1):
             print(f'{i:3}. ', end='')
-            vypiš_barevně(f'{věc.str_7()}', barva=Barva.CYAN)
+            vypiš_barevně(f'{věc.str_7()}', barva=Barva.TYRKYS)
 
         while True:
             vícebarevně('Číslo položky             (|Enter| = návrat)',
-                        (Barva.BLUE, None), konec=' ')
+                        (Barva.MODRÁ, None), konec=' ')
             možnosti = set(range(1, len(léčivky) + 1))
-            vstup = option_input(možnosti | {''})
+            vstup = vstup_z_možností(možnosti | {''})
             if vstup == '':
                 return
             else:
@@ -123,4 +123,4 @@ class Hráč:
         print('\n'.join(''.join(řádka).center(ŠÍŘKA)
                         for řádka in mapa_navštívených))
         vícebarevně('\n[ |+| les           |#| jeskyně         '
-                    '|H| hráč            |?| neznámo ]', (Barva.BLUE, None))
+                    '|H| hráč            |?| neznámo ]', (Barva.MODRÁ, None))

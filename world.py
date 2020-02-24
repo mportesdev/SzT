@@ -6,7 +6,7 @@ import enemies
 import items
 import npc
 from utils import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
-                  uděl_odměnu, option_input, oscillate, okolí
+                  uděl_odměnu, vstup_z_možností, s_odchylkou, okraje
 
 
 class Místnost:
@@ -84,10 +84,10 @@ class MístnostBoj(Místnost):
                 vypiš_odstavec(
                     f'Zasáhl jsi {self.nepřítel.jméno_4_pád.lower()} do hlavy.'
                     f' {self.nepřítel.jméno} zmateně vrávorá.',
-                    'boj', Barva.BLUE
+                    'boj', Barva.MODRÁ
                 )
             else:
-                skutečný_zásah_nepřítele = oscillate(self.nepřítel.útok)
+                skutečný_zásah_nepřítele = s_odchylkou(self.nepřítel.útok)
                 obranný_bonus = hráč.xp // 200
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
@@ -99,7 +99,7 @@ class MístnostBoj(Místnost):
                     hráč.xp += 1
                 else:
                     zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                vypiš_odstavec(zpráva, 'boj', Barva.RED)
+                vypiš_odstavec(zpráva, 'boj', Barva.ČERVENÁ)
         else:
             try:
                 if not self.nepřítel.zlato_sebráno and self.nepřítel.zlato > 0:
@@ -156,7 +156,7 @@ class JeskyněObchod(Jeskyně):
                 číslo_položky = '    '
             print(f'{číslo_položky} ', end='')
             vypiš_barevně(f'{věc} '.ljust(ŠÍŘKA - 25, '.')
-                          + f' {cena:3} zlaťáků', barva=Barva.CYAN)
+                          + f' {cena:3} zlaťáků', barva=Barva.TYRKYS)
 
         try:
             název_peněz, oslovení = kupující.mluva
@@ -172,8 +172,8 @@ class JeskyněObchod(Jeskyně):
 
         while True:
             vícebarevně('Číslo položky             (|Enter| = návrat)',
-                        (Barva.BLUE, None), konec=' ')
-            vstup = option_input(možnosti | {''})
+                        (Barva.MODRÁ, None), konec=' ')
+            vstup = vstup_z_možností(možnosti | {''})
             if vstup == '':
                 return
             else:
@@ -192,8 +192,8 @@ class JeskyněObchod(Jeskyně):
     def obchoduj(self, hráč):
         while True:
             vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat)',
-                        (None, Barva.BLUE), konec=' ')
-            vstup = option_input({'K', 'P', ''})
+                        (None, Barva.MODRÁ), konec=' ')
+            vstup = vstup_z_možností({'K', 'P', ''})
             if vstup == '':
                 return
             elif vstup == 'K':
@@ -354,10 +354,10 @@ class Svět:
     def načti_mapu(self, mapa):
         data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
-            ('Rubínový kříž', Barva.RED),
-            ('Tyrkysová tiára', Barva.CYAN, 'Tyrkysovou tiáru'),
-            ('Ametystový kalich', Barva.MAGENTA),
-            ('Safírový trojzubec', Barva.BLUE)
+            ('Rubínový kříž', Barva.ČERVENÁ),
+            ('Tyrkysová tiára', Barva.TYRKYS, 'Tyrkysovou tiáru'),
+            ('Ametystový kalich', Barva.FIALOVÁ),
+            ('Safírový trojzubec', Barva.MODRÁ)
         }
 
         if mapa.count('1') > len(data_artefaktů):
@@ -453,7 +453,7 @@ class Svět:
                 except AttributeError:
                     řádka_mapy.append(' ')
             if set(řádka_mapy) != {' '}:
-                prázdno_vlevo, prázdno_vpravo = okolí(''.join(řádka_mapy), ' ')
+                prázdno_vlevo, prázdno_vpravo = okraje(''.join(řádka_mapy), ' ')
                 ořez_vlevo = min(ořez_vlevo, prázdno_vlevo)
                 ořez_vpravo = min(ořez_vpravo, prázdno_vpravo)
                 mapa.append(řádka_mapy)

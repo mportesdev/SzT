@@ -15,18 +15,18 @@ NÁZEV_HRY = 'Strach ze tmy'
 PRODLEVA = 0.015
 
 
-class DarkColor(Enum):
-    RED = 31
-    BLUE = 34
-    MAGENTA = 35
-    CYAN = 36
+class TmaváBarva(Enum):
+    ČERVENÁ = 31
+    MODRÁ = 34
+    FIALOVÁ = 35
+    TYRKYS = 36
 
 
-class BrightColor(Enum):
-    RED = 91
-    BLUE = 94
-    MAGENTA = 95
-    CYAN = 96
+class SvětláBarva(Enum):
+    ČERVENÁ = 91
+    MODRÁ = 94
+    FIALOVÁ = 95
+    TYRKYS = 96
 
 
 ODSAZENÍ = ' ' * 11
@@ -40,7 +40,7 @@ def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
     zalamovač_textu.initial_indent = f'        {symbol}  '
 
     if typ_zprávy == 'štěstí' and barva is None:
-        barva = Barva.CYAN
+        barva = Barva.TYRKYS
 
     vypiš_barevně(zalamovač_textu.fill(zpráva), barva=barva)
 
@@ -85,13 +85,13 @@ def zobraz_titul():
                   '',
                   'verze 0.8, 30. ledna 2020'.center(ŠÍŘKA),
                   '\n\n',
-                  barva=Barva.MAGENTA, sep='\n')
-    vypiš_barevně('-' * ŠÍŘKA, barva=Barva.MAGENTA, end='\n\n')
+                  barva=Barva.FIALOVÁ, sep='\n')
+    vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ, end='\n\n')
 
 
 def vypiš_název_akce(název_akce):
     vypiš_barevně(f' {název_akce.strip()} '.center(ŠÍŘKA, '-'),
-                  barva=Barva.MAGENTA, end='\n\n')
+                  barva=Barva.FIALOVÁ, end='\n\n')
 
 
 def zobraz_možnosti(možnosti):
@@ -100,71 +100,75 @@ def zobraz_možnosti(možnosti):
         for klávesa in skupina_kláves:
             název = možnosti[klávesa][1]
             if klávesa == skupina_kláves[-1]:
-                vícebarevně(f'{klávesa}|: {název}', (None, Barva.BLUE))
+                vícebarevně(f'{klávesa}|: {název}', (None, Barva.MODRÁ))
             else:
-                vícebarevně(f'{klávesa}|: {název:<15}', (None, Barva.BLUE),
+                vícebarevně(f'{klávesa}|: {název:<15}', (None, Barva.MODRÁ),
                             konec='')
 
 
 def uděl_odměnu(hráč, odměna, za_co):
     hráč.xp += odměna
     vypiš_odstavec(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
-                   barva=Barva.MAGENTA)
+                   barva=Barva.FIALOVÁ)
 
 
-def get_available_actions(player):
-    room = player.místnost_pobytu()
-    actions = OrderedDict()
+def zjisti_možné_akce(hráč):
+    místnost = hráč.místnost_pobytu()
+    akce = OrderedDict()
 
     try:
-        enemy_near = room.nepřítel.žije()
+        nepřítel_poblíž = místnost.nepřítel.žije()
     except AttributeError:
-        enemy_near = False
-    if enemy_near:
-        actions['B'] = (player.bojuj, 'Bojovat')
+        nepřítel_poblíž = False
+    if nepřítel_poblíž:
+        akce['B'] = (hráč.bojuj, 'Bojovat')
 
-    if hasattr(room, 'obchodník'):
-        actions['O'] = (player.obchoduj, 'Obchodovat')
+    if hasattr(místnost, 'obchodník'):
+        akce['O'] = (hráč.obchoduj, 'Obchodovat')
 
-    if not enemy_near or player.zdařilý_zásah:
-        player.zdařilý_zásah = False
+    if not nepřítel_poblíž or hráč.zdařilý_zásah:
+        hráč.zdařilý_zásah = False
 
-        room_north = player.svět.místnost_na_pozici(room.x, room.y - 1)
-        room_south = player.svět.místnost_na_pozici(room.x, room.y + 1)
-        room_west = player.svět.místnost_na_pozici(room.x - 1, room.y)
-        room_east = player.svět.místnost_na_pozici(room.x + 1, room.y)
+        místnost_severně = hráč.svět.místnost_na_pozici(místnost.x,
+                                                        místnost.y - 1)
+        místnost_jižně = hráč.svět.místnost_na_pozici(místnost.x,
+                                                      místnost.y + 1)
+        místnost_západně = hráč.svět.místnost_na_pozici(místnost.x - 1,
+                                                        místnost.y)
+        místnost_východně = hráč.svět.místnost_na_pozici(místnost.x + 1,
+                                                         místnost.y)
 
-        if room_north:
-            actions['S'] = (player.jdi_na_sever, 'Jít na sever')
-            room_north.viděna = True
-        if room_south:
-            actions['J'] = (player.jdi_na_jih, 'Jít na jih')
-            room_south.viděna = True
-        if room_west:
-            actions['Z'] = (player.jdi_na_západ, 'Jít na západ')
-            room_west.viděna = True
-        if room_east:
-            actions['V'] = (player.jdi_na_východ, 'Jít na východ')
-            room_east.viděna = True
+        if místnost_severně:
+            akce['S'] = (hráč.jdi_na_sever, 'Jít na sever')
+            místnost_severně.viděna = True
+        if místnost_jižně:
+            akce['J'] = (hráč.jdi_na_jih, 'Jít na jih')
+            místnost_jižně.viděna = True
+        if místnost_západně:
+            akce['Z'] = (hráč.jdi_na_západ, 'Jít na západ')
+            místnost_západně.viděna = True
+        if místnost_východně:
+            akce['V'] = (hráč.jdi_na_východ, 'Jít na východ')
+            místnost_východně.viděna = True
 
-    if player.zdraví < 100 and player.má_léčivky():
-        actions['L'] = (player.kurýruj_se, 'Léčit se')
+    if hráč.zdraví < 100 and hráč.má_léčivky():
+        akce['L'] = (hráč.kurýruj_se, 'Léčit se')
 
-    actions['I'] = (player.vypiš_věci, 'Inventář')
-    actions['M'] = (player.nakresli_mapu, 'Mapa')
-    actions['K'] = (confirm_quit, 'Konec')
+    akce['I'] = (hráč.vypiš_věci, 'Inventář')
+    akce['M'] = (hráč.nakresli_mapu, 'Mapa')
+    akce['K'] = (potvrď_konec, 'Konec')
 
-    return actions
+    return akce
 
 
 def vyber_akci(hráč, fronta_příkazů):
     while True:
-        možnosti = get_available_actions(hráč)
+        možnosti = zjisti_možné_akce(hráč)
         if not fronta_příkazů:
             zobraz_možnosti(možnosti)
             vícebarevně(f'[ Zdraví: |{hráč.zdraví:<8}|'
                         f'zkušenost: |{hráč.xp:<7}|'
-                        f'zlato: |{hráč.zlato}| ]', (Barva.MAGENTA, None))
+                        f'zlato: |{hráč.zlato}| ]', (Barva.FIALOVÁ, None))
             print()
 
         while True:
@@ -184,43 +188,42 @@ def vyber_akci(hráč, fronta_příkazů):
                 return akce
             else:
                 fronta_příkazů.clear()
-                vypiš_barevně('?', barva=Barva.MAGENTA)
+                vypiš_barevně('?', barva=Barva.FIALOVÁ)
 
 
-def option_input(options, ignore_case=True):
+def vstup_z_možností(možnosti):
     while True:
-        user_input = input()
-        for option in options:
-            if user_input == str(option) or \
-                    ignore_case and user_input.upper() == str(option).upper():
-                return option
+        vstup = input()
+        for možnost in možnosti:
+            if vstup.upper() == str(možnost).upper():
+                return možnost
         else:
-            vypiš_barevně('?', barva=Barva.MAGENTA)
+            vypiš_barevně('?', barva=Barva.FIALOVÁ)
 
 
-def oscillate(number, relative_delta=0.2):
-    delta = int(number * relative_delta)
-    return random.randint(number - delta, number + delta)
+def s_odchylkou(číslo, relativní_odchylka=0.2):
+    odchylka = int(číslo * relativní_odchylka)
+    return random.randint(číslo - odchylka, číslo + odchylka)
 
 
 def skupiny_kláves(klávesy):
     return re.search(r'([BO]*)([SJZV]*)([LIMK]*)', klávesy).groups()
 
 
-def okolí(input_str, value):
-    pattern = f'^({value}*).*?({value}*)$'
-    leading, trailing = re.match(pattern, input_str).groups()
+def okraje(řetězec, hodnota_okraje):
+    vzorec = f'^({hodnota_okraje}*).*?({hodnota_okraje}*)$'
+    levý_okraj, pravý_okraj = re.match(vzorec, řetězec).groups()
 
-    return len(leading), len(trailing)
+    return len(levý_okraj), len(pravý_okraj)
 
 
-def confirm_quit():
-    vícebarevně('Opravdu skončit? (|A| / |N|)', (Barva.BLUE, None), konec=' ')
-    if option_input({'A', 'N'}) == 'A':
+def potvrď_konec():
+    vícebarevně('Opravdu skončit? (|A| / |N|)', (Barva.MODRÁ, None), konec=' ')
+    if vstup_z_možností({'A', 'N'}) == 'A':
         raise SystemExit
 
 
-Barva = DarkColor if '--dark' in sys.argv[1:] else BrightColor
+Barva = TmaváBarva if '--dark' in sys.argv[1:] else SvětláBarva
 
 if '--no-color' in sys.argv[1:] or (os.name == 'nt'
                                     and '--color' not in sys.argv[1:]):
