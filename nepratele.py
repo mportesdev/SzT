@@ -6,30 +6,30 @@ import veci
 
 
 class Nepřítel:
-    def __init__(self, jméno, zdraví, útok,
+    def __init__(já, jméno, zdraví, útok,
                  jméno_3_pád=None, jméno_4_pád=None,
                  text_živý=None, text_mrtvý=None):
-        self.jméno = jméno
-        self.krátké_jméno = self.jméno.split()[-1].lower()
-        self.zdraví = zdraví
-        self.útok = útok
+        já.jméno = jméno
+        já.krátké_jméno = já.jméno.split()[-1].lower()
+        já.zdraví = zdraví
+        já.útok = útok
 
-        self.jméno_3_pád = jméno_3_pád or self.jméno
-        self.jméno_4_pád = jméno_4_pád or self.jméno
+        já.jméno_3_pád = jméno_3_pád or já.jméno
+        já.jméno_4_pád = jméno_4_pád or já.jméno
 
-        self.text_živý = text_živý or f'Zaútočil na tebe {self.jméno.lower()}!'
-        self.text_mrtvý = text_mrtvý or ('Na zemi leží mrtvý'
-                                         f' {self.jméno.lower()}.')
+        já.text_živý = text_živý or f'Zaútočil na tebe {já.jméno.lower()}!'
+        já.text_mrtvý = text_mrtvý or ('Na zemi leží mrtvý'
+                                       f' {já.jméno.lower()}.')
 
-    def __str__(self):
-        return self.jméno
+    def __str__(já):
+        return já.jméno
 
-    def žije(self):
-        return self.zdraví > 0
+    def žije(já):
+        return já.zdraví > 0
 
     @property
-    def text(self):
-        return self.text_živý if self.žije() else self.text_mrtvý
+    def text(já):
+        return já.text_živý if já.žije() else já.text_mrtvý
 
 
 class Zvíře(Nepřítel):
@@ -37,57 +37,63 @@ class Zvíře(Nepřítel):
 
 
 class Netvor(Nepřítel):
-    def __init__(self, jméno, zdraví, útok,
+    def __init__(já, jméno, zdraví, útok,
                  jméno_3_pád=None, jméno_4_pád=None,
                  text_živý=None, text_mrtvý=None):
         super().__init__(jméno, zdraví, útok,
                          jméno_3_pád, jméno_4_pád, text_živý, text_mrtvý)
-        self.zlato = random.randint(8, 16)
-        self.zlato_sebráno = False
+        já.zlato = random.randint(8, 16)
+        já.zlato_sebráno = False
 
     @classmethod
-    def troll(cls):
-        return cls(jméno='Kamenný troll',
-                   zdraví=92,
-                   útok=16,
-                   jméno_3_pád='Trollovi',
-                   jméno_4_pád='Trolla',
-                   text_živý='Vyrušil jsi dřímajícího kamenného trolla!',
-                   text_mrtvý='Zabitý kamenný troll připomíná obyčejnou skálu.')
+    def troll(třída):
+        return třída(
+            jméno='Kamenný troll',
+            zdraví=92,
+            útok=16,
+            jméno_3_pád='Trollovi',
+            jméno_4_pád='Trolla',
+            text_živý='Vyrušil jsi dřímajícího kamenného trolla!',
+            text_mrtvý='Zabitý kamenný troll připomíná obyčejnou skálu.'
+        )
 
     @classmethod
-    def lesní_troll(cls):
-        return cls(jméno='Lesní troll',
-                   zdraví=62,
-                   útok=12,
-                   jméno_3_pád='Trollovi',
-                   jméno_4_pád='Trolla',
-                   text_živý='Cestu ti zastoupil mohutný troll obrostlý'
-                             ' mechem.')
+    def lesní_troll(třída):
+        return třída(
+            jméno='Lesní troll',
+            zdraví=62,
+            útok=12,
+            jméno_3_pád='Trollovi',
+            jméno_4_pád='Trolla',
+            text_živý='Cestu ti zastoupil mohutný troll obrostlý'
+                      ' mechem.'
+        )
 
 
 class Člověk(Nepřítel):
-    def __init__(self, jméno, zdraví, zbraň,
+    def __init__(já, jméno, zdraví, zbraň,
                  jméno_3_pád=None, jméno_4_pád=None,
                  text_živý=None, text_mrtvý=None):
         super().__init__(jméno, zdraví, None,
                          jméno_3_pád, jméno_4_pád, text_živý, text_mrtvý)
-        self.zbraň = zbraň
-        self.zbraň_sebrána = False
-        self.útok = self.zbraň.útok
-        self.zlato = random.choice((0, random.randint(10, 20)))
-        self.zlato_sebráno = False
+        já.zbraň = zbraň
+        já.zbraň_sebrána = False
+        já.útok = já.zbraň.útok
+        já.zlato = random.choice((0, random.randint(10, 20)))
+        já.zlato_sebráno = False
 
     @classmethod
-    def dobrodruh(cls):
-        return cls(jméno='Cizí dobrodruh',
-                   zdraví=98,
-                   zbraň=veci.Zbraň('Železné kopí', 18, 85),
-                   jméno_3_pád='Dobrodruhovi',
-                   jméno_4_pád='Dobrodruha',
-                   text_živý='Vrhl se na tebe pološílený dobrodruh - jiný hráč'
-                             ' této hry!',
-                   text_mrtvý='Na zemi leží mrtvola muže s vytřeštěnýma očima.')
+    def dobrodruh(třída):
+        return třída(
+            jméno='Cizí dobrodruh',
+            zdraví=98,
+            zbraň=veci.Zbraň('Železné kopí', 18, 85),
+            jméno_3_pád='Dobrodruhovi',
+            jméno_4_pád='Dobrodruha',
+            text_živý='Vrhl se na tebe pološílený dobrodruh - jiný hráč'
+                      ' této hry!',
+            text_mrtvý='Na zemi leží mrtvola muže s vytřeštěnýma očima.'
+        )
 
 
 data_nepřátel = (

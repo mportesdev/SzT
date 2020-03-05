@@ -10,89 +10,89 @@ import veci
 
 
 class Místnost:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.navštívena = False
-        self.viděna = False
+    def __init__(já, x, y):
+        já.x = x
+        já.y = y
+        já.navštívena = False
+        já.viděna = False
 
-    def dopad_na_hráče(self, hráč):
+    def dopad_na_hráče(já, hráč):
         pass
 
-    def popis(self):
-        return self.text
+    def popis(já):
+        return já.text
 
 
 class Jeskyně(Místnost):
-    def __init__(self, x, y):
+    def __init__(já, x, y):
         super().__init__(x, y)
         if x <= 18 and y <= 6:
             # zone 1
-            self.text = ('Klopýtáš po rozbitém kamení v téměř úplné tmě této'
-                         ' části jeskyně.')
+            já.text = ('Klopýtáš po rozbitém kamení v téměř úplné tmě této'
+                       ' části jeskyně.')
         elif x >= 27 and y <= 7:
             # zone 3
-            self.text = ('Našlapuješ po rozměklé zemi ve vlhké a zatuchlé části'
-                         ' jeskyně.')
+            já.text = ('Našlapuješ po rozměklé zemi ve vlhké a zatuchlé části'
+                       ' jeskyně.')
         elif 22 <= x <= 26 and y >= 9:
             # zone 5
-            self.text = 'Procházíš chladnou tmavou jeskyní.'
+            já.text = 'Procházíš chladnou tmavou jeskyní.'
         elif x >= 27 and y >= 9:
             # zone 6
-            self.text = 'Procházíš spletí nepříjemně tísnivých úzkých chodeb.'
+            já.text = 'Procházíš spletí nepříjemně tísnivých úzkých chodeb.'
         elif x <= 8 and y >= 18:
             # zone 8
-            self.text = 'Procházíš chladnou tmavou jeskyní.'
+            já.text = 'Procházíš chladnou tmavou jeskyní.'
         elif y >= 19:
             # zone 9
-            self.text = 'Procházíš chladnou tmavou jeskyní.'
+            já.text = 'Procházíš chladnou tmavou jeskyní.'
         elif x <= 11 and y >= 10:
             # zone 7
-            self.text = 'Procházíš chladnou tmavou jeskyní.'
+            já.text = 'Procházíš chladnou tmavou jeskyní.'
         elif x <= 21 and y >= 7:
             # zone 4
-            self.text = 'Procházíš chladnou tmavou jeskyní.'
+            já.text = 'Procházíš chladnou tmavou jeskyní.'
         else:
             # zone 2
-            self.text = 'Procházíš chladnou tmavou jeskyní.'
+            já.text = 'Procházíš chladnou tmavou jeskyní.'
 
 
 class Les(Místnost):
-    def __init__(self, x, y):
+    def __init__(já, x, y):
         super().__init__(x, y)
         if x <= 8 and y <= 14:
-            self.text = ('Jdeš po sotva znatelné stezce vedoucí tmavým a'
-                         ' zlověstně tichým lesem. V pološeru zakopáváš o'
-                         ' kořeny obrovských stromů.')
+            já.text = ('Jdeš po sotva znatelné stezce vedoucí tmavým a'
+                       ' zlověstně tichým lesem. V pološeru zakopáváš o'
+                       ' kořeny obrovských stromů.')
         elif 14 <= x <= 20 and 14 <= y <= 20:
-            self.text = 'Procházíš nejtmavší a nejponurejší částí lesa.'
+            já.text = 'Procházíš nejtmavší a nejponurejší částí lesa.'
         else:
-            self.text = 'Jdeš po úzké, zarostlé lesní pěšině.'
+            já.text = 'Jdeš po úzké, zarostlé lesní pěšině.'
 
 
 class MístnostBoj(Místnost):
-    def __init__(self, x, y, nepřítel):
+    def __init__(já, x, y, nepřítel):
         super().__init__(x, y)
-        self.nepřítel = nepřítel
+        já.nepřítel = nepřítel
 
-    def popis(self):
-        return self.text + ' ' + self.nepřítel.text
+    def popis(já):
+        return já.text + ' ' + já.nepřítel.text
 
-    def dopad_na_hráče(self, hráč):
-        if self.nepřítel.žije():
+    def dopad_na_hráče(já, hráč):
+        if já.nepřítel.žije():
             if hráč.zdařilý_zásah:
                 vypiš_odstavec(
-                    f'Zasáhl jsi {self.nepřítel.jméno_4_pád.lower()} do hlavy.'
-                    f' {self.nepřítel.jméno} zmateně vrávorá.',
+                    f'Zasáhl jsi {já.nepřítel.jméno_4_pád.lower()} do hlavy.'
+                    f' {já.nepřítel.jméno} zmateně vrávorá.',
                     'boj', Barva.MODRÁ
                 )
             else:
-                skutečný_zásah_nepřítele = s_odchylkou(self.nepřítel.útok)
+                skutečný_zásah_nepřítele = s_odchylkou(já.nepřítel.útok)
                 obranný_bonus = hráč.zkušenost // 200
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
                 hráč.zdraví -= max(skutečný_zásah, 0)
-                zpráva = f'{self.nepřítel} útočí. '
+                zpráva = f'{já.nepřítel} útočí. '
                 if hráč.žije():
                     zpráva += ('Utrpěl jsi zranění.' if skutečný_zásah > 0
                                else 'Ubránil ses.')
@@ -102,17 +102,17 @@ class MístnostBoj(Místnost):
                 vypiš_odstavec(zpráva, 'boj', Barva.ČERVENÁ)
         else:
             try:
-                if not self.nepřítel.zlato_sebráno and self.nepřítel.zlato > 0:
-                    self.nepřítel.zlato_sebráno = True
-                    hráč.zlato += self.nepřítel.zlato
-                    zpráva = (f'Sebral jsi {self.nepřítel.jméno_3_pád.lower()}'
-                              f' {self.nepřítel.zlato} zlaťáků.')
+                if not já.nepřítel.zlato_sebráno and já.nepřítel.zlato > 0:
+                    já.nepřítel.zlato_sebráno = True
+                    hráč.zlato += já.nepřítel.zlato
+                    zpráva = (f'Sebral jsi {já.nepřítel.jméno_3_pád.lower()}'
+                              f' {já.nepřítel.zlato} zlaťáků.')
                     vypiš_odstavec(zpráva, 'štěstí')
-                if not self.nepřítel.zbraň_sebrána:
-                    self.nepřítel.zbraň_sebrána = True
-                    hráč.inventář.append(self.nepřítel.zbraň)
-                    zpráva = (f'Sebral jsi {self.nepřítel.jméno_3_pád.lower()}'
-                              f' {self.nepřítel.zbraň.název_4_pád.lower()}.')
+                if not já.nepřítel.zbraň_sebrána:
+                    já.nepřítel.zbraň_sebrána = True
+                    hráč.inventář.append(já.nepřítel.zbraň)
+                    zpráva = (f'Sebral jsi {já.nepřítel.jméno_3_pád.lower()}'
+                              f' {já.nepřítel.zbraň.název_4_pád.lower()}.')
                     vypiš_odstavec(zpráva, 'štěstí')
             except AttributeError:
                 pass
@@ -127,27 +127,27 @@ class LesBoj(MístnostBoj, Les):
 
 
 class JeskyněObchod(Jeskyně):
-    def __init__(self, x, y, obchodník):
+    def __init__(já, x, y, obchodník):
         super().__init__(x, y)
-        self.text = 'Stojíš u vchodu do jeskyně.'
-        self.obchodník = obchodník
+        já.text = 'Stojíš u vchodu do jeskyně.'
+        já.obchodník = obchodník
 
-    def proveď_obchod(self, kupující, prodejce):
+    def proveď_obchod(já, kupující, prodejce):
         věci_na_prodej = [věc for věc in prodejce.inventář
                           if věc.cena is not None]
         if not věci_na_prodej:
             print(f'{prodejce.jméno} už nemá co nabídnout.'
-                  if prodejce is self.obchodník
+                  if prodejce is já.obchodník
                   else 'Nemáš nic, co bys mohl prodat.')
             return
         else:
             print(f'{prodejce.jméno} nabízí tyto věci:'
-                  if prodejce is self.obchodník
+                  if prodejce is já.obchodník
                   else 'Tyto věci můžeš prodat:')
 
         možnosti = set()
         for číslo, věc in enumerate(věci_na_prodej, 1):
-            cena = (kupující.výkupní_cena(věc) if kupující is self.obchodník
+            cena = (kupující.výkupní_cena(věc) if kupující is já.obchodník
                     else věc.cena)
             if cena <= kupující.zlato:
                 možnosti.add(číslo)
@@ -166,7 +166,7 @@ class JeskyněObchod(Jeskyně):
         if not možnosti:
             print(f'"Došly mi {název_peněz}, {oslovení}!"'
                   f' říká {kupující.jméno.lower()}.'
-                  if kupující is self.obchodník
+                  if kupující is já.obchodník
                   else 'Na žádnou z nich nemáš peníze.')
             return
 
@@ -181,15 +181,15 @@ class JeskyněObchod(Jeskyně):
                 prodejce.inventář.remove(vybráno)
                 kupující.inventář.append(vybráno)
                 cena = (kupující.výkupní_cena(vybráno)
-                        if kupující is self.obchodník
+                        if kupující is já.obchodník
                         else vybráno.cena)
                 prodejce.zlato += cena
                 kupující.zlato -= cena
                 print(f'"Bylo mi potěšením, {oslovení}."'
-                      f' říká {self.obchodník.jméno.lower()}.')
+                      f' říká {já.obchodník.jméno.lower()}.')
                 return
 
-    def obchoduj(self, hráč):
+    def obchoduj(já, hráč):
         while True:
             vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat)',
                         (None, Barva.MODRÁ), konec=' ')
@@ -197,40 +197,40 @@ class JeskyněObchod(Jeskyně):
             if vstup == '':
                 return
             elif vstup == 'K':
-                kupující, prodejce = hráč, self.obchodník
+                kupující, prodejce = hráč, já.obchodník
             else:
-                kupující, prodejce = self.obchodník, hráč
-            self.proveď_obchod(kupující=kupující, prodejce=prodejce)
+                kupující, prodejce = já.obchodník, hráč
+            já.proveď_obchod(kupující=kupující, prodejce=prodejce)
 
-    def popis(self):
-        return self.text + ' ' + self.obchodník.text
+    def popis(já):
+        return já.text + ' ' + já.obchodník.text
 
 
 class JeskyněZlato(Jeskyně):
-    def __init__(self, x, y):
+    def __init__(já, x, y):
         super().__init__(x, y)
-        self.zlato = random.randint(12, 24)
-        self.zlato_sebráno = False
+        já.zlato = random.randint(12, 24)
+        já.zlato_sebráno = False
 
-    def dopad_na_hráče(self, hráč):
-        if not self.zlato_sebráno:
-            self.zlato_sebráno = True
-            hráč.zlato += self.zlato
-            zpráva = f'Našel jsi {self.zlato} zlaťáků.'
+    def dopad_na_hráče(já, hráč):
+        if not já.zlato_sebráno:
+            já.zlato_sebráno = True
+            hráč.zlato += já.zlato
+            zpráva = f'Našel jsi {já.zlato} zlaťáků.'
             vypiš_odstavec(zpráva, 'štěstí')
 
 
 class JeskyněArtefakt(Jeskyně):
-    def __init__(self, x, y, artefakt):
+    def __init__(já, x, y, artefakt):
         super().__init__(x, y)
-        self.artefakt = artefakt
-        self.artefakt_sebrán = False
+        já.artefakt = artefakt
+        já.artefakt_sebrán = False
 
-    def dopad_na_hráče(self, hráč):
-        if not self.artefakt_sebrán:
-            self.artefakt_sebrán = True
-            hráč.artefakty.append(self.artefakt)
-            zpráva = f'Našel jsi {self.artefakt.název_4_pád.lower()}.'
+    def dopad_na_hráče(já, hráč):
+        if not já.artefakt_sebrán:
+            já.artefakt_sebrán = True
+            hráč.artefakty.append(já.artefakt)
+            zpráva = f'Našel jsi {já.artefakt.název_4_pád.lower()}.'
             vypiš_odstavec(zpráva, 'štěstí')
             if hráč.svět.poklad_posbírán():
                 uděl_odměnu(hráč, 300, 'nalezení všech magických předmětů')
@@ -244,7 +244,7 @@ class JeskyněArtefakt(Jeskyně):
 
 
 class MístnostZbraň(Místnost):
-    def __init__(self, x, y):
+    def __init__(já, x, y):
         super().__init__(x, y)
         if (x, y) == (27, 23):
             parametry = ('Rezavá dýka', 9, 31, 'Rezavou dýku')
@@ -253,19 +253,19 @@ class MístnostZbraň(Místnost):
         else:
             parametry = random.choice((('Ostnatý palcát', 18, 82),
                                        ('Řemdih', 20, 91)))
-        self.zbraň = veci.Zbraň(*parametry)
-        self.zbraň_sebrána = False
+        já.zbraň = veci.Zbraň(*parametry)
+        já.zbraň_sebrána = False
 
-    def dopad_na_hráče(self, hráč):
-        if not self.zbraň_sebrána:
-            self.zbraň_sebrána = True
-            hráč.inventář.append(self.zbraň)
-            if isinstance(self, Les):
+    def dopad_na_hráče(já, hráč):
+        if not já.zbraň_sebrána:
+            já.zbraň_sebrána = True
+            hráč.inventář.append(já.zbraň)
+            if isinstance(já, Les):
                 zpráva = ('V křoví u cesty jsi našel'
-                          f' {self.zbraň.název_4_pád.lower()}.')
+                          f' {já.zbraň.název_4_pád.lower()}.')
             else:
                 zpráva = ('Ve skulině pod kamenem jsi našel'
-                          f' {self.zbraň.název_4_pád.lower()}.')
+                          f' {já.zbraň.název_4_pád.lower()}.')
             vypiš_odstavec(zpráva, 'štěstí')
 
 
@@ -278,7 +278,7 @@ class LesZbraň(MístnostZbraň, Les):
 
 
 class LesLéčivka(Les):
-    def __init__(self, x, y):
+    def __init__(já, x, y):
         super().__init__(x, y)
         if (x, y) == (34, 23):
             parametry = ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami')
@@ -294,14 +294,14 @@ class LesLéčivka(Les):
                 ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
                 ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
             ))
-        self.léčivka = veci.Léčivka(*parametry)
-        self.léčivka_sebrána = False
+        já.léčivka = veci.Léčivka(*parametry)
+        já.léčivka_sebrána = False
 
-    def dopad_na_hráče(self, hráč):
-        if not self.léčivka_sebrána:
-            self.léčivka_sebrána = True
-            hráč.inventář.append(self.léčivka)
-            zpráva = f'Našel jsi {self.léčivka.název_4_pád.lower()}.'
+    def dopad_na_hráče(já, hráč):
+        if not já.léčivka_sebrána:
+            já.léčivka_sebrána = True
+            hráč.inventář.append(já.léčivka)
+            zpráva = f'Našel jsi {já.léčivka.název_4_pád.lower()}.'
             vypiš_odstavec(zpráva, 'štěstí')
 
 
@@ -338,20 +338,20 @@ mf    g  cc c       c c  c    c  cCc
 
 
 class Svět:
-    def __init__(self):
-        self.mapa = []
-        self.začátek = None
-        self.načti_mapu(mapa_hry)
+    def __init__(já):
+        já.mapa = []
+        já.začátek = None
+        já.načti_mapu(mapa_hry)
 
-    def místnost_na_pozici(self, x, y):
+    def místnost_na_pozici(já, x, y):
         if x < 0 or y < 0:
             return None
         try:
-            return self.mapa[y][x]
+            return já.mapa[y][x]
         except IndexError:
             return None
 
-    def načti_mapu(self, mapa):
+    def načti_mapu(já, mapa):
         data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
             ('Rubínový kříž', Barva.ČERVENÁ),
@@ -419,27 +419,27 @@ class Svět:
                             ' nehostinné Hory běsů. Vrchol jejího hrozivého'
                             ' štítu je zahalen nízkým mračnem.'
                         )
-                        self.začátek = místnost
+                        já.začátek = místnost
                 else:
                     řádka_mapy.append(None)
 
-            self.mapa.append(řádka_mapy)
+            já.mapa.append(řádka_mapy)
 
-    def poklad_posbírán(self):
-        return all(místnost.artefakt_sebrán for místnost in self
+    def poklad_posbírán(já):
+        return all(místnost.artefakt_sebrán for místnost in já
                    if hasattr(místnost, 'artefakt_sebrán'))
 
-    def nepřátelé_pobiti(self):
-        return not any(místnost.nepřítel.žije() for místnost in self
+    def nepřátelé_pobiti(já):
+        return not any(místnost.nepřítel.žije() for místnost in já
                        if hasattr(místnost, 'nepřítel'))
 
-    def vše_navštíveno(self):
-        return all(místnost.navštívena for místnost in self)
+    def vše_navštíveno(já):
+        return all(místnost.navštívena for místnost in já)
 
-    def mapa_navštívených(self, pozice_hráče):
+    def mapa_navštívených(já, pozice_hráče):
         mapa = []
         ořez_vlevo, ořez_vpravo = 1000, 1000
-        for řádka in self.mapa:
+        for řádka in já.mapa:
             řádka_mapy = []
             for místnost in řádka:
                 try:
@@ -466,6 +466,6 @@ class Svět:
 
         return mapa
 
-    def __iter__(self):
-        return iter(místnost for řádka in self.mapa for místnost in řádka
+    def __iter__(já):
+        return iter(místnost for řádka in já.mapa for místnost in řádka
                     if místnost is not None)
