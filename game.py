@@ -19,7 +19,7 @@ def hra():
             místnost.navštívena = True
             if hráč.svět.vše_navštíveno():
                 utils.uděl_odměnu(hráč, 100, 'prozkoumání všech míst')
-            if místnost is hráč.svět.start:
+            if místnost is hráč.svět.začátek:
                 utils.vypiš_odstavec(
                     'Svou rodnou vesnici, stejně jako vcelku poklidný život'
                     ' pekařského učedníka, jsi nechal daleko za sebou a vydal'
@@ -31,7 +31,7 @@ def hra():
                     ' smrtelníkovi mohou přinést nadlidské schopnosti.'
                 )
 
-        if místnost is hráč.svět.start and hráč.svět.poklad_posbírán():
+        if místnost is hráč.svět.začátek and hráč.svět.poklad_posbírán():
             break
 
         while True:

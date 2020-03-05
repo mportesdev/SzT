@@ -107,7 +107,7 @@ def zobraz_možnosti(možnosti):
 
 
 def uděl_odměnu(hráč, odměna, za_co):
-    hráč.xp += odměna
+    hráč.zkušenost += odměna
     vypiš_odstavec(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
                    barva=Barva.FIALOVÁ)
 
@@ -167,7 +167,7 @@ def vyber_akci(hráč, fronta_příkazů):
         if not fronta_příkazů:
             zobraz_možnosti(možnosti)
             vícebarevně(f'[ Zdraví: |{hráč.zdraví:<8}|'
-                        f'zkušenost: |{hráč.xp:<7}|'
+                        f'zkušenost: |{hráč.zkušenost:<7}|'
                         f'zlato: |{hráč.zlato}| ]', (Barva.FIALOVÁ, None))
             print()
 

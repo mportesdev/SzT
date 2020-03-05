@@ -33,17 +33,10 @@ class Nepřítel:
 
 
 class Zvíře(Nepřítel):
-    """Enemies of this class only cause damage to the player and take
-    damage from the player's attacks.
-    """
     pass
 
 
 class Netvor(Nepřítel):
-    """Enemies of this class cause damage to the player, take damage
-    from the player's attacks, and leave a random gold treasure after
-    being killed.
-    """
     def __init__(self, jméno, zdraví, útok,
                  jméno_3_pád=None, jméno_4_pád=None,
                  text_živý=None, text_mrtvý=None):
@@ -74,10 +67,6 @@ class Netvor(Nepřítel):
 
 
 class Člověk(Nepřítel):
-    """Enemies of this class cause damage to the player, take damage
-    from the player's attacks, and drop their weapon after being
-    killed, along with an optional amount of gold.
-    """
     def __init__(self, jméno, zdraví, zbraň,
                  jméno_3_pád=None, jméno_4_pád=None,
                  text_živý=None, text_mrtvý=None):

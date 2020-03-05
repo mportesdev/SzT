@@ -88,7 +88,7 @@ class MístnostBoj(Místnost):
                 )
             else:
                 skutečný_zásah_nepřítele = s_odchylkou(self.nepřítel.útok)
-                obranný_bonus = hráč.xp // 200
+                obranný_bonus = hráč.zkušenost // 200
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
                 hráč.zdraví -= max(skutečný_zásah, 0)
@@ -96,7 +96,7 @@ class MístnostBoj(Místnost):
                 if hráč.žije():
                     zpráva += ('Utrpěl jsi zranění.' if skutečný_zásah > 0
                                else 'Ubránil ses.')
-                    hráč.xp += 1
+                    hráč.zkušenost += 1
                 else:
                     zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
                 vypiš_odstavec(zpráva, 'boj', Barva.ČERVENÁ)
@@ -109,7 +109,7 @@ class MístnostBoj(Místnost):
                               f' {self.nepřítel.zlato} zlaťáků.')
                     vypiš_odstavec(zpráva, 'štěstí')
                 if not self.nepřítel.zbraň_sebrána:
-                    self.nepřítel.weapon_claimed = True
+                    self.nepřítel.zbraň_sebrána = True
                     hráč.inventář.append(self.nepřítel.zbraň)
                     zpráva = (f'Sebral jsi {self.nepřítel.jméno_3_pád.lower()}'
                               f' {self.nepřítel.zbraň.název_4_pád.lower()}.')
@@ -146,12 +146,12 @@ class JeskyněObchod(Jeskyně):
                   else 'Tyto věci můžeš prodat:')
 
         možnosti = set()
-        for i, věc in enumerate(věci_na_prodej, 1):
+        for číslo, věc in enumerate(věci_na_prodej, 1):
             cena = (kupující.výkupní_cena(věc) if kupující is self.obchodník
                     else věc.cena)
             if cena <= kupující.zlato:
-                možnosti.add(i)
-                číslo_položky = f'{i:3}.'
+                možnosti.add(číslo)
+                číslo_položky = f'{číslo:3}.'
             else:
                 číslo_položky = '    '
             print(f'{číslo_položky} ', end='')
@@ -236,7 +236,7 @@ class JeskyněArtefakt(Jeskyně):
                 uděl_odměnu(hráč, 300, 'nalezení všech magických předmětů')
                 vypiš_odstavec('Artefakty teď musíš vynést ven z jeskyně a'
                                ' dojít s nimi na začátek své cesty.')
-                hráč.svět.start.text += (
+                hráč.svět.začátek.text += (
                     ' Překonal jsi všechny nástrahy a skutečně se ti podařilo'
                     ' získat kýžené magické artefakty. Otevírá se před tebou'
                     ' svět neomezených možností.'
@@ -340,7 +340,7 @@ mf    g  cc c       c c  c    c  cCc
 class Svět:
     def __init__(self):
         self.mapa = []
-        self.start = None
+        self.začátek = None
         self.načti_mapu(mapa_hry)
 
     def místnost_na_pozici(self, x, y):
@@ -417,7 +417,7 @@ class Svět:
                             ' nehostinné Hory běsů. Vrchol jejího hrozivého'
                             ' štítu je zahalen nízkým mračnem.'
                         )
-                        self.start = místnost
+                        self.začátek = místnost
                 else:
                     řádka_mapy.append(None)
 

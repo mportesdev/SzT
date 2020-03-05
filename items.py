@@ -29,7 +29,7 @@ class Léčivka(Věc):
     def __str__(self):
         return f'{self.název_4_pád} (zdraví +{self.léčivá_síla})'
 
-    def str_7(self):
+    def popis_7_pád(self):
         return f'{self.název_7_pád} (zdraví +{self.léčivá_síla})'
 
 

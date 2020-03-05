@@ -7,21 +7,21 @@ from utils import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevn
                   uděl_odměnu, vstup_z_možností, s_odchylkou
 from world import Svět
 
-InventoryList = List[Union[items.Zbraň, items.Léčivka]]
+PoložkyInventáře = List[Union[items.Zbraň, items.Léčivka]]
 
 
 class Hráč:
     def __init__(self):
-        self.inventář: InventoryList = [
+        self.inventář: PoložkyInventáře = [
             items.Zbraň('Tupý nůž', 5, 13),
             items.Léčivka('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
         self.artefakty = []
         self.svět = Svět()
-        self.x, self.y = self.svět.start.x, self.svět.start.y
+        self.x, self.y = self.svět.začátek.x, self.svět.začátek.y
         self.zdraví = 100
         self.zlato = 10
-        self.xp = 0
+        self.zkušenost = 0
         self.zdařilý_zásah = False
 
     def žije(self):
@@ -42,21 +42,21 @@ class Hráč:
         except ValueError:
             return
 
-    def jdi(self, dx, dy):
-        self.x += dx
-        self.y += dy
+    def jdi(self, rozdíl_x, rozdíl_y):
+        self.x += rozdíl_x
+        self.y += rozdíl_y
 
     def jdi_na_sever(self):
-        self.jdi(dx=0, dy=-1)
+        self.jdi(rozdíl_x=0, rozdíl_y=-1)
 
     def jdi_na_jih(self):
-        self.jdi(dx=0, dy=1)
+        self.jdi(rozdíl_x=0, rozdíl_y=1)
 
     def jdi_na_východ(self):
-        self.jdi(dx=1, dy=0)
+        self.jdi(rozdíl_x=1, rozdíl_y=0)
 
     def jdi_na_západ(self):
-        self.jdi(dx=-1, dy=0)
+        self.jdi(rozdíl_x=-1, rozdíl_y=0)
 
     def bojuj(self):
         nepřítel = self.místnost_pobytu().nepřítel
@@ -71,11 +71,11 @@ class Hráč:
         self.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
                               and nepřítel.krátké_jméno not in ('troll',
                                                                 'dobrodruh'))
-        útočný_bonus = self.xp // 200
+        útočný_bonus = self.zkušenost // 200
         skutečný_zásah = min(skutečný_zásah_zbraní + útočný_bonus,
                              nepřítel.zdraví)
         nepřítel.zdraví -= skutečný_zásah
-        self.xp += skutečný_zásah
+        self.zkušenost += skutečný_zásah
         zpráva = (f'Použil jsi {název_zbraně} proti'
                   f' {nepřítel.jméno_3_pád.lower()}.')
         if not nepřítel.žije():
@@ -93,9 +93,9 @@ class Hráč:
                    if isinstance(věc, items.Léčivka)]
 
         print('Čím se chceš kurýrovat?')
-        for i, věc in enumerate(léčivky, 1):
-            print(f'{i:3}. ', end='')
-            vypiš_barevně(f'{věc.str_7()}', barva=Barva.TYRKYS)
+        for číslo, věc in enumerate(léčivky, 1):
+            print(f'{číslo:3}. ', end='')
+            vypiš_barevně(f'{věc.popis_7_pád()}', barva=Barva.TYRKYS)
 
         while True:
             vícebarevně('Číslo položky             (|Enter| = návrat)',
