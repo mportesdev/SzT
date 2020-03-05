@@ -2,7 +2,7 @@
 
 import random
 
-import items
+import veci
 
 
 class Nepřítel:
@@ -82,7 +82,7 @@ class Člověk(Nepřítel):
     def dobrodruh(cls):
         return cls(jméno='Cizí dobrodruh',
                    zdraví=98,
-                   zbraň=items.Zbraň('Železné kopí', 18, 85),
+                   zbraň=veci.Zbraň('Železné kopí', 18, 85),
                    jméno_3_pád='Dobrodruhovi',
                    jméno_4_pád='Dobrodruha',
                    text_živý='Vrhl se na tebe pološílený dobrodruh - jiný hráč'

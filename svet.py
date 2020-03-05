@@ -2,11 +2,11 @@
 
 import random
 
-import enemies
-import items
-import npc
-from utils import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
+import nepratele
+import postavy
+from utility import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
                   uděl_odměnu, vstup_z_možností, s_odchylkou, okraje
+import veci
 
 
 class Místnost:
@@ -253,7 +253,7 @@ class MístnostZbraň(Místnost):
         else:
             parametry = random.choice((('Ostnatý palcát', 18, 82),
                                        ('Řemdih', 20, 91)))
-        self.zbraň = items.Zbraň(*parametry)
+        self.zbraň = veci.Zbraň(*parametry)
         self.zbraň_sebrána = False
 
     def dopad_na_hráče(self, hráč):
@@ -294,7 +294,7 @@ class LesLéčivka(Les):
                 ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
                 ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
             ))
-        self.léčivka = items.Léčivka(*parametry)
+        self.léčivka = veci.Léčivka(*parametry)
         self.léčivka_sebrána = False
 
     def dopad_na_hráče(self, hráč):
@@ -388,24 +388,26 @@ class Svět:
 
                 parametry = {}
                 if kód_místnosti == 'M':
-                    parametry.update(obchodník=npc.Obchodník.mastičkář())
+                    parametry.update(obchodník=postavy.Obchodník.mastičkář())
                 elif kód_místnosti == 'W':
-                    parametry.update(obchodník=npc.Obchodník.zbrojíř())
+                    parametry.update(obchodník=postavy.Obchodník.zbrojíř())
                 elif kód_místnosti == 'C':
                     parametry.update(
-                        nepřítel=enemies.náhodný_jeskynní_nepřítel()
+                        nepřítel=nepratele.náhodný_jeskynní_nepřítel()
                     )
                 elif kód_místnosti == 'F':
-                    parametry.update(nepřítel=enemies.náhodný_lesní_nepřítel())
+                    parametry.update(
+                        nepřítel=nepratele.náhodný_lesní_nepřítel()
+                    )
                 elif kód_místnosti == 't':
-                    parametry.update(nepřítel=enemies.Netvor.lesní_troll())
+                    parametry.update(nepřítel=nepratele.Netvor.lesní_troll())
                 elif kód_místnosti == 'T':
-                    parametry.update(nepřítel=enemies.Netvor.troll())
+                    parametry.update(nepřítel=nepratele.Netvor.troll())
                 elif kód_místnosti == 'H':
-                    parametry.update(nepřítel=enemies.Člověk.dobrodruh())
+                    parametry.update(nepřítel=nepratele.Člověk.dobrodruh())
                 elif kód_místnosti == 'A':
                     parametry.update(
-                        artefakt=items.Artefakt(*data_artefaktů.pop())
+                        artefakt=veci.Artefakt(*data_artefaktů.pop())
                     )
 
                 if typ_místnosti:

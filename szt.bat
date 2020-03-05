@@ -1,1 +1,1 @@
-.\venv\Scripts\python game.py %1
+.\venv\Scripts\python hra.py %1

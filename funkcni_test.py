@@ -1,5 +1,5 @@
-from player import Hráč
-from utils import zjisti_možné_akce
+from hrac import Hráč
+from utility import zjisti_možné_akce
 
 
 def test_zakladni_pruchod_hrou():

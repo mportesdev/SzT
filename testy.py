@@ -1,15 +1,15 @@
 from collections import Counter
 import pytest
 
-from items import Věc
-from npc import Obchodník
-from utils import Barva, vícebarevně, s_odchylkou, skupiny_kláves, okraje
-import world
+from postavy import Obchodník
+import svet
+from utility import Barva, vícebarevně, s_odchylkou, skupiny_kláves, okraje
+from veci import Věc
 
 
 @pytest.fixture
 def svět():
-    return world.Svět()
+    return svet.Svět()
 
 
 @pytest.mark.parametrize('x, y', ((0, 1), (-1, -1), (33, 28), (34, 27),
@@ -19,10 +19,10 @@ def test_mistnost_na_pozici_je_none(svět, x, y):
     assert svět.místnost_na_pozici(x, y) is None
 
 
-@pytest.mark.parametrize('x, y, typ_místnosti', ((8, 6, world.Les),
-                                                 (25, 12, world.JeskyněBoj),
-                                                 (19, 12, world.JeskyněZbraň),
-                                                 (22, 14, world.JeskyněZlato)))
+@pytest.mark.parametrize('x, y, typ_místnosti', ((8, 6, svet.Les),
+                                                 (25, 12, svet.JeskyněBoj),
+                                                 (19, 12, svet.JeskyněZbraň),
+                                                 (22, 14, svet.JeskyněZlato)))
 def test_mistnost_na_pozici_je_spravny_typ(svět, x, y, typ_místnosti):
     """Test world.Svět.místnost_na_pozici"""
     assert isinstance(svět.místnost_na_pozici(x, y), typ_místnosti)

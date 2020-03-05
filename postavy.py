@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import items
+import veci
 
 
 class Obchodník:
@@ -25,17 +25,17 @@ class Obchodník:
                          ' nějaké věci, určené patrně na prodej.'),
                    zlato=350,
                    inventář=[
-                       items.Léčivka('Hojivá mast', 11, 13, 'Hojivou mastí',
-                                        'Hojivou mast'),
-                       items.Léčivka('Lahvička medicíny', 28, 37,
-                                        'Lahvičkou medicíny',
-                                        'Lahvičku medicíny'),
-                       items.Léčivka('Léčivý lektvar', 39, 53,
-                                        'Léčivým lektvarem'),
-                       items.Zbraň('Zálesácká sekerka', 12, 51,
-                                    'Zálesáckou sekerku'),
-                       items.Léčivka('Speciální lektvar', 52, 67,
-                                        'Speciálním lektvarem'),
+                       veci.Léčivka('Hojivá mast', 11, 13, 'Hojivou mastí',
+                                    'Hojivou mast'),
+                       veci.Léčivka('Lahvička medicíny', 28, 37,
+                                    'Lahvičkou medicíny',
+                                    'Lahvičku medicíny'),
+                       veci.Léčivka('Léčivý lektvar', 39, 53,
+                                    'Léčivým lektvarem'),
+                       veci.Zbraň('Zálesácká sekerka', 12, 51,
+                                  'Zálesáckou sekerku'),
+                       veci.Léčivka('Speciální lektvar', 52, 67,
+                                    'Speciálním lektvarem'),
                              ],
                    mluva=('prašule', 'vašnosto'))
 
@@ -46,10 +46,10 @@ class Obchodník:
                          ' vestě a bronzové přilbici.'),
                    zlato=450,
                    inventář=[
-                       items.Zbraň('Obouruční meč', 24, 112),
-                       items.Zbraň('Těžká sekera', 26, 121, 'Těžkou sekeru'),
-                       items.Léčivka('Hojivá mast', 14, 18, 'Hojivou mastí',
-                                        'Hojivou mast'),
-                       items.Zbraň('Halapartna', 19, 99, 'Halapartnu'),
+                       veci.Zbraň('Obouruční meč', 24, 112),
+                       veci.Zbraň('Těžká sekera', 26, 121, 'Těžkou sekeru'),
+                       veci.Léčivka('Hojivá mast', 14, 18, 'Hojivou mastí',
+                                    'Hojivou mast'),
+                       veci.Zbraň('Halapartna', 19, 99, 'Halapartnu'),
                              ],
                    mluva=('finance', 'sire'))

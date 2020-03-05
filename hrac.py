@@ -2,19 +2,19 @@
 
 from typing import List, Union
 
-import items
-from utils import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
+from svet import Svět
+from utility import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
                   uděl_odměnu, vstup_z_možností, s_odchylkou
-from world import Svět
+import veci
 
-PoložkyInventáře = List[Union[items.Zbraň, items.Léčivka]]
+PoložkyInventáře = List[Union[veci.Zbraň, veci.Léčivka]]
 
 
 class Hráč:
     def __init__(self):
         self.inventář: PoložkyInventáře = [
-            items.Zbraň('Tupý nůž', 5, 13),
-            items.Léčivka('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
+            veci.Zbraň('Tupý nůž', 5, 13),
+            veci.Léčivka('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
         self.artefakty = []
         self.svět = Svět()
@@ -85,12 +85,12 @@ class Hráč:
             uděl_odměnu(self, 200, 'zabití všech nepřátel')
 
     def má_léčivky(self):
-        return any(isinstance(věc, items.Léčivka)
+        return any(isinstance(věc, veci.Léčivka)
                    for věc in self.inventář)
 
     def kurýruj_se(self):
         léčivky = [věc for věc in self.inventář
-                   if isinstance(věc, items.Léčivka)]
+                   if isinstance(věc, veci.Léčivka)]
 
         print('Čím se chceš kurýrovat?')
         for číslo, věc in enumerate(léčivky, 1):
