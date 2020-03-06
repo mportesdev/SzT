@@ -187,20 +187,20 @@ def test_zakladni_pruchod_hrou():
     hráč.jdi_na_sever()
     assert 'O' in zjisti_možné_akce(hráč)
 
-    obchodník = hráč.místnost_pobytu().obchodník
+    mastičkář = hráč.místnost_pobytu().obchodník
     zlato = hráč.zlato
-    hráč.prodej(nůž, obchodník)
-    hráč.prodej(dýka, obchodník)
+    hráč.prodej(nůž, mastičkář)
+    hráč.prodej(dýka, mastičkář)
     assert hráč.zlato == zlato + 11 + 27
 
     # koupí sekerku za 51 (v případě nedostatku peněz prodá ještě něco)
-    sekerka = next(věc for věc in obchodník.inventář if 'sekerka' in věc.název)
+    sekerka = next(věc for věc in mastičkář.inventář if 'sekerka' in věc.název)
     while hráč.zlato < sekerka.cena:
         hráč.prodej(min((věc for věc in hráč.inventář
                          if věc.cena >= sekerka.cena - hráč.zlato),
                         key=lambda v: v.cena),
-                    obchodník)
-    hráč.kup(sekerka, obchodník)
+                    mastičkář)
+    hráč.kup(sekerka, mastičkář)
     assert hráč.nejlepší_zbraň() is sekerka
     hráč.vypiš_věci()
 
@@ -375,16 +375,16 @@ def test_zakladni_pruchod_hrou():
     hráč.jdi_na_sever()
     assert 'O' in zjisti_možné_akce(hráč)
     zlato = hráč.zlato
-    hráč.prodej(sekerka, obchodník)
+    hráč.prodej(sekerka, mastičkář)
     assert hráč.zlato == zlato + 45
 
     # koupí nejlepší léčiva, na která má peníze
-    for léčivo in sorted((věc for věc in obchodník.inventář
+    for léčivo in sorted((věc for věc in mastičkář.inventář
                           if hasattr(věc, 'léčivá_síla')),
                          key=lambda v: v.léčivá_síla,
                          reverse=True):
         if léčivo.cena <= hráč.zlato:
-            hráč.kup(léčivo, obchodník)
+            hráč.kup(léčivo, mastičkář)
             print(f'Koupil jsi {léčivo}')
     hráč.vypiš_věci()
 
@@ -509,7 +509,7 @@ def test_zakladni_pruchod_hrou():
     hráč.jdi_na_jih()
     assert 'O' in zjisti_možné_akce(hráč)
     zlato = hráč.zlato
-    hráč.prodej(meč, obchodník)
+    hráč.prodej(meč, mastičkář)
     assert hráč.zlato == zlato + 62
     hráč.vypiš_věci()
 
