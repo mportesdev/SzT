@@ -178,13 +178,10 @@ class JeskyněObchod(Jeskyně):
                 return
             else:
                 vybráno = prodejce.inventář[vstup - 1]
-                prodejce.inventář.remove(vybráno)
-                kupující.inventář.append(vybráno)
-                cena = (kupující.výkupní_cena(vybráno)
-                        if kupující is já.obchodník
-                        else vybráno.cena)
-                prodejce.zlato += cena
-                kupující.zlato -= cena
+                if prodejce is já.obchodník:
+                    kupující.kup(vybráno, prodejce)
+                else:
+                    prodejce.prodej(vybráno, kupující)
                 print(f'"Bylo mi potěšením, {oslovení}."'
                       f' říká {já.obchodník.jméno.lower()}.')
                 return

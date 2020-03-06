@@ -114,6 +114,20 @@ class Hráč:
     def obchoduj(já):
         já.místnost_pobytu().obchoduj(já)
 
+    def kup(já, věc, prodejce):
+        prodejce.inventář.remove(věc)
+        já.inventář.append(věc)
+        cena = věc.cena
+        prodejce.zlato += cena
+        já.zlato -= cena
+
+    def prodej(já, věc, kupující):
+        já.inventář.remove(věc)
+        kupující.inventář.append(věc)
+        cena = kupující.výkupní_cena(věc)
+        já.zlato += cena
+        kupující.zlato -= cena
+
     def místnost_pobytu(já):
         return já.svět.místnost_na_pozici(já.x, já.y)
 

@@ -162,10 +162,7 @@ def test_zakladni_pruchod_hrou():
     # stojí na severo-jižní cestě poblíž vchodu do jeskyně
     assert (hráč.x, hráč.y) == (24, 20)
 
-    # dojde k obchodníkovi pro sekerku
-    # TODO
-
-    # sebere další dvě léčivky v okolí
+    # sebere další léčivku
     hráč.jdi_na_sever()
     hráč.jdi_na_západ()
     hráč.jdi_na_západ()
@@ -175,10 +172,38 @@ def test_zakladni_pruchod_hrou():
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
     assert len(hráč.inventář) == počet_věcí + 1
 
+    # dojde k obchodníkovi, prodá nůž a dýku za 11 + 27
     hráč.jdi_na_východ()
     hráč.jdi_na_jih()
     hráč.jdi_na_východ()
     hráč.jdi_na_východ()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_sever()
+    assert 'O' in zjisti_možné_akce(hráč)
+
+    obchodník = hráč.místnost_pobytu().obchodník
+    zlato = hráč.zlato
+    nůž = next(věc for věc in hráč.inventář if 'nůž' in věc.název)
+    hráč.prodej(nůž, obchodník)
+    dýka = next(věc for věc in hráč.inventář if 'dýka' in věc.název)
+    hráč.prodej(dýka, obchodník)
+    assert hráč.zlato == zlato + 11 + 27
+
+    # koupí sekerku za 51
+    sekerka = next(věc for věc in obchodník.inventář if 'sekerka' in věc.název)
+    while hráč.zlato < sekerka.cena:
+        hráč.prodej(min((věc for věc in hráč.inventář
+                         if věc.cena >= sekerka.cena - hráč.zlato),
+                        key=lambda v: v.cena),
+                    obchodník)
+    hráč.kup(sekerka, obchodník)
+    assert hráč.nejlepší_zbraň() is sekerka
+
+    # sebere další léčivku
+    hráč.jdi_na_jih()
+    hráč.jdi_na_jih()
+    hráč.jdi_na_jih()
     hráč.jdi_na_jih()
     hráč.jdi_na_jih()
     hráč.jdi_na_jih()
