@@ -463,7 +463,7 @@ def test_zakladni_pruchod_hrou():
         except AttributeError:
             continue
 
-    # dojde na místo se zbraní (palcát nebo řemdih) a sebere ji
+    # dojde na místo se zbraní (palcát, řemdih nebo mačeta) a sebere ji
     hráč.jdi_na_západ()
     hráč.jdi_na_západ()
     hráč.jdi_na_jih()

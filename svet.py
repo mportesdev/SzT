@@ -241,16 +241,9 @@ class JeskyněArtefakt(Jeskyně):
 
 
 class MístnostZbraň(Místnost):
-    def __init__(já, x, y):
+    def __init__(já, x, y, zbraň):
         super().__init__(x, y)
-        if (x, y) == (27, 23):
-            parametry = ('Rezavá dýka', 9, 31, 'Rezavou dýku')
-        elif (x, y) == (15, 18):
-            parametry = ('Zrezivělý meč', 16, 69)
-        else:
-            parametry = random.choice((('Ostnatý palcát', 18, 82),
-                                       ('Řemdih', 20, 91)))
-        já.zbraň = veci.Zbraň(*parametry)
+        já.zbraň = zbraň
         já.zbraň_sebrána = False
 
     def dopad_na_hráče(já, hráč):
@@ -357,6 +350,12 @@ class Svět:
             ('Safírový trojzubec', Barva.MODRÁ)
         }
 
+        data_zbraní = {
+            ('Ostnatý palcát', 18, 82),
+            ('Damascénská mačeta', 19, 88, 'Damascénskou mačetu'),
+            ('Řemdih', 20, 91),
+        }
+
         if mapa.count('1') > len(data_artefaktů):
             raise ValueError('Nedostatek dat pro artefakty')
         if mapa.count('S') != 1:
@@ -406,6 +405,13 @@ class Svět:
                     parametry.update(
                         artefakt=veci.Artefakt(*data_artefaktů.pop())
                     )
+                elif kód_místnosti == 'w':
+                    parametry.update(zbraň=veci.Zbraň(*data_zbraní.pop()))
+                elif kód_místnosti == 'x':
+                    parametry_zbraně = (('Rezavá dýka', 9, 31, 'Rezavou dýku')
+                                        if (x, y) == (27, 23)
+                                        else ('Zrezivělý meč', 16, 69))
+                    parametry.update(zbraň=veci.Zbraň(*parametry_zbraně))
 
                 if typ_místnosti:
                     místnost = typ_místnosti(x, y, **parametry)
