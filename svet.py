@@ -213,8 +213,7 @@ class JeskyněZlato(Jeskyně):
         if not já.zlato_sebráno:
             já.zlato_sebráno = True
             hráč.zlato += já.zlato
-            zpráva = f'Našel jsi {já.zlato} zlaťáků.'
-            vypiš_odstavec(zpráva, 'štěstí')
+            vypiš_odstavec(f'Našel jsi {já.zlato} zlaťáků.', 'štěstí')
 
 
 class JeskyněArtefakt(Jeskyně):
@@ -227,8 +226,8 @@ class JeskyněArtefakt(Jeskyně):
         if not já.artefakt_sebrán:
             já.artefakt_sebrán = True
             hráč.artefakty.append(já.artefakt)
-            zpráva = f'Našel jsi {já.artefakt.název_4_pád.lower()}.'
-            vypiš_odstavec(zpráva, 'štěstí')
+            vypiš_odstavec(f'Našel jsi {já.artefakt.název_4_pád.lower()}.',
+                           'štěstí')
             if hráč.svět.poklad_posbírán():
                 uděl_odměnu(hráč, 300, 'nalezení všech magických předmětů')
                 vypiš_odstavec('Artefakty teď musíš vynést ven z jeskyně a'
@@ -291,8 +290,8 @@ class LesLéčivka(Les):
         if not já.léčivka_sebrána:
             já.léčivka_sebrána = True
             hráč.inventář.append(já.léčivka)
-            zpráva = f'Našel jsi {já.léčivka.název_4_pád.lower()}.'
-            vypiš_odstavec(zpráva, 'štěstí')
+            vypiš_odstavec(f'Našel jsi {já.léčivka.název_4_pád.lower()}.',
+                           'štěstí')
 
 
 mapa_hry = '''
@@ -358,6 +357,8 @@ class Svět:
 
         if mapa.count('1') > len(data_artefaktů):
             raise ValueError('Nedostatek dat pro artefakty')
+        if mapa.count('w') > len(data_zbraní):
+            raise ValueError('Nedostatek dat pro zbraně')
         if mapa.count('S') != 1:
             raise ValueError('Na mapě musí být přesně jedna startovní místnost')
 

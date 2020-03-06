@@ -74,11 +74,10 @@ class Člověk(Nepřítel):
     def __init__(já, jméno, zdraví, zbraň,
                  jméno_3_pád=None, jméno_4_pád=None,
                  text_živý=None, text_mrtvý=None):
-        super().__init__(jméno, zdraví, None,
-                         jméno_3_pád, jméno_4_pád, text_živý, text_mrtvý)
         já.zbraň = zbraň
+        super().__init__(jméno, zdraví, já.zbraň.útok,
+                         jméno_3_pád, jméno_4_pád, text_živý, text_mrtvý)
         já.zbraň_sebrána = False
-        já.útok = já.zbraň.útok
         já.zlato = random.choice((0, random.randint(10, 20)))
         já.zlato_sebráno = False
 

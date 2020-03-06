@@ -90,7 +90,7 @@ def zobraz_titul():
 
 
 def vypiš_název_akce(název_akce):
-    vypiš_barevně(f' {název_akce.strip()} '.center(ŠÍŘKA, '-'),
+    vypiš_barevně(f' {název_akce} '.center(ŠÍŘKA, '-'),
                   barva=Barva.FIALOVÁ, end='\n\n')
 
 
