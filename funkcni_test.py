@@ -59,9 +59,8 @@ def test_zakladni_pruchod_hrou():
         try:
             if věc.léčivá_síla <= 100 - hráč.zdraví:
                 print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.zdraví += věc.léčivá_síla
+                hráč.spotřebuj(věc)
                 print(hráč.zdraví)
-                hráč.inventář.remove(věc)
         except AttributeError:
             continue
 
@@ -112,9 +111,8 @@ def test_zakladni_pruchod_hrou():
         try:
             if věc.léčivá_síla <= 100 - hráč.zdraví:
                 print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.zdraví += věc.léčivá_síla
+                hráč.spotřebuj(věc)
                 print(hráč.zdraví)
-                hráč.inventář.remove(věc)
         except AttributeError:
             continue
 
@@ -153,9 +151,8 @@ def test_zakladni_pruchod_hrou():
         try:
             if věc.léčivá_síla <= 100 - hráč.zdraví:
                 print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.zdraví += věc.léčivá_síla
+                hráč.spotřebuj(věc)
                 print(hráč.zdraví)
-                hráč.inventář.remove(věc)
         except AttributeError:
             continue
 
@@ -235,9 +232,8 @@ def test_zakladni_pruchod_hrou():
         try:
             if věc.léčivá_síla <= 100 - hráč.zdraví:
                 print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.zdraví += věc.léčivá_síla
+                hráč.spotřebuj(věc)
                 print(hráč.zdraví)
-                hráč.inventář.remove(věc)
         except AttributeError:
             continue
 
@@ -271,9 +267,8 @@ def test_zakladni_pruchod_hrou():
         try:
             if věc.léčivá_síla <= 100 - hráč.zdraví:
                 print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.zdraví += věc.léčivá_síla
+                hráč.spotřebuj(věc)
                 print(hráč.zdraví)
-                hráč.inventář.remove(věc)
         except AttributeError:
             continue
 
@@ -317,9 +312,8 @@ def test_zakladni_pruchod_hrou():
         try:
             if věc.léčivá_síla <= 100 - hráč.zdraví:
                 print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.zdraví += věc.léčivá_síla
+                hráč.spotřebuj(věc)
                 print(hráč.zdraví)
-                hráč.inventář.remove(věc)
         except AttributeError:
             continue
 

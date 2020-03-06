@@ -105,11 +105,14 @@ class Hráč:
             if vstup == '':
                 return
             else:
-                vybráno = léčivky[vstup - 1]
-                já.zdraví = min(100, já.zdraví + vybráno.léčivá_síla)
-                já.inventář.remove(vybráno)
+                já.spotřebuj(léčivky[vstup - 1])
                 print('Hned se cítíš líp.')
                 return
+
+    def spotřebuj(já, léčivka):
+        já.zdraví += léčivka.léčivá_síla
+        já.zdraví = min(100, já.zdraví)
+        já.inventář.remove(léčivka)
 
     def obchoduj(já):
         já.místnost_pobytu().obchoduj(já)
