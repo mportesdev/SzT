@@ -180,7 +180,7 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == počet_věcí + 1
     assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
 
-    # dojde k obchodníkovi, prodá nůž a dýku za 11 + 27
+    # dojde k mastičkáři, prodá nůž a dýku za 11 + 27
     hráč.jdi_na_východ()
     hráč.jdi_na_jih()
     hráč.jdi_na_východ()
@@ -480,9 +480,9 @@ def test_zakladni_pruchod_hrou():
     počet_věcí = len(hráč.inventář)
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
     assert len(hráč.inventář) == počet_věcí + 1
-    zbraň = hráč.inventář[-1]
-    assert hráč.nejlepší_zbraň() is zbraň
-    assert zbraň.název in ('Ostnatý palcát', 'Damascénská mačeta', 'Řemdih')
+    zbraň_19x12 = hráč.inventář[-1]
+    assert hráč.nejlepší_zbraň() is zbraň_19x12
+    assert zbraň_19x12.název in ('Ostnatý palcát', 'Damascénská mačeta', 'Řemdih')
 
     # dojde na místo s nepřítelem a pokud ještě žije, zabije ho
     hráč.jdi_na_východ()
@@ -522,11 +522,119 @@ def test_zakladni_pruchod_hrou():
     assert hráč.zlato == zlato + 62
     hráč.vypiš_věci()
 
-    # nakoupí zbylá léčiva
+    # koupí nejlepší léčiva, na která má peníze
+    for léčivo in sorted((věc for věc in mastičkář.inventář
+                          if hasattr(věc, 'léčivá_síla')),
+                         key=lambda v: v.léčivá_síla,
+                         reverse=True):
+        if léčivo.cena <= hráč.zlato:
+            hráč.kup(léčivo, mastičkář)
+            print(f'Koupil jsi {léčivo}')
+    hráč.vypiš_věci()
+
     # dojde k dalšímu nepříteli a utrpí zranění
+    hráč.jdi_na_sever()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_východ()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_jih()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_západ()
+    zdraví = hráč.zdraví
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zdraví < zdraví
+    možnosti = zjisti_možné_akce(hráč)
+    assert 'B' in možnosti
+    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
     # pokusí se probít dál na sever
+    while 'S' not in zjisti_možné_akce(hráč):
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije()
+    hráč.jdi_na_sever()
+
+    # zkusí se trochu vyléčit
+    for věc in hráč.inventář.copy():
+        try:
+            if věc.léčivá_síla <= 100 - hráč.zdraví:
+                print(f'{věc}: {hráč.zdraví=}->', end='')
+                hráč.spotřebuj(věc)
+                print(hráč.zdraví)
+        except AttributeError:
+            continue
+
     # sebere zlato
+    hráč.jdi_na_sever()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_západ()
+    zlato = hráč.zlato
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zlato > zlato
+
+    hráč.jdi_na_západ()
+    hráč.jdi_na_jih()
+    hráč.jdi_na_jih()
+
+    # stojí na křižovatce v pomyslném středu jeskyně
+    assert (hráč.x, hráč.y) == (15, 10)
+
     # dojde k dalšímu nepříteli a utrpí zranění
+    hráč.jdi_na_jih()
+    hráč.jdi_na_jih()
+    hráč.jdi_na_západ()
+    zdraví = hráč.zdraví
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zdraví < zdraví
+    možnosti = zjisti_možné_akce(hráč)
+    assert 'B' in možnosti
+    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
     # pokusí se probít dál na západ
+    while 'Z' not in zjisti_možné_akce(hráč):
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije()
+    hráč.jdi_na_západ()
+
     # sebere zlato
-    # dojde ke zbrojíři a koupí těžkou sekeru za 121
+    zlato = hráč.zlato
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zlato > zlato
+
+    # zkusí se trochu vyléčit
+    for věc in hráč.inventář.copy():
+        try:
+            if věc.léčivá_síla <= 100 - hráč.zdraví:
+                print(f'{věc}: {hráč.zdraví=}->', end='')
+                hráč.spotřebuj(věc)
+                print(hráč.zdraví)
+        except AttributeError:
+            continue
+
+    # dojde ke zbrojíři, prodá zbraň a koupí těžkou sekeru za 121
+    hráč.jdi_na_západ()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_sever()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_západ()
+    hráč.jdi_na_sever()
+    assert 'O' in zjisti_možné_akce(hráč)
+
+    zbrojíř = hráč.místnost_pobytu().obchodník
+    sekera = next(věc for věc in zbrojíř.inventář if 'sekera' in věc.název)
+    hráč.prodej(zbraň_19x12, zbrojíř)
+    assert hráč.zlato >= sekera.cena
+    hráč.kup(sekera, zbrojíř)
+    hráč.vypiš_věci()
