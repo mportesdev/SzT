@@ -1,3 +1,6 @@
+import sys
+sys.argv.append('--fast')
+
 from hrac import Hráč
 from utility import zjisti_možné_akce
 

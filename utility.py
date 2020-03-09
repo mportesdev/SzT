@@ -12,7 +12,6 @@ import time
 
 NÁZEV_HRY = 'Strach ze tmy'
 ŠÍŘKA = 70
-PRODLEVA = 0.015
 
 
 class TmaváBarva(Enum):
@@ -228,3 +227,5 @@ Barva = TmaváBarva if '--dark' in sys.argv[1:] else SvětláBarva
 if '--no-color' in sys.argv[1:] or (os.name == 'nt'
                                     and '--color' not in sys.argv[1:]):
     vypiš_barevně = vypiš_barevně_atrapa
+
+PRODLEVA = 0 if '--fast' in sys.argv[1:] else 0.015
