@@ -515,3 +515,42 @@ def test_zakladni_pruchod_hrou():
     assert hráč.zlato >= 121, f'nejsou peníze na sekeru! ({hráč.zlato})'
     hráč.kup(sekera, zbrojíř)
     hráč.vypiš_věci()
+
+    # dojde k trollovi a utrpí zranění
+    jdi(hráč, 'JVVVJVVVJVVSVVVSVVJJJVVVVSVVJV')
+    zdraví = hráč.zdraví
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zdraví < zdraví
+    možnosti = zjisti_možné_akce(hráč)
+    assert 'B' in možnosti
+    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
+    # pokusí se probít dál na východ
+    while 'V' not in zjisti_možné_akce(hráč):
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije(), 'K.I.A.'
+    hráč.jdi_na_východ()
+
+    # dojde k dalšímu nepříteli a utrpí zranění
+    jdi(hráč, 'VVVJV')
+    zdraví = hráč.zdraví
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zdraví < zdraví
+    možnosti = zjisti_možné_akce(hráč)
+    assert 'B' in možnosti
+    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
+    # pokusí se probít dál na východ
+    while 'V' not in zjisti_možné_akce(hráč):
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije(), 'K.I.A.'
+    hráč.jdi_na_východ()
+
+    # sebere zbraň
+    hráč.jdi_na_jih()
+    počet_věcí = len(hráč.inventář)
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert len(hráč.inventář) == počet_věcí + 1
+    zbraň_35x14 = hráč.inventář[-1]
