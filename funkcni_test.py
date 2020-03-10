@@ -532,8 +532,25 @@ def test_zakladni_pruchod_hrou():
         assert hráč.žije(), 'K.I.A.'
     hráč.jdi_na_východ()
 
+    # dojde pro lék
+    jdi(hráč, 'VVVSVVSV')
+    počet_věcí = len(hráč.inventář)
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert len(hráč.inventář) == počet_věcí + 1
+    assert hráč.inventář[-1].název == 'Lahvička medicíny'
+
+    # zkusí se trochu vyléčit
+    for věc in hráč.inventář.copy():
+        try:
+            if věc.léčivá_síla <= 100 - hráč.zdraví:
+                print(f'{věc}: {hráč.zdraví=}->', end='')
+                hráč.spotřebuj(věc)
+                print(hráč.zdraví)
+        except AttributeError:
+            continue
+
     # dojde k dalšímu nepříteli a utrpí zranění
-    jdi(hráč, 'VVVJV')
+    jdi(hráč, 'ZJZZJJV')
     zdraví = hráč.zdraví
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
     assert hráč.zdraví < zdraví
@@ -548,9 +565,127 @@ def test_zakladni_pruchod_hrou():
         assert hráč.žije(), 'K.I.A.'
     hráč.jdi_na_východ()
 
-    # sebere zbraň
+    # dojde pro zbraň
     hráč.jdi_na_jih()
     počet_věcí = len(hráč.inventář)
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
     assert len(hráč.inventář) == počet_věcí + 1
     zbraň_35x14 = hráč.inventář[-1]
+
+    # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
+    jdi(hráč, 'SZ')
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    while 'Z' not in zjisti_možné_akce(hráč):
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije(), 'K.I.A.'
+    hráč.jdi_na_západ()
+
+    # vysbírá zlato v okolí
+    jdi(hráč, 'SSSS')
+    zlato = hráč.zlato
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zlato > zlato
+    jdi(hráč, 'JJJZZZJJ')
+    zlato = hráč.zlato
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zlato > zlato
+
+    # dojde k prvnímu nepříteli v druhém lese, zkusí ho zabít
+    jdi(hráč, 'SSZZSZZJZZZZSSSZZJZZZJZZSZZZSZZZSZSZZSSSZ')
+    zdraví = hráč.zdraví
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zdraví < zdraví
+    možnosti = zjisti_možné_akce(hráč)
+    assert 'B' in možnosti
+    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
+    while hráč.místnost_pobytu().nepřítel.žije():
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije(), 'K.I.A.'
+
+    # dojde k dalšímu nepříteli, zkusí ho zabít
+    jdi(hráč, 'ZJJJZZSZSSVS')
+    zdraví = hráč.zdraví
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zdraví < zdraví
+    možnosti = zjisti_možné_akce(hráč)
+    assert 'B' in možnosti
+    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
+    while hráč.místnost_pobytu().nepřítel.žije():
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije(), 'K.I.A.'
+
+    # sebere lék úplně na severu
+    jdi(hráč, 'SSZS')
+    počet_věcí = len(hráč.inventář)
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert len(hráč.inventář) == počet_věcí + 1
+    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+
+    # dojde k dalšímu nepříteli, zkusí ho zabít
+    jdi(hráč, 'JVJJJZJJVJJ')
+    zdraví = hráč.zdraví
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zdraví < zdraví
+    možnosti = zjisti_možné_akce(hráč)
+    assert 'B' in možnosti
+    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
+    while hráč.místnost_pobytu().nepřítel.žije():
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije(), 'K.I.A.'
+
+    # sebere lék
+    jdi(hráč, 'JZ')
+    počet_věcí = len(hráč.inventář)
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert len(hráč.inventář) == počet_věcí + 1
+    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+
+    # dojde k dalšímu nepříteli, zkusí ho zabít
+    jdi(hráč, 'ZJJVJ')
+    zdraví = hráč.zdraví
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert hráč.zdraví < zdraví
+    možnosti = zjisti_možné_akce(hráč)
+    assert 'B' in možnosti
+    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
+    while hráč.místnost_pobytu().nepřítel.žije():
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.žije(), 'K.I.A.'
+
+    # vysbírá ostatní léky
+    jdi(hráč, 'JZ')
+    počet_věcí = len(hráč.inventář)
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert len(hráč.inventář) == počet_věcí + 1
+    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+
+    jdi(hráč, 'VSSZSSVVJVJJ')
+    počet_věcí = len(hráč.inventář)
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert len(hráč.inventář) == počet_věcí + 1
+    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+
+    jdi(hráč, 'SSZSSSVVJ')
+    počet_věcí = len(hráč.inventář)
+    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    assert len(hráč.inventář) == počet_věcí + 1
+    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+
+    # zkusí se trochu vyléčit
+    for věc in hráč.inventář.copy():
+        try:
+            if věc.léčivá_síla <= 100 - hráč.zdraví:
+                print(f'{věc}: {hráč.zdraví=}->', end='')
+                hráč.spotřebuj(věc)
+                print(hráč.zdraví)
+        except AttributeError:
+            continue
