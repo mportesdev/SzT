@@ -216,6 +216,22 @@ class JeskyněZlato(Jeskyně):
             vypiš_odstavec(f'Našel jsi {já.zlato} zlaťáků.', 'štěstí')
 
 
+class JeskyněLék(Jeskyně):
+    def __init__(já, x, y):
+        super().__init__(x, y)
+        já.lék = veci.Lék('Lahvička medicíny', 27, 21, 'Lahvičkou medicíny',
+                          'Lahvičku medicíny')
+        já.lék_sebrán = False
+
+    def dopad_na_hráče(já, hráč):
+        if not já.lék_sebrán:
+            já.lék_sebrán = True
+            hráč.inventář.append(já.lék)
+            vypiš_odstavec('Na zemi jsi našel zaprášenou'
+                           f' {já.lék.název_4_pád.lower()}.',
+                           'štěstí')
+
+
 class JeskyněArtefakt(Jeskyně):
     def __init__(já, x, y, artefakt):
         super().__init__(x, y)
@@ -266,7 +282,7 @@ class LesZbraň(MístnostZbraň, Les):
     pass
 
 
-class LesLéčivka(Les):
+class LesLék(Les):
     def __init__(já, x, y):
         super().__init__(x, y)
         if (x, y) == (34, 23):
@@ -283,20 +299,20 @@ class LesLéčivka(Les):
                 ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
                 ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
             ))
-        já.léčivka = veci.Léčivka(*parametry)
-        já.léčivka_sebrána = False
+        já.lék = veci.Lék(*parametry)
+        já.lék_sebrán = False
 
     def dopad_na_hráče(já, hráč):
-        if not já.léčivka_sebrána:
-            já.léčivka_sebrána = True
-            hráč.inventář.append(já.léčivka)
-            vypiš_odstavec(f'Našel jsi {já.léčivka.název_4_pád.lower()}.',
+        if not já.lék_sebrán:
+            já.lék_sebrán = True
+            hráč.inventář.append(já.lék)
+            vypiš_odstavec(f'Našel jsi {já.lék.název_4_pád.lower()}.',
                            'štěstí')
 
 
 mapa_hry = '''
 fm        gc cccc A                      
- fff    cc C c  Ccc                      
+ fff    lc C c  Ccc                      
   f      cccccc    c         gc          
   F  f        cHcc c c  cg    C cc       
  ff fFf   ccC c  cccccc c    cc  cccg    
@@ -305,7 +321,7 @@ fm        gc cccc A
 f fff fff   c          C  C      cA      
 f F m   fW  c  cgcc c ccccccc            
 fmf      cccc  c  c ccc       c  g c     
-f ff    c   cCcc cCcc C g   ccc  c cc    
+f ff    c   cCcc cCcc C g   ccc  c cl    
 ff f   Cccccc  ccc  c c c ccc  c ccc     
  F m  cc  c cgCc c wc cccCc cTcccc       
 mf    g  cc c       c c  c    c  cCc     
@@ -315,7 +331,7 @@ mf    g  cc c       c c  c    c  cCc
          c c  ffff t    f           ff f 
        ccCcc   x   f mf f ffff m     ffff
    cc cc  c       mf  fff  f fff  ff f  m
-    c  c ccCc cc   fff  fFff   F   fFff  
+    c  c ccCc lc   fff  fFff   F   fFff  
     cccc c  c  cA    F  f  m fff fff  ff 
    Cc g  c ccc C     fffff   f   f  f f  
    c  c  c w ccc     m f f xffFf fm ffFff
@@ -375,10 +391,11 @@ class Svět:
                                  'H': JeskyněBoj,  # člověk
                                  'S': Les,
                                  'g': JeskyněZlato,
+                                 'l': JeskyněLék,
                                  'A': JeskyněArtefakt,
                                  'w': JeskyněZbraň,
                                  'x': LesZbraň,
-                                 'm': LesLéčivka,
+                                 'm': LesLék,
                                  'M': JeskyněObchod,  # mastičkář
                                  'W': JeskyněObchod,  # zbrojíř
                                  ' ': None}[kód_místnosti]

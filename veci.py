@@ -20,7 +20,7 @@ class Zbraň(Věc):
         return f'{já.název_4_pád} (útok +{já.útok})'
 
 
-class Léčivka(Věc):
+class Lék(Věc):
     def __init__(já, název, léčivá_síla, cena, název_7_pád, název_4_pád=None):
         super().__init__(název, cena, název_4_pád)
         já.léčivá_síla = léčivá_síla

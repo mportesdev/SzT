@@ -150,7 +150,7 @@ def zjisti_možné_akce(hráč):
             akce['V'] = (hráč.jdi_na_východ, 'Jít na východ')
             místnost_východně.viděna = True
 
-    if hráč.zdraví < 100 and hráč.má_léčivky():
+    if hráč.zdraví < 100 and hráč.má_léky():
         akce['L'] = (hráč.kurýruj_se, 'Léčit se')
 
     akce['I'] = (hráč.vypiš_věci, 'Inventář')

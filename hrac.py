@@ -7,14 +7,14 @@ from utility import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebare
                   uděl_odměnu, vstup_z_možností, s_odchylkou
 import veci
 
-PoložkyInventáře = List[Union[veci.Zbraň, veci.Léčivka]]
+PoložkyInventáře = List[Union[veci.Zbraň, veci.Lék]]
 
 
 class Hráč:
     def __init__(já):
         já.inventář: PoložkyInventáře = [
             veci.Zbraň('Tupý nůž', 5, 13),
-            veci.Léčivka('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
+            veci.Lék('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
         já.artefakty = []
         já.svět = Svět()
@@ -84,35 +84,33 @@ class Hráč:
         if já.svět.nepřátelé_pobiti():
             uděl_odměnu(já, 200, 'zabití všech nepřátel')
 
-    def má_léčivky(já):
-        return any(isinstance(věc, veci.Léčivka)
-                   for věc in já.inventář)
+    def má_léky(já):
+        return any(isinstance(věc, veci.Lék) for věc in já.inventář)
 
     def kurýruj_se(já):
-        léčivky = [věc for věc in já.inventář
-                   if isinstance(věc, veci.Léčivka)]
+        léky = [věc for věc in já.inventář if isinstance(věc, veci.Lék)]
 
         print('Čím se chceš kurýrovat?')
-        for číslo, věc in enumerate(léčivky, 1):
+        for číslo, věc in enumerate(léky, 1):
             print(f'{číslo:3}. ', end='')
             vypiš_barevně(f'{věc.popis_7_pád()}', barva=Barva.TYRKYS)
 
         while True:
             vícebarevně('Číslo položky             (|Enter| = návrat)',
                         (Barva.MODRÁ, None), konec=' ')
-            možnosti = set(range(1, len(léčivky) + 1))
+            možnosti = set(range(1, len(léky) + 1))
             vstup = vstup_z_možností(možnosti | {''})
             if vstup == '':
                 return
             else:
-                já.spotřebuj(léčivky[vstup - 1])
+                já.spotřebuj(léky[vstup - 1])
                 print('Hned se cítíš líp.')
                 return
 
-    def spotřebuj(já, léčivka):
-        já.zdraví += léčivka.léčivá_síla
+    def spotřebuj(já, lék):
+        já.zdraví += lék.léčivá_síla
         já.zdraví = min(100, já.zdraví)
-        já.inventář.remove(léčivka)
+        já.inventář.remove(lék)
 
     def obchoduj(já):
         já.místnost_pobytu().obchoduj(já)

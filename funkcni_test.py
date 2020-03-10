@@ -114,7 +114,7 @@ def test_zakladni_pruchod_hrou():
         except AttributeError:
             continue
 
-    # dojde na místo s další léčivkou a sebere ji
+    # dojde na místo s dalším lékem a sebere ho
     jdi(hráč, 'JZZSZZJJJ')
     počet_věcí = len(hráč.inventář)
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
@@ -150,7 +150,7 @@ def test_zakladni_pruchod_hrou():
     # stojí na severo-jižní cestě poblíž vchodu do jeskyně
     assert (hráč.x, hráč.y) == (24, 20)
 
-    # sebere další léčivku
+    # sebere další lék
     jdi(hráč, 'SZZSZ')
     počet_věcí = len(hráč.inventář)
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
@@ -178,7 +178,7 @@ def test_zakladni_pruchod_hrou():
     assert hráč.nejlepší_zbraň() is sekerka
     hráč.vypiš_věci()
 
-    # sebere další léčivku
+    # sebere další lék
     jdi(hráč, 'JJJJJJZZZJ')
     počet_věcí = len(hráč.inventář)
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
@@ -211,7 +211,7 @@ def test_zakladni_pruchod_hrou():
         except AttributeError:
             continue
 
-    # sebere další léčivku
+    # sebere další lék
     jdi(hráč, 'ZZSZ')
     počet_věcí = len(hráč.inventář)
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
@@ -269,7 +269,7 @@ def test_zakladni_pruchod_hrou():
         assert hráč.žije(), 'K.I.A.'
     hráč.jdi_na_východ()
 
-    # sebere poslední léčivku v této části lesa
+    # sebere poslední lék v této části lesa
     hráč.jdi_na_východ()
     počet_věcí = len(hráč.inventář)
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
@@ -496,7 +496,7 @@ def test_zakladni_pruchod_hrou():
         except AttributeError:
             continue
 
-    # dojde pro nejbližší léčivku v druhém lese
+    # dojde pro nejbližší lék v druhém lese
     jdi(hráč, 'ZSSSZZZSZSZZS')
     počet_věcí = len(hráč.inventář)
     hráč.místnost_pobytu().dopad_na_hráče(hráč)

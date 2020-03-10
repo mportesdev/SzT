@@ -32,8 +32,8 @@ def test_mistnost_na_pozici_je_spravny_typ(svět, x, y, typ_místnosti):
                                            (25, 3, 'zlato_sebráno'),
                                            (11, 23, 'zbraň'),
                                            (11, 23, 'zbraň_sebrána'),
-                                           (16, 15, 'léčivka'),
-                                           (16, 15, 'léčivka_sebrána'),
+                                           (16, 15, 'lék'),
+                                           (16, 15, 'lék_sebrán'),
                                            (9, 15, 'nepřítel')))
 def test_mistnost_na_pozici_ma_specialni_atribut(svět, x, y, atribut):
     """Test world.Svět.místnost_na_pozici"""
