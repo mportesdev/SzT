@@ -16,9 +16,10 @@ def test_zakladni_pruchod_hrou():
             pohyb()
 
     def dostaň_ránu():
-        zdraví = hráč.zdraví
+        if not hráč.místnost_pobytu().nepřítel.žije():
+            return
         hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.zdraví < zdraví
+        assert hráč.žije(), 'K.I.A.'
         možnosti = zjisti_možné_akce(hráč)
         assert 'B' in možnosti
         assert not any(klávesa in možnosti for klávesa in 'SJZV')
@@ -56,6 +57,15 @@ def test_zakladni_pruchod_hrou():
         if názvy:
             assert sebraná_věc.název in názvy
         return sebraná_věc
+
+    def seber_artefakt():
+        počet_artefaktů = len(hráč.artefakty)
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert len(hráč.artefakty) == počet_artefaktů + 1
+        assert hráč.artefakty[-1].název in (
+            'Křišťálová koule', 'Rubínový kříž', 'Tyrkysová tiára',
+            'Ametystový kalich', 'Safírový trojzubec'
+        )
 
     def seber_zlato():
         zlato = hráč.zlato
@@ -188,12 +198,12 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
     jdi('ZZ')
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    dostaň_ránu()
     probojuj_se_na('J')
 
     # totéž udělá s dalším nepřítelem
     jdi('JVVVSVVJJJJVVJ')
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    dostaň_ránu()
     probojuj_se_na('J')
 
     # dojde k mastičkáři, prodá sekerku za 45
@@ -239,12 +249,12 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s nepřítelem a pokud ještě žije, zabije ho
     jdi('VSSSVVJ')
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    dostaň_ránu()
     zab()
 
     # totéž udělá s dalším nepřítelem
     jdi('JJVVV')
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    dostaň_ránu()
     zab()
 
     # dojde k mastičkáři, prodá meč za 62
@@ -327,7 +337,7 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
     jdi('SZ')
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+    dostaň_ránu()
     probojuj_se_na('Z')
 
     # vysbírá zlato v okolí
@@ -372,3 +382,54 @@ def test_zakladni_pruchod_hrou():
     jdi('SSZSSSVVJ')
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
+
+    jdi('SSSSVVJJJVVJVJVVVJJZZ')
+    # stojí u odbočky do jihozápadní části jeskyně
+    assert (hráč.x, hráč.y) == (10, 11)
+
+    # dojde k trollovi, probije se dál na jih
+    jdi('JJZJJ')
+    dostaň_ránu()
+    probojuj_se_na('J')
+    doplň_síly()
+
+    # dojde k dalšímu nepříteli, probije se dál na východ
+    jdi('JJ')
+    dostaň_ránu()
+    probojuj_se_na('V')
+
+    # dojde k dalšímu nepříteli, probije se dál na východ
+    jdi('JJV')
+    dostaň_ránu()
+    probojuj_se_na('V')
+
+    # dojde k dalšímu nepříteli, probije se dál na sever
+    jdi('JJVJVVS')
+    dostaň_ránu()
+    probojuj_se_na('S')
+
+    # dojde pro lék
+    jdi('SZ')
+    seber_jednu_věc('Lahvička medicíny')
+    doplň_síly()
+
+    # dojde pro první artefakt
+    jdi('VJV')
+    seber_artefakt()
+
+    # probije se k druhému artefaktu
+    jdi('ZJ')
+    dostaň_ránu()
+    probojuj_se_na('J')
+    jdi('ZZSZSSZ')
+    dostaň_ránu()
+    probojuj_se_na('Z')
+    jdi('SSZ')
+    dostaň_ránu()
+    probojuj_se_na('Z')
+    jdi('ZJJJZZZJZ')
+    dostaň_ránu()
+    probojuj_se_na('J')
+    jdi('JV')
+    seber_artefakt()
+    hráč.vypiš_věci()
