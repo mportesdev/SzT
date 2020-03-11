@@ -48,6 +48,15 @@ def test_zakladni_pruchod_hrou():
             except AttributeError:
                 continue
 
+    def seber_jednu_věc(*názvy):
+        počet_věcí = len(hráč.inventář)
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert len(hráč.inventář) == počet_věcí + 1
+        sebraná_věc = hráč.inventář[-1]
+        if názvy:
+            assert sebraná_věc.název in názvy
+        return sebraná_věc
+
     hráč = Hráč()
 
     # hráč stojí na začátku, je zdráv, má u sebe dvě věci, zatím si nedělá mapu
@@ -69,9 +78,7 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s bylinkami a sebere je
     jdi('SV')
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == 3
-    assert hráč.inventář[-1].název == 'Léčivé bylinky'
+    seber_jednu_věc('Léčivé bylinky')
     assert set(zjisti_možné_akce(hráč).keys()) == set('ZIMK')
 
     # dojde na místo s nepřítelem, probije se dál na západ
@@ -81,21 +88,15 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s dýkou a sebere ji
     jdi('ZZ')
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == 4
-    dýka = hráč.inventář[-1]
+    dýka = seber_jednu_věc('Rezavá dýka')
     assert hráč.nejlepší_zbraň() is dýka
-    assert dýka.název == 'Rezavá dýka'
 
     # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde na místo s houbami a sebere je
     jdi('VJJVV')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název == 'Léčivé houby'
+    seber_jednu_věc('Léčivé houby')
 
     # dojde na místo s dalším nepřítelem, probije se dál na sever
     jdi('ZZSSVSSVVS')
@@ -104,20 +105,15 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s bobulemi a sebere je
     hráč.jdi_na_sever()
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název == 'Léčivé bobule'
+    seber_jednu_věc('Léčivé bobule')
 
     # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde na místo s dalším lékem a sebere ho
     jdi('JZZSZZJJJ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # dojde na místo s dalším nepřítelem, probije se dál na západ
     jdi('SZZ')
@@ -132,10 +128,8 @@ def test_zakladni_pruchod_hrou():
 
     # sebere další lék
     jdi('SZZSZ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # dojde k mastičkáři, prodá nůž a dýku za 11 + 27
     jdi('VJVVSSS')
@@ -160,10 +154,8 @@ def test_zakladni_pruchod_hrou():
 
     # sebere další lék
     jdi('JJJJJJZZZJ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # dojde na místo s dalším nepřítelem, probije se dál na sever
     jdi('SS')
@@ -175,10 +167,8 @@ def test_zakladni_pruchod_hrou():
 
     # sebere další lék
     jdi('ZZSZ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # dojde na místo s lesním trollem, probije se dál na sever
     jdi('VSS')
@@ -190,12 +180,8 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s mečem a sebere ho
     jdi('ZZJZZJ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    meč = hráč.inventář[-1]
+    meč = seber_jednu_věc('Zrezivělý meč')
     assert hráč.nejlepší_zbraň() is meč
-    assert meč.název == 'Zrezivělý meč'
 
     # dojde na místo s dalším nepřítelem, probije se dál na východ
     jdi('SZSS')
@@ -204,10 +190,8 @@ def test_zakladni_pruchod_hrou():
 
     # sebere poslední lék v této části lesa
     hráč.jdi_na_východ()
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # zkusí se trochu vyléčit
     doplň_síly()
@@ -267,12 +251,9 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo se zbraní (palcát, řemdih nebo mačeta) a sebere ji
     jdi('ZZJJJZ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    zbraň_19x12 = hráč.inventář[-1]
+    zbraň_19x12 = seber_jednu_věc('Ostnatý palcát', 'Damascénská mačeta',
+                                  'Řemdih')
     assert hráč.nejlepší_zbraň() is zbraň_19x12
-    assert zbraň_19x12.název in ('Ostnatý palcát', 'Damascénská mačeta', 'Řemdih')
 
     # dojde na místo s nepřítelem a pokud ještě žije, zabije ho
     jdi('VSSSVVJ')
@@ -338,10 +319,8 @@ def test_zakladni_pruchod_hrou():
 
     # dojde pro nejbližší lék v druhém lese
     jdi('ZSSSZZZSZSZZS')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # dojde ke zbrojíři, prodá zbraň a koupí těžkou sekeru za 121
     jdi('JVVJV')
@@ -363,10 +342,7 @@ def test_zakladni_pruchod_hrou():
 
     # dojde pro lék
     jdi('VVVSVVSV')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název == 'Lahvička medicíny'
+    seber_jednu_věc('Lahvička medicíny')
 
     # zkusí se trochu vyléčit
     doplň_síly()
@@ -378,10 +354,7 @@ def test_zakladni_pruchod_hrou():
 
     # dojde pro zbraň
     hráč.jdi_na_jih()
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    zbraň_35x14 = hráč.inventář[-1]
+    zbraň_35x14 = seber_jednu_věc()
 
     # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
     jdi('SZ')
@@ -410,10 +383,8 @@ def test_zakladni_pruchod_hrou():
 
     # sebere lék úplně na severu
     jdi('SSZS')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # dojde k dalšímu nepříteli, zabije ho
     jdi('JVJJJZJJVJJ')
@@ -422,10 +393,8 @@ def test_zakladni_pruchod_hrou():
 
     # sebere lék
     jdi('JZ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # dojde k dalšímu nepříteli, zabije ho
     jdi('ZJJVJ')
@@ -434,22 +403,16 @@ def test_zakladni_pruchod_hrou():
 
     # vysbírá ostatní léky
     jdi('JZ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     jdi('VSSZSSVVJVJJ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     jdi('SSZSSSVVJ')
-    počet_věcí = len(hráč.inventář)
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert len(hráč.inventář) == počet_věcí + 1
-    assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
+    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                    'Kouzelné houby', 'Kouzelné bobule')
 
     # zkusí se trochu vyléčit
     doplň_síly()
