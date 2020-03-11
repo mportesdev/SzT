@@ -154,7 +154,14 @@ def zjisti_možné_akce(hráč):
         akce['L'] = (hráč.kurýruj_se, 'Léčit se')
 
     akce['I'] = (hráč.vypiš_věci, 'Inventář')
-    akce['M'] = (hráč.nakresli_mapu, 'Mapa')
+
+    if not hráč.mapování and len(set(akce) & set('SJZV')) > 2:
+        # na první křižovatce si hráč začne dělat mapu
+        hráč.mapování = True
+
+    if hráč.mapování:
+        akce['M'] = (hráč.nakresli_mapu, 'Mapa')
+
     akce['K'] = (potvrď_konec, 'Konec')
 
     return akce

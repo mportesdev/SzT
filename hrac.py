@@ -23,6 +23,7 @@ class Hráč:
         já.zlato = 10
         já.zkušenost = 0
         já.zdařilý_zásah = False
+        já.mapování = False
 
     def žije(já):
         return já.zdraví > 0

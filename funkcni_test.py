@@ -68,17 +68,16 @@ def test_zakladni_pruchod_hrou():
     hráč = Hráč()
 
     # hráč stojí na začátku, je zdráv, má u sebe dvě věci, zatím si nedělá mapu
-    # TODO: aktivace mapy az na prvni krizovatce
     assert (hráč.x, hráč.y) == (hráč.svět.začátek.x, hráč.svět.začátek.y)
     assert hráč.zdraví == 100
     assert len(hráč.inventář) == 2
     nůž = hráč.inventář[0]
     assert hráč.nejlepší_zbraň() is nůž
-    # assert set(zjisti_možné_akce(hráč)) == set('SIK')
+    assert set(zjisti_možné_akce(hráč)) == set('SIK')
 
     # jde dál lesem
     jdi('SS')
-    # assert set(zjisti_možné_akce(hráč)) == set('SJIK')
+    assert set(zjisti_možné_akce(hráč)) == set('SJIK')
 
     # dojde na první křižovatku a rozhodne se kreslit mapu
     hráč.jdi_na_sever()
