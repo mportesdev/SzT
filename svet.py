@@ -248,11 +248,6 @@ class JeskyněArtefakt(Jeskyně):
                 uděl_odměnu(hráč, 300, 'nalezení všech magických předmětů')
                 vypiš_odstavec('Artefakty teď musíš vynést ven z jeskyně a'
                                ' dojít s nimi na začátek své cesty.')
-                hráč.svět.začátek.text += (
-                    ' Překonal jsi všechny nástrahy a skutečně se ti podařilo'
-                    ' získat kýžené magické artefakty. Otevírá se před tebou'
-                    ' svět neomezených možností.'
-                )
 
 
 class MístnostZbraň(Místnost):

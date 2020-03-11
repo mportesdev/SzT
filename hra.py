@@ -32,6 +32,11 @@ def hra():
                 )
 
         if místnost is hráč.svět.začátek and hráč.svět.poklad_posbírán():
+            utility.vypiš_odstavec(
+                'Překonal jsi všechny nástrahy a skutečně se ti podařilo získat'
+                ' kýžené magické artefakty. Otevírá se před tebou svět'
+                ' neomezených možností.'
+            )
             break
 
         while True:
