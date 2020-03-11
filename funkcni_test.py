@@ -57,6 +57,11 @@ def test_zakladni_pruchod_hrou():
             assert sebraná_věc.název in názvy
         return sebraná_věc
 
+    def seber_zlato():
+        zlato = hráč.zlato
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.zlato > zlato
+
     názvy_léčivek = ('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
                      'Kouzelné houby', 'Kouzelné bobule')
 
@@ -217,13 +222,9 @@ def test_zakladni_pruchod_hrou():
 
     # vysbírá zlato v blízkém okolí
     jdi('SS')
-    zlato = hráč.zlato
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zlato > zlato
+    seber_zlato()
     jdi('JJZZJJ')
-    zlato = hráč.zlato
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zlato > zlato
+    seber_zlato()
 
     # dojde ke druhému jeskynnímu nepříteli, probije se dál na sever
     jdi('SSSS')
@@ -273,9 +274,7 @@ def test_zakladni_pruchod_hrou():
 
     # sebere zlato
     jdi('SZZ')
-    zlato = hráč.zlato
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zlato > zlato
+    seber_zlato()
 
     jdi('ZJJ')
 
@@ -288,9 +287,7 @@ def test_zakladni_pruchod_hrou():
     probojuj_se_na('Z')
 
     # sebere zlato
-    zlato = hráč.zlato
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zlato > zlato
+    seber_zlato()
     doplň_síly()
 
     # dojde pro nejbližší lék v druhém lese
@@ -336,13 +333,9 @@ def test_zakladni_pruchod_hrou():
 
     # vysbírá zlato v okolí
     jdi('SSSS')
-    zlato = hráč.zlato
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zlato > zlato
+    seber_zlato()
     jdi('JJJZZZJJ')
-    zlato = hráč.zlato
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zlato > zlato
+    seber_zlato()
 
     # dojde k prvnímu nepříteli v druhém lese, zabije ho
     jdi('SSZZSZZJZZZZSSSZZJZZZJZZSZZZSZZZSZSZZSSSZ')
