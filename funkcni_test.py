@@ -15,6 +15,14 @@ def test_zakladni_pruchod_hrou():
                          V=hráč.jdi_na_východ).get(směr.upper())
             pohyb()
 
+    def utrp_zranění():
+        zdraví = hráč.zdraví
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        assert hráč.zdraví < zdraví
+        možnosti = zjisti_možné_akce(hráč)
+        assert 'B' in možnosti
+        assert not any(klávesa in možnosti for klávesa in 'SJZV')
+
     def probojuj_se_na(směr):
         while směr not in zjisti_možné_akce(hráč):
             hráč.bojuj()
@@ -66,15 +74,9 @@ def test_zakladni_pruchod_hrou():
     assert hráč.inventář[-1].název == 'Léčivé bylinky'
     assert set(zjisti_možné_akce(hráč).keys()) == set('ZIMK')
 
-    # dojde na místo s nepřítelem a utrpí zranění
+    # dojde na místo s nepřítelem, probije se dál na západ
     jdi('ZJZZSZ')
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < 100
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na západ
+    utrp_zranění()
     probojuj_se_na('Z')
 
     # dojde na místo s dýkou a sebere ji
@@ -95,16 +97,9 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == počet_věcí + 1
     assert hráč.inventář[-1].název == 'Léčivé houby'
 
-    # dojde na místo s dalším nepřítelem a utrpí zranění
+    # dojde na místo s dalším nepřítelem, probije se dál na sever
     jdi('ZZSSVSSVVS')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na sever
+    utrp_zranění()
     probojuj_se_na('S')
 
     # dojde na místo s bobulemi a sebere je
@@ -124,16 +119,9 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == počet_věcí + 1
     assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
 
-    # dojde na místo s dalším nepřítelem a utrpí zranění
+    # dojde na místo s dalším nepřítelem, probije se dál na západ
     jdi('SZZ')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na západ
+    utrp_zranění()
     probojuj_se_na('Z')
 
     # zkusí se trochu vyléčit
@@ -177,16 +165,9 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == počet_věcí + 1
     assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
 
-    # dojde na místo s dalším nepřítelem a utrpí zranění
+    # dojde na místo s dalším nepřítelem, probije se dál na sever
     jdi('SS')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na sever
+    utrp_zranění()
     probojuj_se_na('S')
 
     # zkusí se trochu vyléčit
@@ -199,16 +180,9 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == počet_věcí + 1
     assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
 
-    # dojde na místo s lesním trollem a utrpí zranění
+    # dojde na místo s lesním trollem, probije se dál na sever
     jdi('VSS')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na sever
+    utrp_zranění()
     probojuj_se_na('S')
 
     # zkusí se trochu vyléčit
@@ -223,16 +197,9 @@ def test_zakladni_pruchod_hrou():
     assert hráč.nejlepší_zbraň() is meč
     assert meč.název == 'Zrezivělý meč'
 
-    # dojde na místo s dalším nepřítelem a utrpí zranění
+    # dojde na místo s dalším nepřítelem, probije se dál na východ
     jdi('SZSS')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na východ
+    utrp_zranění()
     probojuj_se_na('V')
 
     # sebere poslední lék v této části lesa
@@ -275,16 +242,9 @@ def test_zakladni_pruchod_hrou():
     # zkusí se trochu vyléčit
     doplň_síly()
 
-    # dojde k prvnímu jeskynnímu nepříteli a utrpí zranění
+    # dojde k prvnímu jeskynnímu nepříteli, probije se dál na západ
     jdi('SSVSS')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na západ
+    utrp_zranění()
     probojuj_se_na('Z')
 
     # vysbírá zlato v blízkém okolí
@@ -297,16 +257,9 @@ def test_zakladni_pruchod_hrou():
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
     assert hráč.zlato > zlato
 
-    # dojde ke druhému jeskynnímu nepříteli a utrpí zranění
+    # dojde ke druhému jeskynnímu nepříteli, probije se dál na sever
     jdi('SSSS')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na sever
+    utrp_zranění()
     probojuj_se_na('S')
 
     # zkusí se trochu vyléčit
@@ -351,16 +304,9 @@ def test_zakladni_pruchod_hrou():
             print(f'Koupil jsi {léčivo}')
     hráč.vypiš_věci()
 
-    # dojde k dalšímu nepříteli a utrpí zranění
+    # dojde k dalšímu nepříteli, probije se dál na sever
     jdi('SSVSSZZZSSSZZJZZ')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na sever
+    utrp_zranění()
     probojuj_se_na('S')
 
     # zkusí se trochu vyléčit
@@ -377,16 +323,9 @@ def test_zakladni_pruchod_hrou():
     # stojí na křižovatce v pomyslném středu jeskyně
     assert (hráč.x, hráč.y) == (15, 10)
 
-    # dojde k dalšímu nepříteli a utrpí zranění
+    # dojde k dalšímu nepříteli, probije se dál na západ
     jdi('JJZ')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na západ
+    utrp_zranění()
     probojuj_se_na('Z')
 
     # sebere zlato
@@ -417,16 +356,9 @@ def test_zakladni_pruchod_hrou():
     hráč.kup(sekera, zbrojíř)
     hráč.vypiš_věci()
 
-    # dojde k trollovi a utrpí zranění
+    # dojde k trollovi, probije se dál na východ
     jdi('JVVVJVVVJVVSVVVSVVJJJVVVVSVVJV')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na východ
+    utrp_zranění()
     probojuj_se_na('V')
 
     # dojde pro lék
@@ -439,16 +371,9 @@ def test_zakladni_pruchod_hrou():
     # zkusí se trochu vyléčit
     doplň_síly()
 
-    # dojde k dalšímu nepříteli a utrpí zranění
+    # dojde k dalšímu nepříteli, probije se dál na východ
     jdi('ZJZZJJV')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    # pokusí se probít dál na východ
+    utrp_zranění()
     probojuj_se_na('V')
 
     # dojde pro zbraň
@@ -473,24 +398,14 @@ def test_zakladni_pruchod_hrou():
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
     assert hráč.zlato > zlato
 
-    # dojde k prvnímu nepříteli v druhém lese, zkusí ho zabít
+    # dojde k prvnímu nepříteli v druhém lese, zabije ho
     jdi('SSZZSZZJZZZZSSSZZJZZZJZZSZZZSZZZSZSZZSSSZ')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+    utrp_zranění()
     zabij_nepřítele()
 
-    # dojde k dalšímu nepříteli, zkusí ho zabít
+    # dojde k dalšímu nepříteli, zabije ho
     jdi('ZJJJZZSZSSVS')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+    utrp_zranění()
     zabij_nepřítele()
 
     # sebere lék úplně na severu
@@ -500,14 +415,9 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == počet_věcí + 1
     assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
 
-    # dojde k dalšímu nepříteli, zkusí ho zabít
+    # dojde k dalšímu nepříteli, zabije ho
     jdi('JVJJJZJJVJJ')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+    utrp_zranění()
     zabij_nepřítele()
 
     # sebere lék
@@ -517,14 +427,9 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == počet_věcí + 1
     assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
 
-    # dojde k dalšímu nepříteli, zkusí ho zabít
+    # dojde k dalšímu nepříteli, zabije ho
     jdi('ZJJVJ')
-    zdraví = hráč.zdraví
-    hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    assert hráč.zdraví < zdraví
-    možnosti = zjisti_možné_akce(hráč)
-    assert 'B' in možnosti
-    assert not any(klávesa in možnosti for klávesa in 'SJZV')
+    utrp_zranění()
     zabij_nepřítele()
 
     # vysbírá ostatní léky
