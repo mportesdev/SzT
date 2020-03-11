@@ -14,6 +14,15 @@ def jdi(hráč, cesta):
         pohyb()
 
 
+def probojuj_se_na(hráč, směr):
+    while směr not in zjisti_možné_akce(hráč):
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        hráč.zdařilý_zásah = False
+        assert hráč.žije(), 'K.I.A.'
+    jdi(hráč, směr)
+
+
 def test_zakladni_pruchod_hrou():
     hráč = Hráč()
 
@@ -50,11 +59,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na západ
-    while 'Z' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_západ()
+    probojuj_se_na(hráč, 'Z')
 
     # dojde na místo s dýkou a sebere ji
     jdi(hráč, 'ZZ')
@@ -91,11 +96,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na sever
-    while 'S' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_sever()
+    probojuj_se_na(hráč, 'S')
 
     # dojde na místo s bobulemi a sebere je
     hráč.jdi_na_sever()
@@ -131,11 +132,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na západ
-    while 'Z' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_západ()
+    probojuj_se_na(hráč, 'Z')
 
     # zkusí se trochu vyléčit
     for věc in hráč.inventář.copy():
@@ -195,11 +192,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na sever
-    while 'S' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_sever()
+    probojuj_se_na(hráč, 'S')
 
     # zkusí se trochu vyléčit
     for věc in hráč.inventář.copy():
@@ -228,11 +221,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na sever
-    while 'S' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_sever()
+    probojuj_se_na(hráč, 'S')
 
     # zkusí se trochu vyléčit
     for věc in hráč.inventář.copy():
@@ -263,11 +252,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na východ
-    while 'V' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_východ()
+    probojuj_se_na(hráč, 'V')
 
     # sebere poslední lék v této části lesa
     hráč.jdi_na_východ()
@@ -289,20 +274,12 @@ def test_zakladni_pruchod_hrou():
     # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
     jdi(hráč, 'ZZ')
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    while 'J' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_jih()
+    probojuj_se_na(hráč, 'J')
 
     # totéž udělá s dalším nepřítelem
     jdi(hráč, 'JVVVSVVJJJJVVJ')
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    while 'J' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_jih()
+    probojuj_se_na(hráč, 'J')
 
     # dojde k mastičkáři, prodá sekerku za 45
     jdi(hráč, 'VVVSSSSSS')
@@ -341,11 +318,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na západ
-    while 'Z' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_západ()
+    probojuj_se_na(hráč, 'Z')
 
     # vysbírá zlato v blízkém okolí
     jdi(hráč, 'SS')
@@ -367,11 +340,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na sever
-    while 'S' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_sever()
+    probojuj_se_na(hráč, 'S')
 
     # zkusí se trochu vyléčit
     for věc in hráč.inventář.copy():
@@ -438,11 +407,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na sever
-    while 'S' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_sever()
+    probojuj_se_na(hráč, 'S')
 
     # zkusí se trochu vyléčit
     for věc in hráč.inventář.copy():
@@ -475,11 +440,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na západ
-    while 'Z' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_západ()
+    probojuj_se_na(hráč, 'Z')
 
     # sebere zlato
     zlato = hráč.zlato
@@ -526,11 +487,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na východ
-    while 'V' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_východ()
+    probojuj_se_na(hráč, 'V')
 
     # dojde pro lék
     jdi(hráč, 'VVVSVVSV')
@@ -559,11 +516,7 @@ def test_zakladni_pruchod_hrou():
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     # pokusí se probít dál na východ
-    while 'V' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_východ()
+    probojuj_se_na(hráč, 'V')
 
     # dojde pro zbraň
     hráč.jdi_na_jih()
@@ -575,11 +528,7 @@ def test_zakladni_pruchod_hrou():
     # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
     jdi(hráč, 'SZ')
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    while 'Z' not in zjisti_možné_akce(hráč):
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-    hráč.jdi_na_západ()
+    probojuj_se_na(hráč, 'Z')
 
     # vysbírá zlato v okolí
     jdi(hráč, 'SSSS')
