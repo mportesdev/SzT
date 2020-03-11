@@ -15,7 +15,7 @@ def test_zakladni_pruchod_hrou():
                          V=hráč.jdi_na_východ).get(směr.upper())
             pohyb()
 
-    def utrp_zranění():
+    def dostaň_ránu():
         zdraví = hráč.zdraví
         hráč.místnost_pobytu().dopad_na_hráče(hráč)
         assert hráč.zdraví < zdraví
@@ -24,14 +24,14 @@ def test_zakladni_pruchod_hrou():
         assert not any(klávesa in možnosti for klávesa in 'SJZV')
 
     def probojuj_se_na(směr):
-        while směr not in zjisti_možné_akce(hráč):
+        while směr.upper() not in zjisti_možné_akce(hráč):
             hráč.bojuj()
             hráč.místnost_pobytu().dopad_na_hráče(hráč)
             hráč.zdařilý_zásah = False
             assert hráč.žije(), 'K.I.A.'
         jdi(směr)
 
-    def zabij_nepřítele():
+    def zab():
         while hráč.místnost_pobytu().nepřítel.žije():
             hráč.bojuj()
             hráč.místnost_pobytu().dopad_na_hráče(hráč)
@@ -57,6 +57,9 @@ def test_zakladni_pruchod_hrou():
             assert sebraná_věc.název in názvy
         return sebraná_věc
 
+    názvy_léčivek = ('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
+                     'Kouzelné houby', 'Kouzelné bobule')
+
     hráč = Hráč()
 
     # hráč stojí na začátku, je zdráv, má u sebe dvě věci, zatím si nedělá mapu
@@ -66,32 +69,30 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == 2
     nůž = hráč.inventář[0]
     assert hráč.nejlepší_zbraň() is nůž
-    # assert set(zjisti_možné_akce(hráč).keys()) == set('SIK')
+    # assert set(zjisti_možné_akce(hráč)) == set('SIK')
 
     # jde dál lesem
     jdi('SS')
-    # assert set(zjisti_možné_akce(hráč).keys()) == set('SJIK')
+    # assert set(zjisti_možné_akce(hráč)) == set('SJIK')
 
     # dojde na první křižovatku a rozhodne se kreslit mapu
     hráč.jdi_na_sever()
-    assert set(zjisti_možné_akce(hráč).keys()) == set('SJZIMK')
+    assert set(zjisti_možné_akce(hráč)) == set('SJZIMK')
 
     # dojde na místo s bylinkami a sebere je
     jdi('SV')
     seber_jednu_věc('Léčivé bylinky')
-    assert set(zjisti_možné_akce(hráč).keys()) == set('ZIMK')
+    assert set(zjisti_možné_akce(hráč)) == set('ZIMK')
 
     # dojde na místo s nepřítelem, probije se dál na západ
     jdi('ZJZZSZ')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('Z')
 
     # dojde na místo s dýkou a sebere ji
     jdi('ZZ')
     dýka = seber_jednu_věc('Rezavá dýka')
     assert hráč.nejlepší_zbraň() is dýka
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde na místo s houbami a sebere je
@@ -100,27 +101,22 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s dalším nepřítelem, probije se dál na sever
     jdi('ZZSSVSSVVS')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('S')
 
     # dojde na místo s bobulemi a sebere je
     hráč.jdi_na_sever()
     seber_jednu_věc('Léčivé bobule')
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde na místo s dalším lékem a sebere ho
     jdi('JZZSZZJJJ')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
+    seber_jednu_věc(*názvy_léčivek)
 
     # dojde na místo s dalším nepřítelem, probije se dál na západ
     jdi('SZZ')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('Z')
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # stojí na severo-jižní cestě poblíž vchodu do jeskyně
@@ -128,8 +124,7 @@ def test_zakladni_pruchod_hrou():
 
     # sebere další lék
     jdi('SZZSZ')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
+    seber_jednu_věc(*názvy_léčivek)
 
     # dojde k mastičkáři, prodá nůž a dýku za 11 + 27
     jdi('VJVVSSS')
@@ -154,28 +149,22 @@ def test_zakladni_pruchod_hrou():
 
     # sebere další lék
     jdi('JJJJJJZZZJ')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
+    seber_jednu_věc(*názvy_léčivek)
 
     # dojde na místo s dalším nepřítelem, probije se dál na sever
     jdi('SS')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('S')
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # sebere další lék
     jdi('ZZSZ')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
+    seber_jednu_věc(*názvy_léčivek)
 
     # dojde na místo s lesním trollem, probije se dál na sever
     jdi('VSS')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('S')
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde na místo s mečem a sebere ho
@@ -185,15 +174,12 @@ def test_zakladni_pruchod_hrou():
 
     # dojde na místo s dalším nepřítelem, probije se dál na východ
     jdi('SZSS')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('V')
 
     # sebere poslední lék v této části lesa
     hráč.jdi_na_východ()
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
-
-    # zkusí se trochu vyléčit
+    seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
 
     # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
@@ -222,13 +208,11 @@ def test_zakladni_pruchod_hrou():
             hráč.kup(léčivo, mastičkář)
             print(f'Koupil jsi {léčivo}')
     hráč.vypiš_věci()
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde k prvnímu jeskynnímu nepříteli, probije se dál na západ
     jdi('SSVSS')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('Z')
 
     # vysbírá zlato v blízkém okolí
@@ -243,10 +227,8 @@ def test_zakladni_pruchod_hrou():
 
     # dojde ke druhému jeskynnímu nepříteli, probije se dál na sever
     jdi('SSSS')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('S')
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde na místo se zbraní (palcát, řemdih nebo mačeta) a sebere ji
@@ -258,17 +240,15 @@ def test_zakladni_pruchod_hrou():
     # dojde na místo s nepřítelem a pokud ještě žije, zabije ho
     jdi('VSSSVVJ')
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    zabij_nepřítele()
-    hráč.jdi_na_jih()
+    zab()
 
     # totéž udělá s dalším nepřítelem
-    jdi('JVVV')
+    jdi('JJVVV')
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    zabij_nepřítele()
-    hráč.jdi_na_jih()
+    zab()
 
     # dojde k mastičkáři, prodá meč za 62
-    jdi('JZJJ')
+    jdi('JJZJJ')
     assert 'O' in zjisti_možné_akce(hráč)
     zlato = hráč.zlato
     hráč.prodej(meč, mastičkář)
@@ -287,10 +267,8 @@ def test_zakladni_pruchod_hrou():
 
     # dojde k dalšímu nepříteli, probije se dál na sever
     jdi('SSVSSZZZSSSZZJZZ')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('S')
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # sebere zlato
@@ -306,21 +284,18 @@ def test_zakladni_pruchod_hrou():
 
     # dojde k dalšímu nepříteli, probije se dál na západ
     jdi('JJZ')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('Z')
 
     # sebere zlato
     zlato = hráč.zlato
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
     assert hráč.zlato > zlato
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde pro nejbližší lék v druhém lese
     jdi('ZSSSZZZSZSZZS')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
+    seber_jednu_věc(*názvy_léčivek)
 
     # dojde ke zbrojíři, prodá zbraň a koupí těžkou sekeru za 121
     jdi('JVVJV')
@@ -337,19 +312,17 @@ def test_zakladni_pruchod_hrou():
 
     # dojde k trollovi, probije se dál na východ
     jdi('JVVVJVVVJVVSVVVSVVJJJVVVVSVVJV')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('V')
 
     # dojde pro lék
     jdi('VVVSVVSV')
     seber_jednu_věc('Lahvička medicíny')
-
-    # zkusí se trochu vyléčit
     doplň_síly()
 
     # dojde k dalšímu nepříteli, probije se dál na východ
     jdi('ZJZZJJV')
-    utrp_zranění()
+    dostaň_ránu()
     probojuj_se_na('V')
 
     # dojde pro zbraň
@@ -373,46 +346,37 @@ def test_zakladni_pruchod_hrou():
 
     # dojde k prvnímu nepříteli v druhém lese, zabije ho
     jdi('SSZZSZZJZZZZSSSZZJZZZJZZSZZZSZZZSZSZZSSSZ')
-    utrp_zranění()
-    zabij_nepřítele()
+    dostaň_ránu()
+    zab()
 
     # dojde k dalšímu nepříteli, zabije ho
     jdi('ZJJJZZSZSSVS')
-    utrp_zranění()
-    zabij_nepřítele()
+    dostaň_ránu()
+    zab()
 
     # sebere lék úplně na severu
     jdi('SSZS')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
+    seber_jednu_věc(*názvy_léčivek)
 
     # dojde k dalšímu nepříteli, zabije ho
     jdi('JVJJJZJJVJJ')
-    utrp_zranění()
-    zabij_nepřítele()
+    dostaň_ránu()
+    zab()
 
     # sebere lék
     jdi('JZ')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
+    seber_jednu_věc(*názvy_léčivek)
 
     # dojde k dalšímu nepříteli, zabije ho
     jdi('ZJJVJ')
-    utrp_zranění()
-    zabij_nepřítele()
+    dostaň_ránu()
+    zab()
 
     # vysbírá ostatní léky
     jdi('JZ')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
-
+    seber_jednu_věc(*názvy_léčivek)
     jdi('VSSZSSVVJVJJ')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
-
+    seber_jednu_věc(*názvy_léčivek)
     jdi('SSZSSSVVJ')
-    seber_jednu_věc('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                    'Kouzelné houby', 'Kouzelné bobule')
-
-    # zkusí se trochu vyléčit
+    seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
