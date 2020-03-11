@@ -30,6 +30,16 @@ def test_zakladni_pruchod_hrou():
             hráč.zdařilý_zásah = False
             assert hráč.žije(), 'K.I.A.'
 
+    def doplň_síly():
+        for věc in hráč.inventář.copy():
+            try:
+                if věc.léčivá_síla <= 100 - hráč.zdraví:
+                    print(f'{věc}: {hráč.zdraví=}->', end='')
+                    hráč.spotřebuj(věc)
+                    print(hráč.zdraví)
+            except AttributeError:
+                continue
+
     hráč = Hráč()
 
     # hráč stojí na začátku, je zdráv, má u sebe dvě věci, zatím si nedělá mapu
@@ -76,14 +86,7 @@ def test_zakladni_pruchod_hrou():
     assert dýka.název == 'Rezavá dýka'
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # dojde na místo s houbami a sebere je
     jdi('VJJVV')
@@ -112,14 +115,7 @@ def test_zakladni_pruchod_hrou():
     assert hráč.inventář[-1].název == 'Léčivé bobule'
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # dojde na místo s dalším lékem a sebere ho
     jdi('JZZSZZJJJ')
@@ -141,14 +137,7 @@ def test_zakladni_pruchod_hrou():
     probojuj_se_na('Z')
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # stojí na severo-jižní cestě poblíž vchodu do jeskyně
     assert (hráč.x, hráč.y) == (24, 20)
@@ -201,14 +190,7 @@ def test_zakladni_pruchod_hrou():
     probojuj_se_na('S')
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # sebere další lék
     jdi('ZZSZ')
@@ -230,14 +212,7 @@ def test_zakladni_pruchod_hrou():
     probojuj_se_na('S')
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # dojde na místo s mečem a sebere ho
     jdi('ZZJZZJ')
@@ -268,14 +243,7 @@ def test_zakladni_pruchod_hrou():
     assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
     jdi('ZZ')
@@ -305,14 +273,7 @@ def test_zakladni_pruchod_hrou():
     hráč.vypiš_věci()
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # dojde k prvnímu jeskynnímu nepříteli a utrpí zranění
     jdi('SSVSS')
@@ -349,14 +310,7 @@ def test_zakladni_pruchod_hrou():
     probojuj_se_na('S')
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # dojde na místo se zbraní (palcát, řemdih nebo mačeta) a sebere ji
     jdi('ZZJJJZ')
@@ -410,14 +364,7 @@ def test_zakladni_pruchod_hrou():
     probojuj_se_na('S')
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # sebere zlato
     jdi('SZZ')
@@ -448,14 +395,7 @@ def test_zakladni_pruchod_hrou():
     assert hráč.zlato > zlato
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # dojde pro nejbližší lék v druhém lese
     jdi('ZSSSZZZSZSZZS')
@@ -497,14 +437,7 @@ def test_zakladni_pruchod_hrou():
     assert hráč.inventář[-1].název == 'Lahvička medicíny'
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
 
     # dojde k dalšímu nepříteli a utrpí zranění
     jdi('ZJZZJJV')
@@ -614,11 +547,4 @@ def test_zakladni_pruchod_hrou():
     assert hráč.inventář[-1].název.endswith(('houby', 'bobule', 'bylinky'))
 
     # zkusí se trochu vyléčit
-    for věc in hráč.inventář.copy():
-        try:
-            if věc.léčivá_síla <= 100 - hráč.zdraví:
-                print(f'{věc}: {hráč.zdraví=}->', end='')
-                hráč.spotřebuj(věc)
-                print(hráč.zdraví)
-        except AttributeError:
-            continue
+    doplň_síly()
