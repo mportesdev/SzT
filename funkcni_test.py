@@ -23,6 +23,14 @@ def probojuj_se_na(hráč, směr):
     jdi(hráč, směr)
 
 
+def zabij_nepřítele(hráč):
+    while hráč.místnost_pobytu().nepřítel.žije():
+        hráč.bojuj()
+        hráč.místnost_pobytu().dopad_na_hráče(hráč)
+        hráč.zdařilý_zásah = False
+        assert hráč.žije(), 'K.I.A.'
+
+
 def test_zakladni_pruchod_hrou():
     hráč = Hráč()
 
@@ -364,19 +372,13 @@ def test_zakladni_pruchod_hrou():
     # dojde na místo s nepřítelem a pokud ještě žije, zabije ho
     jdi(hráč, 'VSSSVVJ')
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    while hráč.místnost_pobytu().nepřítel.žije():
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
+    zabij_nepřítele(hráč)
     hráč.jdi_na_jih()
 
     # totéž udělá s dalším nepřítelem
     jdi(hráč, 'JVVV')
     hráč.místnost_pobytu().dopad_na_hráče(hráč)
-    while hráč.místnost_pobytu().nepřítel.žije():
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
+    zabij_nepřítele(hráč)
     hráč.jdi_na_jih()
 
     # dojde k mastičkáři, prodá meč za 62
@@ -548,11 +550,7 @@ def test_zakladni_pruchod_hrou():
     možnosti = zjisti_možné_akce(hráč)
     assert 'B' in možnosti
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    while hráč.místnost_pobytu().nepřítel.žije():
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
+    zabij_nepřítele(hráč)
 
     # dojde k dalšímu nepříteli, zkusí ho zabít
     jdi(hráč, 'ZJJJZZSZSSVS')
@@ -562,11 +560,7 @@ def test_zakladni_pruchod_hrou():
     možnosti = zjisti_možné_akce(hráč)
     assert 'B' in možnosti
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    while hráč.místnost_pobytu().nepřítel.žije():
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
+    zabij_nepřítele(hráč)
 
     # sebere lék úplně na severu
     jdi(hráč, 'SSZS')
@@ -583,11 +577,7 @@ def test_zakladni_pruchod_hrou():
     možnosti = zjisti_možné_akce(hráč)
     assert 'B' in možnosti
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    while hráč.místnost_pobytu().nepřítel.žije():
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
+    zabij_nepřítele(hráč)
 
     # sebere lék
     jdi(hráč, 'JZ')
@@ -604,11 +594,7 @@ def test_zakladni_pruchod_hrou():
     možnosti = zjisti_možné_akce(hráč)
     assert 'B' in možnosti
     assert not any(klávesa in možnosti for klávesa in 'SJZV')
-
-    while hráč.místnost_pobytu().nepřítel.žije():
-        hráč.bojuj()
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
+    zabij_nepřítele(hráč)
 
     # vysbírá ostatní léky
     jdi(hráč, 'JZ')
