@@ -219,8 +219,8 @@ class JeskyněZlato(Jeskyně):
 class JeskyněLék(Jeskyně):
     def __init__(já, x, y):
         super().__init__(x, y)
-        já.lék = veci.Lék('Lahvička medicíny', 27, 21, 'Lahvičkou medicíny',
-                          'Lahvičku medicíny')
+        já.lék = veci.Lék('Lahvička medicíny', random.randint(35, 45), 21,
+                          'Lahvičkou medicíny', 'Lahvičku medicíny')
         já.lék_sebrán = False
 
     def dopad_na_hráče(já, hráč):
@@ -309,7 +309,7 @@ mapa_hry = '''
 fm        gc cccc A                      
  fff    lc C c  Ccc                      
   f      cccccc    c         gc          
-  F  f        cHcc c c  cg    C cc       
+  F  f        cHcc c c  cg    C lc       
  ff fFf   ccC c  cccccc c    cc  cccg    
  f  f f   c ccc  c   T  c  cTc ccC       
  ff f m f A   c  cc cccccccc ccc c       
