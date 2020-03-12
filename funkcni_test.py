@@ -15,13 +15,13 @@ def test_zakladni_pruchod_hrou():
                 assert 'B' in možnosti
                 # když vleze do místnosti s nepřítelem, dostane ránu
                 hráč.místnost_pobytu().dopad_na_hráče(hráč)
-                assert hráč.žije(), 'K.I.A.'
+                assert hráč.žije(), 'zabit v boji'
 
                 # musí zabít nebo omráčit nepřítele, aby mohl jít dál
                 while směr not in zjisti_možné_akce(hráč):
                     hráč.bojuj()
                     hráč.místnost_pobytu().dopad_na_hráče(hráč)
-                    assert hráč.žije(), 'K.I.A.'
+                    assert hráč.žije(), 'zabit v boji'
 
             akce = dict(S=hráč.jdi_na_sever,
                         J=hráč.jdi_na_jih,
@@ -68,7 +68,7 @@ def test_zakladni_pruchod_hrou():
     hráč = Hráč()
 
     # hráč stojí na začátku, je zdráv, má u sebe dvě věci, zatím si nedělá mapu
-    assert (hráč.x, hráč.y) == (hráč.svět.začátek.x, hráč.svět.začátek.y)
+    assert hráč.místnost_pobytu() == hráč.svět.začátek
     assert hráč.zdraví == 100
     assert len(hráč.inventář) == 2
     nůž = hráč.inventář[0]
@@ -227,7 +227,7 @@ def test_zakladni_pruchod_hrou():
     hráč.prodej(zbraň_19x12, zbrojíř)
     while hráč.zlato < sekera.cena and hráč.inventář:
         hráč.prodej(hráč.inventář[-1], zbrojíř)
-    assert hráč.zlato >= 121, f'nejsou peníze na sekeru! ({hráč.zlato})'
+    assert hráč.zlato >= 121, 'chybí peníze na sekeru'
     hráč.kup(sekera, zbrojíř)
     hráč.vypiš_věci()
 
@@ -283,4 +283,60 @@ def test_zakladni_pruchod_hrou():
     # probije se k druhému artefaktu
     jdi('ZJJZZSZSSZZSSZZZJJJZZZJZJJV')
     seber_artefakt()
+    hráč.vypiš_věci()
+
+    # vyrazí pro třetí artefakt
+    jdi('ZSSVSVVVSSSVVSSSSSVSSVVSVVV')
+    assert (hráč.x, hráč.y) == (15, 10)
+    jdi('JVVSVVVSVVSVVVVSSVSVV')
+    doplň_síly()
+    jdi('JVVSVVJJV')
+    seber_artefakt()
+    hráč.vypiš_věci()
+
+    # sebere lék
+    jdi('ZSSSSZ')
+    seber_jednu_věc('Lahvička medicíny')
+    doplň_síly()
+
+    # vysbírá zlato v okolí
+    jdi('VJVVV')
+    seber_zlato()
+    jdi('ZZZJZZJZZSSVSSZ')
+    seber_zlato()
+    jdi('VJJZJZZJZZZSSSV')
+    seber_zlato()
+
+    # přejde přes trolla
+    jdi('ZJJJZZZSS')
+    doplň_síly()
+    # přejde přes dobrodruha
+    jdi('ZZZZSZZZ')
+
+    # sebere poslední lék
+    jdi('SZZZZZSZ')
+    seber_jednu_věc('Lahvička medicíny')
+    doplň_síly()
+
+    # vyrazí pro čtvrtý artefakt
+    jdi('VJVVVVSSVVVJVVS')
+    seber_artefakt()
+
+    # vyrazí pro pátý artefakt
+    jdi('JZZSZZZJJVJJJZZSZZJJ')
+    seber_artefakt()
+
+    # sebere zlato
+    jdi('SSVVJVVSSSZZZSSZ')
+    seber_zlato()
+
+    # vyjde před jeskyni
+    jdi('VJJVVVJVVVJVVVVJJVVJJZJJJJVVVJJZJJJ')
+    assert (hráč.x, hráč.y) == (24, 17)
+
+    # dojde na začátek a zvítězí
+    jdi('JJJVVVSSVVJVVJJZZJJVVJVVJJJ')
+    assert hráč.místnost_pobytu() == hráč.svět.začátek and hráč.svět.poklad_posbírán()
+
+    print(hráč.zkušenost)
     hráč.vypiš_věci()
