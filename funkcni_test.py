@@ -9,35 +9,25 @@ def test_zakladni_pruchod_hrou():
 
     def jdi(cesta):
         for směr in cesta:
-            pohyb = dict(S=hráč.jdi_na_sever,
-                         J=hráč.jdi_na_jih,
-                         Z=hráč.jdi_na_západ,
-                         V=hráč.jdi_na_východ).get(směr.upper())
-            pohyb()
+            možnosti = zjisti_možné_akce(hráč)
 
-    def dostaň_ránu():
-        if not hráč.místnost_pobytu().nepřítel.žije():
-            return
-        hráč.místnost_pobytu().dopad_na_hráče(hráč)
-        assert hráč.žije(), 'K.I.A.'
-        možnosti = zjisti_možné_akce(hráč)
-        assert 'B' in možnosti
-        assert not any(klávesa in možnosti for klávesa in 'SJZV')
+            if směr not in možnosti:
+                assert 'B' in možnosti
+                # když vleze do místnosti s nepřítelem, dostane ránu
+                hráč.místnost_pobytu().dopad_na_hráče(hráč)
+                assert hráč.žije(), 'K.I.A.'
 
-    def probojuj_se_na(směr):
-        while směr.upper() not in zjisti_možné_akce(hráč):
-            hráč.bojuj()
-            hráč.místnost_pobytu().dopad_na_hráče(hráč)
-            hráč.zdařilý_zásah = False
-            assert hráč.žije(), 'K.I.A.'
-        jdi(směr)
+                # musí zabít nebo omráčit nepřítele, aby mohl jít dál
+                while směr not in zjisti_možné_akce(hráč):
+                    hráč.bojuj()
+                    hráč.místnost_pobytu().dopad_na_hráče(hráč)
+                    assert hráč.žije(), 'K.I.A.'
 
-    def zab():
-        while hráč.místnost_pobytu().nepřítel.žije():
-            hráč.bojuj()
-            hráč.místnost_pobytu().dopad_na_hráče(hráč)
-            hráč.zdařilý_zásah = False
-            assert hráč.žije(), 'K.I.A.'
+            akce = dict(S=hráč.jdi_na_sever,
+                        J=hráč.jdi_na_jih,
+                        Z=hráč.jdi_na_západ,
+                        V=hráč.jdi_na_východ).get(směr)
+            akce()
 
     def doplň_síly():
         for věc in hráč.inventář.copy():
@@ -98,46 +88,24 @@ def test_zakladni_pruchod_hrou():
     seber_jednu_věc('Léčivé bylinky')
     assert set(zjisti_možné_akce(hráč)) == set('ZIMK')
 
-    # dojde na místo s nepřítelem, probije se dál na západ
-    jdi('ZJZZSZ')
-    dostaň_ránu()
-    probojuj_se_na('Z')
-
-    # dojde na místo s dýkou a sebere ji
-    jdi('ZZ')
+    # přes prvního nepřítele se probije nožem, dojde pro dýku a houby
+    jdi('ZJZZSZZZZ')
     dýka = seber_jednu_věc('Rezavá dýka')
     assert hráč.nejlepší_zbraň() is dýka
     doplň_síly()
-
-    # dojde na místo s houbami a sebere je
     jdi('VJJVV')
     seber_jednu_věc('Léčivé houby')
 
-    # dojde na místo s dalším nepřítelem, probije se dál na sever
-    jdi('ZZSSVSSVVS')
-    dostaň_ránu()
-    probojuj_se_na('S')
-
-    # dojde na místo s bobulemi a sebere je
-    hráč.jdi_na_sever()
+    # přejde přes dalšího nepřítele, dojde pro bobule a další lék
+    jdi('ZZSSVSSVVSSS')
     seber_jednu_věc('Léčivé bobule')
     doplň_síly()
-
-    # dojde na místo s dalším lékem a sebere ho
     jdi('JZZSZZJJJ')
     seber_jednu_věc(*názvy_léčivek)
-
-    # dojde na místo s dalším nepřítelem, probije se dál na západ
-    jdi('SZZ')
-    dostaň_ránu()
-    probojuj_se_na('Z')
     doplň_síly()
 
-    # stojí na severo-jižní cestě poblíž vchodu do jeskyně
-    assert (hráč.x, hráč.y) == (24, 20)
-
-    # sebere další lék
-    jdi('SZZSZ')
+    # přejde přes dalšího nepřítele, dojde pro další lék
+    jdi('SZZZSZZSZ')
     seber_jednu_věc(*názvy_léčivek)
 
     # dojde k mastičkáři, prodá nůž a dýku za 11 + 27
@@ -165,49 +133,24 @@ def test_zakladni_pruchod_hrou():
     jdi('JJJJJJZZZJ')
     seber_jednu_věc(*názvy_léčivek)
 
-    # dojde na místo s dalším nepřítelem, probije se dál na sever
-    jdi('SS')
-    dostaň_ránu()
-    probojuj_se_na('S')
-    doplň_síly()
-
-    # sebere další lék
-    jdi('ZZSZ')
+    # přes nepřítele dojde pro lék
+    jdi('SSSZZSZ')
     seber_jednu_věc(*názvy_léčivek)
-
-    # dojde na místo s lesním trollem, probije se dál na sever
-    jdi('VSS')
-    dostaň_ránu()
-    probojuj_se_na('S')
     doplň_síly()
 
-    # dojde na místo s mečem a sebere ho
-    jdi('ZZJZZJ')
+    # přes lesního trolla dojde pro meč
+    jdi('VSSSZZJZZJ')
     meč = seber_jednu_věc('Zrezivělý meč')
     assert hráč.nejlepší_zbraň() is meč
-
-    # dojde na místo s dalším nepřítelem, probije se dál na východ
-    jdi('SZSS')
-    dostaň_ránu()
-    probojuj_se_na('V')
+    doplň_síly()
 
     # sebere poslední lék v této části lesa
-    hráč.jdi_na_východ()
+    jdi('SZSSVV')
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
 
-    # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
-    jdi('ZZ')
-    dostaň_ránu()
-    probojuj_se_na('J')
-
-    # totéž udělá s dalším nepřítelem
-    jdi('JVVVSVVJJJJVVJ')
-    dostaň_ránu()
-    probojuj_se_na('J')
-
     # dojde k mastičkáři, prodá sekerku za 45
-    jdi('VVVSSSSSS')
+    jdi('ZZJJVVVSVVJJJJVVJJVVVSSSSSS')
     assert 'O' in zjisti_možné_akce(hráč)
     zlato = hráč.zlato
     hráč.prodej(sekerka, mastičkář)
@@ -224,41 +167,22 @@ def test_zakladni_pruchod_hrou():
     hráč.vypiš_věci()
     doplň_síly()
 
-    # dojde k prvnímu jeskynnímu nepříteli, probije se dál na západ
-    jdi('SSVSS')
-    dostaň_ránu()
-    probojuj_se_na('Z')
-
-    # vysbírá zlato v blízkém okolí
-    jdi('SS')
+    # přes nepřítele dojde pro zlato
+    jdi('SSVSSZSS')
     seber_zlato()
     jdi('JJZZJJ')
     seber_zlato()
 
-    # dojde ke druhému jeskynnímu nepříteli, probije se dál na sever
-    jdi('SSSS')
-    dostaň_ránu()
-    probojuj_se_na('S')
+    # přes nepřítele dojde pro zbraň (palcát, řemdih nebo mačeta)
+    jdi('SSSSS')
     doplň_síly()
-
-    # dojde na místo se zbraní (palcát, řemdih nebo mačeta) a sebere ji
     jdi('ZZJJJZ')
     zbraň_19x12 = seber_jednu_věc('Ostnatý palcát', 'Damascénská mačeta',
                                   'Řemdih')
     assert hráč.nejlepší_zbraň() is zbraň_19x12
 
-    # dojde na místo s nepřítelem a pokud ještě žije, zabije ho
-    jdi('VSSSVVJ')
-    dostaň_ránu()
-    zab()
-
-    # totéž udělá s dalším nepřítelem
-    jdi('JJVVV')
-    dostaň_ránu()
-    zab()
-
     # dojde k mastičkáři, prodá meč za 62
-    jdi('JJZJJ')
+    jdi('VSSSVVJJJVVVJJZJJ')
     assert 'O' in zjisti_možné_akce(hráč)
     zlato = hráč.zlato
     hráč.prodej(meč, mastičkář)
@@ -275,27 +199,18 @@ def test_zakladni_pruchod_hrou():
             print(f'Koupil jsi {léčivo}')
     hráč.vypiš_věci()
 
-    # dojde k dalšímu nepříteli, probije se dál na sever
-    jdi('SSVSSZZZSSSZZJZZ')
-    dostaň_ránu()
-    probojuj_se_na('S')
+    # přes nepřítele dojde pro zlato
+    jdi('SSVSSZZZSSSZZJZZS')
     doplň_síly()
-
-    # sebere zlato
     jdi('SZZ')
     seber_zlato()
 
     jdi('ZJJ')
-
     # stojí na křižovatce v pomyslném středu jeskyně
     assert (hráč.x, hráč.y) == (15, 10)
 
-    # dojde k dalšímu nepříteli, probije se dál na západ
-    jdi('JJZ')
-    dostaň_ránu()
-    probojuj_se_na('Z')
-
-    # sebere zlato
+    # přes nepřítele dojde pro zlato
+    jdi('JJZZ')
     seber_zlato()
     doplň_síly()
 
@@ -316,66 +231,30 @@ def test_zakladni_pruchod_hrou():
     hráč.kup(sekera, zbrojíř)
     hráč.vypiš_věci()
 
-    # dojde k trollovi, probije se dál na východ
-    jdi('JVVVJVVVJVVSVVVSVVJJJVVVVSVVJV')
-    dostaň_ránu()
-    probojuj_se_na('V')
-
-    # dojde pro lék
-    jdi('VVVSVVSV')
+    # přes trolla přejde pro lék a pro zbraň
+    jdi('JVVVJVVVJVVSVVVSVVJJJVVVVSVVJVVVVVSVVSV')
     seber_jednu_věc('Lahvička medicíny')
     doplň_síly()
-
-    # dojde k dalšímu nepříteli, probije se dál na východ
-    jdi('ZJZZJJV')
-    dostaň_ránu()
-    probojuj_se_na('V')
-
-    # dojde pro zbraň
-    hráč.jdi_na_jih()
+    jdi('ZJZZJJVVJ')
     zbraň_35x14 = seber_jednu_věc()
-
-    # dojde na místo s nepřítelem a pokud ještě žije, zkusí přes něj přejít
-    jdi('SZ')
-    dostaň_ránu()
-    probojuj_se_na('Z')
+    assert (hráč.x, hráč.y) == (35, 14)
 
     # vysbírá zlato v okolí
-    jdi('SSSS')
+    jdi('SZZSSSS')
     seber_zlato()
     jdi('JJJZZZJJ')
     seber_zlato()
 
-    # dojde k prvnímu nepříteli v druhém lese, zabije ho
-    jdi('SSZZSZZJZZZZSSSZZJZZZJZZSZZZSZZZSZSZZSSSZ')
-    dostaň_ránu()
-    zab()
+    # dojde do severozápadního lesa
+    jdi('SSZZSZZJZZZZSSSZZJZZZJZZSZZZSZZZSZ')
+    assert (hráč.x, hráč.y) == (8, 8)
 
-    # dojde k dalšímu nepříteli, zabije ho
-    jdi('ZJJJZZSZSSVS')
-    dostaň_ránu()
-    zab()
-
-    # sebere lék úplně na severu
-    jdi('SSZS')
+    # vysbírá tam léky
+    jdi('SZZSSSZZJJJZZSZSSVSSSZS')
     seber_jednu_věc(*názvy_léčivek)
-
-    # dojde k dalšímu nepříteli, zabije ho
-    jdi('JVJJJZJJVJJ')
-    dostaň_ránu()
-    zab()
-
-    # sebere lék
-    jdi('JZ')
+    jdi('JVJJJZJJVJJJZ')
     seber_jednu_věc(*názvy_léčivek)
-
-    # dojde k dalšímu nepříteli, zabije ho
-    jdi('ZJJVJ')
-    dostaň_ránu()
-    zab()
-
-    # vysbírá ostatní léky
-    jdi('JZ')
+    jdi('ZJJVJJZ')
     seber_jednu_věc(*názvy_léčivek)
     jdi('VSSZSSVVJVJJ')
     seber_jednu_věc(*názvy_léčivek)
@@ -383,53 +262,25 @@ def test_zakladni_pruchod_hrou():
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
 
-    jdi('SSSSVVJJJVVJVJVVVJJZZ')
-    # stojí u odbočky do jihozápadní části jeskyně
+    # vrátí se do jeskyně
+    jdi('SSSSVVJJJVVJV')
+    assert (hráč.x, hráč.y) == (9, 8)
+    # dojde k odbočce do jihozápadní části jeskyně
+    jdi('JVVVJJZZ')
     assert (hráč.x, hráč.y) == (10, 11)
 
-    # dojde k trollovi, probije se dál na jih
-    jdi('JJZJJ')
-    dostaň_ránu()
-    probojuj_se_na('J')
+    # přejde přes trolla
+    jdi('JJZJJJ')
     doplň_síly()
 
-    # dojde k dalšímu nepříteli, probije se dál na východ
-    jdi('JJ')
-    dostaň_ránu()
-    probojuj_se_na('V')
-
-    # dojde k dalšímu nepříteli, probije se dál na východ
-    jdi('JJV')
-    dostaň_ránu()
-    probojuj_se_na('V')
-
-    # dojde k dalšímu nepříteli, probije se dál na sever
-    jdi('JJVJVVS')
-    dostaň_ránu()
-    probojuj_se_na('S')
-
-    # dojde pro lék
-    jdi('SZ')
+    # přejde přes další nepřátele, dojde pro lék a první artefakt
+    jdi('JJVJJVVJJVJVVSSSZ')
     seber_jednu_věc('Lahvička medicíny')
     doplň_síly()
-
-    # dojde pro první artefakt
     jdi('VJV')
     seber_artefakt()
 
     # probije se k druhému artefaktu
-    jdi('ZJ')
-    dostaň_ránu()
-    probojuj_se_na('J')
-    jdi('ZZSZSSZ')
-    dostaň_ránu()
-    probojuj_se_na('Z')
-    jdi('SSZ')
-    dostaň_ránu()
-    probojuj_se_na('Z')
-    jdi('ZJJJZZZJZ')
-    dostaň_ránu()
-    probojuj_se_na('J')
-    jdi('JV')
+    jdi('ZJJZZSZSSZZSSZZZJJJZZZJZJJV')
     seber_artefakt()
     hráč.vypiš_věci()
