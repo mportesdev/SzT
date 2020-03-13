@@ -46,8 +46,9 @@ class Obchodník:
                            ' vestě a bronzové přilbici.'),
                      zlato=450,
                      inventář=[
-                         veci.Zbraň('Obouruční meč', 24, 112),
-                         veci.Zbraň('Těžká sekera', 26, 121, 'Těžkou sekeru'),
+                         veci.Zbraň('Obouruční meč', 24, 114),
+                         veci.Zbraň('Damascénská mačeta', 21, 103,
+                                    'Damascénskou mačetu'),
                          veci.Lék('Hojivá mast', 14, 18, 'Hojivou mastí',
                                   'Hojivou mast'),
                          veci.Zbraň('Halapartna', 19, 99, 'Halapartnu'),

@@ -352,6 +352,24 @@ class Svět:
             return None
 
     def načti_mapu(já, mapa):
+
+        def generátor_zbraní():
+            data_zbraní = {
+                ('Ostnatý palcát', 18, 82),
+                ('Ohořelý trojzubec', 19, 85),
+                ('Řemdih', 20, 91),
+            }
+
+            while True:
+                if (x, y) == (27, 23):
+                    yield veci.Zbraň('Rezavá dýka', 9, 31, 'Rezavou dýku')
+                elif (x, y) == (15, 18):
+                    yield veci.Zbraň('Zrezivělý meč', 16, 69)
+                elif (x, y) == (35, 14):
+                    yield veci.Zbraň('Těžká sekera', 26, 117, 'Těžkou sekeru')
+                else:
+                    yield veci.Zbraň(*data_zbraní.pop())
+
         data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
             ('Rubínový kříž', Barva.ČERVENÁ),
@@ -360,16 +378,8 @@ class Svět:
             ('Safírový trojzubec', Barva.MODRÁ)
         }
 
-        data_zbraní = {
-            ('Ostnatý palcát', 18, 82),
-            ('Damascénská mačeta', 19, 88, 'Damascénskou mačetu'),
-            ('Řemdih', 20, 91),
-        }
-
         if mapa.count('1') > len(data_artefaktů):
             raise ValueError('Nedostatek dat pro artefakty')
-        if mapa.count('w') > len(data_zbraní):
-            raise ValueError('Nedostatek dat pro zbraně')
         if mapa.count('S') != 1:
             raise ValueError('Na mapě musí být přesně jedna startovní místnost')
 
@@ -418,13 +428,8 @@ class Svět:
                     parametry.update(
                         artefakt=veci.Artefakt(*data_artefaktů.pop())
                     )
-                elif kód_místnosti == 'w':
-                    parametry.update(zbraň=veci.Zbraň(*data_zbraní.pop()))
-                elif kód_místnosti == 'x':
-                    parametry_zbraně = (('Rezavá dýka', 9, 31, 'Rezavou dýku')
-                                        if (x, y) == (27, 23)
-                                        else ('Zrezivělý meč', 16, 69))
-                    parametry.update(zbraň=veci.Zbraň(*parametry_zbraně))
+                elif kód_místnosti in ('w', 'x'):
+                    parametry.update(zbraň=next(generátor_zbraní()))
 
                 if typ_místnosti:
                     místnost = typ_místnosti(x, y, **parametry)

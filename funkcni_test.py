@@ -177,7 +177,7 @@ def test_zakladni_pruchod_hrou():
     jdi('SSSSS')
     doplň_síly()
     jdi('ZZJJJZ')
-    zbraň_19x12 = seber_jednu_věc('Ostnatý palcát', 'Damascénská mačeta',
+    zbraň_19x12 = seber_jednu_věc('Ostnatý palcát', 'Ohořelý trojzubec',
                                   'Řemdih')
     assert hráč.nejlepší_zbraň() is zbraň_19x12
 
@@ -218,17 +218,17 @@ def test_zakladni_pruchod_hrou():
     jdi('ZSSSZZZSZSZZS')
     seber_jednu_věc(*názvy_léčivek)
 
-    # dojde ke zbrojíři, prodá zbraň a koupí těžkou sekeru za 121
+    # dojde ke zbrojíři, prodá zbraň a koupí meč za 114
     jdi('JVVJV')
     assert 'O' in zjisti_možné_akce(hráč)
 
     zbrojíř = hráč.místnost_pobytu().obchodník
-    sekera = next(věc for věc in zbrojíř.inventář if 'sekera' in věc.název)
+    meč = next(věc for věc in zbrojíř.inventář if 'meč' in věc.název)
     hráč.prodej(zbraň_19x12, zbrojíř)
-    while hráč.zlato < sekera.cena and hráč.inventář:
+    while hráč.zlato < meč.cena and hráč.inventář:
         hráč.prodej(hráč.inventář[-1], zbrojíř)
-    assert hráč.zlato >= 121, 'chybí peníze na sekeru'
-    hráč.kup(sekera, zbrojíř)
+    assert hráč.zlato >= 114, 'chybí peníze na meč'
+    hráč.kup(meč, zbrojíř)
     hráč.vypiš_věci()
 
     # přes trolla přejde pro lék a pro zbraň
@@ -236,7 +236,7 @@ def test_zakladni_pruchod_hrou():
     seber_jednu_věc('Lahvička medicíny')
     doplň_síly()
     jdi('ZJZZJJVVJ')
-    zbraň_35x14 = seber_jednu_věc()
+    sekera = seber_jednu_věc('Těžká sekera')
     assert (hráč.x, hráč.y) == (35, 14)
 
     # vysbírá zlato v okolí
