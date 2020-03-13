@@ -216,22 +216,6 @@ class JeskyněZlato(Jeskyně):
             vypiš_odstavec(f'Našel jsi {já.zlato} zlaťáků.', 'štěstí')
 
 
-class JeskyněLék(Jeskyně):
-    def __init__(já, x, y):
-        super().__init__(x, y)
-        já.lék = veci.Lék('Lahvička medicíny', random.randint(35, 45), 21,
-                          'Lahvičkou medicíny', 'Lahvičku medicíny')
-        já.lék_sebrán = False
-
-    def dopad_na_hráče(já, hráč):
-        if not já.lék_sebrán:
-            já.lék_sebrán = True
-            hráč.inventář.append(já.lék)
-            vypiš_odstavec('Na zemi jsi našel zaprášenou'
-                           f' {já.lék.název_4_pád.lower()}.',
-                           'štěstí')
-
-
 class JeskyněArtefakt(Jeskyně):
     def __init__(já, x, y, artefakt):
         super().__init__(x, y)
@@ -277,32 +261,30 @@ class LesZbraň(MístnostZbraň, Les):
     pass
 
 
-class LesLék(Les):
-    def __init__(já, x, y):
+class MístnostLék(Místnost):
+    def __init__(já, x, y, lék):
         super().__init__(x, y)
-        if (x, y) == (34, 23):
-            parametry = ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami')
-        elif (x, y) == (30, 25):
-            parametry = ('Léčivé houby', 12, 9, 'Léčivými houbami')
-        elif (x, y) == (31, 18):
-            parametry = ('Léčivé bobule', 13, 11, 'Léčivými bobulemi')
-        else:
-            parametry = random.choice((
-                ('Léčivé houby', 12, 9, 'Léčivými houbami'),
-                ('Léčivé bobule', 13, 11, 'Léčivými bobulemi'),
-                ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami'),
-                ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
-                ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
-            ))
-        já.lék = veci.Lék(*parametry)
+        já.lék = lék
         já.lék_sebrán = False
 
     def dopad_na_hráče(já, hráč):
         if not já.lék_sebrán:
             já.lék_sebrán = True
             hráč.inventář.append(já.lék)
-            vypiš_odstavec(f'Našel jsi {já.lék.název_4_pád.lower()}.',
-                           'štěstí')
+            if isinstance(já, Les):
+                zpráva = (f'Našel jsi {já.lék.název_4_pád.lower()}.')
+            else:
+                zpráva = ('Na zemi jsi našel zaprášenou'
+                          f' {já.lék.název_4_pád.lower()}.')
+            vypiš_odstavec(zpráva, 'štěstí')
+
+
+class JeskyněLék(MístnostLék, Jeskyně):
+    pass
+
+
+class LesLék(MístnostLék, Les):
+    pass
 
 
 mapa_hry = '''
@@ -370,6 +352,29 @@ class Svět:
                 else:
                     yield veci.Zbraň(*data_zbraní.pop())
 
+        def generátor_léků():
+            data_léků = {
+                ('Léčivé houby', 12, 9, 'Léčivými houbami'),
+                ('Léčivé bobule', 13, 11, 'Léčivými bobulemi'),
+                ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami'),
+                ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
+                ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
+            }
+
+            while True:
+                if (x, y) == (34, 23):
+                    yield veci.Lék('Léčivé bylinky', 18, 19, 'Léčivými bylinkami')
+                elif (x, y) == (30, 25):
+                    yield veci.Lék('Léčivé houby', 12, 9, 'Léčivými houbami')
+                elif (x, y) == (31, 18):
+                    yield veci.Lék('Léčivé bobule', 13, 11, 'Léčivými bobulemi')
+                elif kód_místnosti == 'l':
+                    yield veci.Lék('Lahvička medicíny',
+                                   random.randint(35, 45), 21,
+                                   'Lahvičkou medicíny', 'Lahvičku medicíny')
+                else:
+                    yield veci.Lék(*data_léků.pop())
+
         data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
             ('Rubínový kříž', Barva.ČERVENÁ),
@@ -430,6 +435,8 @@ class Svět:
                     )
                 elif kód_místnosti in ('w', 'x'):
                     parametry.update(zbraň=next(generátor_zbraní()))
+                elif kód_místnosti in ('m', 'l'):
+                    parametry.update(lék=next(generátor_léků()))
 
                 if typ_místnosti:
                     místnost = typ_místnosti(x, y, **parametry)
