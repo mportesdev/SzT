@@ -11,6 +11,7 @@ from textwrap import TextWrapper
 import time
 
 NÁZEV_HRY = 'Strach ze tmy'
+VERZE = 'verze 0.9'
 ŠÍŘKA = 70
 
 
@@ -77,15 +78,32 @@ def vícebarevně(text, barvy, opakovat=True, oddělovač='|', konec='\n'):
 
 def zobraz_titul():
     os.system('cls' if os.name == 'nt' else 'clear')
+    vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ)
     vypiš_barevně('\n\n',
                   ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
-                  '\n',
+                  '\n\n\n',
                   'textová hra na hrdiny'.center(ŠÍŘKA),
-                  '',
-                  'verze 0.8, 30. ledna 2020'.center(ŠÍŘKA),
                   '\n\n',
-                  barva=Barva.FIALOVÁ, sep='\n')
+                  f'{VERZE}, 1. dubna 2020'.center(ŠÍŘKA),
+                  '\n\n',
+                  barva=Barva.FIALOVÁ, sep='')
     vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ, end='\n\n')
+
+
+def zobraz_gratulaci():
+    vypiš_odstavec(
+        'Překonal jsi všechny nástrahy a skutečně se ti podařilo získat kýžené'
+        ' magické artefakty. Otevírá se před tebou svět neomezených možností.',
+        'štěstí'
+    )
+    print('\n\n',
+          'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
+          '\n\n',
+          sep='')
+    vypiš_barevně(f'{NÁZEV_HRY}       {VERZE}       '
+                  'github.com/myrmica-habilis/SzT.git'.center(ŠÍŘKA),
+                  barva=Barva.FIALOVÁ)
+    vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ)
 
 
 def vypiš_název_akce(název_akce):

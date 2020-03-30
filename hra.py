@@ -32,11 +32,7 @@ def hra():
                 )
 
         if místnost is hráč.svět.začátek and hráč.svět.poklad_posbírán():
-            utility.vypiš_odstavec(
-                'Překonal jsi všechny nástrahy a skutečně se ti podařilo získat'
-                ' kýžené magické artefakty. Otevírá se před tebou svět'
-                ' neomezených možností.'
-            )
+            utility.zobraz_gratulaci()
             break
 
         while True:
@@ -53,8 +49,6 @@ def hra():
             if akce in (hráč.jdi_na_sever, hráč.jdi_na_jih,
                         hráč.jdi_na_východ, hráč.jdi_na_západ):
                 break
-
-    print('\nDokázal jsi to!\n\nBlahopřeji k vítězství.')
 
 
 if __name__ == '__main__':
