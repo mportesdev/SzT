@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import math
 import random
 
 import nepratele
@@ -26,48 +27,38 @@ class Místnost:
 class Jeskyně(Místnost):
     def __init__(já, x, y):
         super().__init__(x, y)
-        if x <= 18 and y <= 6:
-            # zone 1
-            já.text = ('Klopýtáš po rozbitém kamení v téměř úplné tmě této'
-                       ' části jeskyně.')
-        elif x >= 27 and y <= 7:
-            # zone 3
-            já.text = ('Našlapuješ po rozměklé zemi ve vlhké a zatuchlé části'
-                       ' jeskyně.')
-        elif 22 <= x <= 26 and y >= 9:
-            # zone 5
-            já.text = 'Procházíš chladnou tmavou jeskyní.'
-        elif x >= 27 and y >= 9:
-            # zone 6
-            já.text = 'Procházíš spletí nepříjemně tísnivých úzkých chodeb.'
-        elif x <= 8 and y >= 18:
-            # zone 8
-            já.text = 'Procházíš chladnou tmavou jeskyní.'
-        elif y >= 19:
-            # zone 9
-            já.text = 'Procházíš chladnou tmavou jeskyní.'
-        elif x <= 11 and y >= 10:
-            # zone 7
-            já.text = 'Procházíš chladnou tmavou jeskyní.'
-        elif x <= 21 and y >= 7:
-            # zone 4
-            já.text = 'Procházíš chladnou tmavou jeskyní.'
-        else:
-            # zone 2
-            já.text = 'Procházíš chladnou tmavou jeskyní.'
+
+        texty = (
+            'Procházíš spletí nepříjemně tísnivých podzemních chodeb.',
+            'Našlapuješ po rozměklé zemi ve vlhké a zatuchlé jeskyni.',
+            'Jdeš vlhkou a chladnou jeskyní.',
+            'Procházíš zapáchajícími jeskynními chodbami.',
+            'Jdeš špinavými štolami s těžko dýchatelným vzduchem.',
+            'Klopýtáš v téměř dokonalé temnotě této části jeskyně.',
+        )
+        já.text = texty[já.zóna()]
+
+    def zóna(já):
+        vzdálenost_od_středu = math.hypot(já.x - 18, já.y - 10)
+        return min(int(vzdálenost_od_středu / 3), 5)
 
 
 class Les(Místnost):
     def __init__(já, x, y):
         super().__init__(x, y)
-        if x <= 8 and y <= 14:
-            já.text = ('Jdeš po sotva znatelné stezce vedoucí tmavým a'
-                       ' zlověstně tichým lesem. V pološeru zakopáváš o'
-                       ' kořeny obrovských stromů.')
-        elif 14 <= x <= 20 and 14 <= y <= 20:
-            já.text = 'Procházíš nejtmavší a nejponurejší částí lesa.'
-        else:
-            já.text = 'Jdeš po úzké, zarostlé lesní pěšině.'
+
+        texty = (
+            'Kráčíš zlověstným tichem zšeřelého lesa.',
+            'Jdeš po úzké, zarostlé lesní pěšině.',
+            'Procházíš nejtmavší a nejponuřejší částí lesa.',
+            'Jdeš po sotva znatelné lesní stezce.',
+            'Procházíš hustým porostem prastarého lesa.',
+        )
+        já.text = texty[já.zóna()]
+
+    def zóna(já):
+        vzdálenost_od_středu = math.hypot(já.x - 18, já.y - 10)
+        return int(vzdálenost_od_středu / 3) // 2
 
 
 class MístnostBoj(Místnost):

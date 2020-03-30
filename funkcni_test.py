@@ -199,18 +199,20 @@ def test_zakladni_pruchod_hrou():
             print(f'Koupil jsi {léčivo}')
     hráč.vypiš_věci()
 
-    # přes nepřítele dojde pro zlato
-    jdi('SSVSSZZZSSSZZJZZS')
+    # přejde přes další nepřátele
+    jdi('SSVSSZZZSSSZZJZZ')
+
+    # stojí na křižovatce v pomyslném středu jeskyně
+    assert (hráč.x, hráč.y) == (18, 10)
+
+    # dojde pro zlato
+    jdi('S')
     doplň_síly()
     jdi('SZZ')
     seber_zlato()
 
-    jdi('ZJJ')
-    # stojí na křižovatce v pomyslném středu jeskyně
-    assert (hráč.x, hráč.y) == (15, 10)
-
     # přes nepřítele dojde pro zlato
-    jdi('JJZZ')
+    jdi('ZJJJJZZ')
     seber_zlato()
     doplň_síly()
 
