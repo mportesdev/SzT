@@ -31,7 +31,14 @@ class Hráč:
     def vypiš_věci(já):
         print('Máš u sebe:')
         for věc in já.inventář:
-            print(f'            {věc}')
+            try:
+                vícebarevně('            '
+                            f'{věc.název_4_pád} (|útok +{věc.útok}|)',
+                            (None, Barva.FIALOVÁ))
+            except AttributeError:
+                vícebarevně('            '
+                            f'{věc.název_4_pád} (|zdraví +{věc.léčivá_síla}|)',
+                            (None, Barva.TYRKYS))
         for artefakt in já.artefakty:
             vypiš_barevně(f'            < {artefakt} >', barva=artefakt.barva)
 
@@ -94,7 +101,8 @@ class Hráč:
         print('Čím se chceš kurýrovat?')
         for číslo, věc in enumerate(léky, 1):
             print(f'{číslo:3}. ', end='')
-            vypiš_barevně(f'{věc.popis_7_pád()}', barva=Barva.TYRKYS)
+            vícebarevně(f'{věc.název_7_pád} (|zdraví +{věc.léčivá_síla}|)',
+                        (None, Barva.TYRKYS))
 
         while True:
             vícebarevně('Číslo položky             (|Enter| = návrat)',

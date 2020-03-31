@@ -146,8 +146,20 @@ class JeskyněObchod(Jeskyně):
             else:
                 číslo_položky = '    '
             print(f'{číslo_položky} ', end='')
-            vypiš_barevně(f'{věc} '.ljust(ŠÍŘKA - 25, '.')
-                          + f' {cena:3} zlaťáků', barva=Barva.TYRKYS)
+            try:
+                vícebarevně(
+                    f'{věc.název_4_pád}'
+                    f' (|útok +{věc.útok}|) '.ljust(ŠÍŘKA - 25, '.')
+                    + f' {cena:3} zlaťáků',
+                    (None, Barva.FIALOVÁ)
+                )
+            except AttributeError:
+                vícebarevně(
+                    f'{věc.název_4_pád}'
+                    f' (|zdraví +{věc.léčivá_síla}|) '.ljust(ŠÍŘKA - 25, '.')
+                    + f' {cena:3} zlaťáků',
+                    (None, Barva.TYRKYS)
+                )
 
         try:
             název_peněz, oslovení = kupující.mluva
