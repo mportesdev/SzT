@@ -61,15 +61,9 @@ def vypiš_barevně_atrapa(*args, barva=None, **kwargs):
     time.sleep(PRODLEVA)
 
 
-def vícebarevně(text, barvy, opakovat=True, oddělovač='|', konec='\n'):
+def vícebarevně(text, barvy, oddělovač='|', konec='\n'):
     části_textu = text.split(oddělovač)
-
-    if opakovat:
-        barvy = cycle(barvy)
-    else:
-        if len(části_textu) > len(barvy):
-            raise ValueError('Málo dat pro barvy (očekáváno alespoň'
-                             f' {len(části_textu)}, dáno {len(barvy)})')
+    barvy = cycle(barvy)
 
     for část, barva in zip(části_textu, barvy):
         vypiš_barevně(část, barva=barva, end='')

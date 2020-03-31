@@ -111,50 +111,12 @@ def test_vicebarevne():
 
     vícebarevně('Číslo položky             (|Enter| = návrat) ',
                 (Barva.MODRÁ, None))
-    vícebarevně('Číslo položky             (|Enter| = návrat) ',
-                (Barva.MODRÁ, None, Barva.MODRÁ),
-                opakovat=False)
 
     vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
                 (None, Barva.MODRÁ))
-    vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-                (None, Barva.MODRÁ, None, Barva.MODRÁ, None, Barva.MODRÁ),
-                opakovat=False)
 
     vícebarevně('[ |+| les           |#| jeskyně         '
                 '|H| hráč            |?| neznámo ]', (Barva.MODRÁ, None))
-    vícebarevně('[ |+| les           |#| jeskyně         '
-                '|H| hráč            |?| neznámo ]',
-                (Barva.MODRÁ, None, Barva.MODRÁ, None, Barva.MODRÁ, None,
-                 Barva.MODRÁ, None, Barva.MODRÁ),
-                opakovat=False)
 
     vícebarevně(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
                 (Barva.FIALOVÁ, None))
-    vícebarevně(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-                (Barva.FIALOVÁ, None, Barva.FIALOVÁ, None, Barva.FIALOVÁ, None,
-                 Barva.FIALOVÁ),
-                opakovat=False)
-
-    with pytest.raises(ValueError):
-        vícebarevně('Číslo položky             (|Enter| = návrat) ',
-                    (Barva.MODRÁ, None),
-                    opakovat=False)
-
-    with pytest.raises(ValueError):
-        vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-                    (None, Barva.MODRÁ, None, Barva.MODRÁ, None),
-                    opakovat=False)
-
-    with pytest.raises(ValueError):
-        vícebarevně('[ |+| les           |#| jeskyně         '
-                    '|H| hráč            |?| neznámo ]',
-                    (Barva.MODRÁ, None, Barva.MODRÁ, None, Barva.MODRÁ, None,
-                     Barva.MODRÁ, None),
-                    opakovat=False)
-
-    with pytest.raises(ValueError):
-        vícebarevně(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-                    (Barva.FIALOVÁ, None, Barva.FIALOVÁ, None, Barva.FIALOVÁ,
-                     None),
-                    opakovat=False)

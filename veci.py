@@ -29,9 +29,6 @@ class Lék(Věc):
     def __str__(já):
         return f'{já.název_4_pád} (zdraví +{já.léčivá_síla})'
 
-    def popis_7_pád(já):
-        return f'{já.název_7_pád} (zdraví +{já.léčivá_síla})'
-
 
 class Artefakt(Věc):
     def __init__(já, název, barva, název_4_pád=None):
