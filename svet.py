@@ -297,7 +297,7 @@ fm        gc cccc A
   F  f        cHcc c c  cg    C lc       
  ff fFf   ccC c  cccccc c    cc  cccg    
  f  f f   c ccc  c   T  c  cTc ccC       
- ff f m f A   c  cc cccccccc ccc c       
+ ff f m f A   c  cw cccccccc ccc c       
 f fff fff   c          C  C      cA      
 f F m   fW  c  cgcc c ccccccc            
 fmf      cccc  c  c ccc       c  g c     
@@ -309,7 +309,7 @@ mf    g  cc c       c c  c    c  cCc
          T    Ffm f     c                
          cg   f  ffff   M                
          c c  ffff t    f           ff f 
-       ccCcc   x   f mf f ffff m     ffff
+       ccCcc   x   f mf f ffff m     ffFf
    cc cc  c       mf  fff  f fff  ff f  m
     c  c ccCc lc   fff  fFff   F   fFff  
     cccc c  c  cA    F  f  m fff fff  ff 
@@ -340,6 +340,7 @@ class Svět:
 
         def generátor_zbraní():
             data_zbraní = {
+                ('Srp a kladivo', 17, 54),
                 ('Ostnatý palcát', 18, 82),
                 ('Ohořelý trojzubec', 19, 85),
                 ('Řemdih', 20, 91),

@@ -177,8 +177,8 @@ def test_zakladni_pruchod_hrou():
     jdi('SSSSS')
     doplň_síly()
     jdi('ZZJJJZ')
-    zbraň_19x12 = seber_jednu_věc('Ostnatý palcát', 'Ohořelý trojzubec',
-                                  'Řemdih')
+    zbraň_19x12 = seber_jednu_věc('Srp a kladivo', 'Ostnatý palcát',
+                                  'Ohořelý trojzubec', 'Řemdih')
     assert hráč.nejlepší_zbraň() is zbraň_19x12
 
     # dojde k mastičkáři, prodá meč za 62
