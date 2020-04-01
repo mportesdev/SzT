@@ -79,7 +79,7 @@ class Hráč:
         já.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
                             and nepřítel.krátké_jméno not in ('troll',
                                                               'dobrodruh'))
-        útočný_bonus = já.zkušenost // 200
+        útočný_bonus = min(já.zkušenost // 200, 5)
         skutečný_zásah = min(skutečný_zásah_zbraní + útočný_bonus,
                              nepřítel.zdraví)
         nepřítel.zdraví -= skutečný_zásah

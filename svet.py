@@ -79,7 +79,7 @@ class MístnostBoj(Místnost):
                 )
             else:
                 skutečný_zásah_nepřítele = s_odchylkou(já.nepřítel.útok)
-                obranný_bonus = hráč.zkušenost // 200
+                obranný_bonus = min(hráč.zkušenost // 200, 5)
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
                 hráč.zdraví -= max(skutečný_zásah, 0)
@@ -342,8 +342,7 @@ class Svět:
             data_zbraní = {
                 ('Srp a kladivo', 17, 54),
                 ('Ostnatý palcát', 18, 82),
-                ('Ohořelý trojzubec', 19, 85),
-                ('Řemdih', 20, 91),
+                ('Zkrvavená mačeta', 19, 85, 'Zkrvavenou mačetu'),
             }
 
             while True:
