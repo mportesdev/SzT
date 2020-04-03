@@ -362,6 +362,15 @@ class Svět:
                 ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami'),
                 ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
                 ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
+                ('Léčivé houby', 14, 12, 'Léčivými houbami'),
+                ('Léčivé bobule', 11, 9, 'Léčivými bobulemi'),
+                ('Léčivé bylinky', 17, 18, 'Léčivými bylinkami'),
+                ('Léčivé bylinky', 17, 17, 'Léčivými bylinkami'),
+                ('Kouzelné houby', 22, 24, 'Kouzelnými houbami'),
+                ('Kouzelné bobule', 16, 17, 'Kouzelnými bobulemi'),
+                ('Kouzelné bylinky', 21, 23, 'Léčivými bylinkami'),
+                ('Kouzelné bylinky', 19, 20, 'Léčivými bylinkami'),
+                ('Kouzelné bylinky', 19, 21, 'Léčivými bylinkami'),
             }
 
             while True:
@@ -377,6 +386,9 @@ class Svět:
                                    'Lahvičkou medicíny', 'Lahvičku medicíny')
                 else:
                     yield veci.Lék(*data_léků.pop())
+
+        zbraně_iterátor = generátor_zbraní()
+        léky_iterátor = generátor_léků()
 
         data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
@@ -437,9 +449,9 @@ class Svět:
                         artefakt=veci.Artefakt(*data_artefaktů.pop())
                     )
                 elif kód_místnosti in ('w', 'x'):
-                    parametry.update(zbraň=next(generátor_zbraní()))
+                    parametry.update(zbraň=next(zbraně_iterátor))
                 elif kód_místnosti in ('m', 'l'):
-                    parametry.update(lék=next(generátor_léků()))
+                    parametry.update(lék=next(léky_iterátor))
 
                 if typ_místnosti:
                     místnost = typ_místnosti(x, y, **parametry)
