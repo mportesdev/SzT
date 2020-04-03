@@ -21,4 +21,6 @@ if __name__ == '__main__':
         else:
             passed_vs_failed.update(passed=1)
     print(f'{passed_vs_failed}')
-    print(f'{fail_types}')
+    for message, n in sorted(fail_types.items(), key=lambda e: e[1],
+                             reverse=True):
+        print(message.ljust(40), f'{n:3}', n * '#')
