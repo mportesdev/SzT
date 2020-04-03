@@ -25,8 +25,6 @@ class Obchodník:
                            ' nějaké věci, určené patrně na prodej.'),
                      zlato=350,
                      inventář=[
-                         veci.Lék('Hojivá mast', 11, 13, 'Hojivou mastí',
-                                  'Hojivou mast'),
                          veci.Lék('Lahvička medicíny', 28, 37,
                                   'Lahvičkou medicíny',
                                   'Lahvičku medicíny'),
@@ -36,6 +34,8 @@ class Obchodník:
                                     'Zálesáckou sekerku'),
                          veci.Lék('Speciální lektvar', 52, 67,
                                   'Speciálním lektvarem'),
+                         veci.Lék('Magický Životabudič', 90, 256,
+                                  'Magickým Životabudičem'),
                                ],
                      mluva=('prašule', 'vašnosto'))
 
@@ -51,5 +51,7 @@ class Obchodník:
                          veci.Lék('Hojivá mast', 14, 18, 'Hojivou mastí',
                                   'Hojivou mast'),
                          veci.Zbraň('Halapartna', 19, 99, 'Halapartnu'),
+                         veci.Lék('Hojivá mast', 11, 13, 'Hojivou mastí',
+                                  'Hojivou mast'),
                                ],
                      mluva=('finance', 'sire'))

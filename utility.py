@@ -162,7 +162,8 @@ def zjisti_možné_akce(hráč):
             akce['V'] = (hráč.jdi_na_východ, 'Jít na východ')
             místnost_východně.viděna = True
 
-    if hráč.zdraví < 100 and hráč.má_léky():
+    if (hráč.zdraví < 100 and hráč.má_léky()) \
+            or any('Životabudič' in věc.název for věc in hráč.inventář):
         akce['L'] = (hráč.kurýruj_se, 'Léčit se')
 
     akce['I'] = (hráč.vypiš_věci, 'Inventář')

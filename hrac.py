@@ -117,8 +117,10 @@ class Hráč:
                 return
 
     def spotřebuj(já, lék):
-        já.zdraví += lék.léčivá_síla
-        já.zdraví = min(100, já.zdraví)
+        if lék.léčivá_síla == 90:
+            já.zdraví += lék.léčivá_síla
+        else:
+            já.zdraví += min(lék.léčivá_síla, 100 - já.zdraví)
         já.inventář.remove(lék)
 
     def obchoduj(já):
