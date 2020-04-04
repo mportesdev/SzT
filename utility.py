@@ -3,7 +3,6 @@
 from collections import OrderedDict
 from enum import Enum
 from itertools import cycle
-import os
 import random
 import re
 import sys
@@ -71,7 +70,6 @@ def vícebarevně(text, barvy, oddělovač='|', konec='\n'):
 
 
 def zobraz_titul():
-    os.system('cls' if os.name == 'nt' else 'clear')
     vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ)
     vypiš_barevně('\n\n',
                   ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
@@ -244,7 +242,7 @@ def potvrď_konec():
 
 Barva = TmaváBarva if '--dark' in sys.argv[1:] else SvětláBarva
 
-if '--no-color' in sys.argv[1:] or (os.name == 'nt'
+if '--no-color' in sys.argv[1:] or (sys.platform == 'win32'
                                     and '--color' not in sys.argv[1:]):
     vypiš_barevně = vypiš_barevně_atrapa
 
