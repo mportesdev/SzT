@@ -7,7 +7,7 @@ from utility import zjisti_možné_akce
 
 def test_zakladni_pruchod_hrou():
 
-    def jdi(cesta):
+    def jdi(cesta, cílová_pozice=None):
         for směr in cesta:
             místnost = hráč.místnost_pobytu()
             možnosti = zjisti_možné_akce(hráč)
@@ -28,6 +28,9 @@ def test_zakladni_pruchod_hrou():
 
             akce = možnosti_pohybu.get(směr)
             akce()
+
+        if cílová_pozice is not None:
+            assert (hráč.x, hráč.y) == cílová_pozice
 
     def doplň_síly():
         if hráč.zdraví >= 100:
@@ -101,32 +104,28 @@ def test_zakladni_pruchod_hrou():
     assert set(zjisti_možné_akce(hráč)) == set('ZIMK')
 
     # přes prvního nepřítele se probije nožem, dojde pro dýku a houby
-    jdi('ZJZZSZZZZ')
+    jdi('ZJZZSZZZZ', (27, 23))
     dýka = seber_jednu_věc('Rezavá dýka')
     assert hráč.nejlepší_zbraň() is dýka
-    jdi('VJJVV')
-    assert (hráč.x, hráč.y) == (30, 25)
+    jdi('VJJVV', (30, 25))
     seber_jednu_věc('Léčivé houby')
     doplň_síly()
 
     # přejde přes dalšího nepřítele, dojde pro bobule a další lék
-    jdi('ZZSSVSSVVSSS')
+    jdi('ZZSSVSSVVSSS', (31, 18))
     seber_jednu_věc('Léčivé bobule')
-    jdi('JZZSZZJJJ')
-    assert (hráč.x, hráč.y) == (27, 21)
+    jdi('JZZSZZJJJ', (27, 21))
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
 
     # přejde přes dalšího nepřítele, dojde pro další lék
-    jdi('SZZZ')
+    jdi('SZZZ', (24, 20))
     doplň_síly()
-    jdi('SZZSZ')
-    assert (hráč.x, hráč.y) == (21, 18)
+    jdi('SZZSZ', (21, 18))
     seber_jednu_věc(*názvy_léčivek)
 
     # dojde k mastičkáři, prodá nůž a dýku za 11 + 27
-    jdi('VJVVSSS')
-    assert (hráč.x, hráč.y) == (24, 16)
+    jdi('VJVVSSS', (24, 16))
     assert 'O' in zjisti_možné_akce(hráč)
 
     mastičkář = hráč.místnost_pobytu().obchodník
@@ -144,33 +143,28 @@ def test_zakladni_pruchod_hrou():
     assert hráč.nejlepší_zbraň() is sekerka
 
     # sebere další lék
-    jdi('JJJJJJZZZJ')
-    assert (hráč.x, hráč.y) == (21, 23)
+    jdi('JJJJJJZZZJ', (21, 23))
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
 
     # přes nepřítele dojde pro lék
-    jdi('SSSZZSZ')
-    assert (hráč.x, hráč.y) == (18, 19)
+    jdi('SSSZZSZ', (18, 19))
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
 
     # přes lesního trolla dojde pro meč
-    jdi('VSSSZZJZZJ')
-    assert (hráč.x, hráč.y) == (15, 18)
+    jdi('VSSSZZJZZJ', (15, 18))
     meč_15x18 = seber_jednu_věc('Zrezivělý meč')
     assert hráč.nejlepší_zbraň() is meč_15x18
     doplň_síly()
 
     # sebere poslední lék v této části lesa
-    jdi('SZSSVV')
-    assert (hráč.x, hráč.y) == (16, 15)
+    jdi('SZSSVV', (16, 15))
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
 
     # dojde k mastičkáři, prodá sekerku za 45
-    jdi('ZZJJVVVSVVJJJJVVJJVVVSSSSSS')
-    assert (hráč.x, hráč.y) == (24, 16)
+    jdi('ZZJJVVVSVVJJJJVVJJVVVSSSSSS', (24, 16))
     assert 'O' in zjisti_možné_akce(hráč)
     zlato = hráč.zlato
     hráč.prodej(sekerka, mastičkář)
@@ -186,26 +180,22 @@ def test_zakladni_pruchod_hrou():
     doplň_síly()
 
     # přes nepřítele dojde pro zlato
-    jdi('SSVSSZ')
+    jdi('SSVSSZ', (24, 12))
     doplň_síly()
-    jdi('SS')
-    assert (hráč.x, hráč.y) == (24, 10)
+    jdi('SS', (24, 10))
     seber_zlato()
-    jdi('JJZZJJ')
-    assert (hráč.x, hráč.y) == (22, 14)
+    jdi('JJZZJJ', (22, 14))
     seber_zlato()
 
     # přes nepřítele dojde pro zbraň
-    jdi('SSSSS')
+    jdi('SSSSS', (22, 9))
     doplň_síly()
-    jdi('ZZJJJZ')
-    assert (hráč.x, hráč.y) == (19, 12)
+    jdi('ZZJJJZ', (19, 12))
     zbraň_19x12 = seber_jednu_věc(*názvy_zbraní)
     assert hráč.nejlepší_zbraň() is zbraň_19x12
 
     # dojde k mastičkáři, prodá meč za 62
-    jdi('VSSSVVJJJVVVJJZJJ')
-    assert (hráč.x, hráč.y) == (24, 16)
+    jdi('VSSSVVJJJVVVJJZJJ', (24, 16))
     assert 'O' in zjisti_možné_akce(hráč)
     zlato = hráč.zlato
     hráč.prodej(meč_15x18, mastičkář)
@@ -220,27 +210,39 @@ def test_zakladni_pruchod_hrou():
             print(f'Koupil jsi {léčivo}')
     doplň_síly()
 
-    # přejde přes dalšího nepřítele pro zlato
-    jdi('SSVSSZZZSSSZZJZZS')
+    # vysbírá léčivky v jihovýchodním lese
+    jdi('JJJJVVVSSVVJVVJJ', (31, 21))
     doplň_síly()
-    jdi('SZZ')
-    assert (hráč.x, hráč.y) == (16, 8)
+    jdi('ZZJJVVJVVSSSVVSVVSSVVVJ', (40, 19))
+    seber_jednu_věc(*názvy_léčivek)
+    doplň_síly()
+    jdi('SZZZJJVJJJZZJJ', (36, 25))
+    seber_jednu_věc(*názvy_léčivek)
+    doplň_síly()
+    jdi('SSVVVVJJJJZ', (39, 27))
+    seber_jednu_věc(*názvy_léčivek)
+    doplň_síly()
+
+    # vrátí se do jeskyně
+    jdi('VSSSSZZSSSZZZJZZJJJZZSZZSSVVSSZZSZZJJZZZSSSS', (24, 16))
+
+    # přejde přes dalšího nepřítele pro zlato
+    jdi('SSVSSZZZSSSZZJZZS', (18, 9))
+    doplň_síly()
+    jdi('SZZ', (16, 8))
     seber_zlato()
 
     # přejde přes dalšího nepřítele pro zlato
-    jdi('ZJJJJZZ')
+    jdi('ZJJJJZZ', (13, 12))
     doplň_síly()
-    assert (hráč.x, hráč.y) == (13, 12)
     seber_zlato()
 
     # dojde pro nejbližší lék v druhém lese
-    jdi('ZSSSZZZSZSZZS')
-    assert (hráč.x, hráč.y) == (6, 6)
+    jdi('ZSSSZZZSZSZZS', (6, 6))
     seber_jednu_věc(*názvy_léčivek)
 
     # dojde ke zbrojíři, prodá zbraň a koupí meč za 114
-    jdi('JVVJV')
-    assert (hráč.x, hráč.y) == (9, 8)
+    jdi('JVVJV', (9, 8))
     assert 'O' in zjisti_možné_akce(hráč)
 
     zbrojíř = hráč.místnost_pobytu().obchodník
@@ -252,156 +254,126 @@ def test_zakladni_pruchod_hrou():
     hráč.kup(meč_9x8, zbrojíř)
 
     # přes trolla přejde pro lék a pro sekeru
-    jdi('JVVVJVVVJVVSVVVSVVJJJVVVVSVVJ')
-    assert (hráč.x, hráč.y) == (28, 12)
+    jdi('JVVVJVVVJVVSVVVSVVJJJVVVVSVVJ', (28, 12))
     doplň_síly()
-    jdi('VVVVVSVVSV')
-    assert (hráč.x, hráč.y) == (36, 10)
+    jdi('VVVVVSVVSV', (36, 10))
     seber_jednu_věc('Lahvička medicíny')
     doplň_síly()
-    jdi('ZJZZJJVVJ')
-    assert (hráč.x, hráč.y) == (35, 14)
+    jdi('ZJZZJJVVJ', (35, 14))
     sekera = seber_jednu_věc('Těžká sekera')
 
     # vysbírá zlato v okolí
-    jdi('SZZ')
+    jdi('SZZ', (33, 13))
     doplň_síly()
-    jdi('SSSS')
-    assert (hráč.x, hráč.y) == (33, 9)
+    jdi('SSSS', (33, 9))
     seber_zlato()
-    jdi('JJJZZZJJ')
-    assert (hráč.x, hráč.y) == (30, 14)
+    jdi('JJJZZZJJ', (30, 14))
     seber_zlato()
 
     # dojde do severozápadního lesa
-    jdi('SSZZSZZJZZZZSSSZZJZZZJZZSZZZSZZZSZ')
-    assert (hráč.x, hráč.y) == (8, 8)
+    jdi('SSZZSZZJZZZZSSSZZJZZZJZZSZZZSZZZSZ', (8, 8))
 
     # vysbírá tam léky
-    jdi('SZZSSSZZ')
+    jdi('SZZSSSZZ', (4, 4))
     doplň_síly()
-    jdi('JJJZZSZSSVSSSZS')
-    assert (hráč.x, hráč.y) == (1, 0)
+    jdi('JJJZZSZSSVSSSZS', (1, 0))
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
-    jdi('JVJJJZJJVJJJZ')
-    assert (hráč.x, hráč.y) == (1, 9)
+    jdi('JVJJJZJJVJJJZ', (1, 9))
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
-    jdi('ZJJVJJZ')
-    assert (hráč.x, hráč.y) == (0, 13)
+    jdi('ZJJVJJZ', (0, 13))
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
-    jdi('VSSZSSVVJVJJ')
-    assert (hráč.x, hráč.y) == (3, 12)
+    jdi('VSSZSSVVJVJJ', (3, 12))
     seber_jednu_věc(*názvy_léčivek)
-    jdi('SSZSSSVVJ')
-    assert (hráč.x, hráč.y) == (4, 8)
+    jdi('SSZSSSVVJ', (4, 8))
     seber_jednu_věc(*názvy_léčivek)
     doplň_síly()
 
     # vrátí se do jeskyně
-    jdi('SSSSVVJJJVVJV')
-    assert (hráč.x, hráč.y) == (9, 8)
+    jdi('SSSSVVJJJVVJV', (9, 8))
 
     # dojde k odbočce do jihozápadní části jeskyně
-    jdi('JVVVJJZZ')
-    assert (hráč.x, hráč.y) == (10, 11)
+    jdi('JVVVJJZZ', (10, 11))
 
     # přejde přes trolla
-    jdi('JJZJ')
+    jdi('JJZJ', (9, 14))
     doplň_síly()
-    jdi('JJ')
-    assert (hráč.x, hráč.y) == (9, 16)
+    jdi('JJ', (9, 16))
     doplň_síly()
 
     # přejde přes další nepřátele, dojde pro zbraň, lék a první artefakt
-    jdi('JJV')
+    jdi('JJV', (10, 18))
     doplň_síly()
-    jdi('JJVV')
+    jdi('JJVV', (12, 20))
     doplň_síly()
-    jdi('JJZJ')
-    assert (hráč.x, hráč.y) == (11, 23)
+    jdi('JJZJ', (11, 23))
     zbraň_11x23 = seber_jednu_věc(*názvy_zbraní)
 
-    jdi('SVVJVVSSSZ')
-    assert (hráč.x, hráč.y) == (14, 20)
+    jdi('SVVJVVSSSZ', (14, 20))
     seber_jednu_věc('Lahvička medicíny')
     doplň_síly()
-    jdi('VJV')
-    assert (hráč.x, hráč.y) == (16, 21)
+    jdi('VJV', (16, 21))
     seber_artefakt()
     assert len(hráč.artefakty) == 1
 
     # probije se k druhému artefaktu
-    jdi('ZJJZZSZSSZZSSZZZJJJZZZJZJ')
+    jdi('ZJJZZSZSSZZSSZZZJJJZZZJZJ', (3, 23))
     doplň_síly()
-    jdi('JV')
-    assert (hráč.x, hráč.y) == (4, 24)
+    jdi('JV', (4, 24))
     seber_artefakt()
     assert len(hráč.artefakty) == 2
 
     # posbírá zlato
-    jdi('ZSSVSVVJ')
-    assert (hráč.x, hráč.y) == (6, 22)
+    jdi('ZSSVSVVJ', (6, 22))
     seber_zlato()
 
-    jdi('SVSSSVVSSV')
-    assert (hráč.x, hráč.y) == (10, 16)
+    jdi('SVSSSVVSSV', (10, 16))
     seber_zlato()
 
-    jdi('ZSSSVSSZZZJ')
+    jdi('ZSSSVSSZZZJ', (7, 12))
     doplň_síly()
-    jdi('ZJ')
-    assert (hráč.x, hráč.y) == (6, 13)
+    jdi('ZJ', (6, 13))
     seber_zlato()
 
     # vyrazí pro třetí artefakt
-    jdi('SVSVVVVVSVVVJVVSVVVSVVSVVVVSS')
+    jdi('SVSVVVVVSVVVJVVSVVVSVVSVVVVSS', (26, 6))
     doplň_síly()
 
     # probije se přes trolla
-    jdi('VSVV')
+    jdi('VSVV', (29, 5))
     doplň_síly()
-    assert (hráč.x, hráč.y) == (29, 5)
-    jdi('JVVSVVJJV')
-    assert (hráč.x, hráč.y) == (34, 7)
+    jdi('JVVSVVJJV', (34, 7))
     seber_artefakt()
     assert len(hráč.artefakty) == 3
 
     # sebere lék
-    jdi('ZSSSSZ')
-    assert (hráč.x, hráč.y) == (32, 3)
+    jdi('ZSSSSZ', (32, 3))
     seber_jednu_věc('Lahvička medicíny')
     doplň_síly()
 
     # vysbírá zlato v okolí
-    jdi('VJVVV')
-    assert (hráč.x, hráč.y) == (36, 4)
+    jdi('VJVVV', (36, 4))
     seber_zlato()
-    jdi('ZZZJZZJZZSSVSSZ')
+    jdi('ZZZJZZJZZSSVSSZ', (29, 2))
     doplň_síly()
-    assert (hráč.x, hráč.y) == (29, 2)
     seber_zlato()
-    jdi('VJJZJZZJZZZSSSV')
-    assert (hráč.x, hráč.y) == (25, 3)
+    jdi('VJJZJZZJZZZSSSV', (25, 3))
     seber_zlato()
 
     # přejde přes trolla
-    jdi('ZJJJZZZ')
+    jdi('ZJJJZZZ', (21, 6))
     doplň_síly()
-    jdi('SS')
+    jdi('SS', (21, 4))
     doplň_síly()
-    assert (hráč.x, hráč.y) == (21, 4)
 
     # sebere zbraň
-    jdi('ZZZZJJV')
-    assert (hráč.x, hráč.y) == (18, 6)
+    jdi('ZZZZJJV', (18, 6))
     zbraň_18x6 = seber_jednu_věc(*názvy_zbraní)
 
     # dojde ke zbrojíři koupit Smrtonoš
-    jdi('ZSSVVVVJJVVVVVJJZZZZJZZJZZZJZZSZZZSZZZS')
-    assert (hráč.x, hráč.y) == (9, 8)
+    jdi('ZSSVVVVJJVVVVVJJZZZZJZZJZZZJZZSZZZSZZZS', (9, 8))
     assert 'O' in zjisti_možné_akce(hráč)
 
     smrtonoš = next(věc for věc in zbrojíř.inventář if 'Smrtonoš' in věc.název)
@@ -428,8 +400,7 @@ def test_zakladni_pruchod_hrou():
     assert hráč.zlato >= 256, 'nezbývají peníze na Životabudič'
 
     # dojde k mastičkáři koupit Životabudič
-    jdi('JVVVJVVVJVVSVVVSVVJJJVVVJJZJJ')
-    assert (hráč.x, hráč.y) == (24, 16)
+    jdi('JVVVJVVVJVVSVVVSVVJJJVVVJJZJJ', (24, 16))
     assert 'O' in zjisti_možné_akce(hráč)
     životabudič = next(věc for věc in mastičkář.inventář if 'Životabudič' in věc.název)
     hráč.kup(životabudič, mastičkář)
@@ -444,48 +415,44 @@ def test_zakladni_pruchod_hrou():
     doplň_síly()
 
     # přijde před dobrodruha
-    jdi('SSVSSZZZSSSSVSSZZSSZZZZSZ')
+    jdi('SSVSSZZZSSSSVVVVSSZZZZZSSZZZZSZ', (16, 3))
     if životabudič in hráč.inventář:
+        print(f'{životabudič}: {hráč.zdraví=} -> ', end='')
         hráč.spotřebuj(životabudič)
+        print(hráč.zdraví)
 
     # přejde přes dobrodruha
-    jdi('ZZ')
-    assert (hráč.x, hráč.y) == (14, 3)
+    jdi('ZZ', (14, 3))
+    print(f'{hráč.zdraví=}')
 
     # sebere poslední lék
-    jdi('SZZZZZSZ')
-    assert (hráč.x, hráč.y) == (8, 1)
+    jdi('SZZZZZSZ', (8, 1))
     seber_jednu_věc('Lahvička medicíny')
     doplň_síly()
 
     # vyrazí pro čtvrtý artefakt
-    jdi('VJVVVVSSVVVJV')
+    jdi('VJVVVVSSVVVJV', (17, 1))
     doplň_síly()
-    jdi('VS')
-    assert (hráč.x, hráč.y) == (18, 0)
+    jdi('VS', (18, 0))
     seber_artefakt()
 
     # vyrazí pro pátý artefakt
-    jdi('JZZSZZZJJVJJJZZSZ')
+    jdi('JZZSZZZJJVJJJZZSZ', (11, 4))
     doplň_síly()
-    jdi('ZJJ')
-    assert (hráč.x, hráč.y) == (10, 6)
+    jdi('ZJJ', (10, 6))
     seber_artefakt()
 
     # sebere zlato
-    jdi('SSVVJVVSSSZZZS')
+    jdi('SSVVJVVSSSZZZSS', (11, 0))
     doplň_síly()
-    jdi('SZ')
-    assert (hráč.x, hráč.y) == (10, 0)
+    jdi('Z', (10, 0))
     seber_zlato()
 
     # vyjde před jeskyni
-    jdi('VJJVVVJVVVJVVVVJJVVJJZJJJJVVVJJZJJJ')
-    assert (hráč.x, hráč.y) == (24, 17)
+    jdi('VJJVVVJVVVJVVVVJJVVJJZJJJJVVVJJZJJJ', (24, 17))
 
     # dojde na začátek a zvítězí
-    jdi('JJJVVVSSVVJVVJJZZJJVVJVVJJJ')
-    assert (hráč.x, hráč.y) == (33, 27)
+    jdi('JJJVVVSSVVJVVJJZZJJVVJVVJJJ', (33, 27))
     assert hráč.místnost_pobytu() == hráč.svět.začátek \
         and hráč.svět.poklad_posbírán()
 
