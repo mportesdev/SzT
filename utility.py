@@ -183,7 +183,7 @@ def vyber_akci(hráč, fronta_příkazů):
         možnosti = zjisti_možné_akce(hráč)
         if not fronta_příkazů:
             zobraz_možnosti(možnosti)
-            vícebarevně(f'[ Zdraví: |{hráč.zdraví:<8}|'
+            vícebarevně(f'[ Zdraví: |{hráč.zdraví:3} {"%":<4}|'
                         f'zkušenost: |{hráč.zkušenost:<7}|'
                         f'zlato: |{hráč.zlato}| ]', (Barva.FIALOVÁ, None))
             print()

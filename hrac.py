@@ -71,7 +71,8 @@ class Hráč:
         nejlepší_zbraň = já.nejlepší_zbraň()
         if nejlepší_zbraň:
             síla_zbraně = nejlepší_zbraň.útok
-            název_zbraně = nejlepší_zbraň.název_4_pád.lower()
+            název_zbraně = nejlepší_zbraň.název_4_pád
+            název_zbraně = název_zbraně[0].lower() + název_zbraně[1:]
         else:
             síla_zbraně = 1
             název_zbraně = 'pěsti'
@@ -112,8 +113,13 @@ class Hráč:
             if vstup == '':
                 return
             else:
-                já.spotřebuj(léky[vstup - 1])
-                print('Hned se cítíš líp.')
+                lék = léky[vstup - 1]
+                já.spotřebuj(lék)
+                if lék.léčivá_síla == 90:
+                    print('Zmocnil se tě prchavý pocit nadlidské síly a'
+                          ' nepřemožitelnosti.')
+                else:
+                    print('Hned se cítíš líp.')
                 return
 
     def spotřebuj(já, lék):
