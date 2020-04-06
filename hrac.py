@@ -3,8 +3,7 @@
 from typing import List, Union
 
 from svet import Svět
-from utility import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
-                  uděl_odměnu, vstup_z_možností, s_odchylkou
+import utility
 import veci
 
 PoložkyInventáře = List[Union[veci.Zbraň, veci.Lék]]
@@ -32,15 +31,16 @@ class Hráč:
         print('Máš u sebe:')
         for věc in já.inventář:
             try:
-                vícebarevně('            '
+                utility.vícebarevně('            '
                             f'{věc.název_4_pád} (|útok +{věc.útok}|)',
-                            (None, Barva.FIALOVÁ))
+                            (None, utility.Barva.FIALOVÁ))
             except AttributeError:
-                vícebarevně('            '
+                utility.vícebarevně('            '
                             f'{věc.název_4_pád} (|zdraví +{věc.léčivá_síla}|)',
-                            (None, Barva.TYRKYS))
+                            (None, utility.Barva.TYRKYS))
         for artefakt in já.artefakty:
-            vypiš_barevně(f'            < {artefakt} >', barva=artefakt.barva)
+            utility.vypiš_barevně(f'            < {artefakt} >',
+                                  barva=artefakt.barva)
 
     def nejlepší_zbraň(já):
         try:
@@ -76,7 +76,7 @@ class Hráč:
         else:
             síla_zbraně = 1
             název_zbraně = 'pěsti'
-        skutečný_zásah_zbraní = s_odchylkou(síla_zbraně)
+        skutečný_zásah_zbraní = utility.s_odchylkou(síla_zbraně)
         já.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
                             and nepřítel.krátké_jméno not in ('troll',
                                                               'dobrodruh'))
@@ -89,9 +89,9 @@ class Hráč:
                   f' {nepřítel.jméno_3_pád.lower()}.')
         if not nepřítel.žije():
             zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
-        vypiš_odstavec(zpráva, 'boj')
+        utility.vypiš_odstavec(zpráva, 'boj')
         if já.svět.nepřátelé_pobiti():
-            uděl_odměnu(já, 200, 'zabití všech nepřátel')
+            utility.uděl_odměnu(já, 200, 'zabití všech nepřátel')
 
     def má_léky(já):
         return any(isinstance(věc, veci.Lék) for věc in já.inventář)
@@ -102,14 +102,18 @@ class Hráč:
         print('Čím se chceš kurýrovat?')
         for číslo, věc in enumerate(léky, 1):
             print(f'{číslo:3}. ', end='')
-            vícebarevně(f'{věc.název_7_pád} (|zdraví +{věc.léčivá_síla}|)',
-                        (None, Barva.TYRKYS))
+            utility.vícebarevně(
+                f'{věc.název_7_pád} (|zdraví +{věc.léčivá_síla}|)',
+                (None, utility.Barva.TYRKYS)
+            )
 
         while True:
-            vícebarevně('Číslo položky             (|Enter| = návrat)',
-                        (Barva.MODRÁ, None), konec=' ')
+            utility.vícebarevně(
+                'Číslo položky             (|Enter| = návrat)',
+                (utility.Barva.MODRÁ, None), konec=' '
+            )
             možnosti = set(range(1, len(léky) + 1))
-            vstup = vstup_z_možností(možnosti | {''})
+            vstup = utility.vstup_z_možností(možnosti | {''})
             if vstup == '':
                 return
             else:
@@ -151,7 +155,10 @@ class Hráč:
     def nakresli_mapu(já):
         mapa_navštívených = já.svět.mapa_navštívených((já.x, já.y))
 
-        print('\n'.join(''.join(řádka).center(ŠÍŘKA)
+        print('\n'.join(''.join(řádka).center(utility.ŠÍŘKA)
                         for řádka in mapa_navštívených))
-        vícebarevně('\n[ |+| les           |#| jeskyně         '
-                    '|H| hráč            |?| neznámo ]', (Barva.MODRÁ, None))
+        utility.vícebarevně(
+            '\n[ |+| les           |#| jeskyně         '
+            '|H| hráč            |?| neznámo ]',
+            (utility.Barva.MODRÁ, None)
+        )

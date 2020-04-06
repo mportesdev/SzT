@@ -5,8 +5,7 @@ import random
 
 import nepratele
 import postavy
-from utility import ŠÍŘKA, Barva, vypiš_odstavec, vypiš_barevně, vícebarevně, \
-                  uděl_odměnu, vstup_z_možností, s_odchylkou, okraje
+import utility
 import veci
 
 
@@ -72,13 +71,13 @@ class MístnostBoj(Místnost):
     def dopad_na_hráče(já, hráč):
         if já.nepřítel.žije():
             if hráč.zdařilý_zásah:
-                vypiš_odstavec(
+                utility.vypiš_odstavec(
                     f'Zasáhl jsi {já.nepřítel.jméno_4_pád.lower()} do hlavy.'
                     f' {já.nepřítel.jméno} zmateně vrávorá.',
-                    'boj', Barva.MODRÁ
+                    'boj', utility.Barva.MODRÁ
                 )
             else:
-                skutečný_zásah_nepřítele = s_odchylkou(já.nepřítel.útok)
+                skutečný_zásah_nepřítele = utility.s_odchylkou(já.nepřítel.útok)
                 obranný_bonus = min(hráč.zkušenost // 200, 5)
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
@@ -90,7 +89,7 @@ class MístnostBoj(Místnost):
                     hráč.zkušenost += 1
                 else:
                     zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                vypiš_odstavec(zpráva, 'boj', Barva.ČERVENÁ)
+                utility.vypiš_odstavec(zpráva, 'boj', utility.Barva.ČERVENÁ)
         else:
             try:
                 if not já.nepřítel.zlato_sebráno and já.nepřítel.zlato > 0:
@@ -98,13 +97,13 @@ class MístnostBoj(Místnost):
                     hráč.zlato += já.nepřítel.zlato
                     zpráva = (f'Sebral jsi {já.nepřítel.jméno_3_pád.lower()}'
                               f' {já.nepřítel.zlato} zlaťáků.')
-                    vypiš_odstavec(zpráva, 'štěstí')
+                    utility.vypiš_odstavec(zpráva, 'štěstí')
                 if not já.nepřítel.zbraň_sebrána:
                     já.nepřítel.zbraň_sebrána = True
                     hráč.inventář.append(já.nepřítel.zbraň)
                     zpráva = (f'Sebral jsi {já.nepřítel.jméno_3_pád.lower()}'
                               f' {já.nepřítel.zbraň.název_4_pád.lower()}.')
-                    vypiš_odstavec(zpráva, 'štěstí')
+                    utility.vypiš_odstavec(zpráva, 'štěstí')
             except AttributeError:
                 pass
 
@@ -147,18 +146,19 @@ class JeskyněObchod(Jeskyně):
                 číslo_položky = '    '
             print(f'{číslo_položky} ', end='')
             try:
-                vícebarevně(
+                utility.vícebarevně(
                     f'{věc.název_4_pád}'
-                    f' (|útok +{věc.útok}|) '.ljust(ŠÍŘKA - 25, '.')
+                    f' (|útok +{věc.útok}|) '.ljust(utility.ŠÍŘKA - 25, '.')
                     + f' {cena:3} zlaťáků',
-                    (None, Barva.FIALOVÁ)
+                    (None, utility.Barva.FIALOVÁ)
                 )
             except AttributeError:
-                vícebarevně(
+                utility.vícebarevně(
                     f'{věc.název_4_pád}'
-                    f' (|zdraví +{věc.léčivá_síla}|) '.ljust(ŠÍŘKA - 25, '.')
+                    f' (|zdraví +{věc.léčivá_síla}|) '.ljust(utility.ŠÍŘKA - 25,
+                                                             '.')
                     + f' {cena:3} zlaťáků',
-                    (None, Barva.TYRKYS)
+                    (None, utility.Barva.TYRKYS)
                 )
 
         try:
@@ -174,9 +174,11 @@ class JeskyněObchod(Jeskyně):
             return
 
         while True:
-            vícebarevně('Číslo položky             (|Enter| = návrat)',
-                        (Barva.MODRÁ, None), konec=' ')
-            vstup = vstup_z_možností(možnosti | {''})
+            utility.vícebarevně(
+                'Číslo položky             (|Enter| = návrat)',
+                (utility.Barva.MODRÁ, None), konec=' '
+            )
+            vstup = utility.vstup_z_možností(možnosti | {''})
             if vstup == '':
                 return
             else:
@@ -191,9 +193,11 @@ class JeskyněObchod(Jeskyně):
 
     def obchoduj(já, hráč):
         while True:
-            vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat)',
-                        (None, Barva.MODRÁ), konec=' ')
-            vstup = vstup_z_možností({'K', 'P', ''})
+            utility.vícebarevně(
+                'K|: koupit    |P|: prodat    (|Enter| = návrat)',
+                (None, utility.Barva.MODRÁ), konec=' '
+            )
+            vstup = utility.vstup_z_možností({'K', 'P', ''})
             if vstup == '':
                 return
             elif vstup == 'K':
@@ -216,7 +220,7 @@ class JeskyněZlato(Jeskyně):
         if not já.zlato_sebráno:
             já.zlato_sebráno = True
             hráč.zlato += já.zlato
-            vypiš_odstavec(f'Našel jsi {já.zlato} zlaťáků.', 'štěstí')
+            utility.vypiš_odstavec(f'Našel jsi {já.zlato} zlaťáků.', 'štěstí')
 
 
 class JeskyněArtefakt(Jeskyně):
@@ -229,12 +233,16 @@ class JeskyněArtefakt(Jeskyně):
         if not já.artefakt_sebrán:
             já.artefakt_sebrán = True
             hráč.artefakty.append(já.artefakt)
-            vypiš_odstavec(f'Našel jsi {já.artefakt.název_4_pád.lower()}.',
-                           'štěstí')
+            utility.vypiš_odstavec(
+                f'Našel jsi {já.artefakt.název_4_pád.lower()}.',
+                'štěstí'
+            )
             if hráč.svět.poklad_posbírán():
-                uděl_odměnu(hráč, 300, 'nalezení všech magických předmětů')
-                vypiš_odstavec('Artefakty teď musíš vynést ven z jeskyně a'
-                               ' dojít s nimi na začátek své cesty.')
+                utility.uděl_odměnu(hráč, 300, 'nalezení všech magických'
+                                               ' předmětů')
+                utility.vypiš_odstavec('Artefakty teď musíš vynést ven z'
+                                       ' jeskyně a dojít s nimi na začátek své'
+                                       ' cesty.')
 
 
 class MístnostZbraň(Místnost):
@@ -253,7 +261,7 @@ class MístnostZbraň(Místnost):
             else:
                 zpráva = ('Ve skulině pod kamenem jsi našel'
                           f' {já.zbraň.název_4_pád.lower()}.')
-            vypiš_odstavec(zpráva, 'štěstí')
+            utility.vypiš_odstavec(zpráva, 'štěstí')
 
 
 class JeskyněZbraň(MístnostZbraň, Jeskyně):
@@ -279,7 +287,7 @@ class MístnostLék(Místnost):
             else:
                 zpráva = ('Na zemi jsi našel zaprášenou'
                           f' {já.lék.název_4_pád.lower()}.')
-            vypiš_odstavec(zpráva, 'štěstí')
+            utility.vypiš_odstavec(zpráva, 'štěstí')
 
 
 class JeskyněLék(MístnostLék, Jeskyně):
@@ -392,10 +400,10 @@ class Svět:
 
         data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
-            ('Rubínový kříž', Barva.ČERVENÁ),
-            ('Tyrkysová tiára', Barva.TYRKYS, 'Tyrkysovou tiáru'),
-            ('Ametystový kalich', Barva.FIALOVÁ),
-            ('Safírový trojzubec', Barva.MODRÁ)
+            ('Rubínový kříž', utility.Barva.ČERVENÁ),
+            ('Tyrkysová tiára', utility.Barva.TYRKYS, 'Tyrkysovou tiáru'),
+            ('Ametystový kalich', utility.Barva.FIALOVÁ),
+            ('Safírový trojzubec', utility.Barva.MODRÁ)
         }
 
         if mapa.count('1') > len(data_artefaktů):
@@ -499,7 +507,9 @@ class Svět:
                 except AttributeError:
                     řádka_mapy.append(' ')
             if set(řádka_mapy) != {' '}:
-                prázdno_vlevo, prázdno_vpravo = okraje(''.join(řádka_mapy), ' ')
+                prázdno_vlevo, prázdno_vpravo = utility.okraje(
+                    ''.join(řádka_mapy), ' '
+                )
                 ořez_vlevo = min(ořez_vlevo, prázdno_vlevo)
                 ořez_vpravo = min(ořez_vpravo, prázdno_vpravo)
                 mapa.append(řádka_mapy)
