@@ -10,7 +10,7 @@ from textwrap import TextWrapper
 import time
 
 NÁZEV_HRY = 'Strach ze tmy'
-VERZE = 'verze 0.9'
+VERZE = 'verze 1.0'
 ŠÍŘKA = 70
 
 
@@ -76,7 +76,7 @@ def zobraz_titul():
                   '\n\n\n',
                   'textová hra na hrdiny'.center(ŠÍŘKA),
                   '\n\n',
-                  f'{VERZE}, 1. dubna 2020'.center(ŠÍŘKA),
+                  f'{VERZE}   6. dubna 2020'.center(ŠÍŘKA),
                   '\n\n',
                   barva=Barva.FIALOVÁ, sep='')
     vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ, end='\n\n')

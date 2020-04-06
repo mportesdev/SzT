@@ -1,3 +1,8 @@
+|run on repl.it|_
+
+.. |run on repl.it| image:: https://repl.it/badge/github/myrmica-habilis/SzT
+.. _run on repl.it: https://szt.myrmica.repl.run/
+
 Strach ze tmy
 =============
 
