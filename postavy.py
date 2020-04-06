@@ -34,7 +34,7 @@ class Obchodník:
                          veci.Lék('Speciální životabudič', 52, 67,
                                   'Speciálním životabudičem'),
                          veci.Lék('Elixír života', 90, 256,
-                                  'Elixírem života'),
+                                  'Elixírem života', speciální=True),
                                ],
                      mluva=('prašule', 'vašnosto'))
 
@@ -46,7 +46,8 @@ class Obchodník:
                      zlato=450,
                      inventář=[
                          veci.Zbraň('Válečnický meč', 24, 114),
-                         veci.Zbraň('Řemdih Smrtonoš', 32, 256),
+                         veci.Zbraň('Řemdih Smrtonoš', 32, 256,
+                                    název_ve_větě='řemdih Smrtonoš'),
                          veci.Lék('Lahvička lektvaru', 28, 37,
                                   'Lahvičkou lektvaru',
                                   'Lahvičku lektvaru'),

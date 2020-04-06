@@ -39,7 +39,7 @@ def test_zakladni_pruchod_hrou():
         for věc in sorted((věc for věc in hráč.inventář
                           if hasattr(věc, 'léčivá_síla')),
                           key=lambda v: v.léčivá_síla, reverse=True):
-            if věc.léčivá_síla == 90:
+            if věc.speciální:
                 continue
             if věc.léčivá_síla <= 100 - hráč.zdraví:
                 print(f'{věc}: {hráč.zdraví=}->', end='')
@@ -403,7 +403,8 @@ def test_zakladni_pruchod_hrou():
     # dojde k mastičkáři koupit elixír
     jdi('JVVVJVVVJVVSVVVSVVJJJVVVJJZJJ', (24, 16))
     assert 'O' in zjisti_možné_akce(hráč)
-    elixír = next(věc for věc in mastičkář.inventář if 'Elixír' in věc.název)
+    elixír = next(věc for věc in mastičkář.inventář
+                  if hasattr(věc, 'speciální') and věc.speciální)
     hráč.kup(elixír, mastičkář)
 
     # koupí zbylá léčiva

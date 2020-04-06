@@ -163,7 +163,8 @@ def zjisti_možné_akce(hráč):
             místnost_východně.viděna = True
 
     if (hráč.zdraví < 100 and hráč.má_léky()) \
-            or any('Elixír' in věc.název for věc in hráč.inventář):
+            or any(věc.speciální for věc in hráč.inventář
+                   if hasattr(věc, 'speciální')):
         akce['L'] = (hráč.kurýruj_se, 'Léčit se')
 
     akce['I'] = (hráč.vypiš_věci, 'Inventář')
