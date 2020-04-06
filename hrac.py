@@ -116,8 +116,7 @@ class Hráč:
                 lék = léky[vstup - 1]
                 já.spotřebuj(lék)
                 if lék.léčivá_síla == 90:
-                    print('Zmocnil se tě prchavý pocit nadlidské síly a'
-                          ' nepřemožitelnosti.')
+                    print('Obsah nevelké lahvičky s tebou pořádně zamával.')
                 else:
                     print('Hned se cítíš líp.')
                 return

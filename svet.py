@@ -340,7 +340,7 @@ class Svět:
 
         def generátor_zbraní():
             data_zbraní = {
-                ('Srp a kladivo', 17, 54),
+                ('Cizokrajná šavle', 17, 54, 'Cizokrajnou šavli'),
                 ('Ostnatý palcát', 18, 82),
                 ('Zkrvavená mačeta', 19, 85, 'Zkrvavenou mačetu'),
             }
@@ -357,20 +357,20 @@ class Svět:
 
         def generátor_léků():
             data_léků = {
-                ('Léčivé houby', 12, 9, 'Léčivými houbami'),
-                ('Léčivé bobule', 13, 11, 'Léčivými bobulemi'),
-                ('Léčivé bylinky', 18, 19, 'Léčivými bylinkami'),
-                ('Kouzelné houby', 22, 25, 'Kouzelnými houbami'),
-                ('Kouzelné bobule', 16, 16, 'Kouzelnými bobulemi'),
-                ('Léčivé houby', 14, 12, 'Léčivými houbami'),
-                ('Léčivé bobule', 11, 9, 'Léčivými bobulemi'),
-                ('Léčivé bylinky', 17, 18, 'Léčivými bylinkami'),
-                ('Léčivé bylinky', 17, 17, 'Léčivými bylinkami'),
-                ('Kouzelné houby', 22, 24, 'Kouzelnými houbami'),
-                ('Kouzelné bobule', 16, 17, 'Kouzelnými bobulemi'),
-                ('Kouzelné bylinky', 21, 23, 'Léčivými bylinkami'),
-                ('Kouzelné bylinky', 19, 20, 'Léčivými bylinkami'),
-                ('Kouzelné bylinky', 19, 21, 'Léčivými bylinkami'),
+                ('Léčivé bylinky', 16, 18, 'Léčivými bylinkami'),
+                ('Léčivé bylinky', 17, 19, 'Léčivými bylinkami'),
+                ('Kouzelné bylinky', 21, 22, 'Kouzelnými bylinkami'),
+                ('Kouzelné bylinky', 22, 23, 'Kouzelnými bylinkami'),
+                ('Léčivé houby', 13, 12, 'Léčivými houbami'),
+                ('Kouzelné houby', 20, 24, 'Kouzelnými houbami'),
+                ('Kouzelné houby', 21, 25, 'Kouzelnými houbami'),
+                ('Léčivé bobule', 13, 10, 'Léčivými bobulemi'),
+                ('Kouzelné bobule', 17, 17, 'Kouzelnými bobulemi'),
+                ('Kouzelné bobule', 18, 18, 'Kouzelnými bobulemi'),
+                ('Plástev lesního medu', 12, 11, 'Pláství lesního medu'),
+                ('Plástev lesního medu', 13, 12, 'Pláství lesního medu'),
+                ('Hadí ocásek', 14, 16, 'Hadím ocáskem'),
+                ('Ještěrčí ocásek', 15, 20, 'Ještěrčím ocáskem'),
             }
 
             while True:
@@ -459,8 +459,9 @@ class Svět:
                     if kód_místnosti == 'S':
                         místnost.text = (
                             'Stojíš při okraji tajuplného lesa na úpatí'
-                            ' nehostinné Hory běsů. Vrchol jejího hrozivého'
-                            ' štítu je zahalen nízkým mračnem.'
+                            ' nehostinné, v širém okolí obávané Hory běsů.'
+                            ' Vrchol jejího hrozivého štítu je zahalen nízkým'
+                            ' mračnem.'
                         )
                         já.začátek = místnost
                 else:

@@ -69,10 +69,11 @@ def test_zakladni_pruchod_hrou():
         hráč.místnost_pobytu().dopad_na_hráče(hráč)
         assert hráč.zlato > zlato
 
-    názvy_léčivek = ('Léčivé houby', 'Léčivé bobule', 'Léčivé bylinky',
-                     'Kouzelné houby', 'Kouzelné bobule', 'Kouzelné bylinky')
+    názvy_léčivek = ('Léčivé bylinky', 'Kouzelné bylinky', 'Léčivé houby',
+                     'Kouzelné houby', 'Léčivé bobule', 'Kouzelné bobule',
+                     'Plástev lesního medu', 'Hadí ocásek', 'Ještěrčí ocásek')
 
-    názvy_zbraní = ('Srp a kladivo', 'Ostnatý palcát', 'Zkrvavená mačeta')
+    názvy_zbraní = ('Cizokrajná šavle', 'Ostnatý palcát', 'Zkrvavená mačeta')
 
     hráč = Hráč()
 
@@ -388,7 +389,7 @@ def test_zakladni_pruchod_hrou():
     assert hráč.zlato >= 256, 'chybí peníze na Smrtonoš'
     hráč.kup(smrtonoš, zbrojíř)
 
-    # koupí léčiva tak, aby mu zbylo na životabudič
+    # koupí léčiva tak, aby mu zbylo na elixír
     for léčivo in sorted((věc for věc in zbrojíř.inventář
                           if hasattr(věc, 'léčivá_síla')),
                          key=lambda v: v.léčivá_síla, reverse=True):
@@ -397,13 +398,13 @@ def test_zakladni_pruchod_hrou():
             print(f'Koupil jsi {léčivo}')
     doplň_síly()
 
-    assert hráč.zlato >= 256, 'nezbývají peníze na Životabudič'
+    assert hráč.zlato >= 256, 'nezbývají peníze na elixír'
 
-    # dojde k mastičkáři koupit Životabudič
+    # dojde k mastičkáři koupit elixír
     jdi('JVVVJVVVJVVSVVVSVVJJJVVVJJZJJ', (24, 16))
     assert 'O' in zjisti_možné_akce(hráč)
-    životabudič = next(věc for věc in mastičkář.inventář if 'Životabudič' in věc.název)
-    hráč.kup(životabudič, mastičkář)
+    elixír = next(věc for věc in mastičkář.inventář if 'Elixír' in věc.název)
+    hráč.kup(elixír, mastičkář)
 
     # koupí zbylá léčiva
     for léčivo in sorted((věc for věc in mastičkář.inventář
@@ -416,9 +417,9 @@ def test_zakladni_pruchod_hrou():
 
     # přijde před dobrodruha
     jdi('SSVSSZZZSSSSVVVVSSZZZZZSSZZZZSZ', (16, 3))
-    if životabudič in hráč.inventář:
-        print(f'{životabudič}: {hráč.zdraví=} -> ', end='')
-        hráč.spotřebuj(životabudič)
+    if elixír in hráč.inventář:
+        print(f'{elixír}: {hráč.zdraví=} -> ', end='')
+        hráč.spotřebuj(elixír)
         print(hráč.zdraví)
 
     # přejde přes dobrodruha

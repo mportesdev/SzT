@@ -83,11 +83,13 @@ def zobraz_titul():
 
 
 def zobraz_gratulaci():
-    vypiš_odstavec(
-        'Překonal jsi všechny nástrahy a skutečně se ti podařilo získat kýžené'
-        ' magické artefakty. Otevírá se před tebou svět neomezených možností.',
-        'štěstí'
-    )
+    vypiš_odstavec('Překonal jsi všechny nástrahy a s notnou dávkou odvahy i'
+                   ' štěstí se ti skutečně podařilo získat kýžené magické'
+                   ' artefakty.',
+                   'štěstí')
+    vypiš_odstavec('Otevírá se před tebou svět takřka neomezených možností.'
+                   ' Bude záležet jen na tobě, zda se staneš mocným mágem na'
+                   ' straně dobra, anebo zla.')
     print('\n\n',
           'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
           '\n\n',
@@ -161,7 +163,7 @@ def zjisti_možné_akce(hráč):
             místnost_východně.viděna = True
 
     if (hráč.zdraví < 100 and hráč.má_léky()) \
-            or any('Životabudič' in věc.název for věc in hráč.inventář):
+            or any('Elixír' in věc.název for věc in hráč.inventář):
         akce['L'] = (hráč.kurýruj_se, 'Léčit se')
 
     akce['I'] = (hráč.vypiš_věci, 'Inventář')

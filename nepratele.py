@@ -89,7 +89,7 @@ class Člověk(Nepřítel):
             zbraň=veci.Zbraň('Železné kopí', 18, 85),
             jméno_3_pád='Dobrodruhovi',
             jméno_4_pád='Dobrodruha',
-            text_živý='Vrhl se na tebe pološílený dobrodruh - jiný hráč'
+            text_živý='Vrhl se na tebe pološílený dobrodruh – jiný hráč'
                       ' této hry!',
             text_mrtvý='Na zemi leží mrtvola muže s vytřeštěnýma očima.'
         )
@@ -168,7 +168,7 @@ data_nepřátel = (
             'jméno_4_pád': 'Dráčka',
             'text_živý': 'Ze tmy vyskočil malý jeskynní dráček a zasáhl tě'
                          ' ohnivou koulí!',
-            'text_mrtvý': 'Z mrtvoly jeskynního dráčka vytéká jasně oranžová'
+            'text_mrtvý': 'Z mrtvoly jeskynního dráčka vytéká tmavě oranžová'
                           ' tekutina.',
         },
     ),
@@ -181,7 +181,7 @@ data_nepřátel = (
             'útok': 5,
             'jméno_3_pád': 'Vlkovi',
             'jméno_4_pád': 'Vlka',
-            'text_živý': 'Z křoví na tebe vyskočil vychrtlý šedý vlk.',
+            'text_živý': 'Ze křoví na tebe vyskočil vychrtlý šedý vlk.',
         },
     ),
 
