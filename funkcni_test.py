@@ -120,9 +120,7 @@ def test_zakladni_pruchod_hrou():
     doplň_síly()
 
     # přejde přes dalšího nepřítele, dojde pro další lék
-    jdi('SZZZ', (24, 20))
-    doplň_síly()
-    jdi('SZZSZ', (21, 18))
+    jdi('SZZZSZZSZ', (21, 18))
     seber_jednu_věc(*názvy_léčivek)
 
     # dojde k mastičkáři, prodá nůž a dýku za 11 + 27
@@ -142,6 +140,7 @@ def test_zakladni_pruchod_hrou():
     assert hráč.zlato >= sekerka.cena, 'chybí peníze na sekerku'
     hráč.kup(sekerka, mastičkář)
     assert hráč.nejlepší_zbraň() is sekerka
+    doplň_síly()
 
     # sebere další lék
     jdi('JJJJJJZZZJ', (21, 23))
