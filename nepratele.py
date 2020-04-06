@@ -49,7 +49,7 @@ class Netvor(Nepřítel):
     def troll(třída):
         return třída(
             jméno='Kamenný troll',
-            zdraví=92,
+            zdraví=98,
             útok=16,
             jméno_3_pád='Trollovi',
             jméno_4_pád='Trolla',
@@ -61,7 +61,7 @@ class Netvor(Nepřítel):
     def lesní_troll(třída):
         return třída(
             jméno='Lesní troll',
-            zdraví=62,
+            zdraví=68,
             útok=12,
             jméno_3_pád='Trollovi',
             jméno_4_pád='Trolla',
@@ -85,8 +85,8 @@ class Člověk(Nepřítel):
     def dobrodruh(třída):
         return třída(
             jméno='Cizí dobrodruh',
-            zdraví=98,
-            zbraň=veci.Zbraň('Železné kopí', 18, 85),
+            zdraví=190,
+            zbraň=veci.Zbraň('Železné kopí', 26, 85),
             jméno_3_pád='Dobrodruhovi',
             jméno_4_pád='Dobrodruha',
             text_živý='Vrhl se na tebe pološílený dobrodruh – jiný hráč'
@@ -100,7 +100,7 @@ data_nepřátel = (
         Zvíře,
         {
             'jméno': 'Obří pavouk',
-            'zdraví': 29,
+            'zdraví': 32,
             'útok': 7,
             'jméno_3_pád': 'Pavoukovi',
             'jméno_4_pád': 'Pavouka',
@@ -114,7 +114,7 @@ data_nepřátel = (
         Zvíře,
         {
             'jméno': 'Obří šváb',
-            'zdraví': 33,
+            'zdraví': 35,
             'útok': 5,
             'jméno_3_pád': 'Švábovi',
             'jméno_4_pád': 'Švába',
@@ -127,7 +127,7 @@ data_nepřátel = (
         Zvíře,
         {
             'jméno': 'Obří netopýr',
-            'zdraví': 36,
+            'zdraví': 37,
             'útok': 6,
             'jméno_3_pád': 'Netopýrovi',
             'jméno_4_pád': 'Netopýra',
@@ -140,7 +140,7 @@ data_nepřátel = (
         Netvor,
         {
             'jméno': 'Skřet',
-            'zdraví': 43,
+            'zdraví': 45,
             'útok': 12,
             'jméno_3_pád': 'Skřetovi',
             'jméno_4_pád': 'Skřeta',
@@ -177,7 +177,7 @@ data_nepřátel = (
         Zvíře,
         {
             'jméno': 'Vlk',
-            'zdraví': 28,
+            'zdraví': 31,
             'útok': 5,
             'jméno_3_pád': 'Vlkovi',
             'jméno_4_pád': 'Vlka',

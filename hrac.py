@@ -19,7 +19,7 @@ class Hráč:
         já.svět = Svět()
         já.x, já.y = já.svět.začátek.x, já.svět.začátek.y
         já.zdraví = 100
-        já.zlato = 10
+        já.zlato = 0
         já.zkušenost = 0
         já.zdařilý_zásah = False
         já.mapování = False

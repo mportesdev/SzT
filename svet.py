@@ -348,16 +348,16 @@ class Svět:
 
         def generátor_zbraní():
             data_zbraní = {
-                ('Cizokrajná šavle', 17, 54, 'Cizokrajnou šavli'),
-                ('Ostnatý palcát', 18, 82),
-                ('Zkrvavená mačeta', 19, 85, 'Zkrvavenou mačetu'),
+                ('Cizokrajná šavle', 18, 76, 'Cizokrajnou šavli'),
+                ('Ostnatý palcát', 17, 64),
+                ('Zkrvavená mačeta', 16, 54, 'Zkrvavenou mačetu'),
             }
 
             while True:
                 if (x, y) == (27, 23):
                     yield veci.Zbraň('Rezavá dýka', 9, 31, 'Rezavou dýku')
                 elif (x, y) == (15, 18):
-                    yield veci.Zbraň('Zrezivělý meč', 16, 69)
+                    yield veci.Zbraň('Zrezivělý meč', 14, 68)
                 elif (x, y) == (35, 14):
                     yield veci.Zbraň('Těžká sekera', 26, 117, 'Těžkou sekeru')
                 else:

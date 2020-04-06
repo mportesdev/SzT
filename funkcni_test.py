@@ -194,12 +194,12 @@ def test_zakladni_pruchod_hrou():
     zbraň_19x12 = seber_jednu_věc(*názvy_zbraní)
     assert hráč.nejlepší_zbraň() is zbraň_19x12
 
-    # dojde k mastičkáři, prodá meč za 62
+    # dojde k mastičkáři, prodá meč za 61
     jdi('VSSSVVJJJVVVJJZJJ', (24, 16))
     assert 'O' in zjisti_možné_akce(hráč)
     zlato = hráč.zlato
     hráč.prodej(meč_15x18, mastičkář)
-    assert hráč.zlato == zlato + 62
+    assert hráč.zlato == zlato + 61
 
     # koupí nejlepší léčiva, na která má peníze
     for léčivo in sorted((věc for věc in mastičkář.inventář
