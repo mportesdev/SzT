@@ -10,8 +10,10 @@ Strach ze tmy
 
 Ukázky:
 
-.. image:: screenshot_pycharm.png
-
 .. image:: screenshot_console.png
+
+.. image:: screenshot_console_windows.png
+
+.. image:: screenshot_pycharm.png
 
 .. image:: screenshot_replit.png
