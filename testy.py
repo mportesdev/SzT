@@ -1,10 +1,11 @@
 from collections import Counter
+
 import pytest
 
-from postavy import Obchodník
-import svet
-from utility import Barva, vícebarevně, s_odchylkou, skupiny_kláves, okraje
-from veci import Věc
+from szt import svet
+from szt.postavy import Obchodník
+from szt.utility import Barva, vícebarevně, s_odchylkou, skupiny_kláves, okraje
+from szt.veci import Věc
 
 
 @pytest.fixture

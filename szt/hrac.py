@@ -2,9 +2,8 @@
 
 from typing import List, Union
 
-from svet import Svět
-import utility
-import veci
+from . import utility, veci
+from .svet import Svět
 
 PoložkyInventáře = List[Union[veci.Zbraň, veci.Lék]]
 

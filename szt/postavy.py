@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import veci
+from . import veci
 
 
 class Obchodník:

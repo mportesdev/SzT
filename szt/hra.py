@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from hrac import Hráč
-import utility
+from . import utility
+from .hrac import Hráč
 
 
 def hra():

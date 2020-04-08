@@ -3,10 +3,7 @@
 import math
 import random
 
-import nepratele
-import postavy
-import utility
-import veci
+from . import nepratele, postavy, utility, veci
 
 
 class Místnost:

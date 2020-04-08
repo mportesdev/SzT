@@ -2,7 +2,7 @@
 
 import random
 
-import veci
+from . import veci
 
 
 class Nepřítel:

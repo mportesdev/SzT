@@ -1,8 +1,8 @@
 import sys
 sys.argv.append('--fast')
 
-from hrac import Hráč
-from utility import zjisti_možné_akce
+from szt.hrac import Hráč
+from szt.utility import zjisti_možné_akce
 
 
 def test_zakladni_pruchod_hrou():
