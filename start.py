@@ -1,4 +1,4 @@
-from szt.hra import hra
+from szt.__main__ import main
 
 if __name__ == '__main__':
-    hra()
+    main()

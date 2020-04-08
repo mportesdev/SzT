@@ -49,10 +49,3 @@ def hra():
             if akce in (hráč.jdi_na_sever, hráč.jdi_na_jih,
                         hráč.jdi_na_východ, hráč.jdi_na_západ):
                 break
-
-
-if __name__ == '__main__':
-    try:
-        hra()
-    except SystemExit:
-        print('\nHra končí.')
