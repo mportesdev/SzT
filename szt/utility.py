@@ -9,29 +9,34 @@ import sys
 from textwrap import TextWrapper
 import time
 
+from rich.console import Console
+from rich.style import Style
+
 NÁZEV_HRY = 'Strach ze tmy'
 VERZE = 'verze 1.0'
 ŠÍŘKA = 70
 
 
 class TmaváBarva(Enum):
-    ČERVENÁ = 31
-    MODRÁ = 34
-    FIALOVÁ = 35
-    TYRKYS = 36
+    ČERVENÁ = Style(color='red')
+    MODRÁ = Style(color='blue')
+    FIALOVÁ = Style(color='magenta')
+    TYRKYS = Style(color='cyan')
 
 
 class SvětláBarva(Enum):
-    ČERVENÁ = 91
-    MODRÁ = 94
-    FIALOVÁ = 95
-    TYRKYS = 96
+    ČERVENÁ = Style(color='bright_red')
+    MODRÁ = Style(color='bright_blue')
+    FIALOVÁ = Style(color='bright_magenta')
+    TYRKYS = Style(color='bright_cyan')
 
 
 ODSAZENÍ = ' ' * 11
 
 zalamovač_textu = TextWrapper(width=ŠÍŘKA - len(ODSAZENÍ),
                               subsequent_indent=ODSAZENÍ)
+
+console = Console()
 
 
 def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
@@ -45,13 +50,8 @@ def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
 
 
 def vypiš_barevně(*args, barva=None, **kwargs):
-    if barva is not None:
-        print(f'\033[{barva.value}m', end='')
-
-    print(*args, **kwargs)
-
-    if barva is not None:
-        print('\033[0m', end='')
+    styl = barva.value if barva else None
+    console.print(*args, style=styl, highlight=False, **kwargs)
     time.sleep(PRODLEVA)
 
 
