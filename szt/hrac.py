@@ -106,9 +106,9 @@ class Hráč:
             )
 
         while True:
-            utility.vícebarevně(
-                'Číslo položky             (|Enter| = návrat)',
-                (utility.Barva.MODRÁ, None), konec=' '
+            utility.vypiš_barevně(
+                '[bright_blue]Číslo položky             ([/]'
+                'Enter[bright_blue] = návrat) '
             )
             možnosti = set(range(1, len(léky) + 1))
             vstup = utility.vstup_z_možností(možnosti | {''})
