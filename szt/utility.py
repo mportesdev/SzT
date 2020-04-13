@@ -105,6 +105,13 @@ def vypiš_název_akce(název_akce):
                   barva=Barva.FIALOVÁ, end='\n\n')
 
 
+def legenda_mapy():
+    vypiš_barevně('[', barva=Barva.MODRÁ, end='')
+    vypiš_barevně(' + [bright_blue]les[/]           # '
+                  '[bright_blue]jeskyně[/]         H [bright_blue]hráč[/]'
+                  '            ? [bright_blue]neznámo ]')
+
+
 def zobraz_možnosti(možnosti):
     print('\nMožnosti:')
     for skupina_kláves in skupiny_kláves(''.join(možnosti.keys())):
@@ -186,9 +193,11 @@ def vyber_akci(hráč, fronta_příkazů):
         možnosti = zjisti_možné_akce(hráč)
         if not fronta_příkazů:
             zobraz_možnosti(možnosti)
-            vícebarevně(f'[ Zdraví: |{hráč.zdraví:3} {"%":<4}|'
-                        f'zkušenost: |{hráč.zkušenost:<7}|'
-                        f'zlato: |{hráč.zlato}| ]', (Barva.FIALOVÁ, None))
+            vypiš_barevně('[ Zdraví:', barva=Barva.FIALOVÁ, end='')
+            vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
+                          f'[bright_magenta]zkušenost:[/] {hráč.zkušenost:<7}'
+                          f'[bright_magenta]zlato:[/] {hráč.zlato} '
+                          '[bright_magenta]]')
             print()
 
         while True:

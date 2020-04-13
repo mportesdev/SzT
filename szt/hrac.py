@@ -155,8 +155,5 @@ class Hráč:
 
         print('\n'.join(''.join(řádka).center(utility.ŠÍŘKA)
                         for řádka in mapa_navštívených))
-        utility.vícebarevně(
-            '\n[ |+| les           |#| jeskyně         '
-            '|H| hráč            |?| neznámo ]',
-            (utility.Barva.MODRÁ, None)
-        )
+        print()
+        utility.legenda_mapy()
