@@ -4,7 +4,8 @@ import pytest
 
 from szt import svet
 from szt.postavy import Obchodník
-from szt.utility import Barva, vícebarevně, s_odchylkou, skupiny_kláves, okraje
+from szt.utility import Barva, vypiš_barevně, s_odchylkou, skupiny_kláves, \
+                        okraje
 from szt.veci import Věc
 
 
@@ -105,19 +106,24 @@ def test_okraje(parametry, výsledek):
     assert okraje(*parametry) == výsledek
 
 
-def test_vicebarevne():
-    """Test utils.vícebarevně"""
-    vícebarevně('červená|modrá|fialová|tyrkys',
-                (Barva.ČERVENÁ, Barva.MODRÁ, Barva.FIALOVÁ, Barva.TYRKYS))
+def test_vypis_barevne():
+    """Test utility.vypiš_barevně"""
+    vypiš_barevně('[bright_red]červená[/][bright_blue]modrá[/]'
+                  '[bright_magenta]fialová[/][bright_cyan]tyrkys')
 
-    vícebarevně('Číslo položky             (|Enter| = návrat) ',
-                (Barva.MODRÁ, None))
+    vypiš_barevně('[bright_blue]Číslo položky             ([/]'
+                  'Enter[bright_blue] = návrat) ')
 
-    vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-                (None, Barva.MODRÁ))
+    vypiš_barevně('K[bright_blue]: koupit    [/]P[bright_blue]: prodat    ([/]'
+                  'Enter[bright_blue] = návrat) ')
 
-    vícebarevně('[ |+| les           |#| jeskyně         '
-                '|H| hráč            |?| neznámo ]', (Barva.MODRÁ, None))
+    vypiš_barevně('[', barva=Barva.MODRÁ, end='')
+    vypiš_barevně(' + [bright_blue]les[/]           # '
+                  '[bright_blue]jeskyně[/]         H [bright_blue]hráč[/]'
+                  '            ? [bright_blue]neznámo ]')
 
-    vícebarevně(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-                (Barva.FIALOVÁ, None))
+
+    vypiš_barevně('[ Zdraví:', barva=Barva.FIALOVÁ, end='')
+    vypiš_barevně(f' {64:3} {"%":<4}'
+                  f'[bright_magenta]zkušenost:[/] {1024:<7}'
+                  f'[bright_magenta]zlato:[/] 128 [bright_magenta]]')
