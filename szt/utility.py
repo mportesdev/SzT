@@ -1,8 +1,6 @@
 # coding: utf-8
 
 from collections import OrderedDict
-from enum import Enum
-from itertools import cycle
 import random
 import re
 import sys
@@ -16,22 +14,6 @@ from rich.theme import Theme
 NÁZEV_HRY = 'Strach ze tmy'
 VERZE = 'verze 1.0'
 ŠÍŘKA = 70
-
-
-class TmaváBarva(Enum):
-    ČERVENÁ = Style(color='red')
-    MODRÁ = Style(color='blue')
-    FIALOVÁ = Style(color='magenta')
-    TYRKYS = Style(color='cyan')
-
-
-class SvětláBarva(Enum):
-    ČERVENÁ = Style(color='bright_red')
-    MODRÁ = Style(color='bright_blue')
-    FIALOVÁ = Style(color='bright_magenta')
-    TYRKYS = Style(color='bright_cyan')
-
-
 ODSAZENÍ = ' ' * 11
 PRODLEVA = 0 if '--fast' in sys.argv[1:] else 0.015
 
@@ -100,15 +82,6 @@ def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
 def vypiš_barevně(*args, barva=None, **kwargs):
     console.print(*args, style=barva, highlight=False, **kwargs)
     time.sleep(PRODLEVA)
-
-
-def vícebarevně(text, barvy, oddělovač='|', konec='\n'):
-    části_textu = text.split(oddělovač)
-    barvy = cycle(barvy)
-
-    for část, barva in zip(části_textu, barvy):
-        vypiš_barevně(část, barva=barva, end='')
-    print(end=konec)
 
 
 def zobraz_titul():
