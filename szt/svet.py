@@ -172,7 +172,8 @@ class JeskyněObchod(Jeskyně):
 
         while True:
             utility.vypiš_barevně(
-                '[modrá]Číslo položky             ([/]Enter[modrá] = návrat) '
+                '[modrá]Číslo položky             ([/]Enter[modrá] = návrat)',
+                end=' '
             )
             vstup = utility.vstup_z_možností(možnosti | {''})
             if vstup == '':
@@ -191,7 +192,8 @@ class JeskyněObchod(Jeskyně):
         while True:
             utility.vypiš_barevně(
                 'K[modrá]: koupit    [/]P[modrá]: prodat    ([/]'
-                'Enter[modrá] = návrat) '
+                'Enter[modrá] = návrat)',
+                end=' '
             )
             vstup = utility.vstup_z_možností({'K', 'P', ''})
             if vstup == '':
