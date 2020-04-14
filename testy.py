@@ -4,8 +4,7 @@ import pytest
 
 from szt import svet
 from szt.postavy import Obchodník
-from szt.utility import Barva, vypiš_barevně, s_odchylkou, skupiny_kláves, \
-                        okraje
+from szt.utility import vypiš_barevně, s_odchylkou, skupiny_kláves, okraje
 from szt.veci import Věc
 
 
@@ -108,22 +107,25 @@ def test_okraje(parametry, výsledek):
 
 def test_vypis_barevne():
     """Test utility.vypiš_barevně"""
-    vypiš_barevně('[bright_red]červená[/][bright_blue]modrá[/]'
-                  '[bright_magenta]fialová[/][bright_cyan]tyrkys')
+    vypiš_barevně('[červená]červená[/][modrá]modrá[/]'
+                  '[fialová]fialová[/][tyrkys]tyrkys')
 
-    vypiš_barevně('[bright_blue]Číslo položky             ([/]'
-                  'Enter[bright_blue] = návrat) ')
+    vypiš_barevně('[modrá]Číslo položky             ([/]'
+                  'Enter[modrá] = návrat) ')
 
-    vypiš_barevně('K[bright_blue]: koupit    [/]P[bright_blue]: prodat    ([/]'
-                  'Enter[bright_blue] = návrat) ')
+    vypiš_barevně('K[modrá]: koupit    [/]P[modrá]: prodat    ([/]'
+                  'Enter[modrá] = návrat) ')
 
-    vypiš_barevně('[', barva=Barva.MODRÁ, end='')
-    vypiš_barevně(' + [bright_blue]les[/]           # '
-                  '[bright_blue]jeskyně[/]         H [bright_blue]hráč[/]'
-                  '            ? [bright_blue]neznámo ]')
+    vypiš_barevně('[', barva='modrá', end='')
+    vypiš_barevně(' + [modrá]les[/]           # '
+                  '[modrá]jeskyně[/]         H [modrá]hráč[/]'
+                  '            ? [modrá]neznámo ]')
 
-
-    vypiš_barevně('[ Zdraví:', barva=Barva.FIALOVÁ, end='')
+    vypiš_barevně('[ Zdraví:', barva='fialová', end='')
     vypiš_barevně(f' {64:3} {"%":<4}'
-                  f'[bright_magenta]zkušenost:[/] {1024:<7}'
-                  f'[bright_magenta]zlato:[/] 128 [bright_magenta]]')
+                  f'[fialová]zkušenost:[/] {1024:<7}'
+                  f'[fialová]zlato:[/] 128 [fialová]]')
+
+
+if __name__ == '__main__':
+    test_vypis_barevne()

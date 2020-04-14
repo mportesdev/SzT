@@ -11,6 +11,7 @@ import time
 
 from rich.console import Console
 from rich.style import Style
+from rich.theme import Theme
 
 NÁZEV_HRY = 'Strach ze tmy'
 VERZE = 'verze 1.0'
@@ -32,11 +33,58 @@ class SvětláBarva(Enum):
 
 
 ODSAZENÍ = ' ' * 11
+PRODLEVA = 0 if '--fast' in sys.argv[1:] else 0.015
+
+
+světlé_barvy = Theme(
+    {
+        'červená': Style.parse('bright_red'),
+        'modrá': Style.parse('bright_blue'),
+        'fialová': Style.parse('bright_magenta'),
+        'tyrkys': Style.parse('bright_cyan'),
+    }
+)
+
+světlé_barvy_tučně = Theme(
+    {
+        'červená': Style.parse('bold bright_red'),
+        'modrá': Style.parse('bold bright_blue'),
+        'fialová': Style.parse('bold bright_magenta'),
+        'tyrkys': Style.parse('bold bright_cyan'),
+    }
+)
+
+tmavé_barvy = Theme(
+    {
+        'červená': Style.parse('red'),
+        'modrá': Style.parse('blue'),
+        'fialová': Style.parse('magenta'),
+        'tyrkys': Style.parse('cyan'),
+    }
+)
+
+žádné_barvy = Theme(
+    {
+        'červená': Style.parse(''),
+        'modrá': Style.parse(''),
+        'fialová': Style.parse(''),
+        'tyrkys': Style.parse(''),
+    }
+)
+
+if '--no-color' in sys.argv[1:]:
+    barevný_motiv = žádné_barvy
+elif '--dark' in sys.argv[1:]:
+    barevný_motiv = tmavé_barvy
+elif sys.platform == 'win32':
+    barevný_motiv = světlé_barvy_tučně
+else:
+    barevný_motiv = světlé_barvy
+
+console = Console(theme=barevný_motiv)
 
 zalamovač_textu = TextWrapper(width=ŠÍŘKA - len(ODSAZENÍ),
                               subsequent_indent=ODSAZENÍ)
-
-console = Console()
 
 
 def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
@@ -44,19 +92,13 @@ def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
     zalamovač_textu.initial_indent = f'        {symbol}  '
 
     if typ_zprávy == 'štěstí' and barva is None:
-        barva = Barva.TYRKYS
+        barva = 'tyrkys'
 
     vypiš_barevně(zalamovač_textu.fill(zpráva), barva=barva)
 
 
 def vypiš_barevně(*args, barva=None, **kwargs):
-    styl = barva.value if barva else None
-    console.print(*args, style=styl, highlight=False, **kwargs)
-    time.sleep(PRODLEVA)
-
-
-def vypiš_barevně_atrapa(*args, barva=None, **kwargs):
-    print(*args, **kwargs)
+    console.print(*args, style=barva, highlight=False, **kwargs)
     time.sleep(PRODLEVA)
 
 
@@ -70,7 +112,7 @@ def vícebarevně(text, barvy, oddělovač='|', konec='\n'):
 
 
 def zobraz_titul():
-    vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ)
+    vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
     vypiš_barevně('\n\n',
                   ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
                   '\n\n\n',
@@ -78,8 +120,8 @@ def zobraz_titul():
                   '\n\n',
                   f'{VERZE}   6. dubna 2020'.center(ŠÍŘKA),
                   '\n\n',
-                  barva=Barva.FIALOVÁ, sep='')
-    vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ, end='\n\n')
+                  barva='fialová', sep='')
+    vypiš_barevně('-' * ŠÍŘKA, barva='fialová', end='\n\n')
 
 
 def zobraz_gratulaci():
@@ -96,20 +138,20 @@ def zobraz_gratulaci():
           sep='')
     vypiš_barevně(f'{NÁZEV_HRY}       {VERZE}       '
                   'github.com/myrmica-habilis/SzT.git'.center(ŠÍŘKA),
-                  barva=Barva.FIALOVÁ)
-    vypiš_barevně('-' * ŠÍŘKA, barva=Barva.FIALOVÁ)
+                  barva='fialová')
+    vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
 
 
 def vypiš_název_akce(název_akce):
     vypiš_barevně(f' {název_akce} '.center(ŠÍŘKA, '-'),
-                  barva=Barva.FIALOVÁ, end='\n\n')
+                  barva='fialová', end='\n\n')
 
 
 def legenda_mapy():
-    vypiš_barevně('[', barva=Barva.MODRÁ, end='')
-    vypiš_barevně(' + [bright_blue]les[/]           # '
-                  '[bright_blue]jeskyně[/]         H [bright_blue]hráč[/]'
-                  '            ? [bright_blue]neznámo ]')
+    vypiš_barevně('[', barva='modrá', end='')
+    vypiš_barevně(' + [modrá]les[/]           # '
+                  '[modrá]jeskyně[/]         H [modrá]hráč[/]'
+                  '            ? [modrá]neznámo ]')
 
 
 def zobraz_možnosti(možnosti):
@@ -118,16 +160,15 @@ def zobraz_možnosti(možnosti):
         for klávesa in skupina_kláves:
             název = možnosti[klávesa][1]
             if klávesa == skupina_kláves[-1]:
-                vícebarevně(f'{klávesa}|: {název}', (None, Barva.MODRÁ))
+                vypiš_barevně(f'{klávesa}[modrá]: {název}')
             else:
-                vícebarevně(f'{klávesa}|: {název:<15}', (None, Barva.MODRÁ),
-                            konec='')
+                vypiš_barevně(f'{klávesa}[modrá]: {název:<15}', end='')
 
 
 def uděl_odměnu(hráč, odměna, za_co):
     hráč.zkušenost += odměna
     vypiš_odstavec(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
-                   barva=Barva.FIALOVÁ)
+                   barva='fialová')
 
 
 def zjisti_možné_akce(hráč):
@@ -193,11 +234,11 @@ def vyber_akci(hráč, fronta_příkazů):
         možnosti = zjisti_možné_akce(hráč)
         if not fronta_příkazů:
             zobraz_možnosti(možnosti)
-            vypiš_barevně('[ Zdraví:', barva=Barva.FIALOVÁ, end='')
+            vypiš_barevně('[ Zdraví:', barva='fialová', end='')
             vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
-                          f'[bright_magenta]zkušenost:[/] {hráč.zkušenost:<7}'
-                          f'[bright_magenta]zlato:[/] {hráč.zlato} '
-                          '[bright_magenta]]')
+                          f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
+                          f'[fialová]zlato:[/] {hráč.zlato} '
+                          '[fialová]]')
             print()
 
         while True:
@@ -217,7 +258,7 @@ def vyber_akci(hráč, fronta_příkazů):
                 return akce
             else:
                 fronta_příkazů.clear()
-                vypiš_barevně('?', barva=Barva.FIALOVÁ)
+                vypiš_barevně('?', barva='fialová')
 
 
 def vstup_z_možností(možnosti):
@@ -227,7 +268,7 @@ def vstup_z_možností(možnosti):
             if vstup.upper() == str(možnost).upper():
                 return možnost
         else:
-            vypiš_barevně('?', barva=Barva.FIALOVÁ)
+            vypiš_barevně('?', barva='fialová')
 
 
 def s_odchylkou(číslo, relativní_odchylka=0.2):
@@ -247,15 +288,7 @@ def okraje(řetězec, hodnota_okraje):
 
 
 def potvrď_konec():
-    vícebarevně('Opravdu skončit? (|A| / |N|)', (Barva.MODRÁ, None), konec=' ')
+    vypiš_barevně('[modrá]Opravdu skončit? ([/]A [modrá]/[/] N[modrá])',
+                  end=' ')
     if vstup_z_možností({'A', 'N'}) == 'A':
         raise SystemExit
-
-
-Barva = TmaváBarva if '--dark' in sys.argv[1:] else SvětláBarva
-
-if '--no-color' in sys.argv[1:] or (sys.platform == 'win32'
-                                    and '--color' not in sys.argv[1:]):
-    vypiš_barevně = vypiš_barevně_atrapa
-
-PRODLEVA = 0 if '--fast' in sys.argv[1:] else 0.015
