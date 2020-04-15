@@ -20,6 +20,9 @@ class Zbraň(Věc):
     def __str__(já):
         return f'{já.název_4_pád} (útok +{já.útok})'
 
+    def __rich__(já):
+        return f'{já.název_4_pád} ([fialová]útok +{já.útok}[/])'
+
 
 class Lék(Věc):
     def __init__(já, název, léčivá_síla, cena, název_7_pád, název_4_pád=None,
@@ -31,6 +34,9 @@ class Lék(Věc):
 
     def __str__(já):
         return f'{já.název_4_pád} (zdraví +{já.léčivá_síla})'
+
+    def __rich__(já):
+        return f'{já.název_4_pád} ([tyrkys]zdraví +{já.léčivá_síla}[/])'
 
 
 class Artefakt(Věc):

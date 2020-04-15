@@ -5,7 +5,7 @@ import pytest
 from szt import svet
 from szt.postavy import Obchodník
 from szt.utility import vypiš_barevně, s_odchylkou, skupiny_kláves, okraje
-from szt.veci import Věc
+from szt.veci import Věc, Zbraň, Lék
 
 
 @pytest.fixture
@@ -105,7 +105,18 @@ def test_okraje(parametry, výsledek):
     assert okraje(*parametry) == výsledek
 
 
-def test_vypis_barevne():
+@pytest.fixture
+def zbraň():
+    return Zbraň('Halapartna', 19, 99, 'Halapartnu')
+
+
+@pytest.fixture
+def lék():
+    return Lék('Lahvička lektvaru', 27, 37, 'Lahvičkou lektvaru',
+               'Lahvičku lektvaru')
+
+
+def test_vypis_barevne(zbraň, lék):
     """Test utility.vypiš_barevně"""
     vypiš_barevně('[červená]červená[/][modrá]modrá[/]'
                   '[fialová]fialová[/][tyrkys]tyrkys')
@@ -126,6 +137,11 @@ def test_vypis_barevne():
                   f'[fialová]zkušenost:[/] {1024:<7}'
                   f'[fialová]zlato:[/] 128 [fialová]]')
 
+    vypiš_barevně('[modrá]Opravdu skončit? ([/]A [modrá]/[/] N[modrá])')
+
+    vypiš_barevně(zbraň)
+    vypiš_barevně(lék)
+
 
 if __name__ == '__main__':
-    test_vypis_barevne()
+    pytest.main(['-rP', __file__])
