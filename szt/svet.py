@@ -71,7 +71,7 @@ class MístnostBoj(Místnost):
                 utility.vypiš_odstavec(
                     f'Zasáhl jsi {já.nepřítel.jméno_4_pád.lower()} do hlavy.'
                     f' {já.nepřítel.jméno} zmateně vrávorá.',
-                    'boj', utility.Barva.MODRÁ
+                    'boj', 'modrá'
                 )
             else:
                 skutečný_zásah_nepřítele = utility.s_odchylkou(já.nepřítel.útok)
@@ -86,7 +86,7 @@ class MístnostBoj(Místnost):
                     hráč.zkušenost += 1
                 else:
                     zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                utility.vypiš_odstavec(zpráva, 'boj', utility.Barva.ČERVENÁ)
+                utility.vypiš_odstavec(zpráva, 'boj', 'červená')
         else:
             try:
                 if not já.nepřítel.zlato_sebráno and já.nepřítel.zlato > 0:
@@ -143,19 +143,19 @@ class JeskyněObchod(Jeskyně):
                 číslo_položky = '    '
             print(f'{číslo_položky} ', end='')
             try:
-                utility.vícebarevně(
-                    f'{věc.název_4_pád}'
-                    f' (|útok +{věc.útok}|) '.ljust(utility.ŠÍŘKA - 25, '.')
-                    + f' {cena:3} zlaťáků',
-                    (None, utility.Barva.FIALOVÁ)
+                # ljust - kompenzovat 12 znaků za formátovací značky
+                utility.vypiš_barevně(
+                    f'{věc.název_4_pád} ([fialová]útok'
+                    f' +{věc.útok}[/]) '.ljust(utility.ŠÍŘKA - 25 + 12, '.')
+                    + f' {cena:3} zlaťáků'
                 )
             except AttributeError:
-                utility.vícebarevně(
-                    f'{věc.název_4_pád}'
-                    f' (|zdraví +{věc.léčivá_síla}|) '.ljust(utility.ŠÍŘKA - 25,
-                                                             '.')
-                    + f' {cena:3} zlaťáků',
-                    (None, utility.Barva.TYRKYS)
+                # ljust - kompenzovat 11 znaků za formátovací značky
+                utility.vypiš_barevně(
+                    f'{věc.název_4_pád} ([tyrkys]zdraví'
+                    f' +{věc.léčivá_síla}[/]) '.ljust(utility.ŠÍŘKA - 25 + 11,
+                                                      '.')
+                    + f' {cena:3} zlaťáků'
                 )
 
         try:
@@ -171,9 +171,9 @@ class JeskyněObchod(Jeskyně):
             return
 
         while True:
-            utility.vícebarevně(
-                'Číslo položky             (|Enter| = návrat)',
-                (utility.Barva.MODRÁ, None), konec=' '
+            utility.vypiš_barevně(
+                '[modrá]Číslo položky             ([/]Enter[modrá] = návrat)',
+                end=' '
             )
             vstup = utility.vstup_z_možností(možnosti | {''})
             if vstup == '':
@@ -190,9 +190,10 @@ class JeskyněObchod(Jeskyně):
 
     def obchoduj(já, hráč):
         while True:
-            utility.vícebarevně(
-                'K|: koupit    |P|: prodat    (|Enter| = návrat)',
-                (None, utility.Barva.MODRÁ), konec=' '
+            utility.vypiš_barevně(
+                'K[modrá]: koupit    [/]P[modrá]: prodat    ([/]'
+                'Enter[modrá] = návrat)',
+                end=' '
             )
             vstup = utility.vstup_z_možností({'K', 'P', ''})
             if vstup == '':
@@ -397,10 +398,10 @@ class Svět:
 
         data_artefaktů = {
             ('Křišťálová koule', None, 'Křišťálovou kouli'),
-            ('Rubínový kříž', utility.Barva.ČERVENÁ),
-            ('Tyrkysová tiára', utility.Barva.TYRKYS, 'Tyrkysovou tiáru'),
-            ('Ametystový kalich', utility.Barva.FIALOVÁ),
-            ('Safírový trojzubec', utility.Barva.MODRÁ)
+            ('Rubínový kříž', 'červená'),
+            ('Tyrkysová tiára', 'tyrkys', 'Tyrkysovou tiáru'),
+            ('Ametystový kalich', 'fialová'),
+            ('Safírový trojzubec', 'modrá')
         }
 
         if mapa.count('1') > len(data_artefaktů):

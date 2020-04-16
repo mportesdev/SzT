@@ -4,7 +4,7 @@ import pytest
 
 from szt import svet
 from szt.postavy import Obchodník
-from szt.utility import Barva, vícebarevně, s_odchylkou, skupiny_kláves, okraje
+from szt.utility import s_odchylkou, skupiny_kláves, okraje
 from szt.veci import Věc
 
 
@@ -103,21 +103,3 @@ def test_skupiny_klaves(klávesy, výsledek):
 def test_okraje(parametry, výsledek):
     """Test utils.okraje"""
     assert okraje(*parametry) == výsledek
-
-
-def test_vicebarevne():
-    """Test utils.vícebarevně"""
-    vícebarevně('červená|modrá|fialová|tyrkys',
-                (Barva.ČERVENÁ, Barva.MODRÁ, Barva.FIALOVÁ, Barva.TYRKYS))
-
-    vícebarevně('Číslo položky             (|Enter| = návrat) ',
-                (Barva.MODRÁ, None))
-
-    vícebarevně('K|: koupit    |P|: prodat    (|Enter| = návrat) ',
-                (None, Barva.MODRÁ))
-
-    vícebarevně('[ |+| les           |#| jeskyně         '
-                '|H| hráč            |?| neznámo ]', (Barva.MODRÁ, None))
-
-    vícebarevně(f'[ Zdraví: |{64:<8}|zkušenost: |{1024:<7}|zlato: |128| ]',
-                (Barva.FIALOVÁ, None))

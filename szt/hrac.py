@@ -30,13 +30,11 @@ class Hráč:
         print('Máš u sebe:')
         for věc in já.inventář:
             try:
-                utility.vícebarevně('            '
-                            f'{věc.název_4_pád} (|útok +{věc.útok}|)',
-                            (None, utility.Barva.FIALOVÁ))
+                utility.vypiš_barevně(f'            {věc.název_4_pád} ('
+                                      f'[fialová]útok +{věc.útok}[/])')
             except AttributeError:
-                utility.vícebarevně('            '
-                            f'{věc.název_4_pád} (|zdraví +{věc.léčivá_síla}|)',
-                            (None, utility.Barva.TYRKYS))
+                utility.vypiš_barevně(f'            {věc.název_4_pád} ('
+                                      f'[tyrkys]zdraví +{věc.léčivá_síla}[/])')
         for artefakt in já.artefakty:
             utility.vypiš_barevně(f'            < {artefakt} >',
                                   barva=artefakt.barva)
@@ -100,15 +98,13 @@ class Hráč:
         print('Čím se chceš kurýrovat?')
         for číslo, věc in enumerate(léky, 1):
             print(f'{číslo:3}. ', end='')
-            utility.vícebarevně(
-                f'{věc.název_7_pád} (|zdraví +{věc.léčivá_síla}|)',
-                (None, utility.Barva.TYRKYS)
-            )
+            utility.vypiš_barevně(f'{věc.název_7_pád} ('
+                                  f'[tyrkys]zdraví +{věc.léčivá_síla}[/])')
 
         while True:
-            utility.vícebarevně(
-                'Číslo položky             (|Enter| = návrat)',
-                (utility.Barva.MODRÁ, None), konec=' '
+            utility.vypiš_barevně(
+                '[modrá]Číslo položky             ([/]Enter[modrá] = návrat)',
+                end=' '
             )
             možnosti = set(range(1, len(léky) + 1))
             vstup = utility.vstup_z_možností(možnosti | {''})
@@ -155,8 +151,5 @@ class Hráč:
 
         print('\n'.join(''.join(řádka).center(utility.ŠÍŘKA)
                         for řádka in mapa_navštívených))
-        utility.vícebarevně(
-            '\n[ |+| les           |#| jeskyně         '
-            '|H| hráč            |?| neznámo ]',
-            (utility.Barva.MODRÁ, None)
-        )
+        print()
+        utility.legenda_mapy()
