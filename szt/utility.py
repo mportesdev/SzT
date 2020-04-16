@@ -63,7 +63,7 @@ elif sys.platform == 'win32':
 else:
     barevný_motiv = světlé_barvy
 
-console = Console(theme=barevný_motiv)
+konzole = Console(theme=barevný_motiv)
 
 zalamovač_textu = TextWrapper(width=ŠÍŘKA - len(ODSAZENÍ),
                               subsequent_indent=ODSAZENÍ)
@@ -80,7 +80,7 @@ def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
 
 
 def vypiš_barevně(*args, barva=None, **kwargs):
-    console.print(*args, style=barva, highlight=False, **kwargs)
+    konzole.print(*args, style=barva, highlight=False, **kwargs)
     time.sleep(PRODLEVA)
 
 

@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from collections import Counter
 
 import pytest
@@ -16,7 +18,7 @@ def svět():
 @pytest.mark.parametrize('x, y', ((0, 1), (-1, -1), (33, 28), (34, 27),
                                   (10, 1), (1, 10), (5, 5), (24, 13)))
 def test_mistnost_na_pozici_je_none(svět, x, y):
-    """Test world.Svět.místnost_na_pozici"""
+    """Test svet.Svět.místnost_na_pozici"""
     assert svět.místnost_na_pozici(x, y) is None
 
 
@@ -25,7 +27,7 @@ def test_mistnost_na_pozici_je_none(svět, x, y):
                                                  (19, 12, svet.JeskyněZbraň),
                                                  (22, 14, svet.JeskyněZlato)))
 def test_mistnost_na_pozici_je_spravny_typ(svět, x, y, typ_místnosti):
-    """Test world.Svět.místnost_na_pozici"""
+    """Test svet.Svět.místnost_na_pozici"""
     assert isinstance(svět.místnost_na_pozici(x, y), typ_místnosti)
 
 
@@ -37,7 +39,7 @@ def test_mistnost_na_pozici_je_spravny_typ(svět, x, y, typ_místnosti):
                                            (16, 15, 'lék_sebrán'),
                                            (9, 15, 'nepřítel')))
 def test_mistnost_na_pozici_ma_specialni_atribut(svět, x, y, atribut):
-    """Test world.Svět.místnost_na_pozici"""
+    """Test svet.Svět.místnost_na_pozici"""
     assert hasattr(svět.místnost_na_pozici(x, y), atribut)
 
 
@@ -51,7 +53,7 @@ def obchodník():
                                             (99, 89), (100, 90), (101, 90),
                                             (109, 98), (110, 99), (111, 99)))
 def test_vykupni_cena_obchodnika(obchodník, cena, výsledek):
-    """Test npc.Obchodník.výkupní_cena"""
+    """Test postavy.Obchodník.výkupní_cena"""
     věc = Věc('', cena)
     assert obchodník.výkupní_cena(věc) == výsledek
 
@@ -72,7 +74,7 @@ def test_vykupni_cena_obchodnika(obchodník, cena, výsledek):
         (487, 0.26, 361, 613)  # 487 +- 126.62 -> [360.38-613.62] -> [361-613]
 ))
 def test_s_odchylkou(číslo, relativní_odchylka, minimum, maximum):
-    """Test utils.s_odchylkou"""
+    """Test utility.s_odchylkou"""
     výsledky = Counter(s_odchylkou(číslo, relativní_odchylka)
                        for __ in range(10_000))
     assert min(výsledky) == minimum
@@ -87,7 +89,7 @@ def test_s_odchylkou(číslo, relativní_odchylka, minimum, maximum):
         ('BJZLIK', ('B', 'JZ', 'LIK')),
 ))
 def test_skupiny_klaves(klávesy, výsledek):
-    """Test utils.skupiny_kláves"""
+    """Test utility.skupiny_kláves"""
     assert skupiny_kláves(klávesy) == výsledek
 
 
@@ -101,5 +103,5 @@ def test_skupiny_klaves(klávesy, výsledek):
         (('               ..H..                         ', ' '), (15, 25))
 ))
 def test_okraje(parametry, výsledek):
-    """Test utils.okraje"""
+    """Test utility.okraje"""
     assert okraje(*parametry) == výsledek

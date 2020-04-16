@@ -1,4 +1,6 @@
-from szt.hra import hra
+# coding: utf-8
+
+from .hra import hra
 
 
 def main():

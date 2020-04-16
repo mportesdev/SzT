@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import sys
 sys.argv.append('--fast')
 
@@ -89,6 +91,7 @@ def test_zakladni_pruchod_hrou():
     assert len(hráč.inventář) == 2
     nůž = hráč.inventář[0]
     assert hráč.nejlepší_zbraň() is nůž
+    assert not hráč.mapování
     assert set(zjisti_možné_akce(hráč)) == set('SIK')
 
     # jde dál lesem
@@ -98,6 +101,7 @@ def test_zakladni_pruchod_hrou():
     # dojde na první křižovatku a rozhodne se kreslit mapu
     jdi('S')
     assert set(zjisti_možné_akce(hráč)) == set('SJZIMK')
+    assert hráč.mapování
 
     # dojde na místo s bylinkami a sebere je
     jdi('SV')
