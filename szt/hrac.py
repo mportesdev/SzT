@@ -29,12 +29,7 @@ class Hráč:
     def vypiš_věci(já):
         print('Máš u sebe:')
         for věc in já.inventář:
-            try:
-                utility.vypiš_barevně(f'            {věc.název_4_pád} ('
-                                      f'[fialová]útok +{věc.útok}[/])')
-            except AttributeError:
-                utility.vypiš_barevně(f'            {věc.název_4_pád} ('
-                                      f'[tyrkys]zdraví +{věc.léčivá_síla}[/])')
+            utility.vypiš_barevně('            ', věc, sep='')
         for artefakt in já.artefakty:
             utility.vypiš_barevně(f'            < {artefakt} >',
                                   barva=artefakt.barva)

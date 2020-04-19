@@ -47,10 +47,10 @@ tmavé_barvy = Theme(
 
 žádné_barvy = Theme(
     {
-        'červená': Style.parse(''),
-        'modrá': Style.parse(''),
-        'fialová': Style.parse(''),
-        'tyrkys': Style.parse(''),
+        'červená': Style(),
+        'modrá': Style(),
+        'fialová': Style(),
+        'tyrkys': Style(),
     }
 )
 
