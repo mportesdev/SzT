@@ -15,7 +15,7 @@ NÁZEV_HRY = 'Strach ze tmy'
 VERZE = 'verze 1.0'
 ŠÍŘKA = 70
 ODSAZENÍ = ' ' * 11
-PRODLEVA = 0 if '--fast' in sys.argv[1:] else 0.015
+PRODLEVA = 0 if '-R' in sys.argv[1:] else 0.015
 
 
 světlé_barvy = Theme(
@@ -54,9 +54,9 @@ tmavé_barvy = Theme(
     }
 )
 
-if '--no-color' in sys.argv[1:]:
+if '-B' in sys.argv[1:]:
     barevný_motiv = žádné_barvy
-elif '--dark' in sys.argv[1:]:
+elif '-T' in sys.argv[1:]:
     barevný_motiv = tmavé_barvy
 elif sys.platform == 'win32':
     barevný_motiv = světlé_barvy_tučně

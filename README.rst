@@ -40,11 +40,11 @@ Pak už můžete hru spustit příkazem:
 
 Při spouštění z příkazové řádky je možné použít tyto parametry:
 
-``--dark`` pro nastavení tmavších barev
+``-T`` pro nastavení tmavších barev
 
-``--no-color`` pro režim obyčejného textu bez barev
+``-B`` pro režim obyčejného textu bez barev
 
-``--fast`` pro rychlý výpis textu bez efektu plynulého rolování
+``-R`` pro rychlý výpis textu bez efektu plynulého rolování
 
 Základní informace
 ==================
