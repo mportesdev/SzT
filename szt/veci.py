@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from rich.text import Text
+
 
 class Věc:
     def __init__(já, název, cena, název_4_pád=None):
@@ -21,7 +23,9 @@ class Zbraň(Věc):
         return f'{já.název_4_pád} (útok +{já.útok})'
 
     def __rich__(já):
-        return f'{já.název_4_pád} ([fialová]útok +{já.útok}[/])'
+        text = Text(str(já))
+        text.highlight_regex(r'útok \+\d+', 'fialová')
+        return text
 
 
 class Lék(Věc):
@@ -36,7 +40,9 @@ class Lék(Věc):
         return f'{já.název_4_pád} (zdraví +{já.léčivá_síla})'
 
     def __rich__(já):
-        return f'{já.název_4_pád} ([tyrkys]zdraví +{já.léčivá_síla}[/])'
+        text = Text(str(já))
+        text.highlight_regex(r'zdraví \+\d+', 'tyrkys')
+        return text
 
 
 class Artefakt(Věc):
