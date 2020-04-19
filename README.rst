@@ -9,12 +9,42 @@ Strach ze tmy
 
 Česká textová dobrodružná hra, původně vycházející ze `vzorové hry <https://github.com/myrmica-habilis/cave-terror>`__ vytvořené podle knihy `Make Your Own Python Text Adventure <https://www.apress.com/gp/book/9781484232309>`__. Postupně upravována, rozšiřována a přeložena do češtiny.
 
-Spuštění
-========
+Instalace a spuštění
+====================
 
-Hra vyžaduje Python 3.6 nebo vyšší. Doporučuji nejdříve vytvořit virtuální prostředí příkazem ``python3 -m venv .env`` v hlavní složce projektu (tedy tam, kde je i tento soubor README). Ze stejného místa pak spusťte hru příkazem ``.env/bin/python -m szt`` (resp. ve Windows příkazem ``.env\Scripts\python -m szt``).
+V libovolné složce, do níž máte oprávnění zapisovat, si naklonujte tento repozitář příkazem:
 
-Pokud virtuální prostředí nechcete, spustíte hru příkazem ``python3 -m szt``
+``git clone https://github.com/myrmica-habilis/SzT.git``
+
+a přepněte se do hlavní složky projektu:
+
+``cd SzT``
+
+Hra vyžaduje instalaci jedné externí knihovny, proto doporučuji nejdříve vytvořit virtuální prostředí příkazem:
+
+``python3 -m venv .env``
+
+(poznámka: hra vyžaduje Python 3.6.1 nebo vyšší)
+
+V nově vzniklém prostředí nejdříve aktualizujte správce balíčků:
+
+``.env/bin/python -m pip install --upgrade pip setuptools``
+
+a následně nainstalujte knihovnu `rich <https://rich.readthedocs.io>`__, kterou hra využívá k obarvení textů:
+
+``.env/bin/python -m pip install rich``
+
+Pak už můžete hru spustit příkazem:
+
+``.env/bin/python -m szt``
+
+Při spouštění z příkazové řádky je možné použít tyto parametry:
+
+``--dark`` pro nastavení tmavších barev
+
+``--no-color`` pro režim obyčejného textu bez barev
+
+``--fast`` pro rychlý výpis textu bez efektu plynulého rolování
 
 Základní informace
 ==================
@@ -44,7 +74,12 @@ a vy se chcete vydat na neprozkoumané místo na západě, přemístíte se tam 
 Útěk z boje
 -----------
 
-U většiny nepřátel se v průběhu boje může stát, že je nepřítel omráčen a na jedno kolo vyřazen z boje. V takové situaci je možné z lokace odejít. Tuto možnost je vhodné využít vždy, protože i když tudy budete ještě potřebovat projít, příště vám tentýž nepřítel pravděpodobně způsobí menší škodu (budete mít vyšší zkušenost a možná i lepší zbraň).
+Většinu nepřátel ve hře lze v průběhu boje s trochou štěstí omráčit a na jedno kolo vyřadit z boje. V takové situaci je možné z lokace odejít.
+
+Léčení
+------
+
+Léčivé prostředky vám navýší zdraví maximálně na úroveň 100 %, i když jejich léčivá síla je případně vyšší, než kolik vám do plného zdraví zbývá. Výjimkou je nejsilnější elixír, který má moc vám zvýšit zdraví i nad limit 100 %.
 
 Ukázky
 ======
