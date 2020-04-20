@@ -3,7 +3,7 @@
 import math
 import random
 
-from . import nepratele, postavy, utility, veci
+from . import data, nepratele, postavy, utility, veci
 
 
 class Místnost:
@@ -23,16 +23,7 @@ class Místnost:
 class Jeskyně(Místnost):
     def __init__(já, x, y):
         super().__init__(x, y)
-
-        texty = (
-            'Procházíš spletí nepříjemně tísnivých podzemních chodeb.',
-            'Našlapuješ po rozměklé zemi ve vlhké a zatuchlé jeskyni.',
-            'Jdeš vlhkou a chladnou jeskyní.',
-            'Procházíš zapáchajícími jeskynními chodbami.',
-            'Jdeš špinavými štolami s těžko dýchatelným vzduchem.',
-            'Klopýtáš v téměř dokonalé temnotě této části jeskyně.',
-        )
-        já.text = texty[já.zóna()]
+        já.text = data.texty_jeskyně[já.zóna()]
 
     def zóna(já):
         vzdálenost_od_středu = math.hypot(já.x - 18, já.y - 10)
@@ -42,15 +33,7 @@ class Jeskyně(Místnost):
 class Les(Místnost):
     def __init__(já, x, y):
         super().__init__(x, y)
-
-        texty = (
-            'Kráčíš zlověstným tichem zšeřelého lesa.',
-            'Jdeš po úzké, zarostlé lesní pěšině.',
-            'Procházíš nejtmavší a nejponuřejší částí lesa.',
-            'Jdeš po sotva znatelné lesní stezce.',
-            'Procházíš hustým porostem prastarého lesa.',
-        )
-        já.text = texty[já.zóna()]
+        já.text = data.texty_les[já.zóna()]
 
     def zóna(já):
         vzdálenost_od_středu = math.hypot(já.x - 18, já.y - 10)
@@ -296,43 +279,11 @@ class LesLék(MístnostLék, Les):
     pass
 
 
-mapa_hry = '''
-fm        gc cccc A                      
- fff    lc C c  Ccc                      
-  f      cccccc    c         gc          
-  F  f        cHcc c c  cg    C lc       
- ff fFf   ccC c  cccccc c    cc  cccg    
- f  f f   c ccc  c   T  c  cTc ccC       
- ff f m f A   c  cw cccccccc ccc c       
-f fff fff   c          C  C      cA      
-f F m   fW  c  cgcc c ccccccc            
-fmf      cccc  c  c ccc       c  g c     
-f ff    c   cCcc cCcc C g   ccc  c cl    
-ff f   Cccccc  ccc  c c c ccc  c ccc     
- F m  cc  c cgCc c wc cccCc cTcccc       
-mf    g  cc c       c c  c    c  cCc     
- ff   cc c        f   g cc    gc   w     
-         T    Ffm f     c                
-         cg   f  ffff   M                
-         c c  ffff t    f           ff f 
-       ccCcc   x   f mf f ffff m     ffFf
-   cc cc  c       mf  fff  f fff  ff f  m
-    c  c ccCc lc   fff  fFff   F   fFff  
-    cccc c  c  cA    F  f  m fff fff  ff 
-   Cc g  c ccc C     fffff   f   f  f f  
-   c  c  c w ccc     m f f xffFf fm ffFff
-   cA                  f f  f  fff  f   f
-                            ffm  f fm fff
-                                 f f ff f
-                                 S     mf
-'''
-
-
 class Svět:
     def __init__(já):
         já.mapa = []
         já.začátek = None
-        já.načti_mapu(mapa_hry)
+        já.načti_mapu(data.řádky_mapy)
 
     def místnost_na_pozici(já, x, y):
         if x < 0 or y < 0:
@@ -342,15 +293,9 @@ class Svět:
         except IndexError:
             return None
 
-    def načti_mapu(já, mapa):
+    def načti_mapu(já, řádky_mapy):
 
         def generátor_zbraní():
-            data_zbraní = {
-                ('Cizokrajná šavle', 18, 76, 'Cizokrajnou šavli'),
-                ('Ostnatý palcát', 17, 64),
-                ('Zkrvavená mačeta', 16, 54, 'Zkrvavenou mačetu'),
-            }
-
             while True:
                 if (x, y) == (27, 23):
                     yield veci.Zbraň('Rezavá dýka', 9, 31, 'Rezavou dýku')
@@ -359,26 +304,9 @@ class Svět:
                 elif (x, y) == (35, 14):
                     yield veci.Zbraň('Těžká sekera', 26, 117, 'Těžkou sekeru')
                 else:
-                    yield veci.Zbraň(*data_zbraní.pop())
+                    yield veci.Zbraň(*data.data_zbraní.pop())
 
         def generátor_léků():
-            data_léků = {
-                ('Léčivé bylinky', 16, 18, 'Léčivými bylinkami'),
-                ('Léčivé bylinky', 17, 19, 'Léčivými bylinkami'),
-                ('Kouzelné bylinky', 21, 22, 'Kouzelnými bylinkami'),
-                ('Kouzelné bylinky', 22, 23, 'Kouzelnými bylinkami'),
-                ('Léčivé houby', 13, 12, 'Léčivými houbami'),
-                ('Kouzelné houby', 20, 24, 'Kouzelnými houbami'),
-                ('Kouzelné houby', 21, 25, 'Kouzelnými houbami'),
-                ('Léčivé bobule', 13, 10, 'Léčivými bobulemi'),
-                ('Kouzelné bobule', 17, 17, 'Kouzelnými bobulemi'),
-                ('Kouzelné bobule', 18, 18, 'Kouzelnými bobulemi'),
-                ('Plástev lesního medu', 12, 11, 'Pláství lesního medu'),
-                ('Plástev lesního medu', 13, 12, 'Pláství lesního medu'),
-                ('Hadí ocásek', 14, 16, 'Hadím ocáskem'),
-                ('Ještěrčí ocásek', 15, 20, 'Ještěrčím ocáskem'),
-            }
-
             while True:
                 if (x, y) == (34, 23):
                     yield veci.Lék('Léčivé bylinky', 18, 19, 'Léčivými bylinkami')
@@ -391,26 +319,12 @@ class Svět:
                                    random.randint(35, 45), 21,
                                    'Lahvičkou medicíny', 'Lahvičku medicíny')
                 else:
-                    yield veci.Lék(*data_léků.pop())
+                    yield veci.Lék(*data.data_léků.pop())
 
         zbraně_iterátor = generátor_zbraní()
         léky_iterátor = generátor_léků()
 
-        data_artefaktů = {
-            ('Křišťálová koule', None, 'Křišťálovou kouli'),
-            ('Rubínový kříž', 'červená'),
-            ('Tyrkysová tiára', 'tyrkys', 'Tyrkysovou tiáru'),
-            ('Ametystový kalich', 'fialová'),
-            ('Safírový trojzubec', 'modrá')
-        }
-
-        if mapa.count('1') > len(data_artefaktů):
-            raise ValueError('Nedostatek dat pro artefakty')
-        if mapa.count('S') != 1:
-            raise ValueError('Na mapě musí být přesně jedna startovní místnost')
-
-        řádky = mapa.strip('\n').splitlines()
-        for y, řádka in enumerate(řádky):
+        for y, řádka in enumerate(řádky_mapy):
             řádka_mapy = []
             for x, kód_místnosti in enumerate(řádka):
                 typ_místnosti = {'c': Jeskyně,
@@ -452,7 +366,7 @@ class Svět:
                     parametry.update(nepřítel=nepratele.Člověk.dobrodruh())
                 elif kód_místnosti == 'A':
                     parametry.update(
-                        artefakt=veci.Artefakt(*data_artefaktů.pop())
+                        artefakt=veci.Artefakt(*data.data_artefaktů.pop())
                     )
                 elif kód_místnosti in ('w', 'x'):
                     parametry.update(zbraň=next(zbraně_iterátor))
