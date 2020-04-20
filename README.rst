@@ -26,11 +26,11 @@ Hra vyžaduje instalaci jedné externí knihovny, proto doporučuji nejdříve v
 
 (poznámka: hra vyžaduje Python 3.6.1 nebo vyšší)
 
-V nově vzniklém prostředí nejdříve aktualizujte správce balíčků:
+Ve virtuálním prostředí nejdříve aktualizujte správce balíčků na nejnovější verzi:
 
 ``.env/bin/python -m pip install --upgrade pip setuptools``
 
-a následně nainstalujte knihovnu `rich <https://rich.readthedocs.io>`__, kterou hra využívá k obarvení textů:
+a následně nainstalujte knihovnu `rich <https://rich.readthedocs.io>`__, která slouží k barevnému zvýraznění textů ve hře:
 
 ``.env/bin/python -m pip install rich``
 
@@ -38,7 +38,7 @@ Pak už můžete hru spustit příkazem:
 
 ``.env/bin/python -m szt``
 
-Při spouštění z příkazové řádky je možné použít tyto parametry:
+Můžete při tom navíc použít tyto parametry:
 
 ``-T`` pro nastavení tmavších barev
 
@@ -46,13 +46,17 @@ Při spouštění z příkazové řádky je možné použít tyto parametry:
 
 ``-R`` pro rychlý výpis textu bez efektu plynulého rolování
 
+Například:
+
+``.env/bin/python -m szt -T -R``
+
 Základní informace
 ==================
 
 Automatické mapování
 --------------------
 
-Po příchodu na první křižovatku (tedy záhy po započetí hry) si vaše postava začne sama kreslit mapu, kterou si můžete kdykoliv zobrazit příkazem ``M``.
+Po příchodu na první křižovatku (tedy záhy po započetí hry) si vaše postava začne sama kreslit mapu, kterou si můžete kdykoliv zobrazit příkazem ``M``. Tato mapa ale slouží jen k základní orientaci a neobsahuje informace o umístění nepřátel, předmětů apod.
 
 Režim rychlé chůze
 ------------------
@@ -74,12 +78,12 @@ a vy se chcete vydat na neprozkoumané místo na západě, přemístíte se tam 
 Útěk z boje
 -----------
 
-Většinu nepřátel ve hře lze v průběhu boje s trochou štěstí omráčit a na jedno kolo vyřadit z boje. V takové situaci je možné z lokace odejít.
+Vaší postavě se někdy podaří v průběhu boje nepřítele omráčit a na jedno kolo vyřadit. V takové situaci je možné z lokace odejít.
 
 Léčení
 ------
 
-Léčivé prostředky vám navýší zdraví maximálně na úroveň 100 %, i když jejich léčivá síla je případně vyšší, než kolik vám do plného zdraví zbývá. Výjimkou je nejsilnější elixír, který má moc vám zvýšit zdraví i nad limit 100 %.
+Léčivé prostředky (lektvary, bylinky atd.) vaší postavě vylepší zdraví maximálně na úroveň 100 %, a to i v případě, kdy jejich léčivá síla je vyšší, než kolik vám do plného zdraví zbývá. Výjimkou je nejsilnější elixír, který má zázračnou moc zlepšit zdraví i nad 100 %.
 
 Ukázky
 ======
