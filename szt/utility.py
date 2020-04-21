@@ -12,7 +12,7 @@ from rich.style import Style
 from rich.theme import Theme
 
 NÁZEV_HRY = 'Strach ze tmy'
-VERZE = 'verze 1.0'
+VERZE = 'verze 1.1'
 ŠÍŘKA = 70
 ODSAZENÍ = ' ' * 11
 PRODLEVA = 0 if '-R' in sys.argv[1:] else 0.015
@@ -91,7 +91,7 @@ def zobraz_titul():
                   '\n\n\n',
                   'textová hra na hrdiny'.center(ŠÍŘKA),
                   '\n\n',
-                  f'{VERZE}   6. dubna 2020'.center(ŠÍŘKA),
+                  f'{VERZE}   21. dubna 2020'.center(ŠÍŘKA),
                   '\n\n',
                   barva='fialová', sep='')
     vypiš_barevně('-' * ŠÍŘKA, barva='fialová', end='\n\n')
