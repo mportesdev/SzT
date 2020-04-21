@@ -12,6 +12,8 @@ Strach ze tmy
 Instalace a spuštění
 ====================
 
+Na Windows lze použít zkompilovaný spustitelný soubor, ke stažení `zde <https://github.com/myrmica-habilis/SzT/releases/download/v1.1/SzT_v1.1.exe>`__.
+
 V libovolné složce, do níž máte oprávnění zapisovat, si naklonujte tento repozitář příkazem:
 
 ``git clone https://github.com/myrmica-habilis/SzT.git``
@@ -78,12 +80,12 @@ a vy se chcete vydat na neprozkoumané místo na západě, přemístíte se tam 
 Útěk z boje
 -----------
 
-Vaší postavě se někdy podaří v průběhu boje nepřítele omráčit a na jedno kolo vyřadit. V takové situaci je možné z lokace odejít.
+Vaší postavě se někdy podaří v průběhu boje nepřítele omráčit a na jedno kolo vyřadit. V takové situaci je možné z lokace odejít a pokračovat dál v cestě.
 
 Léčení
 ------
 
-Léčivé prostředky (lektvary, bylinky atd.) vaší postavě vylepší zdraví maximálně na úroveň 100 %, a to i v případě, kdy jejich léčivá síla je vyšší, než kolik vám do plného zdraví zbývá. Výjimkou je nejsilnější elixír, který má zázračnou moc zlepšit zdraví i nad 100 %.
+Léčivé prostředky (lektvary, bylinky atd.) vaší postavě mohou vylepšit zdraví maximálně na úroveň 100 %, a to i v případě, kdy jejich léčivá síla je vyšší, než kolik vám do plného zdraví zbývá. Výjimkou je nejsilnější elixír, který má zázračnou moc zlepšit zdraví i nad 100 %.
 
 Ukázky
 ======
