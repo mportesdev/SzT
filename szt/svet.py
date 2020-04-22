@@ -3,7 +3,7 @@
 import math
 import random
 
-from . import data, nepratele, postavy, utility, veci
+from . import barvy, dialogy, data, nepratele, postavy, utility, veci
 
 
 class Místnost:
@@ -127,14 +127,14 @@ class JeskyněObchod(Jeskyně):
             print(f'{číslo_položky} ', end='')
             try:
                 # ljust - kompenzovat 12 znaků za formátovací značky
-                utility.vypiš_barevně(
+                barvy.vypiš_barevně(
                     f'{věc.název_4_pád} ([fialová]útok'
                     f' +{věc.útok}[/]) '.ljust(utility.ŠÍŘKA - 25 + 12, '.')
                     + f' {cena:3} zlaťáků'
                 )
             except AttributeError:
                 # ljust - kompenzovat 11 znaků za formátovací značky
-                utility.vypiš_barevně(
+                barvy.vypiš_barevně(
                     f'{věc.název_4_pád} ([tyrkys]zdraví'
                     f' +{věc.léčivá_síla}[/]) '.ljust(utility.ŠÍŘKA - 25 + 11,
                                                       '.')
@@ -154,11 +154,7 @@ class JeskyněObchod(Jeskyně):
             return
 
         while True:
-            utility.vypiš_barevně(
-                '[modrá]Číslo položky             ([/]Enter[modrá] = návrat)',
-                end=' '
-            )
-            vstup = utility.vstup_z_možností(možnosti | {''})
+            vstup = dialogy.vstup_číslo_položky(možnosti | {''})
             if vstup == '':
                 return
             else:
@@ -173,12 +169,7 @@ class JeskyněObchod(Jeskyně):
 
     def obchoduj(já, hráč):
         while True:
-            utility.vypiš_barevně(
-                'K[modrá]: koupit    [/]P[modrá]: prodat    ([/]'
-                'Enter[modrá] = návrat)',
-                end=' '
-            )
-            vstup = utility.vstup_z_možností({'K', 'P', ''})
+            vstup = dialogy.vstup_koupit_prodat()
             if vstup == '':
                 return
             elif vstup == 'K':
@@ -309,7 +300,8 @@ class Svět:
         def generátor_léků():
             while True:
                 if (x, y) == (34, 23):
-                    yield veci.Lék('Léčivé bylinky', 18, 19, 'Léčivými bylinkami')
+                    yield veci.Lék('Léčivé bylinky', 18, 19,
+                                   'Léčivými bylinkami')
                 elif (x, y) == (30, 25):
                     yield veci.Lék('Léčivé houby', 12, 9, 'Léčivými houbami')
                 elif (x, y) == (31, 18):

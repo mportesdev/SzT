@@ -2,8 +2,7 @@
 
 from typing import List, Union
 
-from . import utility, veci
-from .svet import Svět
+from . import barvy, dialogy, svet, utility, veci
 
 PoložkyInventáře = List[Union[veci.Zbraň, veci.Lék]]
 
@@ -15,7 +14,7 @@ class Hráč:
             veci.Lék('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
         ]
         já.artefakty = []
-        já.svět = Svět()
+        já.svět = svet.Svět()
         já.x, já.y = já.svět.začátek.x, já.svět.začátek.y
         já.zdraví = 100
         já.zlato = 0
@@ -29,10 +28,10 @@ class Hráč:
     def vypiš_věci(já):
         print('Máš u sebe:')
         for věc in já.inventář:
-            utility.vypiš_barevně('            ', věc, sep='')
+            barvy.vypiš_barevně('            ', věc, sep='')
         for artefakt in já.artefakty:
-            utility.vypiš_barevně(f'            < {artefakt} >',
-                                  barva=artefakt.barva)
+            barvy.vypiš_barevně(f'            < {artefakt} >',
+                                barva=artefakt.barva)
 
     def nejlepší_zbraň(já):
         try:
@@ -93,16 +92,12 @@ class Hráč:
         print('Čím se chceš kurýrovat?')
         for číslo, věc in enumerate(léky, 1):
             print(f'{číslo:3}. ', end='')
-            utility.vypiš_barevně(f'{věc.název_7_pád} ('
-                                  f'[tyrkys]zdraví +{věc.léčivá_síla}[/])')
+            barvy.vypiš_barevně(f'{věc.název_7_pád} ('
+                                f'[tyrkys]zdraví +{věc.léčivá_síla}[/])')
 
         while True:
-            utility.vypiš_barevně(
-                '[modrá]Číslo položky             ([/]Enter[modrá] = návrat)',
-                end=' '
-            )
             možnosti = set(range(1, len(léky) + 1))
-            vstup = utility.vstup_z_možností(možnosti | {''})
+            vstup = dialogy.vstup_číslo_položky(možnosti | {''})
             if vstup == '':
                 return
             else:
