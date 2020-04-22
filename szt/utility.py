@@ -5,7 +5,7 @@ import random
 import re
 from textwrap import TextWrapper
 
-from . import barvy, dialogy
+from . import dialogy, konzole
 
 NÁZEV_HRY = 'Strach ze tmy'
 VERZE = 'verze 1.1'
@@ -23,12 +23,12 @@ def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
     if typ_zprávy == 'štěstí' and barva is None:
         barva = 'tyrkys'
 
-    barvy.vypiš_barevně(zalamovač_textu.fill(zpráva), barva=barva)
+    konzole.vypiš_barevně(zalamovač_textu.fill(zpráva), barva=barva)
 
 
 def zobraz_titul():
-    barvy.vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
-    barvy.vypiš_barevně(
+    konzole.vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
+    konzole.vypiš_barevně(
         '\n\n',
         ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
         '\n\n\n',
@@ -37,7 +37,7 @@ def zobraz_titul():
         f'{VERZE}   21. dubna 2020'.center(ŠÍŘKA),
         '\n\n',
         barva='fialová', sep='')
-    barvy.vypiš_barevně('-' * ŠÍŘKA, barva='fialová', end='\n\n')
+    konzole.vypiš_barevně('-' * ŠÍŘKA, barva='fialová', end='\n\n')
 
 
 def zobraz_gratulaci():
@@ -52,23 +52,23 @@ def zobraz_gratulaci():
           'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
           '\n\n',
           sep='')
-    barvy.vypiš_barevně(
+    konzole.vypiš_barevně(
         f'{NÁZEV_HRY}       {VERZE}       '
         'github.com/myrmica-habilis/SzT.git'.center(ŠÍŘKA),
         barva='fialová')
-    barvy.vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
+    konzole.vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
 
 
 def vypiš_název_akce(název_akce):
-    barvy.vypiš_barevně(f' {název_akce} '.center(ŠÍŘKA, '-'),
-                        barva='fialová', end='\n\n')
+    konzole.vypiš_barevně(f' {název_akce} '.center(ŠÍŘKA, '-'),
+                          barva='fialová', end='\n\n')
 
 
 def legenda_mapy():
-    barvy.vypiš_barevně('[', barva='modrá', end='')
-    barvy.vypiš_barevně(' + [modrá]les[/]           # '
-                        '[modrá]jeskyně[/]         H [modrá]hráč[/]'
-                        '            ? [modrá]neznámo ]')
+    konzole.vypiš_barevně('[', barva='modrá', end='')
+    konzole.vypiš_barevně(' + [modrá]les[/]           # '
+                          '[modrá]jeskyně[/]         H [modrá]hráč[/]'
+                          '            ? [modrá]neznámo ]')
 
 
 def zobraz_možnosti(možnosti):
@@ -77,9 +77,9 @@ def zobraz_možnosti(možnosti):
         for klávesa in skupina_kláves:
             název = možnosti[klávesa][1]
             if klávesa == skupina_kláves[-1]:
-                barvy.vypiš_barevně(f'{klávesa}[modrá]: {název}')
+                konzole.vypiš_barevně(f'{klávesa}[modrá]: {název}')
             else:
-                barvy.vypiš_barevně(f'{klávesa}[modrá]: {název:<15}', end='')
+                konzole.vypiš_barevně(f'{klávesa}[modrá]: {název:<15}', end='')
 
 
 def uděl_odměnu(hráč, odměna, za_co):
@@ -151,11 +151,11 @@ def vyber_akci(hráč, fronta_příkazů):
         možnosti = zjisti_možné_akce(hráč)
         if not fronta_příkazů:
             zobraz_možnosti(možnosti)
-            barvy.vypiš_barevně('[ Zdraví:', barva='fialová', end='')
-            barvy.vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
-                                f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
-                                f'[fialová]zlato:[/] {hráč.zlato} '
-                                '[fialová]]')
+            konzole.vypiš_barevně('[ Zdraví:', barva='fialová', end='')
+            konzole.vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
+                                  f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
+                                  f'[fialová]zlato:[/] {hráč.zlato} '
+                                  '[fialová]]')
             print()
 
         while True:
@@ -175,7 +175,7 @@ def vyber_akci(hráč, fronta_příkazů):
                 return akce
             else:
                 fronta_příkazů.clear()
-                barvy.vypiš_barevně('?', barva='fialová')
+                konzole.vypiš_barevně('?', barva='fialová')
 
 
 def s_odchylkou(číslo, relativní_odchylka=0.2):

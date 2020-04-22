@@ -3,7 +3,7 @@
 import math
 import random
 
-from . import barvy, dialogy, data, nepratele, postavy, utility, veci
+from . import data, dialogy, konzole, nepratele, postavy, utility, veci
 
 
 class Místnost:
@@ -127,14 +127,14 @@ class JeskyněObchod(Jeskyně):
             print(f'{číslo_položky} ', end='')
             try:
                 # ljust - kompenzovat 12 znaků za formátovací značky
-                barvy.vypiš_barevně(
+                konzole.vypiš_barevně(
                     f'{věc.název_4_pád} ([fialová]útok'
                     f' +{věc.útok}[/]) '.ljust(utility.ŠÍŘKA - 25 + 12, '.')
                     + f' {cena:3} zlaťáků'
                 )
             except AttributeError:
                 # ljust - kompenzovat 11 znaků za formátovací značky
-                barvy.vypiš_barevně(
+                konzole.vypiš_barevně(
                     f'{věc.název_4_pád} ([tyrkys]zdraví'
                     f' +{věc.léčivá_síla}[/]) '.ljust(utility.ŠÍŘKA - 25 + 11,
                                                       '.')

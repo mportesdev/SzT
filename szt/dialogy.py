@@ -1,4 +1,6 @@
-from . import barvy
+# coding: utf-8
+
+from . import konzole
 
 
 def vstup_z_možností(možnosti):
@@ -8,11 +10,11 @@ def vstup_z_možností(možnosti):
             if vstup.upper() == str(možnost).upper():
                 return možnost
         else:
-            barvy.vypiš_barevně('?', barva='fialová')
+            konzole.vypiš_barevně('?', barva='fialová')
 
 
 def vstup_číslo_položky(možnosti):
-    barvy.vypiš_barevně(
+    konzole.vypiš_barevně(
         '[modrá]Číslo položky             ([/]Enter[modrá] = návrat)',
         end=' '
     )
@@ -20,7 +22,7 @@ def vstup_číslo_položky(možnosti):
 
 
 def vstup_koupit_prodat():
-    barvy.vypiš_barevně(
+    konzole.vypiš_barevně(
         'K[modrá]: koupit    [/]P[modrá]: prodat    ([/]'
         'Enter[modrá] = návrat)',
         end=' '
@@ -29,7 +31,7 @@ def vstup_koupit_prodat():
 
 
 def potvrď_konec():
-    barvy.vypiš_barevně(
+    konzole.vypiš_barevně(
         '[modrá]Opravdu skončit? ([/]A [modrá]/[/] N[modrá])',
         end=' '
     )

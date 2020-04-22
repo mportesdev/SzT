@@ -1,11 +1,9 @@
-import sys
-import time
+# coding: utf-8
 
-from rich.console import Console
+import sys
+
 from rich.style import Style
 from rich.theme import Theme
-
-PRODLEVA = 0 if '-R' in sys.argv[1:] else 0.015
 
 SVĚTLÉ_BARVY = Theme(
     {
@@ -48,10 +46,3 @@ elif sys.platform == 'win32':
     barevný_motiv = SVĚTLÉ_BARVY_TUČNĚ
 else:
     barevný_motiv = SVĚTLÉ_BARVY
-
-konzole = Console(theme=barevný_motiv)
-
-
-def vypiš_barevně(*args, barva=None, **kwargs):
-    konzole.print(*args, style=barva, highlight=False, **kwargs)
-    time.sleep(PRODLEVA)
