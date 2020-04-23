@@ -272,6 +272,8 @@ class Svět:
     def načti_mapu(já, řádky_mapy):
 
         def generátor_zbraní():
+            data_zbraní = set(data.data_zbraní)
+
             while True:
                 if (x, y) == (27, 23):
                     yield veci.Zbraň('Rezavá dýka', 9, 31, 'Rezavou dýku')
@@ -280,9 +282,11 @@ class Svět:
                 elif (x, y) == (35, 14):
                     yield veci.Zbraň('Těžká sekera', 26, 117, 'Těžkou sekeru')
                 else:
-                    yield veci.Zbraň(*data.data_zbraní.pop())
+                    yield veci.Zbraň(*data_zbraní.pop())
 
         def generátor_léků():
+            data_léků = set(data.data_léků)
+
             while True:
                 if (x, y) == (34, 23):
                     yield veci.Lék('Léčivé bylinky', 18, 19,
@@ -296,10 +300,11 @@ class Svět:
                                    random.randint(35, 45), 21,
                                    'Lahvičkou medicíny', 'Lahvičku medicíny')
                 else:
-                    yield veci.Lék(*data.data_léků.pop())
+                    yield veci.Lék(*data_léků.pop())
 
         zbraně_iterátor = generátor_zbraní()
         léky_iterátor = generátor_léků()
+        data_artefaktů = set(data.data_artefaktů)
 
         for y, řádka in enumerate(řádky_mapy):
             řádka_mapy = []
@@ -343,7 +348,7 @@ class Svět:
                     parametry.update(nepřítel=nepratele.Člověk.dobrodruh())
                 elif kód_místnosti == 'A':
                     parametry.update(
-                        artefakt=veci.Artefakt(*data.data_artefaktů.pop())
+                        artefakt=veci.Artefakt(*data_artefaktů.pop())
                     )
                 elif kód_místnosti in ('w', 'x'):
                     parametry.update(zbraň=next(zbraně_iterátor))

@@ -17,13 +17,13 @@ texty_les = (
     'Procházíš hustým porostem prastarého lesa.',
 )
 
-data_zbraní = {
+data_zbraní = (
     ('Cizokrajná šavle', 18, 76, 'Cizokrajnou šavli'),
     ('Ostnatý palcát', 17, 64),
     ('Zkrvavená mačeta', 16, 54, 'Zkrvavenou mačetu'),
-}
+)
 
-data_léků = {
+data_léků = (
     ('Léčivé bylinky', 16, 18, 'Léčivými bylinkami'),
     ('Léčivé bylinky', 17, 19, 'Léčivými bylinkami'),
     ('Kouzelné bylinky', 21, 22, 'Kouzelnými bylinkami'),
@@ -38,15 +38,15 @@ data_léků = {
     ('Plástev lesního medu', 13, 12, 'Pláství lesního medu'),
     ('Hadí ocásek', 14, 16, 'Hadím ocáskem'),
     ('Ještěrčí ocásek', 15, 20, 'Ještěrčím ocáskem'),
-}
+)
 
-data_artefaktů = {
+data_artefaktů = (
     ('Křišťálová koule', None, 'Křišťálovou kouli'),
     ('Rubínový kříž', 'červená'),
     ('Tyrkysová tiára', 'tyrkys', 'Tyrkysovou tiáru'),
     ('Ametystový kalich', 'fialová'),
-    ('Safírový trojzubec', 'modrá')
-}
+    ('Safírový trojzubec', 'modrá'),
+)
 
 mapa_b64 = (
     'Zm0gICAgICAgIGdjIGNjY2MgQSAgICAgICAgICAgICAgICAgICAgICAKIGZmZiAgICBsYy'
