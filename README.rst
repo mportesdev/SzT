@@ -14,6 +14,8 @@ Instalace a spuštění
 
 Na Windows lze použít zkompilovaný spustitelný soubor, ke stažení `zde <https://github.com/myrmica-habilis/SzT/releases/download/v1.1/SzT_v1.1.exe>`__.
 
+Kromě toho lze hru spustit ze zdrojových souborů uložených v tomto repozitáři, pokud máte nainstalovaný Python a Git. (poznámka: hra vyžaduje Python 3.6.1 nebo vyšší)
+
 V libovolné složce, do níž máte oprávnění zapisovat, si naklonujte tento repozitář příkazem:
 
 ``git clone https://github.com/myrmica-habilis/SzT.git``
@@ -25,8 +27,6 @@ a přepněte se do hlavní složky projektu:
 Hra vyžaduje instalaci jedné externí knihovny, proto doporučuji nejdříve vytvořit virtuální prostředí příkazem:
 
 ``python3 -m venv .env``
-
-(poznámka: hra vyžaduje Python 3.6.1 nebo vyšší)
 
 Ve virtuálním prostředí nejdříve aktualizujte správce balíčků na nejnovější verzi:
 
@@ -90,10 +90,22 @@ Léčivé prostředky (lektvary, bylinky atd.) vaší postavě mohou vylepšit z
 Ukázky
 ======
 
+Linux Mint 18 – terminál
+------------------------
+
 .. image:: screenshots/screenshot_console.png
+
+Windows 7 – příkazová řádka
+---------------------------
 
 .. image:: screenshots/screenshot_console_windows.png
 
+PyCharm
+-------
+
 .. image:: screenshots/screenshot_pycharm.png
+
+repl.it
+-------
 
 .. image:: screenshots/screenshot_replit.png
