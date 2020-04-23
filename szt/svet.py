@@ -51,7 +51,7 @@ class MístnostBoj(Místnost):
     def dopad_na_hráče(já, hráč):
         if já.nepřítel.žije():
             if hráč.zdařilý_zásah:
-                utility.vypiš_odstavec(
+                konzole.vypiš_odstavec(
                     f'Zasáhl jsi {já.nepřítel.jméno_4_pád.lower()} do hlavy.'
                     f' {já.nepřítel.jméno} zmateně vrávorá.',
                     'boj', 'modrá'
@@ -69,7 +69,7 @@ class MístnostBoj(Místnost):
                     hráč.zkušenost += 1
                 else:
                     zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                utility.vypiš_odstavec(zpráva, 'boj', 'červená')
+                konzole.vypiš_odstavec(zpráva, 'boj', 'červená')
         else:
             try:
                 if not já.nepřítel.zlato_sebráno and já.nepřítel.zlato > 0:
@@ -77,13 +77,13 @@ class MístnostBoj(Místnost):
                     hráč.zlato += já.nepřítel.zlato
                     zpráva = (f'Sebral jsi {já.nepřítel.jméno_3_pád.lower()}'
                               f' {já.nepřítel.zlato} zlaťáků.')
-                    utility.vypiš_odstavec(zpráva, 'štěstí')
+                    konzole.vypiš_odstavec(zpráva, 'štěstí')
                 if not já.nepřítel.zbraň_sebrána:
                     já.nepřítel.zbraň_sebrána = True
                     hráč.inventář.append(já.nepřítel.zbraň)
                     zpráva = (f'Sebral jsi {já.nepřítel.jméno_3_pád.lower()}'
                               f' {já.nepřítel.zbraň.název_4_pád.lower()}.')
-                    utility.vypiš_odstavec(zpráva, 'štěstí')
+                    konzole.vypiš_odstavec(zpráva, 'štěstí')
             except AttributeError:
                 pass
 
@@ -129,14 +129,14 @@ class JeskyněObchod(Jeskyně):
                 # ljust - kompenzovat 12 znaků za formátovací značky
                 konzole.vypiš_barevně(
                     f'{věc.název_4_pád} ([fialová]útok'
-                    f' +{věc.útok}[/]) '.ljust(utility.ŠÍŘKA - 25 + 12, '.')
+                    f' +{věc.útok}[/]) '.ljust(konzole.ŠÍŘKA - 25 + 12, '.')
                     + f' {cena:3} zlaťáků'
                 )
             except AttributeError:
                 # ljust - kompenzovat 11 znaků za formátovací značky
                 konzole.vypiš_barevně(
                     f'{věc.název_4_pád} ([tyrkys]zdraví'
-                    f' +{věc.léčivá_síla}[/]) '.ljust(utility.ŠÍŘKA - 25 + 11,
+                    f' +{věc.léčivá_síla}[/]) '.ljust(konzole.ŠÍŘKA - 25 + 11,
                                                       '.')
                     + f' {cena:3} zlaťáků'
                 )
@@ -192,7 +192,7 @@ class JeskyněZlato(Jeskyně):
         if not já.zlato_sebráno:
             já.zlato_sebráno = True
             hráč.zlato += já.zlato
-            utility.vypiš_odstavec(f'Našel jsi {já.zlato} zlaťáků.', 'štěstí')
+            konzole.vypiš_odstavec(f'Našel jsi {já.zlato} zlaťáků.', 'štěstí')
 
 
 class JeskyněArtefakt(Jeskyně):
@@ -205,14 +205,14 @@ class JeskyněArtefakt(Jeskyně):
         if not já.artefakt_sebrán:
             já.artefakt_sebrán = True
             hráč.artefakty.append(já.artefakt)
-            utility.vypiš_odstavec(
+            konzole.vypiš_odstavec(
                 f'Našel jsi {já.artefakt.název_4_pád.lower()}.',
                 'štěstí'
             )
             if hráč.svět.poklad_posbírán():
-                utility.uděl_odměnu(hráč, 300, 'nalezení všech magických'
+                konzole.uděl_odměnu(hráč, 300, 'nalezení všech magických'
                                                ' předmětů')
-                utility.vypiš_odstavec('Artefakty teď musíš vynést ven z'
+                konzole.vypiš_odstavec('Artefakty teď musíš vynést ven z'
                                        ' jeskyně a dojít s nimi na začátek své'
                                        ' cesty.')
 
@@ -233,7 +233,7 @@ class MístnostZbraň(Místnost):
             else:
                 zpráva = ('Ve skulině pod kamenem jsi našel'
                           f' {já.zbraň.název_4_pád.lower()}.')
-            utility.vypiš_odstavec(zpráva, 'štěstí')
+            konzole.vypiš_odstavec(zpráva, 'štěstí')
 
 
 class JeskyněZbraň(MístnostZbraň, Jeskyně):
@@ -255,11 +255,11 @@ class MístnostLék(Místnost):
             já.lék_sebrán = True
             hráč.inventář.append(já.lék)
             if isinstance(já, Les):
-                zpráva = (f'Našel jsi {já.lék.název_4_pád.lower()}.')
+                zpráva = f'Našel jsi {já.lék.název_4_pád.lower()}.'
             else:
                 zpráva = ('Na zemi jsi našel zaprášenou'
                           f' {já.lék.název_4_pád.lower()}.')
-            utility.vypiš_odstavec(zpráva, 'štěstí')
+            konzole.vypiš_odstavec(zpráva, 'štěstí')
 
 
 class JeskyněLék(MístnostLék, Jeskyně):

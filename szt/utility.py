@@ -3,89 +3,8 @@
 from collections import OrderedDict
 import random
 import re
-from textwrap import TextWrapper
 
 from . import dialogy, konzole
-
-NÁZEV_HRY = 'Strach ze tmy'
-VERZE = 'verze 1.1'
-ŠÍŘKA = 70
-ODSAZENÍ = ' ' * 11
-
-zalamovač_textu = TextWrapper(width=ŠÍŘKA - len(ODSAZENÍ),
-                              subsequent_indent=ODSAZENÍ)
-
-
-def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
-    symbol = dict(info='>', boj='!', štěstí='*').get(typ_zprávy, ' ')
-    zalamovač_textu.initial_indent = f'        {symbol}  '
-
-    if typ_zprávy == 'štěstí' and barva is None:
-        barva = 'tyrkys'
-
-    konzole.vypiš_barevně(zalamovač_textu.fill(zpráva), barva=barva)
-
-
-def zobraz_titul():
-    konzole.vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
-    konzole.vypiš_barevně(
-        '\n\n',
-        ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
-        '\n\n\n',
-        'textová hra na hrdiny'.center(ŠÍŘKA),
-        '\n\n',
-        f'{VERZE}   21. dubna 2020'.center(ŠÍŘKA),
-        '\n\n',
-        barva='fialová', sep='')
-    konzole.vypiš_barevně('-' * ŠÍŘKA, barva='fialová', end='\n\n')
-
-
-def zobraz_gratulaci():
-    vypiš_odstavec('Překonal jsi všechny nástrahy a s notnou dávkou odvahy i'
-                   ' štěstí se ti skutečně podařilo získat kýžené magické'
-                   ' artefakty.',
-                   'štěstí')
-    vypiš_odstavec('Otevírá se před tebou svět takřka neomezených možností.'
-                   ' Bude záležet jen na tobě, zda se staneš mocným mágem na'
-                   ' straně dobra, anebo zla.')
-    print('\n\n',
-          'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
-          '\n\n',
-          sep='')
-    konzole.vypiš_barevně(
-        f'{NÁZEV_HRY}       {VERZE}       '
-        'github.com/myrmica-habilis/SzT.git'.center(ŠÍŘKA),
-        barva='fialová')
-    konzole.vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
-
-
-def vypiš_název_akce(název_akce):
-    konzole.vypiš_barevně(f' {název_akce} '.center(ŠÍŘKA, '-'),
-                          barva='fialová', end='\n\n')
-
-
-def legenda_mapy():
-    konzole.vypiš_barevně('[', barva='modrá', end='')
-    konzole.vypiš_barevně(' + [modrá]les[/]           # '
-                          '[modrá]jeskyně[/]         H [modrá]hráč[/]'
-                          '            ? [modrá]neznámo ]')
-
-
-def zobraz_možnosti(možnosti):
-    print('\nMožnosti:')
-    for skupina_kláves in skupiny_kláves(''.join(možnosti.keys())):
-        for klávesa in skupina_kláves:
-            název = možnosti[klávesa][1]
-            if klávesa == skupina_kláves[-1]:
-                konzole.vypiš_barevně(f'{klávesa}[modrá]: {název}')
-            else:
-                konzole.vypiš_barevně(f'{klávesa}[modrá]: {název:<15}', end='')
-
-
-def uděl_odměnu(hráč, odměna, za_co):
-    hráč.zkušenost += odměna
-    vypiš_odstavec(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
-                   barva='fialová')
 
 
 def zjisti_možné_akce(hráč):
@@ -150,7 +69,7 @@ def vyber_akci(hráč, fronta_příkazů):
     while True:
         možnosti = zjisti_možné_akce(hráč)
         if not fronta_příkazů:
-            zobraz_možnosti(možnosti)
+            konzole.zobraz_možnosti(možnosti)
             konzole.vypiš_barevně('[ Zdraví:', barva='fialová', end='')
             konzole.vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
                                   f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
@@ -171,7 +90,7 @@ def vyber_akci(hráč, fronta_příkazů):
                     vstup = vstup[:1]
             akce, název_akce = možnosti.get(vstup, (None, ''))
             if akce is not None:
-                vypiš_název_akce(název_akce)
+                konzole.vypiš_název_akce(název_akce)
                 return akce
             else:
                 fronta_příkazů.clear()
@@ -181,10 +100,6 @@ def vyber_akci(hráč, fronta_příkazů):
 def s_odchylkou(číslo, relativní_odchylka=0.2):
     odchylka = int(číslo * relativní_odchylka)
     return random.randint(číslo - odchylka, číslo + odchylka)
-
-
-def skupiny_kláves(klávesy):
-    return re.search(r'([BO]*)([SJZV]*)([LIMK]*)', klávesy).groups()
 
 
 def okraje(řetězec, hodnota_okraje):

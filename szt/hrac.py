@@ -79,9 +79,9 @@ class Hráč:
                   f' {nepřítel.jméno_3_pád.lower()}.')
         if not nepřítel.žije():
             zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
-        utility.vypiš_odstavec(zpráva, 'boj')
+        konzole.vypiš_odstavec(zpráva, 'boj')
         if já.svět.nepřátelé_pobiti():
-            utility.uděl_odměnu(já, 200, 'zabití všech nepřátel')
+            konzole.uděl_odměnu(já, 200, 'zabití všech nepřátel')
 
     def má_léky(já):
         return any(isinstance(věc, veci.Lék) for věc in já.inventář)
@@ -140,7 +140,7 @@ class Hráč:
     def nakresli_mapu(já):
         mapa_navštívených = já.svět.mapa_navštívených((já.x, já.y))
 
-        print('\n'.join(''.join(řádka).center(utility.ŠÍŘKA)
+        print('\n'.join(''.join(řádka).center(konzole.ŠÍŘKA)
                         for řádka in mapa_navštívených))
         print()
-        utility.legenda_mapy()
+        konzole.legenda_mapy()
