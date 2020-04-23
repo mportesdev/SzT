@@ -4,7 +4,7 @@ from collections import OrderedDict
 import random
 import re
 
-from . import dialogy, konzole
+from . import agent
 
 
 def zjisti_možné_akce(hráč):
@@ -60,7 +60,7 @@ def zjisti_možné_akce(hráč):
     if hráč.mapování:
         akce['M'] = (hráč.nakresli_mapu, 'Mapa')
 
-    akce['K'] = (dialogy.potvrď_konec, 'Konec')
+    akce['K'] = (agent.potvrď_konec, 'Konec')
 
     return akce
 
@@ -69,8 +69,8 @@ def vyber_akci(hráč, fronta_příkazů):
     while True:
         možnosti = zjisti_možné_akce(hráč)
         if not fronta_příkazů:
-            konzole.zobraz_možnosti(možnosti)
-            konzole.stav_hráče(hráč)
+            agent.zobraz_možnosti(možnosti)
+            agent.stav_hráče(hráč)
             print()
 
         while True:
@@ -86,11 +86,11 @@ def vyber_akci(hráč, fronta_příkazů):
                     vstup = vstup[:1]
             akce, název_akce = možnosti.get(vstup, (None, ''))
             if akce is not None:
-                konzole.vypiš_název_akce(název_akce)
+                agent.vypiš_název_akce(název_akce)
                 return akce
             else:
                 fronta_příkazů.clear()
-                konzole.nerozumím()
+                agent.nerozumím()
 
 
 def s_odchylkou(číslo, relativní_odchylka=0.2):

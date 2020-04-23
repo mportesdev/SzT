@@ -1,37 +1,37 @@
 # coding: utf-8
 
-from . import hrac, konzole, utility
+from . import agent, hrac, utility
 
 
 def hra():
-    konzole.zobraz_titul()
+    agent.zobraz_titul()
     hráč = hrac.Hráč()
     fronta_příkazů = []
 
     while True:
         místnost = hráč.místnost_pobytu()
-        konzole.vypiš_odstavec(místnost.popis())
+        agent.vypiš_odstavec(místnost.popis())
 
         if not místnost.navštívena:
             fronta_příkazů.clear()
 
             místnost.navštívena = True
             if hráč.svět.vše_navštíveno():
-                konzole.uděl_odměnu(hráč, 100, 'prozkoumání všech míst')
+                agent.uděl_odměnu(hráč, 100, 'prozkoumání všech míst')
             if místnost is hráč.svět.začátek:
-                konzole.vypiš_odstavec(
+                agent.vypiš_odstavec(
                     'Svou rodnou vesnici, stejně jako vcelku poklidný život'
                     ' pekařského učedníka, jsi nechal daleko za sebou a vydal'
                     ' ses na nejistou dráhu dobrodruha.'
                 )
-                konzole.vypiš_odstavec(
+                agent.vypiš_odstavec(
                     'Uvnitř pověstmi opředené hory se prý ukrývá pětice'
                     ' posvátných magických předmětů, které i obyčejnému'
                     ' smrtelníkovi mohou přinést nadlidské schopnosti.'
                 )
 
         if místnost is hráč.svět.začátek and hráč.svět.poklad_posbírán():
-            konzole.zobraz_gratulaci()
+            agent.zobraz_gratulaci()
             break
 
         while True:

@@ -2,7 +2,7 @@
 
 from typing import List, Union
 
-from . import dialogy, konzole, svet, utility, veci
+from . import agent, svet, utility, veci
 
 PoložkyInventáře = List[Union[veci.Zbraň, veci.Lék]]
 
@@ -28,9 +28,9 @@ class Hráč:
     def vypiš_věci(já):
         print('Máš u sebe:')
         for věc in já.inventář:
-            konzole.vypiš_barevně('            ', věc, sep='')
+            agent.vypiš_barevně('            ', věc, sep='')
         for artefakt in já.artefakty:
-            konzole.vypiš_barevně(f'            < {artefakt} >',
+            agent.vypiš_barevně(f'            < {artefakt} >',
                                   barva=artefakt.barva)
 
     def nejlepší_zbraň(já):
@@ -79,9 +79,9 @@ class Hráč:
                   f' {nepřítel.jméno_3_pád.lower()}.')
         if not nepřítel.žije():
             zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
-        konzole.vypiš_odstavec(zpráva, 'boj')
+        agent.vypiš_odstavec(zpráva, 'boj')
         if já.svět.nepřátelé_pobiti():
-            konzole.uděl_odměnu(já, 200, 'zabití všech nepřátel')
+            agent.uděl_odměnu(já, 200, 'zabití všech nepřátel')
 
     def má_léky(já):
         return any(isinstance(věc, veci.Lék) for věc in já.inventář)
@@ -92,13 +92,13 @@ class Hráč:
         print('Čím se chceš kurýrovat?')
         for číslo, věc in enumerate(léky, 1):
             print(f'{číslo:3}. ', end='')
-            konzole.vypiš_barevně(
+            agent.vypiš_barevně(
                 f'{věc.název_7_pád} ([tyrkys]zdraví +{věc.léčivá_síla}[/])'
             )
 
         while True:
             možnosti = set(range(1, len(léky) + 1))
-            vstup = dialogy.vstup_číslo_položky(možnosti | {''})
+            vstup = agent.vstup_číslo_položky(možnosti | {''})
             if vstup == '':
                 return
             else:
@@ -138,4 +138,4 @@ class Hráč:
         return já.svět.místnost_na_pozici(já.x, já.y)
 
     def nakresli_mapu(já):
-        konzole.nakresli_mapu(já.svět, (já.x, já.y))
+        agent.nakresli_mapu(já.svět, (já.x, já.y))
