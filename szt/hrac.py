@@ -138,9 +138,4 @@ class Hráč:
         return já.svět.místnost_na_pozici(já.x, já.y)
 
     def nakresli_mapu(já):
-        mapa_navštívených = já.svět.mapa_navštívených((já.x, já.y))
-
-        print('\n'.join(''.join(řádka).center(konzole.ŠÍŘKA)
-                        for řádka in mapa_navštívených))
-        print()
-        konzole.legenda_mapy()
+        konzole.nakresli_mapu(já.svět, (já.x, já.y))

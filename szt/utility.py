@@ -70,11 +70,7 @@ def vyber_akci(hráč, fronta_příkazů):
         možnosti = zjisti_možné_akce(hráč)
         if not fronta_příkazů:
             konzole.zobraz_možnosti(možnosti)
-            konzole.vypiš_barevně('[ Zdraví:', barva='fialová', end='')
-            konzole.vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
-                                  f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
-                                  f'[fialová]zlato:[/] {hráč.zlato} '
-                                  '[fialová]]')
+            konzole.stav_hráče(hráč)
             print()
 
         while True:

@@ -82,11 +82,26 @@ def vypiš_název_akce(název_akce):
                   barva='fialová', end='\n\n')
 
 
+def nakresli_mapu(svět, pozice_hráče):
+    print('\n'.join(''.join(řádka).center(ŠÍŘKA)
+                    for řádka in svět.mapa_navštívených(pozice_hráče)))
+    print()
+    legenda_mapy()
+
+
 def legenda_mapy():
     vypiš_barevně('[', barva='modrá', end='')
     vypiš_barevně(' + [modrá]les[/]           # '
                   '[modrá]jeskyně[/]         H [modrá]hráč[/]'
                   '            ? [modrá]neznámo ]')
+
+
+def stav_hráče(hráč):
+    vypiš_barevně('[ Zdraví:', barva='fialová', end='')
+    vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
+                  f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
+                  f'[fialová]zlato:[/] {hráč.zlato} '
+                  '[fialová]]')
 
 
 def zobraz_možnosti(možnosti):
