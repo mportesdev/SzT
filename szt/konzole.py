@@ -104,6 +104,25 @@ def stav_hráče(hráč):
                   '[fialová]]')
 
 
+def vypiš_věc_v_obchodě(číslo_položky, věc, cena):
+    print(f'{číslo_položky} ', end='')
+    try:
+        # ljust - kompenzovat 12 znaků za formátovací značky
+        vypiš_barevně(
+            f'{věc.název_4_pád} ([fialová]útok'
+            f' +{věc.útok}[/]) '.ljust(ŠÍŘKA - 25 + 12, '.'),
+            end=''
+        )
+    except AttributeError:
+        # ljust - kompenzovat 11 znaků za formátovací značky
+        vypiš_barevně(
+            f'{věc.název_4_pád} ([tyrkys]zdraví'
+            f' +{věc.léčivá_síla}[/]) '.ljust(ŠÍŘKA - 25 + 11, '.'),
+            end=''
+        )
+    print(f' {cena:3} zlaťáků')
+
+
 def zobraz_možnosti(možnosti):
     print('\nMožnosti:')
     for skupina_kláves in skupiny_kláves(''.join(možnosti.keys())):

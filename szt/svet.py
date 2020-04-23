@@ -124,22 +124,7 @@ class JeskyněObchod(Jeskyně):
                 číslo_položky = f'{číslo:3}.'
             else:
                 číslo_položky = '    '
-            print(f'{číslo_položky} ', end='')
-            try:
-                # ljust - kompenzovat 12 znaků za formátovací značky
-                agent.vypiš_barevně(
-                    f'{věc.název_4_pád} ([fialová]útok'
-                    f' +{věc.útok}[/]) '.ljust(agent.ŠÍŘKA - 25 + 12, '.')
-                    + f' {cena:3} zlaťáků'
-                )
-            except AttributeError:
-                # ljust - kompenzovat 11 znaků za formátovací značky
-                agent.vypiš_barevně(
-                    f'{věc.název_4_pád} ([tyrkys]zdraví'
-                    f' +{věc.léčivá_síla}[/]) '.ljust(agent.ŠÍŘKA - 25 + 11,
-                                                      '.')
-                    + f' {cena:3} zlaťáků'
-                )
+            agent.vypiš_věc_v_obchodě(číslo_položky, věc, cena)
 
         try:
             název_peněz, oslovení = kupující.mluva
@@ -211,10 +196,10 @@ class JeskyněArtefakt(Jeskyně):
             )
             if hráč.svět.poklad_posbírán():
                 agent.uděl_odměnu(hráč, 300, 'nalezení všech magických'
-                                               ' předmětů')
+                                             ' předmětů')
                 agent.vypiš_odstavec('Artefakty teď musíš vynést ven z'
-                                       ' jeskyně a dojít s nimi na začátek své'
-                                       ' cesty.')
+                                     ' jeskyně a dojít s nimi na začátek své'
+                                     ' cesty.')
 
 
 class MístnostZbraň(Místnost):
