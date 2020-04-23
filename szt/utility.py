@@ -94,7 +94,7 @@ def vyber_akci(hráč, fronta_příkazů):
                 return akce
             else:
                 fronta_příkazů.clear()
-                konzole.vypiš_barevně('?', barva='fialová')
+                konzole.nerozumím()
 
 
 def s_odchylkou(číslo, relativní_odchylka=0.2):

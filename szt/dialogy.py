@@ -10,7 +10,7 @@ def vstup_z_možností(možnosti):
             if vstup.upper() == str(možnost).upper():
                 return možnost
         else:
-            konzole.vypiš_barevně('?', barva='fialová')
+            konzole.nerozumím()
 
 
 def vstup_číslo_položky(možnosti):

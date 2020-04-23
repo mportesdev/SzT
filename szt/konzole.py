@@ -73,6 +73,10 @@ def zobraz_gratulaci():
     vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
 
 
+def nerozumím():
+    vypiš_barevně('?', barva='fialová')
+
+
 def vypiš_název_akce(název_akce):
     vypiš_barevně(f' {název_akce} '.center(ŠÍŘKA, '-'),
                   barva='fialová', end='\n\n')
