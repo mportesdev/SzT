@@ -12,9 +12,9 @@ Strach ze tmy
 Instalace a spuštění
 ====================
 
-Na Windows lze použít zkompilovaný spustitelný soubor, ke stažení `zde <https://github.com/myrmica-habilis/SzT/releases/download/v1.1/SzT_v1.1.exe>`__.
+Ve Windows lze použít zkompilovaný spustitelný soubor, ke stažení `zde <https://github.com/myrmica-habilis/SzT/releases/download/v1.1/SzT_v1.1.exe>`__.
 
-Kromě toho lze hru spustit ze zdrojových souborů uložených v tomto repozitáři, pokud máte nainstalovaný Python a Git. (poznámka: hra vyžaduje Python 3.6.1 nebo vyšší)
+Kromě toho lze hru spustit ze zdrojových souborů uložených v tomto repozitáři, pokud máte na svém systému nainstalovaný Python a Git. (poznámka: hra vyžaduje Python 3.6.1 nebo vyšší)
 
 V libovolné složce, do níž máte oprávnění zapisovat, si naklonujte tento repozitář příkazem:
 
@@ -28,11 +28,11 @@ Hra vyžaduje instalaci jedné externí knihovny, proto doporučuji nejdříve v
 
 ``python3 -m venv .env``
 
-Ve virtuálním prostředí nejdříve aktualizujte správce balíčků na nejnovější verzi:
+Ve virtuálním prostředí je vhodné nejdříve aktualizovat správce balíčků na nejnovější verzi:
 
 ``.env/bin/python -m pip install --upgrade pip setuptools``
 
-a následně nainstalujte knihovnu `rich <https://rich.readthedocs.io>`__, která slouží k barevnému zvýraznění textů ve hře:
+Následně nainstalujte knihovnu `rich <https://rich.readthedocs.io>`__, která slouží k barevnému zvýraznění textů ve hře:
 
 ``.env/bin/python -m pip install rich``
 
@@ -51,6 +51,8 @@ Můžete při tom navíc použít tyto parametry:
 Například:
 
 ``.env/bin/python -m szt -T -R``
+
+(poznámka: ve Windows se adresářová struktura virtuálního prostředí liší, proto místo ``.env/bin/python`` používejte ``.env/Scripts/python``)
 
 Základní informace
 ==================
