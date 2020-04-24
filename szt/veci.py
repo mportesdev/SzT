@@ -49,3 +49,7 @@ class Artefakt(Věc):
     def __init__(já, název, barva, název_4_pád=None):
         super().__init__(název, None, název_4_pád)
         já.barva = barva
+
+    def __rich__(self):
+        text = Text(f'< {self} >', style=self.barva)
+        return text

@@ -26,3 +26,4 @@ nakresli_mapu = konzole.nakresli_mapu
 zobraz_titul = konzole.zobraz_titul
 zobraz_gratulaci = konzole.zobraz_gratulaci
 vypiš_věc_v_obchodě = konzole.vypiš_věc_v_obchodě
+vypiš_inventář = konzole.vypiš_inventář

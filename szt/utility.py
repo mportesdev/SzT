@@ -47,7 +47,7 @@ def zjisti_možné_akce(hráč):
                    if hasattr(věc, 'speciální')):
         akce['L'] = (hráč.kurýruj_se, 'Léčit se')
 
-    akce['I'] = (hráč.vypiš_věci, 'Inventář')
+    akce['I'] = (hráč.vypiš_inventář, 'Inventář')
 
     if not hráč.mapování and len(set(akce) & set('SJZV')) > 2:
         # na první křižovatce si hráč začne dělat mapu

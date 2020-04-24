@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from itertools import chain
 import re
 import sys
 import time
@@ -121,6 +122,12 @@ def vypiš_věc_v_obchodě(číslo_položky, věc, cena):
             end=''
         )
     print(f' {cena:3} zlaťáků')
+
+
+def vypiš_inventář(hráč):
+    print('Máš u sebe:')
+    for věc in chain(hráč.inventář, hráč.artefakty):
+        vypiš_barevně('            ', věc, sep='')
 
 
 def zobraz_možnosti(možnosti):

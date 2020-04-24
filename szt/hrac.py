@@ -25,13 +25,8 @@ class Hráč:
     def žije(já):
         return já.zdraví > 0
 
-    def vypiš_věci(já):
-        print('Máš u sebe:')
-        for věc in já.inventář:
-            agent.vypiš_barevně('            ', věc, sep='')
-        for artefakt in já.artefakty:
-            agent.vypiš_barevně(f'            < {artefakt} >',
-                                  barva=artefakt.barva)
+    def vypiš_inventář(já):
+        agent.vypiš_inventář(já)
 
     def nejlepší_zbraň(já):
         try:
