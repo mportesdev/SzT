@@ -261,14 +261,6 @@ class Svět:
         já.začátek = None
         já.načti_mapu(data.řádky_mapy)
 
-    def místnost_na_pozici(já, x, y):
-        if x < 0 or y < 0:
-            return None
-        try:
-            return já.mapa[y][x]
-        except IndexError:
-            return None
-
     def načti_mapu(já, řádky_mapy):
 
         def generátor_zbraní():
@@ -417,3 +409,18 @@ class Svět:
     def __iter__(já):
         return iter(místnost for řádka in já.mapa for místnost in řádka
                     if místnost is not None)
+
+    def __getitem__(self, pozice):
+        x, y = pozice
+
+        if x < 0 or y < 0:
+            return
+
+        try:
+            return self.mapa[y][x]
+        except IndexError:
+            return
+
+    def __setitem__(self, pozice, místnost):
+        x, y = pozice
+        self.mapa[y][x] = místnost

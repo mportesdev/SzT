@@ -24,14 +24,10 @@ def zjisti_možné_akce(hráč):
     if not nepřítel_poblíž or hráč.zdařilý_zásah:
         hráč.zdařilý_zásah = False
 
-        místnost_severně = hráč.svět.místnost_na_pozici(místnost.x,
-                                                        místnost.y - 1)
-        místnost_jižně = hráč.svět.místnost_na_pozici(místnost.x,
-                                                      místnost.y + 1)
-        místnost_západně = hráč.svět.místnost_na_pozici(místnost.x - 1,
-                                                        místnost.y)
-        místnost_východně = hráč.svět.místnost_na_pozici(místnost.x + 1,
-                                                         místnost.y)
+        místnost_severně = hráč.svět[místnost.x, místnost.y - 1]
+        místnost_jižně = hráč.svět[místnost.x, místnost.y + 1]
+        místnost_západně = hráč.svět[místnost.x - 1, místnost.y]
+        místnost_východně = hráč.svět[místnost.x + 1, místnost.y]
 
         if místnost_severně:
             akce['S'] = (hráč.jdi_na_sever, 'Jít na sever')

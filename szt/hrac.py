@@ -135,7 +135,7 @@ class Hráč:
         kupující.zlato -= cena
 
     def místnost_pobytu(já):
-        return já.svět.místnost_na_pozici(já.x, já.y)
+        return já.svět[já.x, já.y]
 
     def nakresli_mapu(já):
         agent.nakresli_mapu(já.svět, (já.x, já.y))
