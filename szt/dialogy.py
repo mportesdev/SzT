@@ -37,3 +37,22 @@ def potvrď_konec():
     )
     if vstup_z_možností({'A', 'N'}) == 'A':
         raise SystemExit
+
+
+def dialog_léčení(léky):
+    print('Čím se chceš kurýrovat?')
+    for číslo, věc in enumerate(léky, 1):
+        konzole.vypiš_věc_k_léčení(číslo, věc)
+
+    možnosti = set(range(1, len(léky) + 1))
+    vstup = vstup_číslo_položky(možnosti | {''})
+    if vstup == '':
+        return
+
+    lék = léky[vstup - 1]
+    if lék.speciální:
+        print('Obsah nevelké lahvičky s tebou pořádně zamával.')
+    else:
+        print('Hned se cítíš líp.')
+
+    return lék

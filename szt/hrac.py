@@ -54,13 +54,8 @@ class Hráč:
 
     def bojuj(já):
         nepřítel = já.místnost_pobytu().nepřítel
-        nejlepší_zbraň = já.nejlepší_zbraň()
-        if nejlepší_zbraň:
-            síla_zbraně = nejlepší_zbraň.útok
-            název_zbraně = nejlepší_zbraň.název_ve_větě
-        else:
-            síla_zbraně = 1
-            název_zbraně = 'pěsti'
+        zbraň = já.nejlepší_zbraň()
+        síla_zbraně = zbraň.útok if zbraň else 1
         skutečný_zásah_zbraní = utility.s_odchylkou(síla_zbraně)
         já.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
                             and nepřítel.krátké_jméno not in ('troll',
@@ -70,11 +65,7 @@ class Hráč:
                              nepřítel.zdraví)
         nepřítel.zdraví -= skutečný_zásah
         já.zkušenost += skutečný_zásah
-        zpráva = (f'Použil jsi {název_zbraně} proti'
-                  f' {nepřítel.jméno_3_pád.lower()}.')
-        if not nepřítel.žije():
-            zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
-        agent.vypiš_odstavec(zpráva, 'boj')
+        agent.zpráva_o_útoku(zbraň, nepřítel)
         if já.svět.nepřátelé_pobiti():
             agent.uděl_odměnu(já, 200, 'zabití všech nepřátel')
 
@@ -84,26 +75,9 @@ class Hráč:
     def kurýruj_se(já):
         léky = [věc for věc in já.inventář if isinstance(věc, veci.Lék)]
 
-        print('Čím se chceš kurýrovat?')
-        for číslo, věc in enumerate(léky, 1):
-            print(f'{číslo:3}. ', end='')
-            agent.vypiš_barevně(
-                f'{věc.název_7_pád} ([tyrkys]zdraví +{věc.léčivá_síla}[/])'
-            )
-
-        while True:
-            možnosti = set(range(1, len(léky) + 1))
-            vstup = agent.vstup_číslo_položky(možnosti | {''})
-            if vstup == '':
-                return
-            else:
-                lék = léky[vstup - 1]
-                já.spotřebuj(lék)
-                if lék.speciální:
-                    print('Obsah nevelké lahvičky s tebou pořádně zamával.')
-                else:
-                    print('Hned se cítíš líp.')
-                return
+        lék = agent.dialog_léčení(léky)
+        if lék:
+            já.spotřebuj(lék)
 
     def spotřebuj(já, lék):
         if lék.speciální:

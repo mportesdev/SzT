@@ -124,6 +124,13 @@ def vypiš_věc_v_obchodě(číslo_položky, věc, cena):
     print(f' {cena:3} zlaťáků')
 
 
+def vypiš_věc_k_léčení(číslo_položky, věc):
+    vypiš_barevně(
+        f'{číslo_položky:3}. {věc.název_7_pád} ('
+        f'[tyrkys]zdraví +{věc.léčivá_síla}[/])'
+    )
+
+
 def vypiš_inventář(hráč):
     print('Máš u sebe:')
     for věc in chain(hráč.inventář, hráč.artefakty):
@@ -149,3 +156,13 @@ def uděl_odměnu(hráč, odměna, za_co):
     hráč.zkušenost += odměna
     vypiš_odstavec(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
                    barva='fialová')
+
+
+def zpráva_o_útoku(zbraň, nepřítel):
+    název_zbraně = zbraň.název_ve_větě if zbraň else 'pěsti'
+    zpráva = (
+        f'Použil jsi {název_zbraně} proti {nepřítel.jméno_3_pád.lower()}.'
+    )
+    if not nepřítel.žije():
+        zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
+    vypiš_odstavec(zpráva, 'boj')
