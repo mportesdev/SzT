@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from . import agent, hrac, utility
+from . import agent, data, hrac, utility
 
 
 def hra():
@@ -19,16 +19,7 @@ def hra():
             if hráč.svět.vše_navštíveno():
                 agent.uděl_odměnu(hráč, 100, 'prozkoumání všech míst')
             if místnost is hráč.svět.začátek:
-                agent.vypiš_odstavec(
-                    'Svou rodnou vesnici, stejně jako vcelku poklidný život'
-                    ' pekařského učedníka, jsi nechal daleko za sebou a vydal'
-                    ' ses na nejistou dráhu dobrodruha.'
-                )
-                agent.vypiš_odstavec(
-                    'Uvnitř pověstmi opředené hory se prý ukrývá pětice'
-                    ' posvátných magických předmětů, které i obyčejnému'
-                    ' smrtelníkovi mohou přinést nadlidské schopnosti.'
-                )
+                agent.vypiš_úvodní_text(data.úvodní_text)
 
         if místnost is hráč.svět.začátek and hráč.svět.poklad_posbírán():
             agent.zobraz_gratulaci()

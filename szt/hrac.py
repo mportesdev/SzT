@@ -1,18 +1,12 @@
 # coding: utf-8
 
-from typing import List, Union
-
-from . import agent, svet, utility, veci
-
-PoložkyInventáře = List[Union[veci.Zbraň, veci.Lék]]
+from . import agent, data, svet, utility, veci
 
 
 class Hráč:
     def __init__(já):
-        já.inventář: PoložkyInventáře = [
-            veci.Zbraň('Tupý nůž', 5, 13),
-            veci.Lék('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
-        ]
+        já.inventář = [getattr(veci, název_třídy)(*parametry)
+                       for název_třídy, parametry in data.počáteční_inventář]
         já.artefakty = []
         já.svět = svet.Svět()
         já.x, já.y = já.svět.začátek.x, já.svět.začátek.y

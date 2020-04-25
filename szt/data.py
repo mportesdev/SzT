@@ -17,6 +17,15 @@ texty_les = (
     'Procházíš hustým porostem prastarého lesa.',
 )
 
+úvodní_text = (
+    'Svou rodnou vesnici, stejně jako vcelku poklidný život pekařského'
+    ' učedníka, jsi nechal daleko za sebou a vydal ses na nejistou dráhu'
+    ' dobrodruha.',
+    'Uvnitř pověstmi opředené hory se prý ukrývá pětice posvátných magických'
+    ' předmětů, které i obyčejnému smrtelníkovi mohou přinést nadlidské'
+    ' schopnosti.',
+)
+
 data_zbraní = (
     ('Cizokrajná šavle', 18, 76, 'Cizokrajnou šavli'),
     ('Ostnatý palcát', 17, 64),
@@ -82,3 +91,14 @@ if mapa.count('S') != 1:
     raise ValueError('Na mapě musí být přesně jedna startovní místnost')
 
 řádky_mapy = mapa.split('\n')
+
+počáteční_inventář = (
+    (
+        'Zbraň',
+        ('Tupý nůž', 5, 13),
+    ),
+    (
+        'Lék',
+        ('Bylinkový chleba', 8, 10, 'Bylinkovým chlebem'),
+    ),
+)

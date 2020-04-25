@@ -55,6 +55,11 @@ def zobraz_titul():
     vypiš_barevně('-' * ŠÍŘKA, barva='fialová', end='\n\n')
 
 
+def vypiš_úvodní_text(text):
+    for odstavec in text:
+        vypiš_odstavec(odstavec)
+
+
 def zobraz_gratulaci():
     vypiš_odstavec('Překonal jsi všechny nástrahy a s notnou dávkou odvahy i'
                    ' štěstí se ti skutečně podařilo získat kýžené magické'
