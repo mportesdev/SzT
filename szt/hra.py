@@ -10,7 +10,7 @@ def hra():
 
     while True:
         místnost = hráč.místnost_pobytu()
-        agent.vypiš_odstavec(místnost.popis())
+        agent.vypiš_popis_místnosti(místnost)
 
         if not místnost.navštívena:
             fronta_příkazů.clear()

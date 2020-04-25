@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from itertools import chain
+import random
 import re
 import sys
 import time
@@ -88,6 +89,10 @@ def vypiš_název_akce(název_akce):
                   barva='fialová', end='\n\n')
 
 
+def vypiš_popis_místnosti(místnost):
+    vypiš_odstavec(místnost.popis())
+
+
 def nakresli_mapu(svět, pozice_hráče):
     print('\n'.join(''.join(řádka).center(ŠÍŘKA)
                     for řádka in svět.mapa_navštívených(pozice_hráče)))
@@ -171,3 +176,33 @@ def zpráva_o_útoku(zbraň, nepřítel):
     if not nepřítel.žije():
         zpráva += f' Zabil jsi {nepřítel.jméno_4_pád.lower()}!'
     vypiš_odstavec(zpráva, 'boj')
+
+
+def zpráva_zdařilý_zásah(nepřítel):
+    vypiš_odstavec(
+        f'Zasáhl jsi {nepřítel.jméno_4_pád.lower()} do hlavy.'
+        f' {nepřítel.jméno} zmateně vrávorá.',
+        'boj', 'modrá'
+    )
+
+
+def zpráva_o_zranění(hráč, nepřítel, zásah):
+    zpráva = f'{nepřítel} útočí. '
+    if hráč.žije():
+        zpráva += ('Utrpěl jsi zranění.' if zásah > 0
+                   else 'Ubránil ses.')
+    else:
+        zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
+    vypiš_odstavec(zpráva, 'boj', 'červená')
+
+
+def zpráva_kořist_zlato(nepřítel):
+    vypiš_odstavec(f'Sebral jsi {nepřítel.jméno_3_pád.lower()}'
+                   f' {nepřítel.zlato} zlaťáků.',
+                   'štěstí')
+
+
+def zpráva_kořist_zbraň(nepřítel):
+    vypiš_odstavec(f'Sebral jsi {nepřítel.jméno_3_pád.lower()}'
+                   f' {nepřítel.zbraň.název_4_pád.lower()}.',
+                   'štěstí')

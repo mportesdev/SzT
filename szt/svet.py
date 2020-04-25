@@ -51,39 +51,26 @@ class MístnostBoj(Místnost):
     def dopad_na_hráče(já, hráč):
         if já.nepřítel.žije():
             if hráč.zdařilý_zásah:
-                agent.vypiš_odstavec(
-                    f'Zasáhl jsi {já.nepřítel.jméno_4_pád.lower()} do hlavy.'
-                    f' {já.nepřítel.jméno} zmateně vrávorá.',
-                    'boj', 'modrá'
-                )
+                agent.zpráva_zdařilý_zásah(já.nepřítel)
             else:
                 skutečný_zásah_nepřítele = utility.s_odchylkou(já.nepřítel.útok)
                 obranný_bonus = min(hráč.zkušenost // 200, 5)
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
                 hráč.zdraví -= max(skutečný_zásah, 0)
-                zpráva = f'{já.nepřítel} útočí. '
                 if hráč.žije():
-                    zpráva += ('Utrpěl jsi zranění.' if skutečný_zásah > 0
-                               else 'Ubránil ses.')
                     hráč.zkušenost += 1
-                else:
-                    zpráva += f'{random.choice(("Ouha", "Běda"))}, jsi mrtev!'
-                agent.vypiš_odstavec(zpráva, 'boj', 'červená')
+                agent.zpráva_o_zranění(hráč, já.nepřítel, skutečný_zásah)
         else:
             try:
                 if not já.nepřítel.zlato_sebráno and já.nepřítel.zlato > 0:
                     já.nepřítel.zlato_sebráno = True
                     hráč.zlato += já.nepřítel.zlato
-                    zpráva = (f'Sebral jsi {já.nepřítel.jméno_3_pád.lower()}'
-                              f' {já.nepřítel.zlato} zlaťáků.')
-                    agent.vypiš_odstavec(zpráva, 'štěstí')
+                    agent.zpráva_kořist_zlato(já.nepřítel)
                 if not já.nepřítel.zbraň_sebrána:
                     já.nepřítel.zbraň_sebrána = True
                     hráč.inventář.append(já.nepřítel.zbraň)
-                    zpráva = (f'Sebral jsi {já.nepřítel.jméno_3_pád.lower()}'
-                              f' {já.nepřítel.zbraň.název_4_pád.lower()}.')
-                    agent.vypiš_odstavec(zpráva, 'štěstí')
+                    agent.zpráva_kořist_zbraň(já.nepřítel)
             except AttributeError:
                 pass
 
