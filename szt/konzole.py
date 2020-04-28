@@ -33,19 +33,18 @@ def vypiš_odstavec(zpráva, typ_zprávy='info', barva=None):
     if typ_zprávy == 'štěstí' and barva is None:
         barva = 'tyrkys'
 
-    vypiš_barevně(zalamovač_textu.fill(zpráva), barva=barva)
+    piš(zalamovač_textu.fill(zpráva), barva=barva)
 
 
-def vypiš_barevně(*args, barva=None, **kwargs):
+def piš(*args, barva=None, **kwargs):
     konzole.print(*args, style=barva, highlight=False, **kwargs)
     if not RYCHLE:
         time.sleep(DÉLKA_PRODLEVY)
 
 
 def zobraz_titul():
-    vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
-    vypiš_barevně(
-        '\n\n',
+    piš('-' * ŠÍŘKA, barva='fialová')
+    piš('\n\n',
         ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
         '\n\n\n',
         'textová hra na hrdiny'.center(ŠÍŘKA),
@@ -53,7 +52,7 @@ def zobraz_titul():
         f'verze {VERZE}   21. dubna 2020'.center(ŠÍŘKA),
         '\n\n',
         barva='fialová', sep='')
-    vypiš_barevně('-' * ŠÍŘKA, barva='fialová', end='\n\n')
+    piš('-' * ŠÍŘKA, barva='fialová', end='\n\n')
 
 
 def vypiš_úvodní_text(text):
@@ -69,24 +68,24 @@ def zobraz_gratulaci():
     vypiš_odstavec('Otevírá se před tebou svět takřka neomezených možností.'
                    ' Bude záležet jen na tobě, zda se staneš mocným mágem na'
                    ' straně dobra, anebo zla.')
-    vypiš_barevně('\n\n',
-                  'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
-                  '\n\n',
-                  sep='')
-    vypiš_barevně(
+    piš('\n\n',
+        'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
+        '\n\n',
+        sep='')
+    piš(
         f'{NÁZEV_HRY}       verze {VERZE}       '
         'github.com/myrmica-habilis/SzT.git'.center(ŠÍŘKA),
         barva='fialová')
-    vypiš_barevně('-' * ŠÍŘKA, barva='fialová')
+    piš('-' * ŠÍŘKA, barva='fialová')
 
 
 def nerozumím():
-    vypiš_barevně('?', barva='fialová')
+    piš('?', barva='fialová')
 
 
 def vypiš_název_akce(název_akce):
-    vypiš_barevně(f' {název_akce} '.center(ŠÍŘKA, '-'),
-                  barva='fialová', end='\n\n')
+    piš(f' {název_akce} '.center(ŠÍŘKA, '-'),
+        barva='fialová', end='\n\n')
 
 
 def vypiš_popis_místnosti(místnost):
@@ -94,68 +93,67 @@ def vypiš_popis_místnosti(místnost):
 
 
 def nakresli_mapu(svět, pozice_hráče):
-    vypiš_barevně('\n'.join(''.join(řádka).center(ŠÍŘKA)
-                            for řádka in svět.mapa_navštívených(pozice_hráče)))
-    vypiš_barevně()
+    piš('\n'.join(''.join(řádka).center(ŠÍŘKA)
+                  for řádka in svět.mapa_navštívených(pozice_hráče)))
+    piš()
     legenda_mapy()
 
 
 def legenda_mapy():
-    vypiš_barevně('[', barva='modrá', end='')
-    vypiš_barevně(' + [modrá]les[/]           # '
-                  '[modrá]jeskyně[/]         H [modrá]hráč[/]'
-                  '            ? [modrá]neznámo ]')
+    piš('[', barva='modrá', end='')
+    piš(' + [modrá]les[/]           # [modrá]jeskyně[/]         '
+        'H [modrá]hráč[/]            ? [modrá]neznámo ]')
 
 
 def stav_hráče(hráč):
-    vypiš_barevně('[ Zdraví:', barva='fialová', end='')
-    vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
-                  f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
-                  f'[fialová]zlato:[/] {hráč.zlato} '
-                  '[fialová]]', end='\n\n')
+    piš('[ Zdraví:', barva='fialová', end='')
+    piš(f' {hráč.zdraví:3} {"%":<4}'
+        f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
+        f'[fialová]zlato:[/] {hráč.zlato} '
+        '[fialová]]', end='\n\n')
 
 
 def vypiš_věc_v_obchodě(číslo_položky, věc, cena):
-    vypiš_barevně(f'{číslo_položky:3}. ' if číslo_položky else '     ', end='')
+    piš(f'{číslo_položky:3}. ' if číslo_položky else '     ', end='')
     try:
         # ljust - kompenzovat 12 znaků za formátovací značky
-        vypiš_barevně(
+        piš(
             f'{věc.název_4_pád} ([fialová]útok'
             f' +{věc.útok}[/]) '.ljust(ŠÍŘKA - 25 + 12, '.'),
             end=''
         )
     except AttributeError:
         # ljust - kompenzovat 11 znaků za formátovací značky
-        vypiš_barevně(
+        piš(
             f'{věc.název_4_pád} ([tyrkys]zdraví'
             f' +{věc.léčivá_síla}[/]) '.ljust(ŠÍŘKA - 25 + 11, '.'),
             end=''
         )
-    vypiš_barevně(f' {cena:3} zlaťáků')
+    piš(f' {cena:3} zlaťáků')
 
 
 def vypiš_věc_k_léčení(číslo_položky, věc):
-    vypiš_barevně(
+    piš(
         f'{číslo_položky:3}. {věc.název_7_pád} ('
         f'[tyrkys]zdraví +{věc.léčivá_síla}[/])'
     )
 
 
 def vypiš_inventář(hráč):
-    vypiš_barevně('Máš u sebe:')
+    piš('Máš u sebe:')
     for věc in chain(hráč.inventář, hráč.artefakty):
-        vypiš_barevně('            ', věc, sep='')
+        piš('            ', věc, sep='')
 
 
 def zobraz_možnosti(možnosti):
-    vypiš_barevně('\nMožnosti:')
+    piš('\nMožnosti:')
     for skupina_kláves in skupiny_kláves(''.join(možnosti.keys())):
         for klávesa in skupina_kláves:
             název = možnosti[klávesa][1]
             if klávesa == skupina_kláves[-1]:
-                vypiš_barevně(f'{klávesa}[modrá]: {název}')
+                piš(f'{klávesa}[modrá]: {název}')
             else:
-                vypiš_barevně(f'{klávesa}[modrá]: {název:<15}', end='')
+                piš(f'{klávesa}[modrá]: {název:<15}', end='')
 
 
 def skupiny_kláves(klávesy):

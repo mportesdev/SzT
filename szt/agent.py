@@ -17,7 +17,7 @@ potvrď_konec = dialogy.potvrď_konec
 dialog_léčení = dialogy.dialog_léčení
 
 vypiš_odstavec = konzole.vypiš_odstavec
-vypiš_barevně = konzole.vypiš_barevně
+piš = konzole.piš
 zobraz_titul = konzole.zobraz_titul
 vypiš_úvodní_text = konzole.vypiš_úvodní_text
 zobraz_gratulaci = konzole.zobraz_gratulaci

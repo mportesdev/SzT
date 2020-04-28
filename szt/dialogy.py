@@ -14,7 +14,7 @@ def vstup_z_možností(možnosti):
 
 
 def vstup_číslo_položky(možnosti):
-    konzole.vypiš_barevně(
+    konzole.piš(
         '[modrá]Číslo položky             ([/]Enter[modrá] = návrat)',
         end=' '
     )
@@ -22,7 +22,7 @@ def vstup_číslo_položky(možnosti):
 
 
 def vstup_koupit_prodat():
-    konzole.vypiš_barevně(
+    konzole.piš(
         'K[modrá]: koupit    [/]P[modrá]: prodat    ([/]'
         'Enter[modrá] = návrat)',
         end=' '
@@ -31,7 +31,7 @@ def vstup_koupit_prodat():
 
 
 def potvrď_konec():
-    konzole.vypiš_barevně(
+    konzole.piš(
         '[modrá]Opravdu skončit? ([/]A [modrá]/[/] N[modrá])',
         end=' '
     )
@@ -40,7 +40,7 @@ def potvrď_konec():
 
 
 def dialog_léčení(léky):
-    konzole.vypiš_barevně('Čím se chceš kurýrovat?')
+    konzole.piš('Čím se chceš kurýrovat?')
     for číslo, věc in enumerate(léky, 1):
         konzole.vypiš_věc_k_léčení(číslo, věc)
 
@@ -51,8 +51,8 @@ def dialog_léčení(léky):
 
     lék = léky[vstup - 1]
     if lék.speciální:
-        konzole.vypiš_barevně('Obsah nevelké lahvičky s tebou pořádně zamával.')
+        konzole.piš('Obsah nevelké lahvičky s tebou pořádně zamával.')
     else:
-        konzole.vypiš_barevně('Hned se cítíš líp.')
+        konzole.piš('Hned se cítíš líp.')
 
     return lék

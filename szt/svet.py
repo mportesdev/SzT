@@ -93,14 +93,14 @@ class JeskyněObchod(Jeskyně):
         věci_na_prodej = [věc for věc in prodejce.inventář
                           if věc.cena is not None]
         if not věci_na_prodej:
-            agent.vypiš_barevně(
+            agent.piš(
                 f'{prodejce.jméno} už nemá co nabídnout.'
                 if prodejce is já.obchodník
                 else 'Nemáš nic, co bys mohl prodat.'
             )
             return
         else:
-            agent.vypiš_barevně(
+            agent.piš(
                 f'{prodejce.jméno} nabízí tyto věci:'
                 if prodejce is já.obchodník
                 else 'Tyto věci můžeš prodat:'
@@ -123,7 +123,7 @@ class JeskyněObchod(Jeskyně):
             název_peněz, oslovení = prodejce.mluva
 
         if not možnosti:
-            agent.vypiš_barevně(
+            agent.piš(
                 f'"Došly mi {název_peněz}, {oslovení}!" říká '
                 f'{kupující.jméno.lower()}.'
                 if kupující is já.obchodník
@@ -141,7 +141,7 @@ class JeskyněObchod(Jeskyně):
                     kupující.kup(vybraná_věc, prodejce)
                 else:
                     prodejce.prodej(vybraná_věc, kupující)
-                agent.vypiš_barevně(
+                agent.piš(
                     f'"Bylo mi potěšením, {oslovení}." říká '
                     f'{já.obchodník.jméno.lower()}.'
                 )
