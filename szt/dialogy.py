@@ -40,7 +40,7 @@ def potvrď_konec():
 
 
 def dialog_léčení(léky):
-    print('Čím se chceš kurýrovat?')
+    konzole.vypiš_barevně('Čím se chceš kurýrovat?')
     for číslo, věc in enumerate(léky, 1):
         konzole.vypiš_věc_k_léčení(číslo, věc)
 
@@ -51,8 +51,8 @@ def dialog_léčení(léky):
 
     lék = léky[vstup - 1]
     if lék.speciální:
-        print('Obsah nevelké lahvičky s tebou pořádně zamával.')
+        konzole.vypiš_barevně('Obsah nevelké lahvičky s tebou pořádně zamával.')
     else:
-        print('Hned se cítíš líp.')
+        konzole.vypiš_barevně('Hned se cítíš líp.')
 
     return lék

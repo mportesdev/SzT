@@ -67,7 +67,6 @@ def vyber_akci(hráč, fronta_příkazů):
         if not fronta_příkazů:
             agent.zobraz_možnosti(možnosti)
             agent.stav_hráče(hráč)
-            print()
 
         while True:
             if fronta_příkazů:

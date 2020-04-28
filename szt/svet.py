@@ -93,14 +93,18 @@ class JeskyněObchod(Jeskyně):
         věci_na_prodej = [věc for věc in prodejce.inventář
                           if věc.cena is not None]
         if not věci_na_prodej:
-            print(f'{prodejce.jméno} už nemá co nabídnout.'
-                  if prodejce is já.obchodník
-                  else 'Nemáš nic, co bys mohl prodat.')
+            agent.vypiš_barevně(
+                f'{prodejce.jméno} už nemá co nabídnout.'
+                if prodejce is já.obchodník
+                else 'Nemáš nic, co bys mohl prodat.'
+            )
             return
         else:
-            print(f'{prodejce.jméno} nabízí tyto věci:'
-                  if prodejce is já.obchodník
-                  else 'Tyto věci můžeš prodat:')
+            agent.vypiš_barevně(
+                f'{prodejce.jméno} nabízí tyto věci:'
+                if prodejce is já.obchodník
+                else 'Tyto věci můžeš prodat:'
+            )
 
         možnosti = set()
         for číslo, věc in enumerate(věci_na_prodej, 1):
@@ -108,9 +112,9 @@ class JeskyněObchod(Jeskyně):
                     else věc.cena)
             if cena <= kupující.zlato:
                 možnosti.add(číslo)
-                číslo_položky = f'{číslo:3}.'
+                číslo_položky = číslo
             else:
-                číslo_položky = '    '
+                číslo_položky = None
             agent.vypiš_věc_v_obchodě(číslo_položky, věc, cena)
 
         try:
@@ -119,10 +123,12 @@ class JeskyněObchod(Jeskyně):
             název_peněz, oslovení = prodejce.mluva
 
         if not možnosti:
-            print(f'"Došly mi {název_peněz}, {oslovení}!"'
-                  f' říká {kupující.jméno.lower()}.'
-                  if kupující is já.obchodník
-                  else 'Na žádnou z nich nemáš peníze.')
+            agent.vypiš_barevně(
+                f'"Došly mi {název_peněz}, {oslovení}!" říká '
+                f'{kupující.jméno.lower()}.'
+                if kupující is já.obchodník
+                else 'Na žádnou z nich nemáš peníze.'
+            )
             return
 
         while True:
@@ -135,8 +141,10 @@ class JeskyněObchod(Jeskyně):
                     kupující.kup(vybraná_věc, prodejce)
                 else:
                     prodejce.prodej(vybraná_věc, kupující)
-                print(f'"Bylo mi potěšením, {oslovení}."'
-                      f' říká {já.obchodník.jméno.lower()}.')
+                agent.vypiš_barevně(
+                    f'"Bylo mi potěšením, {oslovení}." říká '
+                    f'{já.obchodník.jméno.lower()}.'
+                )
                 return
 
     def obchoduj(já, hráč):

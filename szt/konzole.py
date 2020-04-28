@@ -69,10 +69,10 @@ def zobraz_gratulaci():
     vypiš_odstavec('Otevírá se před tebou svět takřka neomezených možností.'
                    ' Bude záležet jen na tobě, zda se staneš mocným mágem na'
                    ' straně dobra, anebo zla.')
-    print('\n\n',
-          'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
-          '\n\n',
-          sep='')
+    vypiš_barevně('\n\n',
+                  'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
+                  '\n\n',
+                  sep='')
     vypiš_barevně(
         f'{NÁZEV_HRY}       verze {VERZE}       '
         'github.com/myrmica-habilis/SzT.git'.center(ŠÍŘKA),
@@ -94,9 +94,9 @@ def vypiš_popis_místnosti(místnost):
 
 
 def nakresli_mapu(svět, pozice_hráče):
-    print('\n'.join(''.join(řádka).center(ŠÍŘKA)
-                    for řádka in svět.mapa_navštívených(pozice_hráče)))
-    print()
+    vypiš_barevně('\n'.join(''.join(řádka).center(ŠÍŘKA)
+                            for řádka in svět.mapa_navštívených(pozice_hráče)))
+    vypiš_barevně()
     legenda_mapy()
 
 
@@ -112,11 +112,11 @@ def stav_hráče(hráč):
     vypiš_barevně(f' {hráč.zdraví:3} {"%":<4}'
                   f'[fialová]zkušenost:[/] {hráč.zkušenost:<7}'
                   f'[fialová]zlato:[/] {hráč.zlato} '
-                  '[fialová]]')
+                  '[fialová]]', end='\n\n')
 
 
 def vypiš_věc_v_obchodě(číslo_položky, věc, cena):
-    print(f'{číslo_položky} ', end='')
+    vypiš_barevně(f'{číslo_položky:3}. ' if číslo_položky else '     ', end='')
     try:
         # ljust - kompenzovat 12 znaků za formátovací značky
         vypiš_barevně(
@@ -131,7 +131,7 @@ def vypiš_věc_v_obchodě(číslo_položky, věc, cena):
             f' +{věc.léčivá_síla}[/]) '.ljust(ŠÍŘKA - 25 + 11, '.'),
             end=''
         )
-    print(f' {cena:3} zlaťáků')
+    vypiš_barevně(f' {cena:3} zlaťáků')
 
 
 def vypiš_věc_k_léčení(číslo_položky, věc):
@@ -142,13 +142,13 @@ def vypiš_věc_k_léčení(číslo_položky, věc):
 
 
 def vypiš_inventář(hráč):
-    print('Máš u sebe:')
+    vypiš_barevně('Máš u sebe:')
     for věc in chain(hráč.inventář, hráč.artefakty):
         vypiš_barevně('            ', věc, sep='')
 
 
 def zobraz_možnosti(možnosti):
-    print('\nMožnosti:')
+    vypiš_barevně('\nMožnosti:')
     for skupina_kláves in skupiny_kláves(''.join(možnosti.keys())):
         for klávesa in skupina_kláves:
             název = možnosti[klávesa][1]
