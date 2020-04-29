@@ -2,7 +2,7 @@
 
 import random
 
-from . import veci
+from . import data, veci
 
 
 class Nepřítel:
@@ -47,27 +47,11 @@ class Netvor(Nepřítel):
 
     @classmethod
     def troll(třída):
-        return třída(
-            jméno='Kamenný troll',
-            zdraví=98,
-            útok=16,
-            jméno_3_pád='Trollovi',
-            jméno_4_pád='Trolla',
-            text_živý='Vyrušil jsi dřímajícího kamenného trolla!',
-            text_mrtvý='Zabitý kamenný troll připomíná obyčejnou skálu.'
-        )
+        return třída(**data.parametry_troll)
 
     @classmethod
     def lesní_troll(třída):
-        return třída(
-            jméno='Lesní troll',
-            zdraví=68,
-            útok=12,
-            jméno_3_pád='Trollovi',
-            jméno_4_pád='Trolla',
-            text_živý='Cestu ti zastoupil mohutný troll obrostlý'
-                      ' mechem.'
-        )
+        return třída(**data.parametry_lesní_troll)
 
 
 class Člověk(Nepřítel):
@@ -83,126 +67,21 @@ class Člověk(Nepřítel):
 
     @classmethod
     def dobrodruh(třída):
-        return třída(
-            jméno='Cizí dobrodruh',
-            zdraví=190,
-            zbraň=veci.Zbraň('Železné kopí', 26, 85),
-            jméno_3_pád='Dobrodruhovi',
-            jméno_4_pád='Dobrodruha',
-            text_živý='Vrhl se na tebe pološílený dobrodruh – jiný hráč'
-                      ' této hry!',
-            text_mrtvý='Na zemi leží mrtvola muže s vytřeštěnýma očima.'
-        )
-
-
-data_nepřátel = (
-    (
-        Zvíře,
-        {
-            'jméno': 'Obří pavouk',
-            'zdraví': 32,
-            'útok': 7,
-            'jméno_3_pád': 'Pavoukovi',
-            'jméno_4_pád': 'Pavouka',
-            'text_živý': 'Z výšky se spustil obří pavouk a snaží se tě pozřít!',
-            'text_mrtvý': 'Na zemi se povalují nohy a trup gigantického'
-                          ' pavouka.',
-        },
-    ),
-
-    (
-        Zvíře,
-        {
-            'jméno': 'Obří šváb',
-            'zdraví': 35,
-            'útok': 5,
-            'jméno_3_pád': 'Švábovi',
-            'jméno_4_pád': 'Švába',
-            'text_živý': 'Z díry vylezl odporný obří šváb a sevřel tě kusadly!',
-            'text_mrtvý': 'Na zemi leží ohavná tlející mrtvola švába.',
-        },
-    ),
-
-    (
-        Zvíře,
-        {
-            'jméno': 'Obří netopýr',
-            'zdraví': 37,
-            'útok': 6,
-            'jméno_3_pád': 'Netopýrovi',
-            'jméno_4_pád': 'Netopýra',
-            'text_mrtvý': 'Na zemi leží odpudivý mrtvý netopýr s polámanými'
-                          ' kožnatými křídly.',
-        },
-    ),
-
-    (
-        Netvor,
-        {
-            'jméno': 'Skřet',
-            'zdraví': 45,
-            'útok': 12,
-            'jméno_3_pád': 'Skřetovi',
-            'jméno_4_pád': 'Skřeta',
-        },
-    ),
-
-    (
-        Netvor,
-        {
-            'jméno': 'Krysodlak',
-            'zdraví': 47,
-            'útok': 10,
-            'jméno_3_pád': 'Krysodlakovi',
-            'jméno_4_pád': 'Krysodlaka',
-        },
-    ),
-
-    (
-        Zvíře,
-        {
-            'jméno': 'Jeskynní dráček',
-            'zdraví': 54,
-            'útok': 9,
-            'jméno_3_pád': 'Dráčkovi',
-            'jméno_4_pád': 'Dráčka',
-            'text_živý': 'Ze tmy vyskočil malý jeskynní dráček a zasáhl tě'
-                         ' ohnivou koulí!',
-            'text_mrtvý': 'Z mrtvoly jeskynního dráčka vytéká tmavě oranžová'
-                          ' tekutina.',
-        },
-    ),
-
-    (
-        Zvíře,
-        {
-            'jméno': 'Vlk',
-            'zdraví': 31,
-            'útok': 5,
-            'jméno_3_pád': 'Vlkovi',
-            'jméno_4_pád': 'Vlka',
-            'text_živý': 'Ze křoví na tebe vyskočil vychrtlý šedý vlk.',
-        },
-    ),
-
-    (
-        Netvor,
-        {
-            'jméno': 'Vlkodlak',
-            'zdraví': 39,
-            'útok': 9,
-            'jméno_3_pád': 'Vlkodlakovi',
-            'jméno_4_pád': 'Vlkodlaka',
-        },
-    ),
-)
+        return třída(**data.parametry_dobrodruh,
+                     zbraň=veci.Zbraň(*data.zbraň_dobrodruh))
 
 
 def náhodný_jeskynní_nepřítel():
-    typ_nepřítele, parametry = random.choice(data_nepřátel[:6])
-    return typ_nepřítele(**parametry)
+    název_třídy, parametry = random.choice(data.data_nepřátel[:6])
+    třída = {'zvíře': Zvíře,
+             'netvor': Netvor,
+             'člověk': Člověk}.get(název_třídy)
+    return třída(**parametry)
 
 
 def náhodný_lesní_nepřítel():
-    typ_nepřítele, parametry = random.choice(data_nepřátel[6:])
-    return typ_nepřítele(**parametry)
+    název_třídy, parametry = random.choice(data.data_nepřátel[6:])
+    třída = {'zvíře': Zvíře,
+             'netvor': Netvor,
+             'člověk': Člověk}.get(název_třídy)
+    return třída(**parametry)
