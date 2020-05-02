@@ -104,7 +104,7 @@ počáteční_inventář = (
 )
 data_nepřátel = (
     (
-        'zvíře',
+        'Zvíře',
         {
             'jméno': 'Obří pavouk',
             'zdraví': 32,
@@ -118,7 +118,7 @@ data_nepřátel = (
     ),
 
     (
-        'zvíře',
+        'Zvíře',
         {
             'jméno': 'Obří šváb',
             'zdraví': 35,
@@ -131,7 +131,7 @@ data_nepřátel = (
     ),
 
     (
-        'zvíře',
+        'Zvíře',
         {
             'jméno': 'Obří netopýr',
             'zdraví': 37,
@@ -144,7 +144,7 @@ data_nepřátel = (
     ),
 
     (
-        'netvor',
+        'Netvor',
         {
             'jméno': 'Skřet',
             'zdraví': 45,
@@ -156,7 +156,7 @@ data_nepřátel = (
     ),
 
     (
-        'netvor',
+        'Netvor',
         {
             'jméno': 'Krysodlak',
             'zdraví': 47,
@@ -167,7 +167,7 @@ data_nepřátel = (
     ),
 
     (
-        'zvíře',
+        'Zvíře',
         {
             'jméno': 'Jeskynní dráček',
             'zdraví': 54,
@@ -182,7 +182,7 @@ data_nepřátel = (
     ),
 
     (
-        'zvíře',
+        'Zvíře',
         {
             'jméno': 'Vlk',
             'zdraví': 31,
@@ -194,7 +194,7 @@ data_nepřátel = (
     ),
 
     (
-        'netvor',
+        'Netvor',
         {
             'jméno': 'Vlkodlak',
             'zdraví': 39,

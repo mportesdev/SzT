@@ -1,8 +1,11 @@
 # coding: utf-8
 
 import random
+import sys
 
 from . import data, veci
+
+tento_modul = sys.modules[__name__]
 
 
 class Nepřítel:
@@ -73,15 +76,11 @@ class Člověk(Nepřítel):
 
 def náhodný_jeskynní_nepřítel():
     název_třídy, parametry = random.choice(data.data_nepřátel[:6])
-    třída = {'zvíře': Zvíře,
-             'netvor': Netvor,
-             'člověk': Člověk}.get(název_třídy)
+    třída = getattr(tento_modul, název_třídy)
     return třída(**parametry)
 
 
 def náhodný_lesní_nepřítel():
     název_třídy, parametry = random.choice(data.data_nepřátel[6:])
-    třída = {'zvíře': Zvíře,
-             'netvor': Netvor,
-             'člověk': Člověk}.get(název_třídy)
+    třída = getattr(tento_modul, název_třídy)
     return třída(**parametry)
