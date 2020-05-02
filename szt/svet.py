@@ -2,6 +2,7 @@
 
 import math
 import random
+import re
 
 from . import agent, data, nepratele, postavy, utility, veci
 
@@ -250,6 +251,13 @@ class LesLék(MístnostLék, Les):
     pass
 
 
+def okraje(řetězec, hodnota_okraje):
+    vzorec = f'^({hodnota_okraje}*).*?({hodnota_okraje}*)$'
+    levý_okraj, pravý_okraj = re.match(vzorec, řetězec).groups()
+
+    return len(levý_okraj), len(pravý_okraj)
+
+
 class Svět:
     def __init__(já):
         já.mapa = []
@@ -388,9 +396,7 @@ class Svět:
                 except AttributeError:
                     řádka_mapy.append(' ')
             if set(řádka_mapy) != {' '}:
-                prázdno_vlevo, prázdno_vpravo = utility.okraje(
-                    ''.join(řádka_mapy), ' '
-                )
+                prázdno_vlevo, prázdno_vpravo = okraje(''.join(řádka_mapy), ' ')
                 ořez_vlevo = min(ořez_vlevo, prázdno_vlevo)
                 ořez_vpravo = min(ořez_vpravo, prázdno_vpravo)
                 mapa.append(řádka_mapy)
