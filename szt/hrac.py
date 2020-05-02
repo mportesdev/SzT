@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from . import agent, data, svet, utility, veci
+from . import agent, data, svet, veci, vypocty
 
 
 class Hráč:
@@ -50,7 +50,7 @@ class Hráč:
         nepřítel = já.místnost_pobytu().nepřítel
         zbraň = já.nejlepší_zbraň()
         síla_zbraně = zbraň.útok if zbraň else 1
-        skutečný_zásah_zbraní = utility.s_odchylkou(síla_zbraně)
+        skutečný_zásah_zbraní = vypocty.s_odchylkou(síla_zbraně)
         já.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
                             and nepřítel.krátké_jméno not in ('troll',
                                                               'dobrodruh'))

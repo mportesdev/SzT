@@ -4,7 +4,7 @@ import math
 import random
 import re
 
-from . import agent, data, nepratele, postavy, utility, veci
+from . import agent, data, nepratele, postavy, veci, vypocty
 
 
 class Místnost:
@@ -54,7 +54,7 @@ class MístnostBoj(Místnost):
             if hráč.zdařilý_zásah:
                 agent.zpráva_zdařilý_zásah(já.nepřítel)
             else:
-                skutečný_zásah_nepřítele = utility.s_odchylkou(já.nepřítel.útok)
+                skutečný_zásah_nepřítele = vypocty.s_odchylkou(já.nepřítel.útok)
                 obranný_bonus = min(hráč.zkušenost // 200, 5)
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
