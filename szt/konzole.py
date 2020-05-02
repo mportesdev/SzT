@@ -8,6 +8,7 @@ import time
 from textwrap import TextWrapper
 
 from rich.console import Console
+from rich.text import Text
 
 from . import barvy
 
@@ -93,16 +94,29 @@ def vypiš_popis_místnosti(místnost):
 
 
 def nakresli_mapu(svět, pozice_hráče):
-    piš('\n'.join(''.join(řádka).center(ŠÍŘKA)
-                  for řádka in svět.mapa_navštívených(pozice_hráče)))
+    mapa = Text('\n'.join(''.join(řádka).center(ŠÍŘKA)
+                          for řádka in svět.mapa_navštívených(pozice_hráče)))
+    nastav_barvy_mapy(mapa)
+    piš(mapa)
     piš()
     legenda_mapy()
 
 
 def legenda_mapy():
-    piš('[', barva='modrá', end='')
-    piš(' + [modrá]les[/]           # [modrá]jeskyně[/]         '
-        'H [modrá]hráč[/]            ? [modrá]neznámo ]')
+    legenda = Text(
+        '[ + les           # jeskyně         H hráč            ? neznámo ]'
+    )
+    nastav_barvy_mapy(legenda)
+    piš(legenda)
+
+
+def nastav_barvy_mapy(text: Text):
+    for regex, barva in (
+            (r'[^H]+', 'modrá'),
+            (r'#+', 'fialová'),
+            (r'\++', 'tyrkys'),
+    ):
+        text.highlight_regex(regex, barva)
 
 
 def stav_hráče(hráč):
