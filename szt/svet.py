@@ -191,8 +191,10 @@ class JeskyněArtefakt(Jeskyně):
                 'štěstí'
             )
             if hráč.svět.poklad_posbírán():
-                agent.uděl_odměnu(hráč, 300, 'nalezení všech magických'
-                                             ' předmětů')
+                odměna = 300
+                hráč.zkušenost += odměna
+                agent.zpráva_o_odměně('nalezení všech magických předmětů',
+                                      odměna)
                 agent.vypiš_odstavec('Artefakty teď musíš vynést ven z'
                                      ' jeskyně a dojít s nimi na začátek své'
                                      ' cesty.')

@@ -61,7 +61,9 @@ class Hráč:
         já.zkušenost += skutečný_zásah
         agent.zpráva_o_útoku(zbraň, nepřítel)
         if já.svět.nepřátelé_pobiti():
-            agent.uděl_odměnu(já, 200, 'zabití všech nepřátel')
+            odměna = 200
+            já.zkušenost += odměna
+            agent.zpráva_o_odměně('zabití všech nepřátel', odměna)
 
     def má_léky(já):
         return any(isinstance(věc, veci.Lék) for věc in já.inventář)

@@ -100,7 +100,9 @@ def hra():
 
             místnost.navštívena = True
             if hráč.svět.vše_navštíveno():
-                agent.uděl_odměnu(hráč, 100, 'prozkoumání všech míst')
+                odměna = 100
+                hráč.zkušenost += odměna
+                agent.zpráva_o_odměně('prozkoumání všech míst', odměna)
             if místnost is hráč.svět.začátek:
                 agent.vypiš_úvodní_text(data.úvodní_text)
 

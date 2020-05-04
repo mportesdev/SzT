@@ -174,9 +174,8 @@ def skupiny_kláves(klávesy):
     return re.search(r'([BO]*)([SJZV]*)([LIMK]*)', klávesy).groups()
 
 
-def uděl_odměnu(hráč, odměna, za_co):
-    hráč.zkušenost += odměna
-    vypiš_odstavec(f'Za {za_co} získáváš zkušenost {odměna} bodů!',
+def zpráva_o_odměně(za_co, kolik):
+    vypiš_odstavec(f'Za {za_co} získáváš zkušenost {kolik} bodů!',
                    barva='fialová')
 
 
