@@ -68,16 +68,13 @@ Po lokacích, které jste už navštívili, se můžete pohybovat na libovolnou 
 
 .. code-block::
 
-         ?
-       ++H
-       +
-    ?+ ++
-     +++
-       +
-       +
-       +
+       H+
+        +  ++
+    ?+  ++++
+     ++++  +  ++?
+        +  ++++
 
-a vy se chcete vydat na neprozkoumané místo na západě, přemístíte se tam jediným příkazem ``zzjjjzzsz``. (poznámka: pokud po cestě narazíte na živého nepřítele, režim zrychleného přesunu se přeruší a nepřítel na vás normálně zaútočí)
+a vy se chcete vydat na neprozkoumané místo na západě, přemístíte se tam jediným příkazem ``vjjjzzzsz``. (poznámka: pokud po cestě narazíte na živého nepřítele, režim zrychleného přesunu se přeruší a nepřítel na vás normálně zaútočí)
 
 Útěk z boje
 -----------
