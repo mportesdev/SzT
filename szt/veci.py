@@ -9,9 +9,6 @@ class Věc:
         já.cena = cena
         já.název_4_pád = název_4_pád or já.název
 
-    def __str__(já):
-        return já.název_4_pád
-
 
 class Zbraň(Věc):
     def __init__(já, název, útok, cena, název_4_pád=None, název_ve_větě=None):
@@ -19,13 +16,11 @@ class Zbraň(Věc):
         já.útok = útok
         já.název_ve_větě = název_ve_větě or já.název_4_pád.lower()
 
-    def __str__(já):
-        return f'{já.název_4_pád} (útok +{já.útok})'
+    def __format__(já, format_spec):
+        if format_spec == '4':
+            return f'{já.název_4_pád} ([fialová]útok +{já.útok}[/])'
 
-    def __rich__(já):
-        text = Text(str(já))
-        text.highlight_regex(r'útok \+\d+', 'fialová')
-        return text
+        return super().__format__(format_spec)
 
 
 class Lék(Věc):
@@ -36,13 +31,13 @@ class Lék(Věc):
         já.název_7_pád = název_7_pád
         já.speciální = speciální
 
-    def __str__(já):
-        return f'{já.název_4_pád} (zdraví +{já.léčivá_síla})'
+    def __format__(já, format_spec):
+        if format_spec == '4':
+            return f'{já.název_4_pád} ([tyrkys]zdraví +{já.léčivá_síla}[/])'
+        if format_spec == '7':
+            return f'{já.název_7_pád} ([tyrkys]zdraví +{já.léčivá_síla}[/])'
 
-    def __rich__(já):
-        text = Text(str(já))
-        text.highlight_regex(r'zdraví \+\d+', 'tyrkys')
-        return text
+        return super().__format__(format_spec)
 
 
 class Artefakt(Věc):
@@ -51,5 +46,5 @@ class Artefakt(Věc):
         já.barva = barva
 
     def __rich__(self):
-        text = Text(f'< {self} >', style=self.barva)
+        text = Text(f'< {self.název_4_pád} >', style=self.barva)
         return text

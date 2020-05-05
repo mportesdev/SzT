@@ -129,34 +129,25 @@ def stav_hráče(hráč):
 
 def vypiš_věc_v_obchodě(číslo_položky, věc, cena):
     piš(f'{číslo_položky:3}. ' if číslo_položky else '     ', end='')
-    try:
-        # ljust - kompenzovat 12 znaků za formátovací značky
-        piš(
-            f'{věc.název_4_pád} ([fialová]útok'
-            f' +{věc.útok}[/]) '.ljust(ŠÍŘKA - 25 + 12, '.'),
-            end=''
-        )
-    except AttributeError:
-        # ljust - kompenzovat 11 znaků za formátovací značky
-        piš(
-            f'{věc.název_4_pád} ([tyrkys]zdraví'
-            f' +{věc.léčivá_síla}[/]) '.ljust(ŠÍŘKA - 25 + 11, '.'),
-            end=''
-        )
+    popis_věci = f'{věc:4}'
+
+    # vypočítat délku formátovacích značek [fialová][/], resp. [tyrkys][/]
+    délka_značek = len(''.join(re.findall(r'\[.*?\]', popis_věci)))
+
+    # ljust - kompenzovat formátovací značky
+    piš((popis_věci + ' ').ljust(ŠÍŘKA - 25 + délka_značek, '.'), end='')
+
     piš(f' {cena:3} zlaťáků')
 
 
 def vypiš_věc_k_léčení(číslo_položky, věc):
-    piš(
-        f'{číslo_položky:3}. {věc.název_7_pád} ('
-        f'[tyrkys]zdraví +{věc.léčivá_síla}[/])'
-    )
+    piš(f'{číslo_položky:3}. {věc:7}')
 
 
 def vypiš_inventář(hráč):
     piš('Máš u sebe:')
     for věc in chain(hráč.inventář, hráč.artefakty):
-        piš('            ', věc, sep='')
+        piš(f'            {věc:4}')
 
 
 def zobraz_možnosti(možnosti):
