@@ -145,6 +145,10 @@ def vypiš_věc_k_léčení(číslo_položky, věc):
 
 
 def vypiš_inventář(hráč):
+    if not hráč.inventář and not hráč.artefakty:
+        piš('Nic u sebe nemáš.')
+        return
+
     piš('Máš u sebe:')
     for věc in chain(hráč.inventář, hráč.artefakty):
         piš(f'            {věc:4}')
