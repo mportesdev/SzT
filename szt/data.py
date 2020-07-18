@@ -1,5 +1,11 @@
 import base64
 
+NÁZEV = 'Strach ze tmy'
+PODTITUL = 'textová hra na hrdiny'
+VERZE = '1.2'
+DATUM = '18. července 2020'
+WEB = 'github.com/myrmica-habilis/SzT.git'
+
 texty_jeskyně = (
     'Procházíš spletí nepříjemně tísnivých podzemních chodeb.',
     'Našlapuješ po rozměklé zemi ve vlhké a zatuchlé jeskyni.',

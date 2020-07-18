@@ -12,10 +12,6 @@ from rich.text import Text
 
 from . import barvy
 
-NÁZEV_HRY = 'Strach ze tmy'
-VERZE = '1.2'
-DATUM = '18. července 2020'
-
 RYCHLE = '-R' in sys.argv[1:]
 DÉLKA_PRODLEVY = 0.015
 
@@ -44,14 +40,14 @@ def piš(*args, barva=None, **kwargs):
         time.sleep(DÉLKA_PRODLEVY)
 
 
-def zobraz_titul():
+def zobraz_titul(název, podtitul, verze, datum):
     piš('-' * ŠÍŘKA, barva='fialová')
     piš('\n\n',
-        ' '.join(NÁZEV_HRY).center(ŠÍŘKA),
+        ' '.join(název).center(ŠÍŘKA),
         '\n\n\n',
-        'textová hra na hrdiny'.center(ŠÍŘKA),
+        podtitul.center(ŠÍŘKA),
         '\n\n',
-        f'verze {VERZE}   {DATUM}'.center(ŠÍŘKA),
+        f'verze {verze}   {datum}'.center(ŠÍŘKA),
         '\n\n',
         barva='fialová', sep='')
     piš('-' * ŠÍŘKA, barva='fialová', end='\n\n')
@@ -62,7 +58,7 @@ def vypiš_úvodní_text(text):
         vypiš_odstavec(odstavec)
 
 
-def zobraz_gratulaci():
+def zobraz_gratulaci(název, verze, web):
     vypiš_odstavec('Překonal jsi všechny nástrahy a s notnou dávkou odvahy i'
                    ' štěstí se ti skutečně podařilo získat kýžené magické'
                    ' artefakty.',
@@ -74,9 +70,7 @@ def zobraz_gratulaci():
         'Dokázal jsi to! Blahopřeji k vítězství.'.center(ŠÍŘKA),
         '\n\n',
         sep='')
-    piš(
-        f'{NÁZEV_HRY}       verze {VERZE}       '
-        'github.com/myrmica-habilis/SzT.git'.center(ŠÍŘKA),
+    piš(f'{název}       verze {verze}       {web}'.center(ŠÍŘKA),
         barva='fialová')
     piš('-' * ŠÍŘKA, barva='fialová')
 

@@ -87,7 +87,7 @@ def vyber_akci(hráč, fronta_příkazů):
 
 
 def hra():
-    agent.zobraz_titul()
+    agent.zobraz_titul(data.NÁZEV, data.PODTITUL, data.VERZE, data.DATUM)
     hráč = hrac.Hráč()
     fronta_příkazů = []
 
@@ -107,7 +107,7 @@ def hra():
                 agent.vypiš_úvodní_text(data.úvodní_text)
 
         if místnost is hráč.svět.začátek and hráč.svět.poklad_posbírán():
-            agent.zobraz_gratulaci()
+            agent.zobraz_gratulaci(data.NÁZEV, data.VERZE, data.WEB)
             break
 
         while True:
