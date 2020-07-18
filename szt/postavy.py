@@ -4,19 +4,19 @@ from . import veci
 
 
 class Obchodník:
-    def __init__(já, jméno, text, zlato, inventář, mluva):
-        já.jméno = jméno
-        já.text = text
-        já.zlato = zlato
-        já.inventář = inventář
-        já.mluva = mluva
-        já.marže = 10
+    def __init__(self, jméno, text, zlato, inventář, mluva):
+        self.jméno = jméno
+        self.text = text
+        self.zlato = zlato
+        self.inventář = inventář
+        self.mluva = mluva
+        self.marže = 10
 
-    def __str__(já):
-        return já.jméno
+    def __str__(self):
+        return self.jméno
 
-    def výkupní_cena(já, věc):
-        return věc.cena * (100 - já.marže) // 100
+    def výkupní_cena(self, věc):
+        return věc.cena * (100 - self.marže) // 100
 
     @classmethod
     def mastičkář(třída):

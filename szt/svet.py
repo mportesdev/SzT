@@ -8,70 +8,70 @@ from . import agent, data, nepratele, postavy, veci, vypocty
 
 
 class Místnost:
-    def __init__(já, x, y):
-        já.x = x
-        já.y = y
-        já.navštívena = False
-        já.viděna = False
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.navštívena = False
+        self.viděna = False
 
-    def dopad_na_hráče(já, hráč):
+    def dopad_na_hráče(self, hráč):
         pass
 
-    def popis(já):
-        return já.text
+    def popis(self):
+        return self.text
 
 
 class Jeskyně(Místnost):
-    def __init__(já, x, y):
+    def __init__(self, x, y):
         super().__init__(x, y)
-        já.text = data.texty_jeskyně[já.zóna()]
+        self.text = data.texty_jeskyně[self.zóna()]
 
-    def zóna(já):
-        vzdálenost_od_středu = math.hypot(já.x - 18, já.y - 10)
+    def zóna(self):
+        vzdálenost_od_středu = math.hypot(self.x - 18, self.y - 10)
         return min(int(vzdálenost_od_středu / 3), 5)
 
 
 class Les(Místnost):
-    def __init__(já, x, y):
+    def __init__(self, x, y):
         super().__init__(x, y)
-        já.text = data.texty_les[já.zóna()]
+        self.text = data.texty_les[self.zóna()]
 
-    def zóna(já):
-        vzdálenost_od_středu = math.hypot(já.x - 18, já.y - 10)
+    def zóna(self):
+        vzdálenost_od_středu = math.hypot(self.x - 18, self.y - 10)
         return int(vzdálenost_od_středu / 3) // 2
 
 
 class MístnostBoj(Místnost):
-    def __init__(já, x, y, nepřítel):
+    def __init__(self, x, y, nepřítel):
         super().__init__(x, y)
-        já.nepřítel = nepřítel
+        self.nepřítel = nepřítel
 
-    def popis(já):
-        return já.text + ' ' + já.nepřítel.text
+    def popis(self):
+        return self.text + ' ' + self.nepřítel.text
 
-    def dopad_na_hráče(já, hráč):
-        if já.nepřítel.žije():
+    def dopad_na_hráče(self, hráč):
+        if self.nepřítel.žije():
             if hráč.zdařilý_zásah:
-                agent.zpráva_zdařilý_zásah(já.nepřítel)
+                agent.zpráva_zdařilý_zásah(self.nepřítel)
             else:
-                skutečný_zásah_nepřítele = vypocty.s_odchylkou(já.nepřítel.útok)
+                skutečný_zásah_nepřítele = vypocty.s_odchylkou(self.nepřítel.útok)
                 obranný_bonus = min(hráč.zkušenost // 200, 5)
                 skutečný_zásah = min(skutečný_zásah_nepřítele - obranný_bonus,
                                      hráč.zdraví)
                 hráč.zdraví -= max(skutečný_zásah, 0)
                 if hráč.žije():
                     hráč.zkušenost += 1
-                agent.zpráva_o_zranění(hráč, já.nepřítel, skutečný_zásah)
+                agent.zpráva_o_zranění(hráč, self.nepřítel, skutečný_zásah)
         else:
             try:
-                if not já.nepřítel.zlato_sebráno and já.nepřítel.zlato > 0:
-                    já.nepřítel.zlato_sebráno = True
-                    hráč.zlato += já.nepřítel.zlato
-                    agent.zpráva_kořist_zlato(já.nepřítel)
-                if not já.nepřítel.zbraň_sebrána:
-                    já.nepřítel.zbraň_sebrána = True
-                    hráč.inventář.append(já.nepřítel.zbraň)
-                    agent.zpráva_kořist_zbraň(já.nepřítel)
+                if not self.nepřítel.zlato_sebráno and self.nepřítel.zlato > 0:
+                    self.nepřítel.zlato_sebráno = True
+                    hráč.zlato += self.nepřítel.zlato
+                    agent.zpráva_kořist_zlato(self.nepřítel)
+                if not self.nepřítel.zbraň_sebrána:
+                    self.nepřítel.zbraň_sebrána = True
+                    hráč.inventář.append(self.nepřítel.zbraň)
+                    agent.zpráva_kořist_zbraň(self.nepřítel)
             except AttributeError:
                 pass
 
@@ -85,31 +85,31 @@ class LesBoj(MístnostBoj, Les):
 
 
 class JeskyněObchod(Jeskyně):
-    def __init__(já, x, y, obchodník):
+    def __init__(self, x, y, obchodník):
         super().__init__(x, y)
-        já.text = 'Stojíš u vchodu do jeskyně.'
-        já.obchodník = obchodník
+        self.text = 'Stojíš u vchodu do jeskyně.'
+        self.obchodník = obchodník
 
-    def proveď_obchod(já, kupující, prodejce):
+    def proveď_obchod(self, kupující, prodejce):
         věci_na_prodej = [věc for věc in prodejce.inventář
                           if věc.cena is not None]
         if not věci_na_prodej:
             agent.piš(
                 f'{prodejce.jméno} už nemá co nabídnout.'
-                if prodejce is já.obchodník
+                if prodejce is self.obchodník
                 else 'Nemáš nic, co bys mohl prodat.'
             )
             return
         else:
             agent.piš(
                 f'{prodejce.jméno} nabízí tyto věci:'
-                if prodejce is já.obchodník
+                if prodejce is self.obchodník
                 else 'Tyto věci můžeš prodat:'
             )
 
         možnosti = set()
         for číslo, věc in enumerate(věci_na_prodej, 1):
-            cena = (kupující.výkupní_cena(věc) if kupující is já.obchodník
+            cena = (kupující.výkupní_cena(věc) if kupující is self.obchodník
                     else věc.cena)
             if cena <= kupující.zlato:
                 možnosti.add(číslo)
@@ -127,7 +127,7 @@ class JeskyněObchod(Jeskyně):
             agent.piš(
                 f'"Došly mi {název_peněz}, {oslovení}!" říká '
                 f'{kupující.jméno.lower()}.'
-                if kupující is já.obchodník
+                if kupující is self.obchodník
                 else 'Na žádnou z nich nemáš peníze.'
             )
             return
@@ -138,56 +138,56 @@ class JeskyněObchod(Jeskyně):
                 return
             else:
                 vybraná_věc = prodejce.inventář[vstup - 1]
-                if prodejce is já.obchodník:
+                if prodejce is self.obchodník:
                     kupující.kup(vybraná_věc, prodejce)
                 else:
                     prodejce.prodej(vybraná_věc, kupující)
                 agent.piš(
                     f'"Bylo mi potěšením, {oslovení}." říká '
-                    f'{já.obchodník.jméno.lower()}.'
+                    f'{self.obchodník.jméno.lower()}.'
                 )
                 return
 
-    def obchoduj(já, hráč):
+    def obchoduj(self, hráč):
         while True:
             vstup = agent.vstup_koupit_prodat()
             if vstup == '':
                 return
             elif vstup == 'K':
-                kupující, prodejce = hráč, já.obchodník
+                kupující, prodejce = hráč, self.obchodník
             else:
-                kupující, prodejce = já.obchodník, hráč
-            já.proveď_obchod(kupující=kupující, prodejce=prodejce)
+                kupující, prodejce = self.obchodník, hráč
+            self.proveď_obchod(kupující=kupující, prodejce=prodejce)
 
-    def popis(já):
-        return já.text + ' ' + já.obchodník.text
+    def popis(self):
+        return self.text + ' ' + self.obchodník.text
 
 
 class JeskyněZlato(Jeskyně):
-    def __init__(já, x, y):
+    def __init__(self, x, y):
         super().__init__(x, y)
-        já.zlato = random.randint(12, 24)
-        já.zlato_sebráno = False
+        self.zlato = random.randint(12, 24)
+        self.zlato_sebráno = False
 
-    def dopad_na_hráče(já, hráč):
-        if not já.zlato_sebráno:
-            já.zlato_sebráno = True
-            hráč.zlato += já.zlato
-            agent.vypiš_odstavec(f'Našel jsi {já.zlato} zlaťáků.', 'štěstí')
+    def dopad_na_hráče(self, hráč):
+        if not self.zlato_sebráno:
+            self.zlato_sebráno = True
+            hráč.zlato += self.zlato
+            agent.vypiš_odstavec(f'Našel jsi {self.zlato} zlaťáků.', 'štěstí')
 
 
 class JeskyněArtefakt(Jeskyně):
-    def __init__(já, x, y, artefakt):
+    def __init__(self, x, y, artefakt):
         super().__init__(x, y)
-        já.artefakt = artefakt
-        já.artefakt_sebrán = False
+        self.artefakt = artefakt
+        self.artefakt_sebrán = False
 
-    def dopad_na_hráče(já, hráč):
-        if not já.artefakt_sebrán:
-            já.artefakt_sebrán = True
-            hráč.artefakty.append(já.artefakt)
+    def dopad_na_hráče(self, hráč):
+        if not self.artefakt_sebrán:
+            self.artefakt_sebrán = True
+            hráč.artefakty.append(self.artefakt)
             agent.vypiš_odstavec(
-                f'Našel jsi {já.artefakt.název_4_pád.lower()}.',
+                f'Našel jsi {self.artefakt.název_4_pád.lower()}.',
                 'štěstí'
             )
             if hráč.svět.poklad_posbírán():
@@ -207,21 +207,21 @@ class JeskyněArtefakt(Jeskyně):
 
 
 class MístnostZbraň(Místnost):
-    def __init__(já, x, y, zbraň):
+    def __init__(self, x, y, zbraň):
         super().__init__(x, y)
-        já.zbraň = zbraň
-        já.zbraň_sebrána = False
+        self.zbraň = zbraň
+        self.zbraň_sebrána = False
 
-    def dopad_na_hráče(já, hráč):
-        if not já.zbraň_sebrána:
-            já.zbraň_sebrána = True
-            hráč.inventář.append(já.zbraň)
-            if isinstance(já, Les):
+    def dopad_na_hráče(self, hráč):
+        if not self.zbraň_sebrána:
+            self.zbraň_sebrána = True
+            hráč.inventář.append(self.zbraň)
+            if isinstance(self, Les):
                 zpráva = ('V křoví u cesty jsi našel'
-                          f' {já.zbraň.název_4_pád.lower()}.')
+                          f' {self.zbraň.název_4_pád.lower()}.')
             else:
                 zpráva = ('Ve skulině pod kamenem jsi našel'
-                          f' {já.zbraň.název_4_pád.lower()}.')
+                          f' {self.zbraň.název_4_pád.lower()}.')
             agent.vypiš_odstavec(zpráva, 'štěstí')
 
 
@@ -234,20 +234,20 @@ class LesZbraň(MístnostZbraň, Les):
 
 
 class MístnostLék(Místnost):
-    def __init__(já, x, y, lék):
+    def __init__(self, x, y, lék):
         super().__init__(x, y)
-        já.lék = lék
-        já.lék_sebrán = False
+        self.lék = lék
+        self.lék_sebrán = False
 
-    def dopad_na_hráče(já, hráč):
-        if not já.lék_sebrán:
-            já.lék_sebrán = True
-            hráč.inventář.append(já.lék)
-            if isinstance(já, Les):
-                zpráva = f'Našel jsi {já.lék.název_4_pád.lower()}.'
+    def dopad_na_hráče(self, hráč):
+        if not self.lék_sebrán:
+            self.lék_sebrán = True
+            hráč.inventář.append(self.lék)
+            if isinstance(self, Les):
+                zpráva = f'Našel jsi {self.lék.název_4_pád.lower()}.'
             else:
                 zpráva = ('Na zemi jsi našel zaprášenou'
-                          f' {já.lék.název_4_pád.lower()}.')
+                          f' {self.lék.název_4_pád.lower()}.')
             agent.vypiš_odstavec(zpráva, 'štěstí')
 
 
@@ -267,12 +267,12 @@ def okraje(řetězec, hodnota_okraje):
 
 
 class Svět:
-    def __init__(já):
-        já.mapa = []
-        já.začátek = None
-        já.načti_mapu(data.řádky_mapy)
+    def __init__(self):
+        self.mapa = []
+        self.začátek = None
+        self.načti_mapu(data.řádky_mapy)
 
-    def načti_mapu(já, řádky_mapy):
+    def načti_mapu(self, řádky_mapy):
 
         def generátor_zbraní():
             data_zbraní = set(data.data_zbraní)
@@ -368,27 +368,27 @@ class Svět:
                             ' Vrchol jejího hrozivého štítu je zahalen nízkým'
                             ' mračnem.'
                         )
-                        já.začátek = místnost
+                        self.začátek = místnost
                 else:
                     řádka_mapy.append(None)
 
-            já.mapa.append(řádka_mapy)
+            self.mapa.append(řádka_mapy)
 
-    def poklad_posbírán(já):
-        return all(místnost.artefakt_sebrán for místnost in já
+    def poklad_posbírán(self):
+        return all(místnost.artefakt_sebrán for místnost in self
                    if hasattr(místnost, 'artefakt_sebrán'))
 
-    def nepřátelé_pobiti(já):
-        return not any(místnost.nepřítel.žije() for místnost in já
+    def nepřátelé_pobiti(self):
+        return not any(místnost.nepřítel.žije() for místnost in self
                        if hasattr(místnost, 'nepřítel'))
 
-    def vše_navštíveno(já):
-        return all(místnost.navštívena for místnost in já)
+    def vše_navštíveno(self):
+        return all(místnost.navštívena for místnost in self)
 
-    def mapa_navštívených(já, pozice_hráče):
+    def mapa_navštívených(self, pozice_hráče):
         mapa = []
         ořez_vlevo, ořez_vpravo = 1000, 1000
-        for řádka in já.mapa:
+        for řádka in self.mapa:
             řádka_mapy = []
             for místnost in řádka:
                 try:
@@ -415,8 +415,8 @@ class Svět:
 
         return mapa
 
-    def __iter__(já):
-        return iter(místnost for řádka in já.mapa for místnost in řádka
+    def __iter__(self):
+        return iter(místnost for řádka in self.mapa for místnost in řádka
                     if místnost is not None)
 
     def __getitem__(self, pozice):
