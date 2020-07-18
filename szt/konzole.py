@@ -13,7 +13,8 @@ from rich.text import Text
 from . import barvy
 
 NÁZEV_HRY = 'Strach ze tmy'
-VERZE = '1.1'
+VERZE = '1.2'
+DATUM = '18. července 2020'
 
 RYCHLE = '-R' in sys.argv[1:]
 DÉLKA_PRODLEVY = 0.015
@@ -50,7 +51,7 @@ def zobraz_titul():
         '\n\n\n',
         'textová hra na hrdiny'.center(ŠÍŘKA),
         '\n\n',
-        f'verze {VERZE}   21. dubna 2020'.center(ŠÍŘKA),
+        f'verze {VERZE}   {DATUM}'.center(ŠÍŘKA),
         '\n\n',
         barva='fialová', sep='')
     piš('-' * ŠÍŘKA, barva='fialová', end='\n\n')

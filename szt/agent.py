@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-Zprostředkovatel mezi vnitřní logikou hry (submoduly `hra`, `hrac`,
-`svet`, `nepratele`, `postavy`, `veci`, `utility` a `data`) a rozhraním
-viditelným pro uživatele (submoduly `dialogy`, `konzole` a `barvy`).
+Zprostředkovatel mezi vnitřní logikou hry (moduly `hra`, `hrac`,
+`svet`, `nepratele`, `postavy`, `veci`, `vypocty` a `data`) a rozhraním
+viditelným pro uživatele (moduly `dialogy`, `konzole` a `barvy`).
 
 Moduly z první skupiny by neměly napřímo importovat moduly z druhé
 skupiny a naopak.
