@@ -49,12 +49,12 @@ class Netvor(Nepřítel):
         self.zlato_sebráno = False
 
     @classmethod
-    def troll(třída):
-        return třída(**data.parametry_troll)
+    def troll(cls):
+        return cls(**data.parametry_troll)
 
     @classmethod
-    def lesní_troll(třída):
-        return třída(**data.parametry_lesní_troll)
+    def lesní_troll(cls):
+        return cls(**data.parametry_lesní_troll)
 
 
 class Člověk(Nepřítel):
@@ -69,8 +69,8 @@ class Člověk(Nepřítel):
         self.zlato_sebráno = False
 
     @classmethod
-    def dobrodruh(třída):
-        return třída(**data.parametry_dobrodruh,
+    def dobrodruh(cls):
+        return cls(**data.parametry_dobrodruh,
                      zbraň=veci.Zbraň(*data.zbraň_dobrodruh))
 
 

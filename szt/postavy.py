@@ -19,8 +19,8 @@ class Obchodník:
         return věc.cena * (100 - self.marže) // 100
 
     @classmethod
-    def mastičkář(třída):
-        return třída(jméno='Mastičkář',
+    def mastičkář(cls):
+        return cls(jméno='Mastičkář',
                      text=('Na zemi sedí vousatý hromotluk. V plátěném pytli má'
                            ' nějaké věci, určené patrně na prodej.'),
                      zlato=350,
@@ -39,8 +39,8 @@ class Obchodník:
                      mluva=('prašule', 'vašnosto'))
 
     @classmethod
-    def zbrojíř(třída):
-        return třída(jméno='Zbrojíř',
+    def zbrojíř(cls):
+        return cls(jméno='Zbrojíř',
                      text=('Ve stínu stojí prošedivělý sporý chlápek v kožené'
                            ' vestě a bronzové přilbici.'),
                      zlato=450,
