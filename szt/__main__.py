@@ -6,7 +6,7 @@ from .hra import hra
 def main():
     try:
         hra()
-    except SystemExit:
+    except (SystemExit, EOFError, KeyboardInterrupt):
         print('\nHra končí.')
 
 
