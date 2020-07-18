@@ -1,7 +1,5 @@
 # coding: utf-8
 
-from rich.text import Text
-
 
 class Věc:
     def __init__(já, název, cena, název_4_pád=None):
@@ -45,6 +43,8 @@ class Artefakt(Věc):
         super().__init__(název, None, název_4_pád)
         já.barva = barva
 
-    def __rich__(self):
-        text = Text(f'< {self.název_4_pád} >', style=self.barva)
-        return text
+    def __format__(já, format_spec):
+        if format_spec == '4':
+            return f'[{já.barva}]< {já.název_4_pád} >[/]'
+
+        return super().__format__(format_spec)
