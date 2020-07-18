@@ -22,7 +22,7 @@ class Nepřítel:
 
         self.text_živý = text_živý or f'Zaútočil na tebe {self.jméno.lower()}!'
         self.text_mrtvý = text_mrtvý or ('Na zemi leží mrtvý'
-                                       f' {self.jméno.lower()}.')
+                                         f' {self.jméno.lower()}.')
 
     def __str__(self):
         return self.jméno
@@ -71,7 +71,7 @@ class Člověk(Nepřítel):
     @classmethod
     def dobrodruh(cls):
         return cls(**data.parametry_dobrodruh,
-                     zbraň=veci.Zbraň(*data.zbraň_dobrodruh))
+                   zbraň=veci.Zbraň(*data.zbraň_dobrodruh))
 
 
 def náhodný_jeskynní_nepřítel():

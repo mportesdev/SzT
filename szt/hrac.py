@@ -52,8 +52,8 @@ class Hráč:
         síla_zbraně = zbraň.útok if zbraň else 1
         skutečný_zásah_zbraní = vypocty.s_odchylkou(síla_zbraně)
         self.zdařilý_zásah = (skutečný_zásah_zbraní > síla_zbraně * 1.1
-                            and nepřítel.krátké_jméno not in ('troll',
-                                                              'dobrodruh'))
+                              and nepřítel.krátké_jméno not in ('troll',
+                                                                'dobrodruh'))
         útočný_bonus = min(self.zkušenost // 200, 5)
         skutečný_zásah = min(skutečný_zásah_zbraní + útočný_bonus,
                              nepřítel.zdraví)
