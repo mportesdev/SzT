@@ -198,12 +198,19 @@ class JeskyněArtefakt(Jeskyně):
                 agent.vypiš_odstavec('Artefakty teď musíš vynést ven z'
                                      ' jeskyně a dojít s nimi na začátek své'
                                      ' cesty.')
-                hráč.svět[22, 12] = JeskyněBoj(
-                    22, 12, nepřítel=nepratele.Netvor.troll()
-                )
-                hráč.svět[27, 18] = LesBoj(
-                    27, 18, nepřítel=nepratele.Netvor.lesní_troll()
-                )
+
+                # vytvořit dodatečné nepřátele
+                jeskyně_boj = JeskyněBoj(22, 12,
+                                         nepřítel=nepratele.Netvor.troll())
+                jeskyně_boj.viděna = True
+                jeskyně_boj.navštívena = True
+                hráč.svět[22, 12] = jeskyně_boj
+
+                les_boj = LesBoj(27, 18,
+                                 nepřítel=nepratele.Netvor.lesní_troll())
+                les_boj.viděna = True
+                les_boj.navštívena = True
+                hráč.svět[27, 18] = les_boj
 
 
 class MístnostZbraň(Místnost):
