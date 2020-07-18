@@ -107,7 +107,7 @@ data_nepřátel = (
         'Zvíře',
         {
             'jméno': 'Obří pavouk',
-            'zdraví': 32,
+            'zdraví': 31,
             'útok': 7,
             'jméno_3_pád': 'Pavoukovi',
             'jméno_4_pád': 'Pavouka',
@@ -121,7 +121,7 @@ data_nepřátel = (
         'Zvíře',
         {
             'jméno': 'Obří šváb',
-            'zdraví': 35,
+            'zdraví': 33,
             'útok': 5,
             'jméno_3_pád': 'Švábovi',
             'jméno_4_pád': 'Švába',
@@ -134,7 +134,7 @@ data_nepřátel = (
         'Zvíře',
         {
             'jméno': 'Obří netopýr',
-            'zdraví': 37,
+            'zdraví': 36,
             'útok': 6,
             'jméno_3_pád': 'Netopýrovi',
             'jméno_4_pád': 'Netopýra',
@@ -147,7 +147,7 @@ data_nepřátel = (
         'Netvor',
         {
             'jméno': 'Skřet',
-            'zdraví': 45,
+            'zdraví': 43,
             'útok': 12,
             'jméno_3_pád': 'Skřetovi',
             'jméno_4_pád': 'Skřeta',
@@ -159,7 +159,7 @@ data_nepřátel = (
         'Netvor',
         {
             'jméno': 'Krysodlak',
-            'zdraví': 47,
+            'zdraví': 45,
             'útok': 10,
             'jméno_3_pád': 'Krysodlakovi',
             'jméno_4_pád': 'Krysodlaka',
@@ -170,7 +170,7 @@ data_nepřátel = (
         'Zvíře',
         {
             'jméno': 'Jeskynní dráček',
-            'zdraví': 54,
+            'zdraví': 52,
             'útok': 9,
             'jméno_3_pád': 'Dráčkovi',
             'jméno_4_pád': 'Dráčka',
@@ -185,7 +185,7 @@ data_nepřátel = (
         'Zvíře',
         {
             'jméno': 'Vlk',
-            'zdraví': 31,
+            'zdraví': 30,
             'útok': 5,
             'jméno_3_pád': 'Vlkovi',
             'jméno_4_pád': 'Vlka',
@@ -197,7 +197,7 @@ data_nepřátel = (
         'Netvor',
         {
             'jméno': 'Vlkodlak',
-            'zdraví': 39,
+            'zdraví': 38,
             'útok': 9,
             'jméno_3_pád': 'Vlkodlakovi',
             'jméno_4_pád': 'Vlkodlaka',
@@ -207,7 +207,7 @@ data_nepřátel = (
 
 parametry_troll = {
     'jméno': 'Kamenný troll',
-    'zdraví': 98,
+    'zdraví': 95,
     'útok': 16,
     'jméno_3_pád': 'Trollovi',
     'jméno_4_pád': 'Trolla',
@@ -217,7 +217,7 @@ parametry_troll = {
 
 parametry_lesní_troll = {
     'jméno': 'Lesní troll',
-    'zdraví': 68,
+    'zdraví': 66,
     'útok': 12,
     'jméno_3_pád': 'Trollovi',
     'jméno_4_pád': 'Trolla',
@@ -226,7 +226,7 @@ parametry_lesní_troll = {
 
 parametry_dobrodruh = {
     'jméno': 'Cizí dobrodruh',
-    'zdraví': 190,
+    'zdraví': 187,
     'jméno_3_pád': 'Dobrodruhovi',
     'jméno_4_pád': 'Dobrodruha',
     'text_živý': 'Vrhl se na tebe pološílený dobrodruh – jiný hráč této hry!',
