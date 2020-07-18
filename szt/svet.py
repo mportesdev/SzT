@@ -386,6 +386,10 @@ class Svět:
                    if hasattr(místnost, 'artefakt_sebrán'))
 
     def nepřátelé_pobiti(self):
+        # vrátit True až po zabití dodatečných nepřátel
+        if not self.poklad_posbírán():
+            return False
+
         return not any(místnost.nepřítel.žije() for místnost in self
                        if hasattr(místnost, 'nepřítel'))
 
