@@ -26,19 +26,19 @@ a přepněte se do hlavní složky projektu:
 
 Hra vyžaduje instalaci jedné externí knihovny, proto doporučuji nejdříve vytvořit virtuální prostředí příkazem:
 
-``python3 -m venv .env``
+``python3 -m venv venv``
 
 Ve virtuálním prostředí je vhodné nejdříve aktualizovat správce balíčků na nejnovější verzi:
 
-``.env/bin/python -m pip install --upgrade pip setuptools``
+``venv/bin/python -m pip install --upgrade pip setuptools``
 
 Následně nainstalujte knihovnu `rich <https://rich.readthedocs.io>`__, která slouží k barevnému zvýraznění textů ve hře:
 
-``.env/bin/python -m pip install rich``
+``venv/bin/python -m pip install rich``
 
 Pak už můžete hru spustit příkazem:
 
-``.env/bin/python -m szt``
+``venv/bin/python -m szt``
 
 Můžete při tom navíc použít tyto parametry:
 
@@ -50,9 +50,9 @@ Můžete při tom navíc použít tyto parametry:
 
 Například:
 
-``.env/bin/python -m szt -T -R``
+``venv/bin/python -m szt -T -R``
 
-(poznámka: ve Windows se adresářová struktura virtuálního prostředí liší, proto místo ``.env/bin/python`` používejte ``.env/Scripts/python``)
+(poznámka: ve Windows se adresářová struktura virtuálního prostředí liší, proto místo ``venv/bin/python`` používejte ``venv/Scripts/python``)
 
 Základní informace
 ==================
@@ -89,22 +89,17 @@ Léčivé prostředky (lektvary, bylinky atd.) vaší postavě mohou vylepšit z
 Ukázky
 ======
 
-Linux Mint 18 – terminál
-------------------------
+Linux - terminál
+----------------
 
-.. image:: screenshots/screenshot_console.png
+.. image:: screenshots/linux_leceni.png
 
-Windows 7 – příkazová řádka
----------------------------
+Windows - příkazová řádka
+-------------------------
 
-.. image:: screenshots/screenshot_console_windows.png
+.. image:: screenshots/windows_boj.png
 
-PyCharm
--------
+PyCharm - terminál
+------------------
 
-.. image:: screenshots/screenshot_pycharm.png
-
-repl.it
--------
-
-.. image:: screenshots/screenshot_replit.png
+.. image:: screenshots/pycharm_obchod.png
