@@ -84,9 +84,9 @@ class LesBoj(MístnostBojMixin, Les):
     pass
 
 
-class JeskyněObchod(Jeskyně):
-    def __init__(self, x, y, obchodník):
-        super().__init__(x, y)
+class MístnostObchodMixin:
+    def __init__(self, *args, obchodník):
+        super().__init__(*args)
         self.text = 'Stojíš u vchodu do jeskyně.'
         self.obchodník = obchodník
 
@@ -163,9 +163,13 @@ class JeskyněObchod(Jeskyně):
         return self.text + ' ' + self.obchodník.text
 
 
-class JeskyněZlato(Jeskyně):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+class JeskyněObchod(MístnostObchodMixin, Jeskyně):
+    pass
+
+
+class MístnostZlatoMixin:
+    def __init__(self, *args):
+        super().__init__(*args)
         self.zlato = random.randint(12, 24)
         self.zlato_sebráno = False
 
@@ -176,9 +180,13 @@ class JeskyněZlato(Jeskyně):
             agent.vypiš_odstavec(f'Našel jsi {self.zlato} zlaťáků.', 'štěstí')
 
 
-class JeskyněArtefakt(Jeskyně):
-    def __init__(self, x, y, artefakt):
-        super().__init__(x, y)
+class JeskyněZlato(MístnostZlatoMixin, Jeskyně):
+    pass
+
+
+class MístnostArtefaktMixin:
+    def __init__(self, *args, artefakt):
+        super().__init__(*args)
         self.artefakt = artefakt
         self.artefakt_sebrán = False
 
@@ -211,6 +219,10 @@ class JeskyněArtefakt(Jeskyně):
                 les_boj.viděna = True
                 les_boj.navštívena = True
                 hráč.svět[27, 18] = les_boj
+
+
+class JeskyněArtefakt(MístnostArtefaktMixin, Jeskyně):
+    pass
 
 
 class MístnostZbraňMixin:
