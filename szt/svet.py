@@ -76,14 +76,6 @@ class MístnostBojMixin:
                 pass
 
 
-class JeskyněBoj(MístnostBojMixin, Jeskyně):
-    pass
-
-
-class LesBoj(MístnostBojMixin, Les):
-    pass
-
-
 class MístnostObchodMixin:
     def __init__(self, *args, obchodník):
         super().__init__(*args)
@@ -163,10 +155,6 @@ class MístnostObchodMixin:
         return self.text + ' ' + self.obchodník.text
 
 
-class JeskyněObchod(MístnostObchodMixin, Jeskyně):
-    pass
-
-
 class MístnostZlatoMixin:
     def __init__(self, *args):
         super().__init__(*args)
@@ -178,10 +166,6 @@ class MístnostZlatoMixin:
             self.zlato_sebráno = True
             hráč.zlato += self.zlato
             agent.vypiš_odstavec(f'Našel jsi {self.zlato} zlaťáků.', 'štěstí')
-
-
-class JeskyněZlato(MístnostZlatoMixin, Jeskyně):
-    pass
 
 
 class MístnostArtefaktMixin:
@@ -221,10 +205,6 @@ class MístnostArtefaktMixin:
                 hráč.svět[27, 18] = les_boj
 
 
-class JeskyněArtefakt(MístnostArtefaktMixin, Jeskyně):
-    pass
-
-
 class MístnostZbraňMixin:
     def __init__(self, *args, zbraň):
         super().__init__(*args)
@@ -242,14 +222,6 @@ class MístnostZbraňMixin:
                 zpráva = ('Ve skulině pod kamenem jsi našel'
                           f' {self.zbraň.název_4_pád.lower()}.')
             agent.vypiš_odstavec(zpráva, 'štěstí')
-
-
-class JeskyněZbraň(MístnostZbraňMixin, Jeskyně):
-    pass
-
-
-class LesZbraň(MístnostZbraňMixin, Les):
-    pass
 
 
 class MístnostLékMixin:
@@ -270,12 +242,31 @@ class MístnostLékMixin:
             agent.vypiš_odstavec(zpráva, 'štěstí')
 
 
-class JeskyněLék(MístnostLékMixin, Jeskyně):
-    pass
+class JeskyněBoj(MístnostBojMixin, Jeskyně): ...
 
 
-class LesLék(MístnostLékMixin, Les):
-    pass
+class LesBoj(MístnostBojMixin, Les): ...
+
+
+class JeskyněObchod(MístnostObchodMixin, Jeskyně): ...
+
+
+class JeskyněZlato(MístnostZlatoMixin, Jeskyně): ...
+
+
+class JeskyněArtefakt(MístnostArtefaktMixin, Jeskyně): ...
+
+
+class JeskyněZbraň(MístnostZbraňMixin, Jeskyně): ...
+
+
+class LesZbraň(MístnostZbraňMixin, Les): ...
+
+
+class JeskyněLék(MístnostLékMixin, Jeskyně): ...
+
+
+class LesLék(MístnostLékMixin, Les): ...
 
 
 def okraje(řetězec, hodnota_okraje):
