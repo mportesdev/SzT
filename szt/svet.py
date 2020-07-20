@@ -41,9 +41,9 @@ class Les(Místnost):
         return int(vzdálenost_od_středu / 3) // 2
 
 
-class MístnostBoj(Místnost):
-    def __init__(self, x, y, nepřítel):
-        super().__init__(x, y)
+class MístnostBojMixin:
+    def __init__(self, *args, nepřítel):
+        super().__init__(*args)
         self.nepřítel = nepřítel
 
     def popis(self):
@@ -76,11 +76,11 @@ class MístnostBoj(Místnost):
                 pass
 
 
-class JeskyněBoj(MístnostBoj, Jeskyně):
+class JeskyněBoj(MístnostBojMixin, Jeskyně):
     pass
 
 
-class LesBoj(MístnostBoj, Les):
+class LesBoj(MístnostBojMixin, Les):
     pass
 
 
@@ -213,9 +213,9 @@ class JeskyněArtefakt(Jeskyně):
                 hráč.svět[27, 18] = les_boj
 
 
-class MístnostZbraň(Místnost):
-    def __init__(self, x, y, zbraň):
-        super().__init__(x, y)
+class MístnostZbraňMixin:
+    def __init__(self, *args, zbraň):
+        super().__init__(*args)
         self.zbraň = zbraň
         self.zbraň_sebrána = False
 
@@ -232,17 +232,17 @@ class MístnostZbraň(Místnost):
             agent.vypiš_odstavec(zpráva, 'štěstí')
 
 
-class JeskyněZbraň(MístnostZbraň, Jeskyně):
+class JeskyněZbraň(MístnostZbraňMixin, Jeskyně):
     pass
 
 
-class LesZbraň(MístnostZbraň, Les):
+class LesZbraň(MístnostZbraňMixin, Les):
     pass
 
 
-class MístnostLék(Místnost):
-    def __init__(self, x, y, lék):
-        super().__init__(x, y)
+class MístnostLékMixin:
+    def __init__(self, *args, lék):
+        super().__init__(*args)
         self.lék = lék
         self.lék_sebrán = False
 
@@ -258,11 +258,11 @@ class MístnostLék(Místnost):
             agent.vypiš_odstavec(zpráva, 'štěstí')
 
 
-class JeskyněLék(MístnostLék, Jeskyně):
+class JeskyněLék(MístnostLékMixin, Jeskyně):
     pass
 
 
-class LesLék(MístnostLék, Les):
+class LesLék(MístnostLékMixin, Les):
     pass
 
 
