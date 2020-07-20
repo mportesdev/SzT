@@ -91,7 +91,7 @@ mapa_b64 = (
 
 mapa = base64.b64decode(mapa_b64.encode()).decode()
 
-if mapa.count('1') > len(data_artefaktů):
+if mapa.count('A') > len(data_artefaktů):
     raise ValueError('Nedostatek dat pro artefakty')
 if mapa.count('S') != 1:
     raise ValueError('Na mapě musí být přesně jedna startovní místnost')
