@@ -13,6 +13,7 @@ class Místnost:
         self.y = y
         self.navštívena = False
         self.viděna = False
+        self.text = None
 
     def dopad_na_hráče(self, hráč):
         pass
@@ -92,12 +93,12 @@ class MístnostObchodMixin:
                 else 'Nemáš nic, co bys mohl prodat.'
             )
             return
-        else:
-            agent.piš(
-                f'{prodejce.jméno} nabízí tyto věci:'
-                if prodejce is self.obchodník
-                else 'Tyto věci můžeš prodat:'
-            )
+
+        agent.piš(
+            f'{prodejce.jméno} nabízí tyto věci:'
+            if prodejce is self.obchodník
+            else 'Tyto věci můžeš prodat:'
+        )
 
         možnosti = set()
         for číslo, věc in enumerate(věci_na_prodej, 1):
@@ -124,28 +125,27 @@ class MístnostObchodMixin:
             )
             return
 
-        while True:
-            vstup = agent.vstup_číslo_položky(možnosti | {''})
-            if vstup == '':
-                return
-            else:
-                vybraná_věc = prodejce.inventář[vstup - 1]
-                if prodejce is self.obchodník:
-                    kupující.kup(vybraná_věc, prodejce)
-                else:
-                    prodejce.prodej(vybraná_věc, kupující)
-                agent.piš(
-                    f'"Bylo mi potěšením, {oslovení}." říká '
-                    f'{self.obchodník.jméno.lower()}.'
-                )
-                return
+        vstup = agent.vstup_číslo_položky(možnosti | {''})
+        if vstup == '':
+            return
+
+        vybraná_věc = prodejce.inventář[vstup - 1]
+        if prodejce is self.obchodník:
+            kupující.kup(vybraná_věc, prodejce)
+        else:
+            prodejce.prodej(vybraná_věc, kupující)
+        agent.piš(
+            f'"Bylo mi potěšením, {oslovení}." říká '
+            f'{self.obchodník.jméno.lower()}.'
+        )
 
     def obchoduj(self, hráč):
         while True:
             vstup = agent.vstup_koupit_prodat()
             if vstup == '':
                 return
-            elif vstup == 'K':
+
+            if vstup == 'K':
                 kupující, prodejce = hráč, self.obchodník
             else:
                 kupující, prodejce = self.obchodník, hráč
@@ -437,12 +437,12 @@ class Svět:
         x, y = pozice
 
         if x < 0 or y < 0:
-            return
+            return None
 
         try:
             return self.mapa[y][x]
         except IndexError:
-            return
+            return None
 
     def __setitem__(self, pozice, místnost):
         x, y = pozice
