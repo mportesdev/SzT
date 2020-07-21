@@ -47,7 +47,7 @@ def dialog_léčení(léky):
     možnosti = set(range(1, len(léky) + 1))
     vstup = vstup_číslo_položky(možnosti | {''})
     if vstup == '':
-        return
+        return None
 
     lék = léky[vstup - 1]
     if lék.speciální:

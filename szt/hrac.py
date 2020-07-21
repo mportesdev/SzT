@@ -72,7 +72,7 @@ class Hráč:
         léky = [věc for věc in self.inventář if isinstance(věc, veci.Lék)]
 
         lék = agent.dialog_léčení(léky)
-        if lék:
+        if lék is not None:
             self.spotřebuj(lék)
 
     def spotřebuj(self, lék):
