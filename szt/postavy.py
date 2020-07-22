@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from . import veci
+from . import veci, vypocty
 
 
 class Obchodník:
@@ -16,7 +16,7 @@ class Obchodník:
         return self.jméno
 
     def výkupní_cena(self, věc):
-        return věc.cena * (100 - self.marže) // 100
+        return vypocty.výkupní_cena(věc, self.marže)
 
     @classmethod
     def mastičkář(cls):
