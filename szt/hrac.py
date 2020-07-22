@@ -9,7 +9,7 @@ class Hráč:
                        for název_třídy, parametry in data.počáteční_inventář]
         self.artefakty = []
         self.svět = svet.Svět()
-        self.x, self.y = self.svět.začátek.x, self.svět.začátek.y
+        self.x, self.y = self.svět.pozice_začátku
         self.zdraví = 100
         self.zlato = 0
         self.zkušenost = 0

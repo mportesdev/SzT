@@ -272,6 +272,7 @@ class Svět:
     def __init__(self):
         self.mapa = []
         self.začátek = None
+        self.pozice_začátku = None
         self.načti_mapu(data.řádky_mapy)
 
     def načti_mapu(self, řádky_mapy):
@@ -371,6 +372,7 @@ class Svět:
                             ' mračnem.'
                         )
                         self.začátek = místnost
+                        self.pozice_začátku = x, y
                 else:
                     řádka_mapy.append(None)
 
@@ -398,7 +400,7 @@ class Svět:
             řádka_mapy = []
             for místnost in řádka:
                 try:
-                    if (místnost.x, místnost.y) == pozice_hráče:
+                    if místnost is self[pozice_hráče]:
                         řádka_mapy.append('H')
                     elif místnost.navštívena:
                         řádka_mapy.append('#' if isinstance(místnost, Jeskyně)
