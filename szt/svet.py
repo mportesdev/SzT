@@ -7,9 +7,7 @@ from . import agent, data, nepratele, postavy, veci, vypocty
 
 
 class Místnost:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self):
         self.navštívena = False
         self.viděna = False
         self.text = None
@@ -21,29 +19,15 @@ class Místnost:
         return self.text
 
 
-class Jeskyně(Místnost):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.text = data.texty_jeskyně[self.zóna()]
-
-    def zóna(self):
-        vzdálenost_od_středu = math.hypot(self.x - 18, self.y - 10)
-        return min(int(vzdálenost_od_středu / 3), 5)
+class Jeskyně(Místnost): ...
 
 
-class Les(Místnost):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.text = data.texty_les[self.zóna()]
-
-    def zóna(self):
-        vzdálenost_od_středu = math.hypot(self.x - 18, self.y - 10)
-        return int(vzdálenost_od_středu / 3) // 2
+class Les(Místnost): ...
 
 
 class MístnostBojMixin:
-    def __init__(self, *args, nepřítel):
-        super().__init__(*args)
+    def __init__(self, nepřítel):
+        super().__init__()
         self.nepřítel = nepřítel
 
     def popis(self):
@@ -77,8 +61,8 @@ class MístnostBojMixin:
 
 
 class MístnostObchodMixin:
-    def __init__(self, *args, obchodník):
-        super().__init__(*args)
+    def __init__(self, obchodník):
+        super().__init__()
         self.text = 'Stojíš u vchodu do jeskyně.'
         self.obchodník = obchodník
 
@@ -155,8 +139,8 @@ class MístnostObchodMixin:
 
 
 class MístnostZlatoMixin:
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(self):
+        super().__init__()
         self.zlato = random.randint(12, 24)
         self.zlato_sebráno = False
 
@@ -168,8 +152,8 @@ class MístnostZlatoMixin:
 
 
 class MístnostArtefaktMixin:
-    def __init__(self, *args, artefakt):
-        super().__init__(*args)
+    def __init__(self, artefakt):
+        super().__init__()
         self.artefakt = artefakt
         self.artefakt_sebrán = False
 
@@ -191,22 +175,20 @@ class MístnostArtefaktMixin:
                                      ' cesty.')
 
                 # vytvořit dodatečné nepřátele
-                jeskyně_boj = JeskyněBoj(22, 12,
-                                         nepřítel=nepratele.Netvor.troll())
+                jeskyně_boj = JeskyněBoj(nepřítel=nepratele.Netvor.troll())
                 jeskyně_boj.viděna = True
                 jeskyně_boj.navštívena = True
                 hráč.svět[22, 12] = jeskyně_boj
 
-                les_boj = LesBoj(27, 18,
-                                 nepřítel=nepratele.Netvor.lesní_troll())
+                les_boj = LesBoj(nepřítel=nepratele.Netvor.lesní_troll())
                 les_boj.viděna = True
                 les_boj.navštívena = True
                 hráč.svět[27, 18] = les_boj
 
 
 class MístnostZbraňMixin:
-    def __init__(self, *args, zbraň):
-        super().__init__(*args)
+    def __init__(self, zbraň):
+        super().__init__()
         self.zbraň = zbraň
         self.zbraň_sebrána = False
 
@@ -224,8 +206,8 @@ class MístnostZbraňMixin:
 
 
 class MístnostLékMixin:
-    def __init__(self, *args, lék):
-        super().__init__(*args)
+    def __init__(self, lék):
+        super().__init__()
         self.lék = lék
         self.lék_sebrán = False
 
@@ -362,7 +344,7 @@ class Svět:
                     parametry.update(lék=next(léky_iterátor))
 
                 if typ_místnosti:
-                    místnost = typ_místnosti(x, y, **parametry)
+                    místnost = typ_místnosti(**parametry)
                     řádka_mapy.append(místnost)
                     if kód_místnosti == 'S':
                         místnost.text = (
@@ -373,6 +355,11 @@ class Svět:
                         )
                         self.začátek = místnost
                         self.pozice_začátku = x, y
+                    elif místnost.text is None:
+                        typ_zón = 'les' if isinstance(místnost, Les) else 'jeskyně'
+                        místnost.text = vypocty.text_místnosti_ze_souřadnic(
+                            typ_zón, x, y
+                        )
                 else:
                     řádka_mapy.append(None)
 
