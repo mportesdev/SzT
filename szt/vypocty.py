@@ -12,8 +12,8 @@ def s_odchylkou(číslo, relativní_odchylka=0.2):
     return random.randint(číslo - odchylka, číslo + odchylka)
 
 
-def výkupní_cena(věc, marže):
-    return věc.cena * 100 // (100 + marže)
+def výkupní_cena(cena, marže):
+    return cena * 100 // (100 + marže)
 
 
 def okraje(řetězec, hodnota_okraje):

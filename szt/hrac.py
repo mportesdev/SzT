@@ -95,7 +95,7 @@ class Hráč:
     def prodej(self, věc, kupující):
         self.inventář.remove(věc)
         kupující.inventář.append(věc)
-        cena = kupující.výkupní_cena(věc)
+        cena = kupující.výkupní_cena(věc.cena)
         self.zlato += cena
         kupující.zlato -= cena
 

@@ -15,8 +15,8 @@ class Obchodník:
     def __str__(self):
         return self.jméno
 
-    def výkupní_cena(self, věc):
-        return vypocty.výkupní_cena(věc, self.marže)
+    def výkupní_cena(self, cena):
+        return vypocty.výkupní_cena(cena, self.marže)
 
     @classmethod
     def mastičkář(cls):

@@ -85,7 +85,8 @@ class MístnostObchodMixin:
 
         možnosti = set()
         for číslo, věc in enumerate(věci_na_prodej, 1):
-            cena = (kupující.výkupní_cena(věc) if kupující is self.obchodník
+            cena = (kupující.výkupní_cena(věc.cena)
+                    if kupující is self.obchodník
                     else věc.cena)
             if cena <= kupující.zlato:
                 možnosti.add(číslo)
