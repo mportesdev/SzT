@@ -16,11 +16,18 @@ def výkupní_cena(cena, marže):
     return cena * 100 // (100 + marže)
 
 
-def okraje(řetězec, hodnota_okraje):
-    vzorec = f'^({hodnota_okraje}*).*?({hodnota_okraje}*)$'
-    levý_okraj, pravý_okraj = re.match(vzorec, řetězec).groups()
+def okraje(řetězec, okraj):
+    if len(okraj) != 1:
+        raise ValueError(f'okraj musí být jeden znak, nikoliv {okraj!r}')
 
-    return len(levý_okraj), len(pravý_okraj)
+    okraj = re.escape(okraj)
+    výsledek = re.match(
+        rf'^(?P<left>({okraj})*).*?(?P<right>({okraj})*)$',
+        řetězec,
+        flags=re.DOTALL
+    )
+
+    return výsledek['left'], výsledek['right']
 
 
 def text_místnosti_ze_souřadnic(typ_zón, x, y):

@@ -400,12 +400,12 @@ class Svět:
                 except AttributeError:
                     řádka_mapy.append(' ')
             if set(řádka_mapy) != {' '}:
-                prázdno_vlevo, prázdno_vpravo = vypocty.okraje(
+                mezery_vlevo, mezery_vpravo = vypocty.okraje(
                     ''.join(řádka_mapy),
                     ' '
                 )
-                ořez_vlevo = min(ořez_vlevo, prázdno_vlevo)
-                ořez_vpravo = min(ořez_vpravo, prázdno_vpravo)
+                ořez_vlevo = min(ořez_vlevo, len(mezery_vlevo))
+                ořez_vpravo = min(ořez_vpravo, len(mezery_vpravo))
                 mapa.append(řádka_mapy)
 
         for řádka_mapy in mapa:
