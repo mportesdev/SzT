@@ -7,18 +7,18 @@
 Strach ze tmy
 =============
 
-Česká textová dobrodružná hra, původně vycházející ze `vzorové hry <https://github.com/myrmica-habilis/cave-terror>`__ vytvořené podle knihy `Make Your Own Python Text Adventure <https://www.apress.com/gp/book/9781484232309>`__. Postupně upravována, rozšiřována a přeložena do češtiny.
+Česká textová dobrodružná hra, původně vycházející ze `vzorové hry <https://github.com/mportesdev/cave-terror>`__ vytvořené podle knihy `Make Your Own Python Text Adventure <https://www.apress.com/gp/book/9781484232309>`__. Postupně upravována, rozšiřována a přeložena do češtiny.
 
 Instalace a spuštění
 ====================
 
-Ve Windows lze použít zkompilovaný spustitelný soubor, ke stažení `zde <https://github.com/myrmica-habilis/SzT/releases/download/v1.1/SzT_v1.1.exe>`__.
+Ve Windows lze použít zkompilovaný spustitelný soubor, ke stažení `zde <https://github.com/mportesdev/SzT/releases/download/v1.1/SzT_v1.1.exe>`__.
 
 Kromě toho lze hru spustit ze zdrojových souborů uložených v tomto repozitáři, pokud máte na svém systému nainstalovaný Python a Git. (poznámka: hra vyžaduje Python 3.6.1 nebo vyšší)
 
 V libovolné složce, do níž máte oprávnění zapisovat, si naklonujte tento repozitář příkazem:
 
-``git clone https://github.com/myrmica-habilis/SzT.git``
+``git clone https://github.com/mportesdev/SzT.git``
 
 a přepněte se do hlavní složky projektu:
 
